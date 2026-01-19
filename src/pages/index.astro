@@ -1,0 +1,17 @@
+---
+import SocialLayout from '../layouts/SocialLayout.astro';
+import LeftSidebar from '../components/social/LeftSidebar.astro';
+import RightSidebar from '../components/social/RightSidebar.astro';
+import Feed from '../components/social/Feed.astro';
+---
+
+<SocialLayout title="Zvenia - The Community for Mining Professionals">
+    <!-- Inject Slots -->
+    
+    <LeftSidebar slot="left-sidebar" />
+    
+    <Feed />
+    
+    <RightSidebar slot="right-sidebar" />
+    
+</SocialLayout>

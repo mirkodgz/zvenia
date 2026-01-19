@@ -1,0 +1,71 @@
+
+---
+import Layout from '../../../layouts/Layout.astro';
+import PodcastForm from '../../../components/dashboard/forms/PodcastForm';
+import { createSupabaseServerClient } from '../../../lib/supabase';
+
+const { id } = Astro.params;
+
+// 1. Init Supabase
+const supabase = createSupabaseServerClient({ req: Astro.request, cookies: Astro.cookies });
+
+// 2. Auth Check
+const { data: { user } } = await supabase.auth.getUser();
+if (!user) return Astro.redirect('/login');
+
+// 3. Fetch Podcast Data
+const { data: podcast, error } = await supabase
+    .from('podcasts')
+    .select(`
+        *,
+        podcasts_topics:topic_id (
+            slug
+        )
+    `) // Note: 'podcasts' has direct 'topic_id', but querying relation for slug if needed. 
+       // Actually 'podcasts' table has 'topic_id' column, but we need the slug for the form default.
+       // Supabase relation syntax depends on explicit names. 
+       // Since I migrated topic_id as FK, I can likely just fetch topics(slug) joined on topic_id.
+       // Or simpler: fetch topic separately or just use topic_id if form handles it. 
+       // PodcastForm uses 'topic_slug' in initialData.
+    .eq('id', id)
+    .single();
+
+if (error || !podcast) {
+    return Astro.redirect('/404');
+}
+
+// 4. Ownership & Permission Check
+const { data: userProfile } = await supabase.from('profiles').select('role').eq('id', user.id).single();
+const userRole = userProfile?.role || 'Basic';
+const isModerator = ['Administrator', 'CountryManager'].includes(userRole);
+
+if (podcast.author_id !== user.id && !isModerator) {
+    return Astro.redirect('/403');
+}
+
+// 5. Prepare Initial Data
+// Resolve Topic Slug
+let topicSlug = '';
+if (podcast.topic_id) {
+    const { data: t } = await supabase.from('topics').select('slug').eq('id', podcast.topic_id).single();
+    if (t) topicSlug = t.slug;
+}
+
+const initialData = {
+    ...podcast,
+    topic_slug: topicSlug // Inject slug for form
+};
+
+---
+
+<Layout title={`Edit ${podcast.title}`} currentUrl={Astro.url.pathname}>
+    <main class="container mx-auto px-4 py-8">
+        <div class="mb-8">
+            <a href="/" class="text-sm text-gray-400 hover:text-white mb-4 block">&larr; Back to Dashboard</a>
+            <h1 class="text-3xl font-bold text-white">Edit Podcast</h1>
+            <p class="text-gray-400 mt-2">Update your show details and episodes.</p>
+        </div>
+
+        <PodcastForm client:load currentUser={user} initialData={initialData} />
+    </main>
+</Layout>

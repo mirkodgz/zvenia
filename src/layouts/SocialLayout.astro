@@ -1,0 +1,74 @@
+---
+import "../styles/global.css";
+import Header from "../components/Header.astro";
+import Footer from "../components/Footer.astro";
+
+interface Props {
+	title: string;
+    description?: string;
+}
+
+const { title, description = "Zvenia - Community for Mining Professionals" } = Astro.props;
+---
+
+<!doctype html>
+<html lang="en">
+	<head>
+		<meta charset="UTF-8" />
+		<meta name="viewport" content="width=device-width" />
+		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<meta name="generator" content={Astro.generator} />
+        <meta name="description" content={description} />
+		<title>{title}</title>
+
+        <!-- Fonts: Outfit -->
+        <link rel="preconnect" href="https://fonts.googleapis.com">
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+        <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+        <script is:inline>
+            const theme = localStorage.getItem('theme') || 'dark';
+            document.documentElement.setAttribute('data-theme', theme);
+        </script>
+	</head>
+	<body class="min-h-screen font-sans selection:bg-primary-500 selection:text-white">
+        <!-- Fixed Header -->
+		<Header />
+
+        <div class="pt-24 pb-12 px-4 sm:px-6 lg:px-8 max-w-[1400px] mx-auto">
+            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 relative">
+                
+                <!-- LEFT COLUMN (Sticky Sidebar) -->
+                <!-- Hidden on mobile, visible on LG screens -->
+                <aside class="hidden lg:block lg:col-span-3 xl:col-span-3 sticky top-24 h-[calc(100vh-8rem)] overflow-y-auto no-scrollbar">
+                    <slot name="left-sidebar" />
+                </aside>
+
+                <!-- CENTER COLUMN (Feed) -->
+                <main class="col-span-1 lg:col-span-6 xl:col-span-6 min-h-screen">
+            		<slot />
+                </main>
+
+                <!-- RIGHT COLUMN (Sticky Widgets) -->
+                <aside class="hidden lg:block lg:col-span-3 xl:col-span-3 sticky top-24 h-[calc(100vh-8rem)] overflow-y-auto no-scrollbar">
+                    <slot name="right-sidebar" />
+                </aside>
+                
+            </div>
+        </div>
+
+        <!-- Footer only on bottom, arguably invisible in infinite scroll, but good to have -->
+        <Footer />
+	</body>
+</html>
+
+<style>
+    /* Hide scrollbar for Chrome, Safari and Opera */
+    .no-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+    /* Hide scrollbar for IE, Edge and Firefox */
+    .no-scrollbar {
+        -ms-overflow-style: none;  /* IE and Edge */
+        scrollbar-width: none;  /* Firefox */
+    }
+</style>

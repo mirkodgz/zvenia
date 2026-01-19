@@ -1,0 +1,29 @@
+---
+import Layout from '../../layouts/Layout.astro';
+import CreateContent from '../../components/dashboard/forms/CreateContent';
+
+const { user } = Astro.locals;
+
+if (!user) {
+  return Astro.redirect('/login');
+}
+---
+
+<Layout title="Creator Studio | Zvenia">
+  <div class="min-h-screen bg-black pt-24 pb-12">
+    <div class="max-w-5xl mx-auto px-4 sm:px-6 lg:px-8">
+      
+      <!-- Header -->
+      <div class="mb-8">
+        <h1 class="text-3xl font-bold text-white tracking-tight">Creator Studio</h1>
+        <p class="mt-2 text-gray-400">Share your knowledge with the professional mining community.</p>
+      </div>
+
+      <!-- Main Content app -->
+      <div class="bg-neutral-900/50 border border-white/10 rounded-xl overflow-hidden shadow-2xl backdrop-blur-sm">
+        <CreateContent client:load currentUser={user} />
+      </div>
+
+    </div>
+  </div>
+</Layout>

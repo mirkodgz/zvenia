@@ -1,0 +1,74 @@
+@import "tailwindcss";
+
+@theme {
+  /* Zvenia Original Colors */
+
+  /* Primary Green (Navigation, Brand) */
+  --color-primary-50: #eefcf0;
+  --color-primary-200: #b5eec0;
+  --color-primary-300: #82e096;
+  --color-primary-400: #5fce6e;
+  /* ORIGINAL GREEN */
+  --color-primary-500: #3ab54b;
+
+  --bg-grid-pattern: url("data:image/svg+xml,%3Csvg width='40' height='40' viewBox='0 0 40 40' xmlns='http://www.w3.org/2000/svg'%3E%3Cpath d='M0 0h40v40H0V0zm1 1h38v38H1V1z' fill='%233ab54b' fill-opacity='0.05' fill-rule='evenodd'/%3E%3C/svg%3E");
+  --color-primary-600: #298235;
+  --color-primary-700: #257332;
+  --color-primary-800: #225b2c;
+  --color-primary-900: #1d4b27;
+  --color-primary-950: #102915;
+
+  /* Accent Yellow/Orange (CTA, Banners) */
+  --color-accent-50: #fefce8;
+  --color-accent-100: #fef9c3;
+  --color-accent-200: #fef08a;
+  --color-accent-300: #fde047;
+  --color-accent-400: #f4d03f;
+  /* ORIGINAL YELLOW */
+  --color-accent-500: #eab308;
+  --color-accent-600: #ca8a04;
+  --color-accent-700: #a16207;
+  --color-accent-800: #854d0e;
+  --color-accent-900: #713f12;
+  --color-accent-950: #422006;
+
+  /* Neutrals */
+  --color-dark: #202124;
+  /* Original Body Text */
+  --color-black: #000000;
+  --color-white: #ffffff;
+
+  --font-sans: "Outfit", ui-sans-serif, system-ui, sans-serif;
+
+  /* SEMANTIC THEME VARIABLES (Default: Dark) */
+  --bg-body: #000000;
+  --bg-surface: #111111;
+  --bg-surface-hover: #1A1A1A;
+  --bg-header: rgba(0, 0, 0, 0.9);
+  --bg-card: #141414;
+  /* Slightly lighter than surface #111 */
+  --text-main: #ffffff;
+  --text-secondary: #9ca3af;
+  --border-color: rgba(255, 255, 255, 0.1);
+}
+
+:root[data-theme='light'] {
+  --bg-body: #f3f4f6;
+  --bg-surface: #ffffff;
+  --bg-surface-hover: #f9fafb;
+  --bg-header: rgba(255, 255, 255, 0.9);
+  --bg-card: #ffffff;
+  --text-main: #111827;
+  --text-secondary: #4b5563;
+  --border-color: #e5e7eb;
+}
+
+html,
+body {
+  /* Default to dark mode base as requested for "modern" look, 
+     but using the pitch black #000000 as base instead of Slate */
+  @apply h-full w-full antialiased;
+  background-color: var(--bg-body);
+  color: var(--text-main);
+  scroll-behavior: smooth;
+}
