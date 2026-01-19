@@ -1,0 +1,153 @@
+Index of 'profile-picture': 33
+Index of 'foto-de-perfil': 56
+
+Row 1:
+  profile-picture (33): 1373
+-------------------
+Row 2:
+  profile-picture (33): 5432
+-------------------
+Row 3:
+  profile-picture (33): 4031
+-------------------
+Row 4:
+  profile-picture (33): 21668
+-------------------
+Row 5:
+  profile-picture (33): 8846
+-------------------
+Row 6:
+  profile-picture (33): 11430
+-------------------
+Row 7:
+  profile-picture (33): 22585
+-------------------
+Row 8:
+  profile-picture (33): 15567
+-------------------
+Row 9:
+  profile-picture (33): 25126
+-------------------
+Row 10:
+  profile-picture (33): 24890
+-------------------
+Row 11:
+  profile-picture (33): 23293
+-------------------
+Row 12:
+  profile-picture (33): 19798
+-------------------
+Row 13:
+  profile-picture (33): 25155
+-------------------
+Row 14:
+  profile-picture (33): 23316
+-------------------
+Row 15:
+  profile-picture (33): 19370
+-------------------
+Row 16:
+  profile-picture (33): 18667
+-------------------
+Row 17:
+  profile-picture (33): 24350
+-------------------
+Row 18:
+  profile-picture (33): 21781
+-------------------
+Row 19:
+  profile-picture (33): 21652
+-------------------
+Row 20:
+  profile-picture (33): 24316
+-------------------
+Row 21:
+  profile-picture (33): 18385
+-------------------
+Row 22:
+  profile-picture (33): 7922
+-------------------
+Row 23:
+  profile-picture (33): 15745
+-------------------
+Row 24:
+  profile-picture (33): 25635
+-------------------
+Row 25:
+  profile-picture (33): 24055
+-------------------
+Row 26:
+  profile-picture (33): 25695
+-------------------
+Row 27:
+  profile-picture (33): 15947
+-------------------
+Row 28:
+  profile-picture (33): 24935
+-------------------
+Row 29:
+  profile-picture (33): 16169
+-------------------
+Row 30:
+  profile-picture (33): 8714
+-------------------
+Row 31:
+  profile-picture (33): 22785
+-------------------
+Row 32:
+  profile-picture (33): 22570
+-------------------
+Row 33:
+  profile-picture (33): 16584
+-------------------
+Row 34:
+  profile-picture (33): 21135
+-------------------
+Row 35:
+  foto-de-perfil (56): 491506
+-------------------
+Row 36:
+  profile-picture (33): 22186
+-------------------
+Row 37:
+  profile-picture (33): 21827
+-------------------
+Row 38:
+  profile-picture (33): 23455
+-------------------
+Row 39:
+  profile-picture (33): 24580
+-------------------
+Row 40:
+  profile-picture (33): 18233
+-------------------
+Row 41:
+  profile-picture (33): 20759
+-------------------
+Row 42:
+  profile-picture (33): 22558
+-------------------
+Row 43:
+  profile-picture (33): 25658
+-------------------
+Row 44:
+  profile-picture (33): 10687
+-------------------
+Row 45:
+  foto-de-perfil (56): 114862
+-------------------
+Row 46:
+  profile-picture (33): 17212
+-------------------
+Row 47:
+  profile-picture (33): 21990
+-------------------
+Row 48:
+  profile-picture (33): 19090
+-------------------
+Row 49:
+  profile-picture (33): 20789
+-------------------
+Row 50:
+  profile-picture (33): 18993
+-------------------
