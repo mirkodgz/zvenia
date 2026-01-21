@@ -1,0 +1,1475 @@
+[2m02:51:53[22m [34m[@astrojs/node][39m Enabling sessions with filesystem storage
+[2m02:51:53[22m [34m[content][39m Syncing content
+[2m02:51:53[22m [34m[content][39m Synced content
+[2m02:51:53[22m [34m[types][39m Generated [2m61ms[22m
+[2m02:51:53[22m [34m[check][39m Getting diagnostics for Astro files in D:\zvenia...
+[96mscripts/audit_failed_details.ts[0m:[93m6[0m:[93m22[0m - [91merror[0m[90m ts(2307): [0mCannot find module 'fast-csv' or its corresponding type declarations.
+
+[7m6[0m import * as csv from 'fast-csv';
+[7m [0m [91m                     ~~~~~~~~~~[0m
+[96mscripts/audit_failed_details.ts[0m:[93m5[0m:[93m19[0m - [91merror[0m[90m ts(2307): [0mCannot find module 'axios' or its corresponding type declarations.
+
+[7m5[0m import axios from 'axios';
+[7m [0m [91m                  ~~~~~~~[0m
+[96mscripts/audit_failed_details.ts[0m:[93m4[0m:[93m20[0m - [91merror[0m[90m ts(2307): [0mCannot find module 'dotenv' or its corresponding type declarations.
+
+[7m4[0m import dotenv from 'dotenv';
+[7m [0m [91m                   ~~~~~~~~[0m
+
+[96mscripts/audit_final_status.ts[0m:[93m3[0m:[93m20[0m - [91merror[0m[90m ts(2307): [0mCannot find module 'dotenv' or its corresponding type declarations.
+
+[7m3[0m import dotenv from 'dotenv';
+[7m [0m [91m                   ~~~~~~~~[0m
+[96mscripts/audit_final_status.ts[0m:[93m4[0m:[93m1[0m - [93mwarning[0m[90m ts(6133): [0m'fs' is declared but its value is never read.
+
+[7m4[0m import fs from 'fs';
+[7m [0m [93m~~~~~~~~~~~~~~~~~~~~[0m
+
+[96mscripts/audit_images.ts[0m:[93m5[0m:[93m20[0m - [91merror[0m[90m ts(2307): [0mCannot find module 'dotenv' or its corresponding type declarations.
+
+[7m5[0m import dotenv from 'dotenv';
+[7m [0m [91m                   ~~~~~~~~[0m
+[96mscripts/audit_images.ts[0m:[93m3[0m:[93m22[0m - [91merror[0m[90m ts(2307): [0mCannot find module 'fast-csv' or its corresponding type declarations.
+
+[7m3[0m import * as csv from 'fast-csv';
+[7m [0m [91m                     ~~~~~~~~~~[0m
+
+[96mscripts/convert_xml_to_csv.cjs[0m:[93m4[0m:[93m7[0m - [93mwarning[0m[90m ts(6133): [0m'path' is declared but its value is never read.
+
+[7m4[0m const path = require('path');
+[7m [0m [93m      ~~~~[0m
+
+[96mscripts/debug_constraints.cjs[0m:[93m29[0m:[93m13[0m - [93mwarning[0m[90m ts(6133): [0m'data' is declared but its value is never read.
+
+[7m29[0m     const { data, error } = await supabase
+[7m  [0m [93m            ~~~~[0m
+
+[96mscripts/debug_failed_upload.ts[0m:[93m4[0m:[93m34[0m - [91merror[0m[90m ts(2307): [0mCannot find module 'cloudinary' or its corresponding type declarations.
+
+[7m4[0m import { v2 as cloudinary } from 'cloudinary';
+[7m [0m [91m                                 ~~~~~~~~~~~~[0m
+[96mscripts/debug_failed_upload.ts[0m:[93m3[0m:[93m20[0m - [91merror[0m[90m ts(2307): [0mCannot find module 'dotenv' or its corresponding type declarations.
+
+[7m3[0m import dotenv from 'dotenv';
+[7m [0m [91m                   ~~~~~~~~[0m
+[96mscripts/debug_failed_upload.ts[0m:[93m2[0m:[93m1[0m - [93mwarning[0m[90m ts(6133): [0m'createClient' is declared but its value is never read.
+
+[7m2[0m import { createClient } from '@supabase/supabase-js';
+[7m [0m [93m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96mscripts/debug_ghost_filenames.ts[0m:[93m5[0m:[93m20[0m - [91merror[0m[90m ts(2307): [0mCannot find module 'dotenv' or its corresponding type declarations.
+
+[7m5[0m import dotenv from 'dotenv';
+[7m [0m [91m                   ~~~~~~~~[0m
+[96mscripts/debug_ghost_filenames.ts[0m:[93m3[0m:[93m22[0m - [91merror[0m[90m ts(2307): [0mCannot find module 'fast-csv' or its corresponding type declarations.
+
+[7m3[0m import * as csv from 'fast-csv';
+[7m [0m [91m                     ~~~~~~~~~~[0m
+[96mscripts/debug_ghost_filenames.ts[0m:[93m6[0m:[93m1[0m - [93mwarning[0m[90m ts(6133): [0m'path' is declared but its value is never read.
+
+[7m6[0m import path from 'path';
+[7m [0m [93m~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96mscripts/debug_heuristic_escola.ts[0m:[93m3[0m:[93m22[0m - [91merror[0m[90m ts(2307): [0mCannot find module 'fast-csv' or its corresponding type declarations.
+
+[7m3[0m import * as csv from 'fast-csv';
+[7m [0m [91m                     ~~~~~~~~~~[0m
+
+[96mscripts/debug_legacy_read.ts[0m:[93m23[0m:[93m19[0m - [91merror[0m[90m ts(7006): [0mParameter 'err' implicitly has an 'any' type.
+
+[7m23[0m     .on('error', (err) => {
+[7m  [0m [91m                  ~~~[0m
+[96mscripts/debug_legacy_read.ts[0m:[93m3[0m:[93m22[0m - [91merror[0m[90m ts(2307): [0mCannot find module 'fast-csv' or its corresponding type declarations.
+
+[7m3[0m import * as csv from 'fast-csv';
+[7m [0m [91m                     ~~~~~~~~~~[0m
+
+[96mscripts/debug_mismatch.ts[0m:[93m5[0m:[93m20[0m - [91merror[0m[90m ts(2307): [0mCannot find module 'dotenv' or its corresponding type declarations.
+
+[7m5[0m import dotenv from 'dotenv';
+[7m [0m [91m                   ~~~~~~~~[0m
+[96mscripts/debug_mismatch.ts[0m:[93m4[0m:[93m22[0m - [91merror[0m[90m ts(2307): [0mCannot find module 'fast-csv' or its corresponding type declarations.
+
+[7m4[0m import * as csv from 'fast-csv';
+[7m [0m [91m                     ~~~~~~~~~~[0m
+
+[96mscripts/debug_missing_ghosts.ts[0m:[93m5[0m:[93m20[0m - [91merror[0m[90m ts(2307): [0mCannot find module 'dotenv' or its corresponding type declarations.
+
+[7m5[0m import dotenv from 'dotenv';
+[7m [0m [91m                   ~~~~~~~~[0m
+[96mscripts/debug_missing_ghosts.ts[0m:[93m3[0m:[93m22[0m - [91merror[0m[90m ts(2307): [0mCannot find module 'fast-csv' or its corresponding type declarations.
+
+[7m3[0m import * as csv from 'fast-csv';
+[7m [0m [91m                     ~~~~~~~~~~[0m
+
+[96mscripts/debug_user_check.cjs[0m:[93m28[0m:[93m40[0m - [93mwarning[0m[90m ts(6133): [0m'pErrorCase' is declared but its value is never read.
+
+[7m28[0m     const { data: profilesCase, error: pErrorCase } = await supabase
+[7m  [0m [93m                                       ~~~~~~~~~~[0m
+
+[96mscripts/delete_dgz_user.cjs[0m:[93m30[0m:[93m13[0m - [93mwarning[0m[90m ts(6133): [0m'data' is declared but its value is never read.
+
+[7m30[0m     const { data, error } = await supabase.auth.admin.deleteUser(userId);
+[7m  [0m [93m            ~~~~[0m
+
+[96mscripts/diagnose_tables.js[0m:[93m62[0m:[93m19[0m - [93mwarning[0m[90m ts(6133): [0m'status' is declared but its value is never read.
+
+[7m62[0m             const status = visible ? "✅ Visible" : (rowCount > 0 ? "⚠️ Hidden by RLS?" : "ℹ️ Empty Table");
+[7m  [0m [93m                  ~~~~~~[0m
+[96mscripts/diagnose_tables.js[0m:[93m42[0m:[93m13[0m - [93mwarning[0m[90m ts(6133): [0m'data' is declared but its value is never read.
+
+[7m42[0m     const { data, error, count } = await supabase
+[7m  [0m [93m            ~~~~[0m
+
+[96mscripts/download_worker.ts[0m:[93m3[0m:[93m1[0m - [93mwarning[0m[90m ts(6133): [0m'path' is declared but its value is never read.
+
+[7m3[0m import path from 'path';
+[7m [0m [93m~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96mscripts/extract_profile_pics_xml.cjs[0m:[93m96[0m:[93m9[0m - [93mwarning[0m[90m ts(6133): [0m'buffer' is declared but its value is never read.
+
+[7m96[0m     let buffer = '';
+[7m  [0m [93m        ~~~~~~[0m
+[96mscripts/extract_profile_pics_xml.cjs[0m:[93m95[0m:[93m9[0m - [93mwarning[0m[90m ts(6133): [0m'inItem' is declared but its value is never read.
+
+[7m95[0m     let inItem = false;
+[7m  [0m [93m        ~~~~~~[0m
+[96mscripts/extract_profile_pics_xml.cjs[0m:[93m94[0m:[93m9[0m - [93mwarning[0m[90m ts(6133): [0m'currentPostId' is declared but its value is never read.
+
+[7m94[0m     let currentPostId = null;
+[7m  [0m [93m        ~~~~~~~~~~~~~[0m
+[96mscripts/extract_profile_pics_xml.cjs[0m:[93m3[0m:[93m7[0m - [93mwarning[0m[90m ts(6133): [0m'path' is declared but its value is never read.
+
+[7m3[0m const path = require('path');
+[7m [0m [93m      ~~~~[0m
+
+[96mscripts/find_and_fix_targets.ts[0m:[93m5[0m:[93m20[0m - [91merror[0m[90m ts(2307): [0mCannot find module 'dotenv' or its corresponding type declarations.
+
+[7m5[0m import dotenv from 'dotenv';
+[7m [0m [91m                   ~~~~~~~~[0m
+[96mscripts/find_and_fix_targets.ts[0m:[93m3[0m:[93m22[0m - [91merror[0m[90m ts(2307): [0mCannot find module 'fast-csv' or its corresponding type declarations.
+
+[7m3[0m import * as csv from 'fast-csv';
+[7m [0m [91m                     ~~~~~~~~~~[0m
+
+[96mscripts/find_legacy_url.ts[0m:[93m3[0m:[93m22[0m - [91merror[0m[90m ts(2307): [0mCannot find module 'fast-csv' or its corresponding type declarations.
+
+[7m3[0m import * as csv from 'fast-csv';
+[7m [0m [91m                     ~~~~~~~~~~[0m
+
+[96mscripts/find_legacy_url_v2.ts[0m:[93m3[0m:[93m22[0m - [91merror[0m[90m ts(2307): [0mCannot find module 'fast-csv' or its corresponding type declarations.
+
+[7m3[0m import * as csv from 'fast-csv';
+[7m [0m [91m                     ~~~~~~~~~~[0m
+
+[96mscripts/force_confirm.cjs[0m:[93m18[0m:[93m37[0m - [93mwarning[0m[90m ts(6133): [0m'authError' is declared but its value is never read.
+
+[7m18[0m     const { data: { users }, error: authError } = await supabase.auth.admin.listUsers();
+[7m  [0m [93m                                    ~~~~~~~~~[0m
+
+[96mscripts/inspect_avatar_detail.ts[0m:[93m3[0m:[93m20[0m - [91merror[0m[90m ts(2307): [0mCannot find module 'dotenv' or its corresponding type declarations.
+
+[7m3[0m import dotenv from 'dotenv';
+[7m [0m [91m                   ~~~~~~~~[0m
+
+[96mscripts/inspect_likes_table.ts[0m:[93m3[0m:[93m20[0m - [91merror[0m[90m ts(2307): [0mCannot find module 'dotenv' or its corresponding type declarations.
+
+[7m3[0m import dotenv from 'dotenv';
+[7m [0m [91m                   ~~~~~~~~[0m
+
+[96mscripts/inspect_modelos_post.ts[0m:[93m3[0m:[93m20[0m - [91merror[0m[90m ts(2307): [0mCannot find module 'dotenv' or its corresponding type declarations.
+
+[7m3[0m import dotenv from 'dotenv';
+[7m [0m [91m                   ~~~~~~~~[0m
+
+[96mscripts/inspect_others.ts[0m:[93m3[0m:[93m20[0m - [91merror[0m[90m ts(2307): [0mCannot find module 'dotenv' or its corresponding type declarations.
+
+[7m3[0m import dotenv from 'dotenv';
+[7m [0m [91m                   ~~~~~~~~[0m
+
+[96mscripts/inspect_policies_pg.ts[0m:[93m3[0m:[93m20[0m - [91merror[0m[90m ts(2307): [0mCannot find module 'dotenv' or its corresponding type declarations.
+
+[7m3[0m import dotenv from 'dotenv';
+[7m [0m [91m                   ~~~~~~~~[0m
+[96mscripts/inspect_policies_pg.ts[0m:[93m2[0m:[93m24[0m - [91merror[0m[90m ts(2307): [0mCannot find module 'pg' or its corresponding type declarations.
+
+[7m2[0m import { Client } from 'pg';
+[7m [0m [91m                       ~~~~[0m
+
+[96mscripts/inspect_remaining_54.ts[0m:[93m45[0m:[93m9[0m - [91merror[0m[90m ts(7053): [0mElement implicitly has an 'any' type because expression of type 'string' can't be used to index type '{ 'Null/Empty': number; 'External (http)': number; 'WordPress (wp-content)': number; Other: number; }'.
+  No index signature with a parameter of type 'string' was found on type '{ 'Null/Empty': number; 'External (http)': number; 'WordPress (wp-content)': number; Other: number; }'.
+
+[7m45[0m         types[type]++;
+[7m  [0m [91m        ~~~~~~~~~~~[0m
+[96mscripts/inspect_remaining_54.ts[0m:[93m3[0m:[93m20[0m - [91merror[0m[90m ts(2307): [0mCannot find module 'dotenv' or its corresponding type declarations.
+
+[7m3[0m import dotenv from 'dotenv';
+[7m [0m [91m                   ~~~~~~~~[0m
+
+[96mscripts/inspect_targets.ts[0m:[93m3[0m:[93m20[0m - [91merror[0m[90m ts(2307): [0mCannot find module 'dotenv' or its corresponding type declarations.
+
+[7m3[0m import dotenv from 'dotenv';
+[7m [0m [91m                   ~~~~~~~~[0m
+
+[96mscripts/inspect_user_profile.ts[0m:[93m3[0m:[93m20[0m - [91merror[0m[90m ts(2307): [0mCannot find module 'dotenv' or its corresponding type declarations.
+
+[7m3[0m import dotenv from 'dotenv';
+[7m [0m [91m                   ~~~~~~~~[0m
+
+[96mscripts/investigate_meta_pdf.ts[0m:[93m5[0m:[93m20[0m - [91merror[0m[90m ts(2307): [0mCannot find module 'dotenv' or its corresponding type declarations.
+
+[7m5[0m import dotenv from 'dotenv';
+[7m [0m [91m                   ~~~~~~~~[0m
+[96mscripts/investigate_meta_pdf.ts[0m:[93m3[0m:[93m22[0m - [91merror[0m[90m ts(2307): [0mCannot find module 'fast-csv' or its corresponding type declarations.
+
+[7m3[0m import * as csv from 'fast-csv';
+[7m [0m [91m                     ~~~~~~~~~~[0m
+[96mscripts/investigate_meta_pdf.ts[0m:[93m111[0m:[93m7[0m - [93mwarning[0m[90m ts(6133): [0m'mediaMap' is declared but its value is never read.
+
+[7m111[0m const mediaMap = new Map<string, string>(); // Legacy URL -> Cloudinary URL
+[7m   [0m [93m      ~~~~~~~~[0m
+[96mscripts/investigate_meta_pdf.ts[0m:[93m4[0m:[93m1[0m - [93mwarning[0m[90m ts(6133): [0m'createClient' is declared but its value is never read.
+
+[7m4[0m import { createClient } from '@supabase/supabase-js';
+[7m [0m [93m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96mscripts/investigate_user_list.ts[0m:[93m5[0m:[93m20[0m - [91merror[0m[90m ts(2307): [0mCannot find module 'dotenv' or its corresponding type declarations.
+
+[7m5[0m import dotenv from 'dotenv';
+[7m [0m [91m                   ~~~~~~~~[0m
+[96mscripts/investigate_user_list.ts[0m:[93m3[0m:[93m22[0m - [91merror[0m[90m ts(2307): [0mCannot find module 'fast-csv' or its corresponding type declarations.
+
+[7m3[0m import * as csv from 'fast-csv';
+[7m [0m [91m                     ~~~~~~~~~~[0m
+[96mscripts/investigate_user_list.ts[0m:[93m6[0m:[93m1[0m - [93mwarning[0m[90m ts(6133): [0m'path' is declared but its value is never read.
+
+[7m6[0m import path from 'path';
+[7m [0m [93m~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96mscripts/investigate_user_list_v2.ts[0m:[93m5[0m:[93m20[0m - [91merror[0m[90m ts(2307): [0mCannot find module 'dotenv' or its corresponding type declarations.
+
+[7m5[0m import dotenv from 'dotenv';
+[7m [0m [91m                   ~~~~~~~~[0m
+[96mscripts/investigate_user_list_v2.ts[0m:[93m3[0m:[93m22[0m - [91merror[0m[90m ts(2307): [0mCannot find module 'fast-csv' or its corresponding type declarations.
+
+[7m3[0m import * as csv from 'fast-csv';
+[7m [0m [91m                     ~~~~~~~~~~[0m
+
+[96mscripts/manual_restore_single.ts[0m:[93m4[0m:[93m34[0m - [91merror[0m[90m ts(2307): [0mCannot find module 'cloudinary' or its corresponding type declarations.
+
+[7m4[0m import { v2 as cloudinary } from 'cloudinary';
+[7m [0m [91m                                 ~~~~~~~~~~~~[0m
+[96mscripts/manual_restore_single.ts[0m:[93m3[0m:[93m20[0m - [91merror[0m[90m ts(2307): [0mCannot find module 'dotenv' or its corresponding type declarations.
+
+[7m3[0m import dotenv from 'dotenv';
+[7m [0m [91m                   ~~~~~~~~[0m
+
+[96mscripts/restore_all_images_final.ts[0m:[93m5[0m:[93m20[0m - [91merror[0m[90m ts(2307): [0mCannot find module 'dotenv' or its corresponding type declarations.
+
+[7m5[0m import dotenv from 'dotenv';
+[7m [0m [91m                   ~~~~~~~~[0m
+[96mscripts/restore_all_images_final.ts[0m:[93m3[0m:[93m22[0m - [91merror[0m[90m ts(2307): [0mCannot find module 'fast-csv' or its corresponding type declarations.
+
+[7m3[0m import * as csv from 'fast-csv';
+[7m [0m [91m                     ~~~~~~~~~~[0m
+
+[96mscripts/restore_by_id.ts[0m:[93m54[0m:[93m14[0m - [91merror[0m[90m ts(2304): [0mCannot find name 'on'.
+
+[7m54[0m             .on('end', resolve)
+[7m  [0m [91m             ~~[0m
+[96mscripts/restore_by_id.ts[0m:[93m52[0m:[93m78[0m - [91merror[0m[90m ts(2304): [0mCannot find name 'post'.
+
+[7m52[0m                     console.log(`[DEBUG] DB URL: ${post.featured_image_url ? post.featured_image_url.substring(0, 20) : 'N/A'}`);
+[7m  [0m [91m                                                                             ~~~~[0m
+[96mscripts/restore_by_id.ts[0m:[93m52[0m:[93m52[0m - [91merror[0m[90m ts(2304): [0mCannot find name 'post'.
+
+[7m52[0m                     console.log(`[DEBUG] DB URL: ${post.featured_image_url ? post.featured_image_url.substring(0, 20) : 'N/A'}`);
+[7m  [0m [91m                                                   ~~~~[0m
+[96mscripts/restore_by_id.ts[0m:[93m45[0m:[93m17[0m - [91merror[0m[90m ts(2304): [0mCannot find name 'slug'.
+
+[7m45[0m             if (slug && thumbId) {
+[7m  [0m [91m                ~~~~[0m
+[96mscripts/restore_by_id.ts[0m:[93m43[0m:[93m88[0m - [91merror[0m[90m ts(2304): [0mCannot find name 'slug'.
+
+[7m43[0m             if (thumbId == '1373') console.log(`[DEBUG] Found Post using Thumb 1373: ${slug}`);
+[7m  [0m [91m                                                                                       ~~~~[0m
+[96mscripts/restore_by_id.ts[0m:[93m41[0m:[93m29[0m - [91merror[0m[90m ts(2304): [0mCannot find name 'row'.
+
+[7m41[0m             const thumbId = row['meta__thumbnail_id'];
+[7m  [0m [91m                            ~~~[0m
+[96mscripts/restore_by_id.ts[0m:[93m39[0m:[93m51[0m - [91merror[0m[90m ts(2304): [0mCannot find name 'row'.
+
+[7m39[0m         if (row.media_id && row.cloudinary_url && row.cloudinary_url !== 'FAILED') {
+[7m  [0m [91m                                                  ~~~[0m
+[96mscripts/restore_by_id.ts[0m:[93m39[0m:[93m29[0m - [91merror[0m[90m ts(2304): [0mCannot find name 'row'.
+
+[7m39[0m         if (row.media_id && row.cloudinary_url && row.cloudinary_url !== 'FAILED') {
+[7m  [0m [91m                            ~~~[0m
+[96mscripts/restore_by_id.ts[0m:[93m39[0m:[93m13[0m - [91merror[0m[90m ts(2304): [0mCannot find name 'row'.
+
+[7m39[0m         if (row.media_id && row.cloudinary_url && row.cloudinary_url !== 'FAILED') {
+[7m  [0m [91m            ~~~[0m
+[96mscripts/restore_by_id.ts[0m:[93m37[0m:[93m13[0m - [91merror[0m[90m ts(2304): [0mCannot find name 'row'.
+
+[7m37[0m         if (row.media_id == '1373') console.log(`[DEBUG] Found Cloud URL for 1373`);
+[7m  [0m [91m            ~~~[0m
+[96mscripts/restore_by_id.ts[0m:[93m5[0m:[93m20[0m - [91merror[0m[90m ts(2307): [0mCannot find module 'dotenv' or its corresponding type declarations.
+
+[7m5[0m import dotenv from 'dotenv';
+[7m [0m [91m                   ~~~~~~~~[0m
+[96mscripts/restore_by_id.ts[0m:[93m3[0m:[93m22[0m - [91merror[0m[90m ts(2307): [0mCannot find module 'fast-csv' or its corresponding type declarations.
+
+[7m3[0m import * as csv from 'fast-csv';
+[7m [0m [91m                     ~~~~~~~~~~[0m
+[96mscripts/restore_by_id.ts[0m:[93m6[0m:[93m1[0m - [93mwarning[0m[90m ts(6133): [0m'path' is declared but its value is never read.
+
+[7m6[0m import path from 'path';
+[7m [0m [93m~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96mscripts/restore_by_id.ts[0m:[93m56[0m:[93m14[0m - [91merror[0m[90m ts(1128): [0mDeclaration or statement expected.
+
+[7m56[0m             });
+[7m  [0m [91m             ~[0m
+[96mscripts/restore_by_id.ts[0m:[93m54[0m:[93m13[0m - [91merror[0m[90m ts(1128): [0mDeclaration or statement expected.
+
+[7m54[0m             .on('end', resolve)
+[7m  [0m [91m            ~[0m
+
+[96mscripts/restore_cloudinary_images.ts[0m:[93m121[0m:[93m66[0m - [91merror[0m[90m ts(2339): [0mProperty 'slug' does not exist on type 'ParserError<`Expected identifier at \`${GenericStringError}\``>'.
+
+[7m121[0m             if (upErr) console.error(`   Failed to update ${item.slug}:`, upErr.message);
+[7m   [0m [91m                                                                 ~~~~[0m
+[96mscripts/restore_cloudinary_images.ts[0m:[93m119[0m:[93m32[0m - [91merror[0m[90m ts(2339): [0mProperty 'id' does not exist on type 'ParserError<`Expected identifier at \`${GenericStringError}\``>'.
+
+[7m119[0m                 .eq('id', item.id);
+[7m   [0m [91m                               ~~[0m
+[96mscripts/restore_cloudinary_images.ts[0m:[93m5[0m:[93m20[0m - [91merror[0m[90m ts(2307): [0mCannot find module 'dotenv' or its corresponding type declarations.
+
+[7m5[0m import dotenv from 'dotenv';
+[7m [0m [91m                   ~~~~~~~~[0m
+[96mscripts/restore_cloudinary_images.ts[0m:[93m3[0m:[93m22[0m - [91merror[0m[90m ts(2307): [0mCannot find module 'fast-csv' or its corresponding type declarations.
+
+[7m3[0m import * as csv from 'fast-csv';
+[7m [0m [91m                     ~~~~~~~~~~[0m
+[96mscripts/restore_cloudinary_images.ts[0m:[93m6[0m:[93m1[0m - [93mwarning[0m[90m ts(6133): [0m'path' is declared but its value is never read.
+
+[7m6[0m import path from 'path';
+[7m [0m [93m~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96mscripts/restore_from_legacy_csv.ts[0m:[93m5[0m:[93m20[0m - [91merror[0m[90m ts(2307): [0mCannot find module 'dotenv' or its corresponding type declarations.
+
+[7m5[0m import dotenv from 'dotenv';
+[7m [0m [91m                   ~~~~~~~~[0m
+[96mscripts/restore_from_legacy_csv.ts[0m:[93m3[0m:[93m22[0m - [91merror[0m[90m ts(2307): [0mCannot find module 'fast-csv' or its corresponding type declarations.
+
+[7m3[0m import * as csv from 'fast-csv';
+[7m [0m [91m                     ~~~~~~~~~~[0m
+[96mscripts/restore_from_legacy_csv.ts[0m:[93m6[0m:[93m1[0m - [93mwarning[0m[90m ts(6133): [0m'path' is declared but its value is never read.
+
+[7m6[0m import path from 'path';
+[7m [0m [93m~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96mscripts/restore_heuristic.ts[0m:[93m5[0m:[93m20[0m - [91merror[0m[90m ts(2307): [0mCannot find module 'dotenv' or its corresponding type declarations.
+
+[7m5[0m import dotenv from 'dotenv';
+[7m [0m [91m                   ~~~~~~~~[0m
+[96mscripts/restore_heuristic.ts[0m:[93m3[0m:[93m22[0m - [91merror[0m[90m ts(2307): [0mCannot find module 'fast-csv' or its corresponding type declarations.
+
+[7m3[0m import * as csv from 'fast-csv';
+[7m [0m [91m                     ~~~~~~~~~~[0m
+
+[96mscripts/restore_meta_pdf_dry_run.ts[0m:[93m5[0m:[93m20[0m - [91merror[0m[90m ts(2307): [0mCannot find module 'dotenv' or its corresponding type declarations.
+
+[7m5[0m import dotenv from 'dotenv';
+[7m [0m [91m                   ~~~~~~~~[0m
+[96mscripts/restore_meta_pdf_dry_run.ts[0m:[93m3[0m:[93m22[0m - [91merror[0m[90m ts(2307): [0mCannot find module 'fast-csv' or its corresponding type declarations.
+
+[7m3[0m import * as csv from 'fast-csv';
+[7m [0m [91m                     ~~~~~~~~~~[0m
+[96mscripts/restore_meta_pdf_dry_run.ts[0m:[93m155[0m:[93m11[0m - [93mwarning[0m[90m ts(6133): [0m'targetSet' is declared but its value is never read.
+
+[7m155[0m     const targetSet = new Set(targets.map(normalize));
+[7m   [0m [93m          ~~~~~~~~~[0m
+[96mscripts/restore_meta_pdf_dry_run.ts[0m:[93m6[0m:[93m1[0m - [93mwarning[0m[90m ts(6133): [0m'path' is declared but its value is never read.
+
+[7m6[0m import path from 'path';
+[7m [0m [93m~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96mscripts/restore_meta_pdf_dry_run.ts[0m:[93m4[0m:[93m1[0m - [93mwarning[0m[90m ts(6133): [0m'createClient' is declared but its value is never read.
+
+[7m4[0m import { createClient } from '@supabase/supabase-js';
+[7m [0m [93m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96mscripts/restore_meta_pdf_upload.ts[0m:[93m6[0m:[93m34[0m - [91merror[0m[90m ts(2307): [0mCannot find module 'cloudinary' or its corresponding type declarations.
+
+[7m6[0m import { v2 as cloudinary } from 'cloudinary';
+[7m [0m [91m                                 ~~~~~~~~~~~~[0m
+[96mscripts/restore_meta_pdf_upload.ts[0m:[93m5[0m:[93m20[0m - [91merror[0m[90m ts(2307): [0mCannot find module 'dotenv' or its corresponding type declarations.
+
+[7m5[0m import dotenv from 'dotenv';
+[7m [0m [91m                   ~~~~~~~~[0m
+[96mscripts/restore_meta_pdf_upload.ts[0m:[93m3[0m:[93m22[0m - [91merror[0m[90m ts(2307): [0mCannot find module 'fast-csv' or its corresponding type declarations.
+
+[7m3[0m import * as csv from 'fast-csv';
+[7m [0m [91m                     ~~~~~~~~~~[0m
+[96mscripts/restore_meta_pdf_upload.ts[0m:[93m206[0m:[93m41[0m - [93mwarning[0m[90m ts(6133): [0m'searchError' is declared but its value is never read.
+
+[7m206[0m             const { data: posts, error: searchError } = await supabase
+[7m   [0m [93m                                        ~~~~~~~~~~~[0m
+[96mscripts/restore_meta_pdf_upload.ts[0m:[93m135[0m:[93m11[0m - [93mwarning[0m[90m ts(6133): [0m'targetSet' is declared but its value is never read.
+
+[7m135[0m     const targetSet = new Set(targets.map(normalize));
+[7m   [0m [93m          ~~~~~~~~~[0m
+[96mscripts/restore_meta_pdf_upload.ts[0m:[93m7[0m:[93m1[0m - [93mwarning[0m[90m ts(6133): [0m'https' is declared but its value is never read.
+
+[7m7[0m import https from 'https';
+[7m [0m [93m~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96mscripts/restore_pdfs_v2.ts[0m:[93m5[0m:[93m20[0m - [91merror[0m[90m ts(2307): [0mCannot find module 'dotenv' or its corresponding type declarations.
+
+[7m5[0m import dotenv from 'dotenv';
+[7m [0m [91m                   ~~~~~~~~[0m
+[96mscripts/restore_pdfs_v2.ts[0m:[93m3[0m:[93m22[0m - [91merror[0m[90m ts(2307): [0mCannot find module 'fast-csv' or its corresponding type declarations.
+
+[7m3[0m import * as csv from 'fast-csv';
+[7m [0m [91m                     ~~~~~~~~~~[0m
+
+[96mscripts/restore_title_match.ts[0m:[93m5[0m:[93m20[0m - [91merror[0m[90m ts(2307): [0mCannot find module 'dotenv' or its corresponding type declarations.
+
+[7m5[0m import dotenv from 'dotenv';
+[7m [0m [91m                   ~~~~~~~~[0m
+[96mscripts/restore_title_match.ts[0m:[93m3[0m:[93m22[0m - [91merror[0m[90m ts(2307): [0mCannot find module 'fast-csv' or its corresponding type declarations.
+
+[7m3[0m import * as csv from 'fast-csv';
+[7m [0m [91m                     ~~~~~~~~~~[0m
+
+[96mscripts/restore_youtube_thumbnails.ts[0m:[93m5[0m:[93m20[0m - [91merror[0m[90m ts(2307): [0mCannot find module 'dotenv' or its corresponding type declarations.
+
+[7m5[0m import dotenv from 'dotenv';
+[7m [0m [91m                   ~~~~~~~~[0m
+[96mscripts/restore_youtube_thumbnails.ts[0m:[93m3[0m:[93m22[0m - [91merror[0m[90m ts(2307): [0mCannot find module 'fast-csv' or its corresponding type declarations.
+
+[7m3[0m import * as csv from 'fast-csv';
+[7m [0m [91m                     ~~~~~~~~~~[0m
+
+[96mscripts/retry_failed_restoration.ts[0m:[93m8[0m:[93m22[0m - [91merror[0m[90m ts(2307): [0mCannot find module 'fast-csv' or its corresponding type declarations.
+
+[7m8[0m import * as csv from 'fast-csv';
+[7m [0m [91m                     ~~~~~~~~~~[0m
+[96mscripts/retry_failed_restoration.ts[0m:[93m6[0m:[93m19[0m - [91merror[0m[90m ts(2307): [0mCannot find module 'axios' or its corresponding type declarations.
+
+[7m6[0m import axios from 'axios';
+[7m [0m [91m                  ~~~~~~~[0m
+[96mscripts/retry_failed_restoration.ts[0m:[93m5[0m:[93m34[0m - [91merror[0m[90m ts(2307): [0mCannot find module 'cloudinary' or its corresponding type declarations.
+
+[7m5[0m import { v2 as cloudinary } from 'cloudinary';
+[7m [0m [91m                                 ~~~~~~~~~~~~[0m
+[96mscripts/retry_failed_restoration.ts[0m:[93m4[0m:[93m20[0m - [91merror[0m[90m ts(2307): [0mCannot find module 'dotenv' or its corresponding type declarations.
+
+[7m4[0m import dotenv from 'dotenv';
+[7m [0m [91m                   ~~~~~~~~[0m
+[96mscripts/retry_failed_restoration.ts[0m:[93m28[0m:[93m7[0m - [93mwarning[0m[90m ts(6133): [0m'targetListRaw' is declared but its value is never read.
+
+[7m28[0m const targetListRaw = `
+[7m  [0m [93m      ~~~~~~~~~~~~~[0m
+
+[96mscripts/sync_avatars.ts[0m:[93m3[0m:[93m20[0m - [91merror[0m[90m ts(2307): [0mCannot find module 'dotenv' or its corresponding type declarations.
+
+[7m3[0m import dotenv from 'dotenv';
+[7m [0m [91m                   ~~~~~~~~[0m
+
+[96mscripts/test_heuristic_single.ts[0m:[93m5[0m:[93m20[0m - [91merror[0m[90m ts(2307): [0mCannot find module 'dotenv' or its corresponding type declarations.
+
+[7m5[0m import dotenv from 'dotenv';
+[7m [0m [91m                   ~~~~~~~~[0m
+[96mscripts/test_heuristic_single.ts[0m:[93m3[0m:[93m22[0m - [91merror[0m[90m ts(2307): [0mCannot find module 'fast-csv' or its corresponding type declarations.
+
+[7m3[0m import * as csv from 'fast-csv';
+[7m [0m [91m                     ~~~~~~~~~~[0m
+
+[96mscripts/test_restore_single.ts[0m:[93m53[0m:[93m27[0m - [91merror[0m[90m ts(7005): [0mVariable 'thumbId' implicitly has an 'any' type.
+
+[7m53[0m                 if (id == thumbId) {
+[7m  [0m [91m                          ~~~~~~~[0m
+[96mscripts/test_restore_single.ts[0m:[93m20[0m:[93m9[0m - [91merror[0m[90m ts(7034): [0mVariable 'thumbId' implicitly has type 'any' in some locations where its type cannot be determined.
+
+[7m20[0m     let thumbId = null;
+[7m  [0m [91m        ~~~~~~~[0m
+[96mscripts/test_restore_single.ts[0m:[93m5[0m:[93m20[0m - [91merror[0m[90m ts(2307): [0mCannot find module 'dotenv' or its corresponding type declarations.
+
+[7m5[0m import dotenv from 'dotenv';
+[7m [0m [91m                   ~~~~~~~~[0m
+[96mscripts/test_restore_single.ts[0m:[93m3[0m:[93m22[0m - [91merror[0m[90m ts(2307): [0mCannot find module 'fast-csv' or its corresponding type declarations.
+
+[7m3[0m import * as csv from 'fast-csv';
+[7m [0m [91m                     ~~~~~~~~~~[0m
+[96mscripts/test_restore_single.ts[0m:[93m21[0m:[93m9[0m - [93mwarning[0m[90m ts(6133): [0m'postSlug' is declared but its value is never read.
+
+[7m21[0m     let postSlug = '';
+[7m  [0m [93m        ~~~~~~~~[0m
+
+[96mscripts/trace_deep_inspect.ts[0m:[93m3[0m:[93m22[0m - [91merror[0m[90m ts(2307): [0mCannot find module 'fast-csv' or its corresponding type declarations.
+
+[7m3[0m import * as csv from 'fast-csv';
+[7m [0m [91m                     ~~~~~~~~~~[0m
+
+[96mscripts/trace_legacy_chain.ts[0m:[93m56[0m:[93m21[0m - [91merror[0m[90m ts(7005): [0mVariable 'pdfId' implicitly has an 'any' type.
+
+[7m56[0m                 if (pdfId && row.media_id == pdfId) {
+[7m  [0m [91m                    ~~~~~[0m
+[96mscripts/trace_legacy_chain.ts[0m:[93m51[0m:[93m21[0m - [91merror[0m[90m ts(7005): [0mVariable 'thumbId' implicitly has an 'any' type.
+
+[7m51[0m                 if (thumbId && row.media_id == thumbId) {
+[7m  [0m [91m                    ~~~~~~~[0m
+[96mscripts/trace_legacy_chain.ts[0m:[93m15[0m:[93m9[0m - [91merror[0m[90m ts(7034): [0mVariable 'pdfId' implicitly has type 'any' in some locations where its type cannot be determined.
+
+[7m15[0m     let pdfId = null;
+[7m  [0m [91m        ~~~~~[0m
+[96mscripts/trace_legacy_chain.ts[0m:[93m14[0m:[93m9[0m - [91merror[0m[90m ts(7034): [0mVariable 'thumbId' implicitly has type 'any' in some locations where its type cannot be determined.
+
+[7m14[0m     let thumbId = null;
+[7m  [0m [91m        ~~~~~~~[0m
+[96mscripts/trace_legacy_chain.ts[0m:[93m3[0m:[93m22[0m - [91merror[0m[90m ts(2307): [0mCannot find module 'fast-csv' or its corresponding type declarations.
+
+[7m3[0m import * as csv from 'fast-csv';
+[7m [0m [91m                     ~~~~~~~~~~[0m
+
+[96mscripts/trace_single_post.ts[0m:[93m52[0m:[93m37[0m - [91merror[0m[90m ts(7005): [0mVariable 'thumbId' implicitly has an 'any' type.
+
+[7m52[0m                 if (row.media_id == thumbId) {
+[7m  [0m [91m                                    ~~~~~~~[0m
+[96mscripts/trace_single_post.ts[0m:[93m19[0m:[93m9[0m - [91merror[0m[90m ts(7034): [0mVariable 'thumbId' implicitly has type 'any' in some locations where its type cannot be determined.
+
+[7m19[0m     let thumbId = null;
+[7m  [0m [91m        ~~~~~~~[0m
+[96mscripts/trace_single_post.ts[0m:[93m5[0m:[93m20[0m - [91merror[0m[90m ts(2307): [0mCannot find module 'dotenv' or its corresponding type declarations.
+
+[7m5[0m import dotenv from 'dotenv';
+[7m [0m [91m                   ~~~~~~~~[0m
+[96mscripts/trace_single_post.ts[0m:[93m3[0m:[93m22[0m - [91merror[0m[90m ts(2307): [0mCannot find module 'fast-csv' or its corresponding type declarations.
+
+[7m3[0m import * as csv from 'fast-csv';
+[7m [0m [91m                     ~~~~~~~~~~[0m
+
+[96mscripts/trace_waste_rock.ts[0m:[93m120[0m:[93m41[0m - [91merror[0m[90m ts(2339): [0mProperty 'split' does not exist on type 'never'.
+
+[7m120[0m         const targetFname = originalUrl.split('/').pop();
+[7m   [0m [91m                                        ~~~~~[0m
+[96mscripts/trace_waste_rock.ts[0m:[93m95[0m:[93m32[0m - [91merror[0m[90m ts(7005): [0mVariable 'originalUrl' implicitly has an 'any' type.
+
+[7m95[0m                 if (mapUrl === originalUrl) {
+[7m  [0m [91m                               ~~~~~~~~~~~[0m
+[96mscripts/trace_waste_rock.ts[0m:[93m65[0m:[93m27[0m - [91merror[0m[90m ts(7005): [0mVariable 'thumbId' implicitly has an 'any' type.
+
+[7m65[0m                 if (id == thumbId) {
+[7m  [0m [91m                          ~~~~~~~[0m
+[96mscripts/trace_waste_rock.ts[0m:[93m55[0m:[93m9[0m - [91merror[0m[90m ts(7034): [0mVariable 'originalUrl' implicitly has type 'any' in some locations where its type cannot be determined.
+
+[7m55[0m     let originalUrl = null;
+[7m  [0m [91m        ~~~~~~~~~~~[0m
+[96mscripts/trace_waste_rock.ts[0m:[93m23[0m:[93m9[0m - [91merror[0m[90m ts(7034): [0mVariable 'thumbId' implicitly has type 'any' in some locations where its type cannot be determined.
+
+[7m23[0m     let thumbId = null;
+[7m  [0m [91m        ~~~~~~~[0m
+[96mscripts/trace_waste_rock.ts[0m:[93m5[0m:[93m20[0m - [91merror[0m[90m ts(2307): [0mCannot find module 'dotenv' or its corresponding type declarations.
+
+[7m5[0m import dotenv from 'dotenv';
+[7m [0m [91m                   ~~~~~~~~[0m
+[96mscripts/trace_waste_rock.ts[0m:[93m3[0m:[93m22[0m - [91merror[0m[90m ts(2307): [0mCannot find module 'fast-csv' or its corresponding type declarations.
+
+[7m3[0m import * as csv from 'fast-csv';
+[7m [0m [91m                     ~~~~~~~~~~[0m
+[96mscripts/trace_waste_rock.ts[0m:[93m56[0m:[93m9[0m - [93mwarning[0m[90m ts(6133): [0m'foundMedia' is declared but its value is never read.
+
+[7m56[0m     let foundMedia = false;
+[7m  [0m [93m        ~~~~~~~~~~[0m
+[96mscripts/trace_waste_rock.ts[0m:[93m24[0m:[93m9[0m - [93mwarning[0m[90m ts(6133): [0m'postFound' is declared but its value is never read.
+
+[7m24[0m     let postFound = false;
+[7m  [0m [93m        ~~~~~~~~~[0m
+[96mscripts/trace_waste_rock.ts[0m:[93m6[0m:[93m1[0m - [93mwarning[0m[90m ts(6133): [0m'path' is declared but its value is never read.
+
+[7m6[0m import path from 'path';
+[7m [0m [93m~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96mscripts/update_pdf_link_manual.ts[0m:[93m3[0m:[93m20[0m - [91merror[0m[90m ts(2307): [0mCannot find module 'dotenv' or its corresponding type declarations.
+
+[7m3[0m import dotenv from 'dotenv';
+[7m [0m [91m                   ~~~~~~~~[0m
+
+[96mscripts/verify_96_restoration.ts[0m:[93m3[0m:[93m20[0m - [91merror[0m[90m ts(2307): [0mCannot find module 'dotenv' or its corresponding type declarations.
+
+[7m3[0m import dotenv from 'dotenv';
+[7m [0m [91m                   ~~~~~~~~[0m
+
+[96mscripts/verify_cloudinary_url.ts[0m:[93m4[0m:[93m19[0m - [91merror[0m[90m ts(2307): [0mCannot find module 'axios' or its corresponding type declarations.
+
+[7m4[0m import axios from 'axios';
+[7m [0m [91m                  ~~~~~~~[0m
+[96mscripts/verify_cloudinary_url.ts[0m:[93m3[0m:[93m20[0m - [91merror[0m[90m ts(2307): [0mCannot find module 'dotenv' or its corresponding type declarations.
+
+[7m3[0m import dotenv from 'dotenv';
+[7m [0m [91m                   ~~~~~~~~[0m
+
+[96mscripts/verify_fix_status.ts[0m:[93m3[0m:[93m20[0m - [91merror[0m[90m ts(2307): [0mCannot find module 'dotenv' or its corresponding type declarations.
+
+[7m3[0m import dotenv from 'dotenv';
+[7m [0m [91m                   ~~~~~~~~[0m
+
+[96mscripts/xml_to_csv_helper.cjs[0m:[93m3[0m:[93m7[0m - [93mwarning[0m[90m ts(6133): [0m'path' is declared but its value is never read.
+
+[7m3[0m const path = require('path');
+[7m [0m [93m      ~~~~[0m
+
+[96msrc/middleware.ts[0m:[93m14[0m:[93m22[0m - [93mwarning[0m[90m ts(6387): [0mThe signature '(supabaseUrl: string, supabaseKey: string, options: SupabaseClientOptions<"public"> & { cookieOptions?: CookieOptionsWithName | undefined; cookies: CookieMethodsServerDeprecated; cookieEncoding?: "base64url" | ... 1 more ... | undefined; }): SupabaseClient<...>' of 'createServerClient' is deprecated.
+
+[7m14[0m     const supabase = createServerClient(supabaseUrl, supabaseKey, {
+[7m  [0m [93m                     ~~~~~~~~~~~~~~~~~~[0m
+[96msrc/middleware.ts[0m:[93m3[0m:[93m30[0m - [93mwarning[0m[90m ts(6133): [0m'parseCookieHeader' is declared but its value is never read.
+
+[7m3[0m import { createServerClient, parseCookieHeader } from "@supabase/ssr";
+[7m [0m [93m                             ~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/components/MiningBackground.astro[0m:[93m97[0m:[93m28[0m - [91merror[0m[90m ts(7005): [0mVariable 'particles' implicitly has an 'any[]' type.
+
+[7m97[0m                 const p2 = particles[j];
+[7m  [0m [91m                           ~~~~~~~~~[0m
+[96msrc/components/MiningBackground.astro[0m:[93m96[0m:[93m28[0m - [91merror[0m[90m ts(7005): [0mVariable 'particles' implicitly has an 'any[]' type.
+
+[7m96[0m                 const p1 = particles[i];
+[7m  [0m [91m                           ~~~~~~~~~[0m
+[96msrc/components/MiningBackground.astro[0m:[93m81[0m:[93m9[0m - [91merror[0m[90m ts(7005): [0mVariable 'particles' implicitly has an 'any[]' type.
+
+[7m81[0m         particles.forEach(p => {
+[7m  [0m [91m        ~~~~~~~~~[0m
+[96msrc/components/MiningBackground.astro[0m:[93m78[0m:[93m36[0m - [91merror[0m[90m ts(7005): [0mVariable 'height' implicitly has an 'any' type.
+
+[7m78[0m         ctx.clearRect(0, 0, width, height);
+[7m  [0m [91m                                   ~~~~~~[0m
+[96msrc/components/MiningBackground.astro[0m:[93m78[0m:[93m29[0m - [91merror[0m[90m ts(7005): [0mVariable 'width' implicitly has an 'any' type.
+
+[7m78[0m         ctx.clearRect(0, 0, width, height);
+[7m  [0m [91m                            ~~~~~[0m
+[96msrc/components/MiningBackground.astro[0m:[93m44[0m:[93m40[0m - [91merror[0m[90m ts(7005): [0mVariable 'height' implicitly has an 'any' type.
+
+[7m44[0m             if (this.y < 0 || this.y > height) this.vy *= -1;
+[7m  [0m [91m                                       ~~~~~~[0m
+[96msrc/components/MiningBackground.astro[0m:[93m43[0m:[93m40[0m - [91merror[0m[90m ts(7005): [0mVariable 'width' implicitly has an 'any' type.
+
+[7m43[0m             if (this.x < 0 || this.x > width) this.vx *= -1;
+[7m  [0m [91m                                       ~~~~~[0m
+[96msrc/components/MiningBackground.astro[0m:[93m32[0m:[93m38[0m - [91merror[0m[90m ts(7005): [0mVariable 'height' implicitly has an 'any' type.
+
+[7m32[0m             this.y = Math.random() * height;
+[7m  [0m [91m                                     ~~~~~~[0m
+[96msrc/components/MiningBackground.astro[0m:[93m31[0m:[93m38[0m - [91merror[0m[90m ts(7005): [0mVariable 'width' implicitly has an 'any' type.
+
+[7m31[0m             this.x = Math.random() * width;
+[7m  [0m [91m                                     ~~~~~[0m
+[96msrc/components/MiningBackground.astro[0m:[93m12[0m:[93m9[0m - [91merror[0m[90m ts(7034): [0mVariable 'particles' implicitly has type 'any[]' in some locations where its type cannot be determined.
+
+[7m12[0m     let particles = [];
+[7m  [0m [91m        ~~~~~~~~~[0m
+[96msrc/components/MiningBackground.astro[0m:[93m11[0m:[93m16[0m - [91merror[0m[90m ts(7034): [0mVariable 'height' implicitly has type 'any' in some locations where its type cannot be determined.
+
+[7m11[0m     let width, height;
+[7m  [0m [91m               ~~~~~~[0m
+[96msrc/components/MiningBackground.astro[0m:[93m11[0m:[93m9[0m - [91merror[0m[90m ts(7034): [0mVariable 'width' implicitly has type 'any' in some locations where its type cannot be determined.
+
+[7m11[0m     let width, height;
+[7m  [0m [91m        ~~~~~[0m
+
+[96msrc/components/ThemeToggle.astro[0m:[93m25[0m:[93m24[0m - [91merror[0m[90m ts(7006): [0mParameter 'theme' implicitly has an 'any' type.
+
+[7m25[0m   function updateIcons(theme) {
+[7m  [0m [91m                       ~~~~~[0m
+
+[96msrc/components/dashboard/forms/CreateContent.tsx[0m:[93m1[0m:[93m8[0m - [93mwarning[0m[90m ts(6133): [0m'React' is declared but its value is never read.
+
+[7m1[0m import React, { useState, useEffect } from 'react';
+[7m [0m [93m       ~~~~~[0m
+
+[96msrc/components/dashboard/forms/EventForm.tsx[0m:[93m4[0m:[93m37[0m - [93mwarning[0m[90m ts(6133): [0m'currentUser' is declared but its value is never read.
+
+[7m4[0m export default function EventForm({ currentUser, initialData }: { currentUser: any, initialData?: any }) {
+[7m [0m [93m                                    ~~~~~~~~~~~[0m
+
+[96msrc/components/dashboard/forms/PodcastForm.tsx[0m:[93m7[0m:[93m39[0m - [93mwarning[0m[90m ts(6133): [0m'currentUser' is declared but its value is never read.
+
+[7m7[0m export default function PodcastForm({ currentUser, initialData }: { currentUser: any, initialData?: any }) {
+[7m [0m [93m                                      ~~~~~~~~~~~[0m
+[96msrc/components/dashboard/forms/PodcastForm.tsx[0m:[93m5[0m:[93m53[0m - [93mwarning[0m[90m ts(6385): [0m'(from: number, length?: number | undefined): string' is deprecated.
+
+[7m5[0m const generateId = () => Math.random().toString(36).substr(2, 9);
+[7m [0m [93m                                                    ~~~~~~[0m
+
+[96msrc/components/dashboard/forms/PostForm.tsx[0m:[93m220[0m:[93m27[0m - [93mwarning[0m[90m ts(6133): [0m'gallery' is declared but its value is never read.
+
+[7m220[0m                     const gallery = post.metadata?.gallery || [];
+[7m   [0m [93m                          ~~~~~~~[0m
+[96msrc/components/dashboard/forms/PostForm.tsx[0m:[93m28[0m:[93m36[0m - [93mwarning[0m[90m ts(6133): [0m'currentUser' is declared but its value is never read.
+
+[7m28[0m export default function PostForm({ currentUser, initialData }: PostFormProps) {
+[7m  [0m [93m                                   ~~~~~~~~~~~[0m
+
+[96msrc/components/dashboard/forms/ServiceForm.tsx[0m:[93m5[0m:[93m39[0m - [93mwarning[0m[90m ts(6133): [0m'currentUser' is declared but its value is never read.
+
+[7m5[0m export default function ServiceForm({ currentUser, initialData }: { currentUser: any, initialData?: any }) {
+[7m [0m [93m                                      ~~~~~~~~~~~[0m
+
+[96msrc/components/social/CommentSection.tsx[0m:[93m70[0m:[93m21[0m - [93mwarning[0m[90m ts(6133): [0m'data' is declared but its value is never read.
+
+[7m70[0m             const { data, error } = await supabase
+[7m  [0m [93m                    ~~~~[0m
+
+[96msrc/components/social/EventOptions.tsx[0m:[93m1[0m:[93m8[0m - [93mwarning[0m[90m ts(6133): [0m'React' is declared but its value is never read.
+
+[7m1[0m import React, { useState, useRef, useEffect } from 'react';
+[7m [0m [93m       ~~~~~[0m
+
+[96msrc/components/social/Feed.astro[0m:[93m141[0m:[93m36[0m - [91merror[0m[90m ts(7005): [0mVariable 'data' implicitly has an 'any[]' type.
+
+[7m141[0m         {feedType === 'service' && data.map((item) => (
+[7m   [0m [91m                                   ~~~~[0m
+[96msrc/components/social/Feed.astro[0m:[93m136[0m:[93m36[0m - [91merror[0m[90m ts(7005): [0mVariable 'data' implicitly has an 'any[]' type.
+
+[7m136[0m         {feedType === 'podcast' && data.map((item) => (
+[7m   [0m [91m                                   ~~~~[0m
+[96msrc/components/social/Feed.astro[0m:[93m131[0m:[93m34[0m - [91merror[0m[90m ts(7005): [0mVariable 'data' implicitly has an 'any[]' type.
+
+[7m131[0m         {feedType === 'event' && data.map((item) => (
+[7m   [0m [91m                                 ~~~~[0m
+[96msrc/components/social/Feed.astro[0m:[93m126[0m:[93m33[0m - [91merror[0m[90m ts(7005): [0mVariable 'data' implicitly has an 'any[]' type.
+
+[7m126[0m         {feedType === 'post' && data.map((item) => (
+[7m   [0m [91m                                ~~~~[0m
+[96msrc/components/social/Feed.astro[0m:[93m19[0m:[93m5[0m - [91merror[0m[90m ts(7034): [0mVariable 'data' implicitly has type 'any[]' in some locations where its type cannot be determined.
+
+[7m19[0m let data = [];
+[7m  [0m [91m    ~~~~[0m
+[96msrc/components/social/Feed.astro[0m:[93m66[0m:[93m7[0m - [93mwarning[0m[90m ts(6133): [0m'formatDate' is declared but its value is never read.
+
+[7m66[0m const formatDate = (dateStr: string | null) => {
+[7m  [0m [93m      ~~~~~~~~~~[0m
+
+[96msrc/components/social/FollowButton.tsx[0m:[93m32[0m:[93m27[0m - [93mwarning[0m[90m ts(6133): [0m'error' is declared but its value is never read.
+
+[7m32[0m             const { data, error } = await supabase
+[7m  [0m [93m                          ~~~~~[0m
+
+[96msrc/components/social/LeftSidebar.astro[0m:[93m63[0m:[93m95[0m - [91merror[0m[90m ts(2339): [0mProperty 'name' does not exist on type 'never'.
+
+[7m63[0m                         <span class={isActive ? "opacity-100" : "opacity-50"}>#</span> {topic.name}
+[7m  [0m [91m                                                                                              ~~~~[0m
+[96msrc/components/social/LeftSidebar.astro[0m:[93m62[0m:[93m47[0m - [91merror[0m[90m ts(2339): [0mProperty 'slug' does not exist on type 'never'.
+
+[7m62[0m                     <a href={`/mining/${topic.slug}`} class={finalClass}>
+[7m  [0m [91m                                              ~~~~[0m
+[96msrc/components/social/LeftSidebar.astro[0m:[93m54[0m:[93m56[0m - [91merror[0m[90m ts(2339): [0mProperty 'slug' does not exist on type 'never'.
+
+[7m54[0m                 const isActive = currentSlug === topic.slug;
+[7m  [0m [91m                                                       ~~~~[0m
+
+[96msrc/components/social/LikeButton.tsx[0m:[93m26[0m:[93m27[0m - [93mwarning[0m[90m ts(6133): [0m'error' is declared but its value is never read.
+
+[7m26[0m             const { data, error } = await supabase
+[7m  [0m [93m                          ~~~~~[0m
+[96msrc/components/social/LikeButton.tsx[0m:[93m14[0m:[93m21[0m - [93mwarning[0m[90m ts(6133): [0m'setLoading' is declared but its value is never read.
+
+[7m14[0m     const [loading, setLoading] = useState(false);
+[7m  [0m [93m                    ~~~~~~~~~~[0m
+[96msrc/components/social/LikeButton.tsx[0m:[93m14[0m:[93m12[0m - [93mwarning[0m[90m ts(6133): [0m'loading' is declared but its value is never read.
+
+[7m14[0m     const [loading, setLoading] = useState(false);
+[7m  [0m [93m           ~~~~~~~[0m
+[96msrc/components/social/LikeButton.tsx[0m:[93m1[0m:[93m8[0m - [93mwarning[0m[90m ts(6133): [0m'React' is declared but its value is never read.
+
+[7m1[0m import React, { useState, useEffect, useRef } from 'react';
+[7m [0m [93m       ~~~~~[0m
+
+[96msrc/components/social/PdfViewer.tsx[0m:[93m17[0m:[93m12[0m - [93mwarning[0m[90m ts(6133): [0m'loading' is declared but its value is never read.
+
+[7m17[0m     const [loading, setLoading] = useState<boolean>(true);
+[7m  [0m [93m           ~~~~~~~[0m
+
+[96msrc/components/social/PodcastOptions.tsx[0m:[93m2[0m:[93m8[0m - [93mwarning[0m[90m ts(6133): [0m'React' is declared but its value is never read.
+
+[7m2[0m import React, { useState, useRef, useEffect } from 'react';
+[7m [0m [93m       ~~~~~[0m
+
+[96msrc/components/social/PostCard.astro[0m:[93m145[0m:[93m29[0m - [93mwarning[0m[90m ts(6385): [0m'frameborder' is deprecated.
+
+[7m145[0m                             frameborder="0"
+[7m   [0m [93m                            ~~~~~~~~~~~[0m
+[96msrc/components/social/PostCard.astro[0m:[93m236[0m:[93m12[0m - [91merror[0m[90m ts(2339): [0mProperty 'attachListeners' does not exist on type 'Window & typeof globalThis'.
+
+[7m236[0m     window.attachListeners = attachListeners;
+[7m   [0m [91m           ~~~~~~~~~~~~~~~[0m
+
+[96msrc/components/social/PostOptions.tsx[0m:[93m11[0m:[93m72[0m - [93mwarning[0m[90m ts(6133): [0m'slug' is declared but its value is never read.
+
+[7m11[0m export default function PostOptions({ postId, authorId, currentUserId, slug }: PostOptionsProps) {
+[7m  [0m [93m                                                                       ~~~~[0m
+[96msrc/components/social/PostOptions.tsx[0m:[93m2[0m:[93m8[0m - [93mwarning[0m[90m ts(6133): [0m'React' is declared but its value is never read.
+
+[7m2[0m import React, { useState, useRef, useEffect } from 'react';
+[7m [0m [93m       ~~~~~[0m
+
+[96msrc/components/social/RightSidebar.astro[0m:[93m56[0m:[93m95[0m - [91merror[0m[90m ts(2339): [0mProperty 'country' does not exist on type 'never'.
+
+[7m56[0m                         <p class="text-xs text-[var(--text-secondary)] line-clamp-1">{manager.country || 'Global'}</p>
+[7m  [0m [91m                                                                                              ~~~~~~~[0m
+[96msrc/components/social/RightSidebar.astro[0m:[93m55[0m:[93m110[0m - [91merror[0m[90m ts(2339): [0mProperty 'title' does not exist on type 'never'.
+
+[7m55[0m                         <h4 class="text-sm font-semibold text-[var(--text-main)] leading-none mb-1">{manager.title}</h4>
+[7m  [0m [91m                                                                                                             ~~~~~[0m
+[96msrc/components/social/RightSidebar.astro[0m:[93m49[0m:[93m47[0m - [91merror[0m[90m ts(2339): [0mProperty 'image_url' does not exist on type 'never'.
+
+[7m49[0m                             <img src={manager.image_url} class="w-full h-full object-cover" />
+[7m  [0m [91m                                              ~~~~~~~~~[0m
+[96msrc/components/social/RightSidebar.astro[0m:[93m48[0m:[93m34[0m - [91merror[0m[90m ts(2339): [0mProperty 'image_url' does not exist on type 'never'.
+
+[7m48[0m                         {manager.image_url ? (
+[7m  [0m [91m                                 ~~~~~~~~~[0m
+[96msrc/components/social/RightSidebar.astro[0m:[93m34[0m:[93m86[0m - [91merror[0m[90m ts(2339): [0mProperty 'content' does not exist on type 'never'.
+
+[7m34[0m                     <p class="text-xs text-[var(--text-secondary)] line-clamp-2">{ad.content}</p>
+[7m  [0m [91m                                                                                     ~~~~~~~[0m
+[96msrc/components/social/RightSidebar.astro[0m:[93m33[0m:[93m136[0m - [91merror[0m[90m ts(2339): [0mProperty 'title' does not exist on type 'never'.
+
+[7m33[0m                     <h4 class="text-sm font-semibold text-[var(--text-secondary)] group-hover:text-primary-400 leading-tight mb-1">{ad.title}</h4>
+[7m  [0m [91m                                                                                                                                       ~~~~~[0m
+[96msrc/components/social/RightSidebar.astro[0m:[93m30[0m:[93m62[0m - [91merror[0m[90m ts(2339): [0mProperty 'title' does not exist on type 'never'.
+
+[7m30[0m                              <img src={ad.image_url} alt={ad.title} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+[7m  [0m [91m                                                             ~~~~~[0m
+[96msrc/components/social/RightSidebar.astro[0m:[93m30[0m:[93m43[0m - [91merror[0m[90m ts(2339): [0mProperty 'image_url' does not exist on type 'never'.
+
+[7m30[0m                              <img src={ad.image_url} alt={ad.title} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
+[7m  [0m [91m                                          ~~~~~~~~~[0m
+[96msrc/components/social/RightSidebar.astro[0m:[93m28[0m:[93m25[0m - [91merror[0m[90m ts(2339): [0mProperty 'image_url' does not exist on type 'never'.
+
+[7m28[0m                     {ad.image_url && (
+[7m  [0m [91m                        ~~~~~~~~~[0m
+[96msrc/components/social/RightSidebar.astro[0m:[93m27[0m:[93m29[0m - [91merror[0m[90m ts(2339): [0mProperty 'link_url' does not exist on type 'never'.
+
+[7m27[0m                 <a href={ad.link_url || '#'} target="_blank" class="block group">
+[7m  [0m [91m                            ~~~~~~~~[0m
+
+[96msrc/components/social/ServiceOptions.tsx[0m:[93m1[0m:[93m8[0m - [93mwarning[0m[90m ts(6133): [0m'React' is declared but its value is never read.
+
+[7m1[0m import React, { useState, useRef, useEffect } from 'react';
+[7m [0m [93m       ~~~~~[0m
+
+[96msrc/components/social/ShareOptions.tsx[0m:[93m1[0m:[93m8[0m - [93mwarning[0m[90m ts(6133): [0m'React' is declared but its value is never read.
+
+[7m1[0m import React, { useState, useRef, useEffect } from 'react';
+[7m [0m [93m       ~~~~~[0m
+
+[96msrc/components/social/SocialFooter.tsx[0m:[93m24[0m:[93m32[0m - [93mwarning[0m[90m ts(6133): [0m'setLocalCommentsCount' is declared but its value is never read.
+
+[7m24[0m     const [localCommentsCount, setLocalCommentsCount] = useState(commentsCount);
+[7m  [0m [93m                               ~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/components/social/SocialFooter.tsx[0m:[93m1[0m:[93m8[0m - [93mwarning[0m[90m ts(6133): [0m'React' is declared but its value is never read.
+
+[7m1[0m import React, { useState } from 'react';
+[7m [0m [93m       ~~~~~[0m
+
+[96msrc/lib/cloudinary.ts[0m:[93m3[0m:[93m20[0m - [91merror[0m[90m ts(2307): [0mCannot find module 'dotenv' or its corresponding type declarations.
+
+[7m3[0m import dotenv from 'dotenv';
+[7m [0m [91m                   ~~~~~~~~[0m
+[96msrc/lib/cloudinary.ts[0m:[93m2[0m:[93m34[0m - [91merror[0m[90m ts(2307): [0mCannot find module 'cloudinary' or its corresponding type declarations.
+
+[7m2[0m import { v2 as cloudinary } from 'cloudinary';
+[7m [0m [91m                                 ~~~~~~~~~~~~[0m
+
+[96msrc/lib/supabase.ts[0m:[93m24[0m:[93m12[0m - [93mwarning[0m[90m ts(6387): [0mThe signature '(supabaseUrl: string, supabaseKey: string, options: SupabaseClientOptions<"public"> & { cookieOptions?: CookieOptionsWithName | undefined; cookies: CookieMethodsServerDeprecated; cookieEncoding?: "base64url" | ... 1 more ... | undefined; }): SupabaseClient<...>' of 'createServerClient' is deprecated.
+
+[7m24[0m     return createServerClient<Database>(supabaseUrl, supabaseKey, {
+[7m  [0m [93m           ~~~~~~~~~~~~~~~~~~[0m
+[96msrc/lib/supabase.ts[0m:[93m3[0m:[93m98[0m - [93mwarning[0m[90m ts(6133): [0m'CookieOptions' is declared but its value is never read.
+
+[7m3[0m import { createBrowserClient, createServerClient, parseCookieHeader, serializeCookieHeader, type CookieOptions } from '@supabase/ssr';
+[7m [0m [93m                                                                                                 ~~~~~~~~~~~~~[0m
+[96msrc/lib/supabase.ts[0m:[93m3[0m:[93m70[0m - [93mwarning[0m[90m ts(6133): [0m'serializeCookieHeader' is declared but its value is never read.
+
+[7m3[0m import { createBrowserClient, createServerClient, parseCookieHeader, serializeCookieHeader, type CookieOptions } from '@supabase/ssr';
+[7m [0m [93m                                                                     ~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/pages/landing.astro[0m:[93m29[0m:[93m34[0m - [91merror[0m[90m ts(2339): [0mProperty 'name' does not exist on type 'never'.
+
+[7m29[0m                           {topic.name}
+[7m  [0m [91m                                 ~~~~[0m
+[96msrc/pages/landing.astro[0m:[93m28[0m:[93m49[0m - [91merror[0m[90m ts(2339): [0mProperty 'slug' does not exist on type 'never'.
+
+[7m28[0m                       <a href={`/mining/${topic.slug}`} class="block py-2 px-3 text-sm text-gray-400 hover:text-primary-400 hover:bg-white/5 rounded transition-colors duration-200">
+[7m  [0m [91m                                                ~~~~[0m
+
+[96msrc/pages/profile.astro[0m:[93m213[0m:[93m46[0m - [91merror[0m[90m ts(7006): [0mParameter 'tab' implicitly has an 'any' type.
+
+[7m213[0m                             {allowedTabs.map(tab => (
+[7m   [0m [91m                                             ~~~[0m
+[96msrc/pages/profile.astro[0m:[93m42[0m:[93m42[0m - [91merror[0m[90m ts(7006): [0mParameter 'tab' implicitly has an 'any' type.
+
+[7m42[0m await Promise.all(allowedTabs.map(async (tab) => {
+[7m  [0m [91m                                         ~~~[0m
+[96msrc/pages/profile.astro[0m:[93m31[0m:[93m21[0m - [91merror[0m[90m ts(7053): [0mElement implicitly has an 'any' type because expression of type 'string' can't be used to index type '{ Basic: string[]; Expert: string[]; Events: string[]; Ads: string[]; CountryManager: string[]; Administrator: string[]; }'.
+  No index signature with a parameter of type 'string' was found on type '{ Basic: string[]; Expert: string[]; Events: string[]; Ads: string[]; CountryManager: string[]; Administrator: string[]; }'.
+
+[7m31[0m const allowedTabs = rolePermissions[role] || rolePermissions['Basic'];
+[7m  [0m [91m                    ~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/pages/profile.astro[0m:[93m70[0m:[93m5[0m - [93mwarning[0m[90m ts(6133): [0m'error' is declared but its value is never read.
+
+[7m70[0m let error = null;
+[7m  [0m [93m    ~~~~~[0m
+[96msrc/pages/profile.astro[0m:[93m52[0m:[93m11[0m - [93mwarning[0m[90m ts(6196): [0m'ProfilePost' is declared but never used.
+
+[7m52[0m interface ProfilePost {
+[7m  [0m [93m          ~~~~~~~~~~~[0m
+
+[96msrc/pages/verification-success.astro[0m:[93m4[0m:[93m1[0m - [93mwarning[0m[90m ts(6133): [0m'ThemeToggle' is declared but its value is never read.
+
+[7m4[0m import ThemeToggle from '../components/ThemeToggle.astro';
+[7m [0m [93m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/pages/admin/index.astro[0m:[93m19[0m:[93m43[0m - [91merror[0m[90m ts(2339): [0mProperty 'role' does not exist on type 'never'.
+
+[7m19[0m     acc[curr.role || 'Basic'] = (acc[curr.role || 'Basic'] || 0) + 1;
+[7m  [0m [91m                                          ~~~~[0m
+[96msrc/pages/admin/index.astro[0m:[93m19[0m:[93m14[0m - [91merror[0m[90m ts(2339): [0mProperty 'role' does not exist on type 'never'.
+
+[7m19[0m     acc[curr.role || 'Basic'] = (acc[curr.role || 'Basic'] || 0) + 1;
+[7m  [0m [91m             ~~~~[0m
+
+[96msrc/pages/api/upload.ts[0m:[93m47[0m:[93m25[0m - [91merror[0m[90m ts(7006): [0mParameter 'result' implicitly has an 'any' type.
+
+[7m47[0m                 (error, result) => {
+[7m  [0m [91m                        ~~~~~~[0m
+[96msrc/pages/api/upload.ts[0m:[93m47[0m:[93m18[0m - [91merror[0m[90m ts(7006): [0mParameter 'error' implicitly has an 'any' type.
+
+[7m47[0m                 (error, result) => {
+[7m  [0m [91m                 ~~~~~[0m
+
+[96msrc/pages/api/content/update.ts[0m:[93m51[0m:[93m9[0m - [93mwarning[0m[90m ts(6133): [0m'episodes' is declared but its value is never read.
+
+[7m51[0m         episodes // JSONB Array
+[7m  [0m [93m        ~~~~~~~~[0m
+
+[96msrc/pages/event/[slug].astro[0m:[93m205[0m:[93m48[0m - [91merror[0m[90m ts(2339): [0mProperty 'start_time' does not exist on type 'never'.
+
+[7m205[0m                                         {event.start_time}
+[7m   [0m [91m                                               ~~~~~~~~~~[0m
+[96msrc/pages/event/[slug].astro[0m:[93m200[0m:[93m37[0m - [91merror[0m[90m ts(2339): [0mProperty 'start_time' does not exist on type 'never'.
+
+[7m200[0m                              {event.start_time && (
+[7m   [0m [91m                                    ~~~~~~~~~~[0m
+[96msrc/pages/event/[slug].astro[0m:[93m197[0m:[93m55[0m - [91merror[0m[90m ts(2339): [0mProperty 'start_date' does not exist on type 'never'.
+
+[7m197[0m                                     {formatDate(event.start_date)}
+[7m   [0m [91m                                                      ~~~~~~~~~~[0m
+[96msrc/pages/event/[slug].astro[0m:[93m190[0m:[93m44[0m - [91merror[0m[90m ts(2339): [0mProperty 'location' does not exist on type 'never'.
+
+[7m190[0m                                     {event.location || 'Online'}
+[7m   [0m [91m                                           ~~~~~~~~[0m
+[96msrc/pages/event/[slug].astro[0m:[93m172[0m:[93m49[0m - [91merror[0m[90m ts(2339): [0mProperty 'schedule_pdf_url' does not exist on type 'never'.
+
+[7m172[0m                                     href={event.schedule_pdf_url}
+[7m   [0m [91m                                                ~~~~~~~~~~~~~~~~[0m
+[96msrc/pages/event/[slug].astro[0m:[93m168[0m:[93m32[0m - [91merror[0m[90m ts(2339): [0mProperty 'schedule_pdf_url' does not exist on type 'never'.
+
+[7m168[0m                         {event.schedule_pdf_url && (
+[7m   [0m [91m                               ~~~~~~~~~~~~~~~~[0m
+[96msrc/pages/event/[slug].astro[0m:[93m156[0m:[93m49[0m - [91merror[0m[90m ts(2339): [0mProperty 'external_link' does not exist on type 'never'.
+
+[7m156[0m                                     href={event.external_link}
+[7m   [0m [91m                                                ~~~~~~~~~~~~~[0m
+[96msrc/pages/event/[slug].astro[0m:[93m152[0m:[93m32[0m - [91merror[0m[90m ts(2339): [0mProperty 'external_link' does not exist on type 'never'.
+
+[7m152[0m                         {event.external_link && (
+[7m   [0m [91m                               ~~~~~~~~~~~~~[0m
+[96msrc/pages/event/[slug].astro[0m:[93m142[0m:[93m44[0m - [91merror[0m[90m ts(2339): [0mProperty 'organizer_phone' does not exist on type 'never'.
+
+[7m142[0m                                     {event.organizer_phone}
+[7m   [0m [91m                                           ~~~~~~~~~~~~~~~[0m
+[96msrc/pages/event/[slug].astro[0m:[93m139[0m:[93m36[0m - [91merror[0m[90m ts(2339): [0mProperty 'organizer_phone' does not exist on type 'never'.
+
+[7m139[0m                             {event.organizer_phone && (
+[7m   [0m [91m                                   ~~~~~~~~~~~~~~~[0m
+[96msrc/pages/event/[slug].astro[0m:[93m136[0m:[93m44[0m - [91merror[0m[90m ts(2339): [0mProperty 'organizer_email' does not exist on type 'never'.
+
+[7m136[0m                                     {event.organizer_email}
+[7m   [0m [91m                                           ~~~~~~~~~~~~~~~[0m
+[96msrc/pages/event/[slug].astro[0m:[93m134[0m:[93m58[0m - [91merror[0m[90m ts(2339): [0mProperty 'organizer_email' does not exist on type 'never'.
+
+[7m134[0m                                 <a href={`mailto:${event.organizer_email}`} class="flex items-center gap-2 text-sm text-gray-400 hover:text-white transition-colors">
+[7m   [0m [91m                                                         ~~~~~~~~~~~~~~~[0m
+[96msrc/pages/event/[slug].astro[0m:[93m133[0m:[93m36[0m - [91merror[0m[90m ts(2339): [0mProperty 'organizer_email' does not exist on type 'never'.
+
+[7m133[0m                             {event.organizer_email && (
+[7m   [0m [91m                                   ~~~~~~~~~~~~~~~[0m
+[96msrc/pages/event/[slug].astro[0m:[93m131[0m:[93m77[0m - [91merror[0m[90m ts(2339): [0mProperty 'organizer' does not exist on type 'never'.
+
+[7m131[0m                                 <p class="text-gray-300 font-medium">{event.organizer}</p>
+[7m   [0m [91m                                                                            ~~~~~~~~~[0m
+[96msrc/pages/event/[slug].astro[0m:[93m130[0m:[93m36[0m - [91merror[0m[90m ts(2339): [0mProperty 'organizer' does not exist on type 'never'.
+
+[7m130[0m                             {event.organizer && (
+[7m   [0m [91m                                   ~~~~~~~~~[0m
+[96msrc/pages/event/[slug].astro[0m:[93m112[0m:[93m32[0m - [91merror[0m[90m ts(2339): [0mProperty 'description' does not exist on type 'never'.
+
+[7m112[0m                         {event.description}
+[7m   [0m [91m                               ~~~~~~~~~~~[0m
+[96msrc/pages/event/[slug].astro[0m:[93m105[0m:[93m40[0m - [91merror[0m[90m ts(2339): [0mProperty 'price' does not exist on type 'never'.
+
+[7m105[0m                                 {event.price.name}
+[7m   [0m [91m                                       ~~~~~[0m
+[96msrc/pages/event/[slug].astro[0m:[93m102[0m:[93m32[0m - [91merror[0m[90m ts(2339): [0mProperty 'price' does not exist on type 'never'.
+
+[7m102[0m                         {event.price && (
+[7m   [0m [91m                               ~~~~~[0m
+[96msrc/pages/event/[slug].astro[0m:[93m99[0m:[93m40[0m - [91merror[0m[90m ts(2339): [0mProperty 'format' does not exist on type 'never'.
+
+[7m99[0m                                 {event.format.name}
+[7m  [0m [91m                                       ~~~~~~[0m
+[96msrc/pages/event/[slug].astro[0m:[93m96[0m:[93m33[0m - [91merror[0m[90m ts(2339): [0mProperty 'format' does not exist on type 'never'.
+
+[7m96[0m                          {event.format && (
+[7m  [0m [91m                                ~~~~~~[0m
+[96msrc/pages/event/[slug].astro[0m:[93m93[0m:[93m40[0m - [91merror[0m[90m ts(2339): [0mProperty 'language' does not exist on type 'never'.
+
+[7m93[0m                                 {event.language.name}
+[7m  [0m [91m                                       ~~~~~~~~[0m
+[96msrc/pages/event/[slug].astro[0m:[93m90[0m:[93m33[0m - [91merror[0m[90m ts(2339): [0mProperty 'language' does not exist on type 'never'.
+
+[7m90[0m                          {event.language && (
+[7m  [0m [91m                                ~~~~~~~~[0m
+[96msrc/pages/event/[slug].astro[0m:[93m87[0m:[93m40[0m - [91merror[0m[90m ts(2339): [0mProperty 'type' does not exist on type 'never'.
+
+[7m87[0m                                 {event.type.name}
+[7m  [0m [91m                                       ~~~~[0m
+[96msrc/pages/event/[slug].astro[0m:[93m84[0m:[93m32[0m - [91merror[0m[90m ts(2339): [0mProperty 'type' does not exist on type 'never'.
+
+[7m84[0m                         {event.type && (
+[7m  [0m [91m                               ~~~~[0m
+[96msrc/pages/event/[slug].astro[0m:[93m70[0m:[93m28[0m - [91merror[0m[90m ts(2339): [0mProperty 'title' does not exist on type 'never'.
+
+[7m70[0m                     {event.title}
+[7m  [0m [91m                           ~~~~~[0m
+[96msrc/pages/event/[slug].astro[0m:[93m46[0m:[93m32[0m - [91merror[0m[90m ts(2339): [0mProperty 'title' does not exist on type 'never'.
+
+[7m46[0m                     alt={event.title}
+[7m  [0m [91m                               ~~~~~[0m
+[96msrc/pages/event/[slug].astro[0m:[93m45[0m:[93m32[0m - [91merror[0m[90m ts(2339): [0mProperty 'cover_photo_url' does not exist on type 'never'.
+
+[7m45[0m                     src={event.cover_photo_url}
+[7m  [0m [91m                               ~~~~~~~~~~~~~~~[0m
+[96msrc/pages/event/[slug].astro[0m:[93m43[0m:[93m20[0m - [91merror[0m[90m ts(2339): [0mProperty 'cover_photo_url' does not exist on type 'never'.
+
+[7m43[0m             {event.cover_photo_url ? (
+[7m  [0m [91m                   ~~~~~~~~~~~~~~~[0m
+[96msrc/pages/event/[slug].astro[0m:[93m38[0m:[93m22[0m - [91merror[0m[90m ts(2339): [0mProperty 'title' does not exist on type 'never'.
+
+[7m38[0m <Layout title={event.title}>
+[7m  [0m [91m                     ~~~~~[0m
+[96msrc/pages/event/[slug].astro[0m:[93m27[0m:[93m21[0m - [91merror[0m[90m ts(7006): [0mParameter 'dateStr' implicitly has an 'any' type.
+
+[7m27[0m const formatDate = (dateStr) => {
+[7m  [0m [91m                    ~~~~~~~[0m
+[96msrc/pages/event/[slug].astro[0m:[93m19[0m:[93m17[0m - [91merror[0m[90m ts(2345): [0mArgument of type 'string | undefined' is not assignable to parameter of type '{}'.
+  Type 'undefined' is not assignable to type '{}'.
+
+[7m19[0m     .eq('slug', slug)
+[7m  [0m [91m                ~~~~[0m
+
+[96msrc/pages/event/edit/[id].astro[0m:[93m49[0m:[93m37[0m - [91merror[0m[90m ts(2339): [0mProperty 'title' does not exist on type 'never'.
+
+[7m49[0m <Layout title={`Edit Event: ${event.title}`}>
+[7m  [0m [91m                                    ~~~~~[0m
+[96msrc/pages/event/edit/[id].astro[0m:[93m44[0m:[93m5[0m - [91merror[0m[90m ts(2698): [0mSpread types may only be created from object types.
+
+[7m44[0m     ...event,
+[7m  [0m [91m    ~~~~~~~~[0m
+[96msrc/pages/event/edit/[id].astro[0m:[93m41[0m:[93m25[0m - [91merror[0m[90m ts(2339): [0mProperty 'topic' does not exist on type 'never'.
+
+[7m41[0m const topicSlug = event.topic?.slug || '';
+[7m  [0m [91m                        ~~~~~[0m
+[96msrc/pages/event/edit/[id].astro[0m:[93m36[0m:[93m11[0m - [91merror[0m[90m ts(2339): [0mProperty 'author_id' does not exist on type 'never'.
+
+[7m36[0m if (event.author_id !== user.id) {
+[7m  [0m [91m          ~~~~~~~~~[0m
+
+[96msrc/pages/in/[id].astro[0m:[93m163[0m:[93m46[0m - [91merror[0m[90m ts(7006): [0mParameter 'tab' implicitly has an 'any' type.
+
+[7m163[0m                             {allowedTabs.map(tab => (
+[7m   [0m [91m                                             ~~~[0m
+[96msrc/pages/in/[id].astro[0m:[93m153[0m:[93m42[0m - [91merror[0m[90m ts(2339): [0mProperty 'country' does not exist on type 'never'.
+
+[7m153[0m                                 {profile.country || "Location not set"}
+[7m   [0m [91m                                         ~~~~~~~[0m
+[96msrc/pages/in/[id].astro[0m:[93m149[0m:[93m42[0m - [91merror[0m[90m ts(2339): [0mProperty 'profession' does not exist on type 'never'.
+
+[7m149[0m                                 {profile.profession || `${role} Account`}
+[7m   [0m [91m                                         ~~~~~~~~~~[0m
+[96msrc/pages/in/[id].astro[0m:[93m141[0m:[93m83[0m - [91merror[0m[90m ts(2339): [0mProperty 'email' does not exist on type 'never'.
+
+[7m141[0m                                 {profile.full_name || profile.username || profile.email}
+[7m   [0m [91m                                                                                  ~~~~~[0m
+[96msrc/pages/in/[id].astro[0m:[93m141[0m:[93m63[0m - [91merror[0m[90m ts(2339): [0mProperty 'username' does not exist on type 'never'.
+
+[7m141[0m                                 {profile.full_name || profile.username || profile.email}
+[7m   [0m [91m                                                              ~~~~~~~~[0m
+[96msrc/pages/in/[id].astro[0m:[93m141[0m:[93m42[0m - [91merror[0m[90m ts(2339): [0mProperty 'full_name' does not exist on type 'never'.
+
+[7m141[0m                                 {profile.full_name || profile.username || profile.email}
+[7m   [0m [91m                                         ~~~~~~~~~[0m
+[96msrc/pages/in/[id].astro[0m:[93m121[0m:[93m54[0m - [91merror[0m[90m ts(2339): [0mProperty 'email' does not exist on type 'never'.
+
+[7m121[0m                                         alt={profile.email}
+[7m   [0m [91m                                                     ~~~~~[0m
+[96msrc/pages/in/[id].astro[0m:[93m120[0m:[93m54[0m - [91merror[0m[90m ts(2339): [0mProperty 'avatar_url' does not exist on type 'never'.
+
+[7m120[0m                                         src={profile.avatar_url}
+[7m   [0m [91m                                                     ~~~~~~~~~~[0m
+[96msrc/pages/in/[id].astro[0m:[93m118[0m:[93m42[0m - [91merror[0m[90m ts(2339): [0mProperty 'avatar_url' does not exist on type 'never'.
+
+[7m118[0m                                 {profile.avatar_url ? (
+[7m   [0m [91m                                         ~~~~~~~~~~[0m
+[96msrc/pages/in/[id].astro[0m:[93m99[0m:[93m48[0m - [91merror[0m[90m ts(2339): [0mProperty 'email' does not exist on type 'never'.
+
+[7m99[0m <Layout title={`${profile.full_name || profile.email} | Zvenia`}>
+[7m  [0m [91m                                               ~~~~~[0m
+[96msrc/pages/in/[id].astro[0m:[93m99[0m:[93m27[0m - [91merror[0m[90m ts(2339): [0mProperty 'full_name' does not exist on type 'never'.
+
+[7m99[0m <Layout title={`${profile.full_name || profile.email} | Zvenia`}>
+[7m  [0m [91m                          ~~~~~~~~~[0m
+[96msrc/pages/in/[id].astro[0m:[93m95[0m:[93m45[0m - [91merror[0m[90m ts(2339): [0mProperty 'email' does not exist on type 'never'.
+
+[7m95[0m const userInitial = profile.email ? profile.email.charAt(0).toUpperCase() : 'U';
+[7m  [0m [91m                                            ~~~~~[0m
+[96msrc/pages/in/[id].astro[0m:[93m95[0m:[93m29[0m - [91merror[0m[90m ts(2339): [0mProperty 'email' does not exist on type 'never'.
+
+[7m95[0m const userInitial = profile.email ? profile.email.charAt(0).toUpperCase() : 'U';
+[7m  [0m [91m                            ~~~~~[0m
+[96msrc/pages/in/[id].astro[0m:[93m51[0m:[93m42[0m - [91merror[0m[90m ts(7006): [0mParameter 'tab' implicitly has an 'any' type.
+
+[7m51[0m await Promise.all(allowedTabs.map(async (tab) => {
+[7m  [0m [91m                                         ~~~[0m
+[96msrc/pages/in/[id].astro[0m:[93m44[0m:[93m21[0m - [91merror[0m[90m ts(7053): [0mElement implicitly has an 'any' type because expression of type 'any' can't be used to index type '{ Basic: string[]; Expert: string[]; Events: string[]; Ads: string[]; CountryManager: string[]; Administrator: string[]; }'.
+
+[7m44[0m const allowedTabs = rolePermissions[role] || rolePermissions['Basic'];
+[7m  [0m [91m                    ~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/pages/in/[id].astro[0m:[93m32[0m:[93m22[0m - [91merror[0m[90m ts(2339): [0mProperty 'role' does not exist on type 'never'.
+
+[7m32[0m const role = profile.role || 'Basic';
+[7m  [0m [91m                     ~~~~[0m
+[96msrc/pages/in/[id].astro[0m:[93m5[0m:[93m1[0m - [93mwarning[0m[90m ts(6133): [0m'Footer' is declared but its value is never read.
+
+[7m5[0m import Footer from '../../components/Footer.astro';
+[7m [0m [93m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/pages/mining/[slug].astro[0m:[93m407[0m:[93m94[0m - [91merror[0m[90m ts(7005): [0mVariable 'uncategorized' implicitly has an 'any[]' type.
+
+[7m407[0m                                     <ServiceRow client:load title="Other Services" services={uncategorized} />
+[7m   [0m [91m                                                                                             ~~~~~~~~~~~~~[0m
+[96msrc/pages/mining/[slug].astro[0m:[93m407[0m:[93m38[0m - [91merror[0m[90m ts(2322): [0mType '{ "client:load": true; title: string; services: any[]; }' is not assignable to type 'IntrinsicAttributes & ServiceRowProps'.
+  Property 'currentUser' is missing in type '{ "client:load": true; title: string; services: any[]; }' but required in type 'ServiceRowProps'.
+
+[7m407[0m                                     <ServiceRow client:load title="Other Services" services={uncategorized} />
+[7m   [0m [91m                                     ~~~~~~~~~~[0m
+[96msrc/pages/mining/[slug].astro[0m:[93m403[0m:[93m85[0m - [91merror[0m[90m ts(7053): [0mElement implicitly has an 'any' type because expression of type 'string' can't be used to index type '{}'.
+  No index signature with a parameter of type 'string' was found on type '{}'.
+
+[7m403[0m                                      <ServiceRow client:load title={type} services={servicesByType[type]} />
+[7m   [0m [91m                                                                                    ~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/pages/mining/[slug].astro[0m:[93m403[0m:[93m39[0m - [91merror[0m[90m ts(2322): [0mType '{ "client:load": true; title: string; services: any; }' is not assignable to type 'IntrinsicAttributes & ServiceRowProps'.
+  Property 'currentUser' is missing in type '{ "client:load": true; title: string; services: any; }' but required in type 'ServiceRowProps'.
+
+[7m403[0m                                      <ServiceRow client:load title={type} services={servicesByType[type]} />
+[7m   [0m [91m                                      ~~~~~~~~~~[0m
+[96msrc/pages/mining/[slug].astro[0m:[93m383[0m:[93m33[0m - [91merror[0m[90m ts(7053): [0mElement implicitly has an 'any' type because expression of type 'any' can't be used to index type '{}'.
+
+[7m383[0m                                 servicesByType[typeName].push(item);
+[7m   [0m [91m                                ~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/pages/mining/[slug].astro[0m:[93m382[0m:[93m64[0m - [91merror[0m[90m ts(7053): [0mElement implicitly has an 'any' type because expression of type 'any' can't be used to index type '{}'.
+
+[7m382[0m                                 if (!servicesByType[typeName]) servicesByType[typeName] = [];
+[7m   [0m [91m                                                               ~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/pages/mining/[slug].astro[0m:[93m382[0m:[93m38[0m - [91merror[0m[90m ts(7053): [0mElement implicitly has an 'any' type because expression of type 'any' can't be used to index type '{}'.
+
+[7m382[0m                                 if (!servicesByType[typeName]) servicesByType[typeName] = [];
+[7m   [0m [91m                                     ~~~~~~~~~~~~~~~~~~~~~~~~[0m
+[96msrc/pages/mining/[slug].astro[0m:[93m377[0m:[93m31[0m - [91merror[0m[90m ts(7034): [0mVariable 'uncategorized' implicitly has type 'any[]' in some locations where its type cannot be determined.
+
+[7m377[0m                         const uncategorized = [];
+[7m   [0m [91m                              ~~~~~~~~~~~~~[0m
+[96msrc/pages/mining/[slug].astro[0m:[93m105[0m:[93m33[0m - [91merror[0m[90m ts(2698): [0mSpread types may only be created from object types.
+
+[7m105[0m     return data?.map(item => ({ ...item, type: typeLabel, collection: table })) || [];
+[7m   [0m [91m                                ~~~~~~~[0m
+[96msrc/pages/mining/[slug].astro[0m:[93m69[0m:[93m103[0m - [91merror[0m[90m ts(2339): [0mProperty 'id' does not exist on type 'never'.
+
+[7m69[0m     supabase.from('events').select('id').eq('topic_id', topic.id).then(({ data }) => data?.map(e => e.id) || [])
+[7m  [0m [91m                                                                                                      ~~[0m
+[96msrc/pages/mining/[slug].astro[0m:[93m69[0m:[93m57[0m - [91merror[0m[90m ts(2345): [0mArgument of type 'null' is not assignable to parameter of type '{}'.
+
+[7m69[0m     supabase.from('events').select('id').eq('topic_id', topic.id).then(({ data }) => data?.map(e => e.id) || [])
+[7m  [0m [91m                                                        ~~~~~~~~[0m
+[96msrc/pages/mining/[slug].astro[0m:[93m66[0m:[93m105[0m - [91merror[0m[90m ts(2339): [0mProperty 'id' does not exist on type 'never'.
+
+[7m66[0m     supabase.from('services').select('id').eq('topic_id', topic.id).then(({ data }) => data?.map(s => s.id) || []),
+[7m  [0m [91m                                                                                                        ~~[0m
+[96msrc/pages/mining/[slug].astro[0m:[93m66[0m:[93m59[0m - [91merror[0m[90m ts(2345): [0mArgument of type 'null' is not assignable to parameter of type '{}'.
+
+[7m66[0m     supabase.from('services').select('id').eq('topic_id', topic.id).then(({ data }) => data?.map(s => s.id) || []),
+[7m  [0m [91m                                                          ~~~~~~~~[0m
+[96msrc/pages/mining/[slug].astro[0m:[93m63[0m:[93m42[0m - [91merror[0m[90m ts(2345): [0mArgument of type 'null' is not assignable to parameter of type 'string'.
+
+[7m63[0m     getLinkedIds('presentations_topics', topic.id, 'presentations_id'),
+[7m  [0m [91m                                         ~~~~~~~~[0m
+[96msrc/pages/mining/[slug].astro[0m:[93m62[0m:[93m34[0m - [91merror[0m[90m ts(2345): [0mArgument of type 'null' is not assignable to parameter of type 'string'.
+
+[7m62[0m     getLinkedIds('talks_topics', topic.id, 'talks_id'),
+[7m  [0m [91m                                 ~~~~~~~~[0m
+[96msrc/pages/mining/[slug].astro[0m:[93m60[0m:[93m105[0m - [91merror[0m[90m ts(2339): [0mProperty 'id' does not exist on type 'never'.
+
+[7m60[0m     supabase.from('podcasts').select('id').eq('topic_id', topic.id).then(({ data }) => data?.map(p => p.id) || []),
+[7m  [0m [91m                                                                                                        ~~[0m
+[96msrc/pages/mining/[slug].astro[0m:[93m60[0m:[93m59[0m - [91merror[0m[90m ts(2345): [0mArgument of type 'null' is not assignable to parameter of type '{}'.
+
+[7m60[0m     supabase.from('podcasts').select('id').eq('topic_id', topic.id).then(({ data }) => data?.map(p => p.id) || []),
+[7m  [0m [91m                                                          ~~~~~~~~[0m
+[96msrc/pages/mining/[slug].astro[0m:[93m56[0m:[93m33[0m - [91merror[0m[90m ts(2339): [0mProperty 'id' does not exist on type 'never'.
+
+[7m56[0m         return data?.map(p => p.id) || [];
+[7m  [0m [91m                                ~~[0m
+[96msrc/pages/mining/[slug].astro[0m:[93m121[0m:[93m7[0m - [93mwarning[0m[90m ts(6133): [0m'formatDate' is declared but its value is never read.
+
+[7m121[0m const formatDate = (dateStr: string | null) => {
+[7m   [0m [93m      ~~~~~~~~~~[0m
+[96msrc/pages/mining/[slug].astro[0m:[93m108[0m:[93m44[0m - [93mwarning[0m[90m ts(6133): [0m'presentationItems' is declared but its value is never read.
+
+[7m108[0m const [postItems, podcastItems, talkItems, presentationItems, serviceItems, realEventItems] = await Promise.all([
+[7m   [0m [93m                                           ~~~~~~~~~~~~~~~~~[0m
+[96msrc/pages/mining/[slug].astro[0m:[93m108[0m:[93m33[0m - [93mwarning[0m[90m ts(6133): [0m'talkItems' is declared but its value is never read.
+
+[7m108[0m const [postItems, podcastItems, talkItems, presentationItems, serviceItems, realEventItems] = await Promise.all([
+[7m   [0m [93m                                ~~~~~~~~~[0m
+[96msrc/pages/mining/[slug].astro[0m:[93m452[0m:[93m24[0m - [91merror[0m[90m ts(2339): [0mProperty 'classList' does not exist on type 'Node'.
+
+[7m452[0m                 newBtn.classList.add('btn-tab-active');
+[7m   [0m [91m                       ~~~~~~~~~[0m
+[96msrc/pages/mining/[slug].astro[0m:[93m442[0m:[93m39[0m - [91merror[0m[90m ts(2339): [0mProperty 'getAttribute' does not exist on type 'Node'.
+
+[7m442[0m                 const target = newBtn.getAttribute('data-target');
+[7m   [0m [91m                                      ~~~~~~~~~~~~[0m
+[96msrc/pages/mining/[slug].astro[0m:[93m439[0m:[93m13[0m - [91merror[0m[90m ts(18047): [0m'btn.parentNode' is possibly 'null'.
+
+[7m439[0m             btn.parentNode.replaceChild(newBtn, btn);
+[7m   [0m [91m            ~~~~~~~~~~~~~~[0m
+[96msrc/pages/mining/[slug].astro[0m:[93m429[0m:[93m15[0m - [93mwarning[0m[90m ts(6133): [0m'inactiveClasses' is declared but its value is never read.
+
+[7m429[0m         const inactiveClasses = ['btn-tab']; // We just remove active class, basic class handles the rest? No, because we remove everything.
+[7m   [0m [93m              ~~~~~~~~~~~~~~~[0m
+[96msrc/pages/mining/[slug].astro[0m:[93m428[0m:[93m15[0m - [93mwarning[0m[90m ts(6133): [0m'activeClasses' is declared but its value is never read.
+
+[7m428[0m         const activeClasses = ['btn-tab-active'];
+[7m   [0m [93m              ~~~~~~~~~~~~~[0m
+[96msrc/pages/mining/[slug].astro[0m:[93m212[0m:[93m17[0m - [93mwarning[0m[90m astro(4000): [0mThis script will be treated as if it has the `is:inline` directive because it contains an attribute. Therefore, features that require processing (e.g. using TypeScript or npm packages in the script) are unavailable.
+
+See docs for more details: https://docs.astro.build/en/guides/client-side-scripts/#script-processing.
+
+Add the `is:inline` directive explicitly to silence this hint.
+
+[7m212[0m         <script define:vars={{ initialOffset: postItems.length, currentSlug: slug }}>
+[7m   [0m [93m                ~~~~~~~~~~~[0m
+
+[96msrc/pages/partials/posts-partial.astro[0m:[93m37[0m:[93m22[0m - [91merror[0m[90m ts(2698): [0mSpread types may only be created from object types.
+
+[7m37[0m     <PostCard post={{...post, type: 'Post', collection: 'posts'}} currentUser={currentUser} />
+[7m  [0m [91m                     ~~~~~~~[0m
+[96msrc/pages/partials/posts-partial.astro[0m:[93m25[0m:[93m44[0m - [91merror[0m[90m ts(2339): [0mProperty 'id' does not exist on type 'never'.
+
+[7m25[0m         query = query.eq('topic_id', topic.id);
+[7m  [0m [91m                                           ~~[0m
+
+[96msrc/pages/podcast/[slug].astro[0m:[93m187[0m:[93m46[0m - [91merror[0m[90m ts(2339): [0mProperty 'description' does not exist on type 'never'.
+
+[7m187[0m                                     {podcast.description?.substring(0, 100)}...
+[7m   [0m [91m                                             ~~~~~~~~~~~[0m
+[96msrc/pages/podcast/[slug].astro[0m:[93m112[0m:[93m57[0m - [91merror[0m[90m ts(2339): [0mProperty 'excerpt' does not exist on type 'never'.
+
+[7m112[0m                         {podcast.description || podcast.excerpt || "Join us for an in-depth conversation on the future of mining and geotechnics."}
+[7m   [0m [91m                                                        ~~~~~~~[0m
+[96msrc/pages/podcast/[slug].astro[0m:[93m112[0m:[93m34[0m - [91merror[0m[90m ts(2339): [0mProperty 'description' does not exist on type 'never'.
+
+[7m112[0m                         {podcast.description || podcast.excerpt || "Join us for an in-depth conversation on the future of mining and geotechnics."}
+[7m   [0m [91m                                 ~~~~~~~~~~~[0m
+[96msrc/pages/podcast/[slug].astro[0m:[93m105[0m:[93m49[0m - [91merror[0m[90m ts(2339): [0mProperty 'created_at' does not exist on type 'never'.
+
+[7m105[0m                         <span>{new Date(podcast.created_at).getFullYear()}</span>
+[7m   [0m [91m                                                ~~~~~~~~~~[0m
+[96msrc/pages/podcast/[slug].astro[0m:[93m99[0m:[93m34[0m - [91merror[0m[90m ts(2339): [0mProperty 'title' does not exist on type 'never'.
+
+[7m99[0m                         {podcast.title}
+[7m  [0m [91m                                 ~~~~~[0m
+[96msrc/pages/podcast/[slug].astro[0m:[93m92[0m:[93m47[0m - [91merror[0m[90m ts(2339): [0mProperty 'host' does not exist on type 'never'.
+
+[7m92[0m                                 WITH {podcast.host.toUpperCase()}
+[7m  [0m [91m                                              ~~~~[0m
+[96msrc/pages/podcast/[slug].astro[0m:[93m90[0m:[93m34[0m - [91merror[0m[90m ts(2339): [0mProperty 'host' does not exist on type 'never'.
+
+[7m90[0m                         {podcast.host && (
+[7m  [0m [91m                                 ~~~~[0m
+[96msrc/pages/podcast/[slug].astro[0m:[93m62[0m:[93m34[0m - [91merror[0m[90m ts(2339): [0mProperty 'title' does not exist on type 'never'.
+
+[7m62[0m                     alt={podcast.title}
+[7m  [0m [91m                                 ~~~~~[0m
+[96msrc/pages/podcast/[slug].astro[0m:[93m50[0m:[93m27[0m - [91merror[0m[90m ts(2339): [0mProperty 'title' does not exist on type 'never'.
+
+[7m50[0m <Layout title={`${podcast.title} | Zvenia Podcasts`}>
+[7m  [0m [91m                          ~~~~~[0m
+[96msrc/pages/podcast/[slug].astro[0m:[93m33[0m:[93m60[0m - [91merror[0m[90m ts(2339): [0mProperty 'episodes' does not exist on type 'never'.
+
+[7m33[0m const episodes = Array.isArray(podcast.episodes) ? podcast.episodes : [];
+[7m  [0m [91m                                                           ~~~~~~~~[0m
+[96msrc/pages/podcast/[slug].astro[0m:[93m33[0m:[93m40[0m - [91merror[0m[90m ts(2339): [0mProperty 'episodes' does not exist on type 'never'.
+
+[7m33[0m const episodes = Array.isArray(podcast.episodes) ? podcast.episodes : [];
+[7m  [0m [91m                                       ~~~~~~~~[0m
+[96msrc/pages/podcast/[slug].astro[0m:[93m31[0m:[93m55[0m - [91merror[0m[90m ts(2339): [0mProperty 'featured_image_url' does not exist on type 'never'.
+
+[7m31[0m const coverImage = podcast.cover_image_url || podcast.featured_image_url || '/images/default-podcast-cover.jpg';
+[7m  [0m [91m                                                      ~~~~~~~~~~~~~~~~~~[0m
+[96msrc/pages/podcast/[slug].astro[0m:[93m31[0m:[93m28[0m - [91merror[0m[90m ts(2339): [0mProperty 'cover_image_url' does not exist on type 'never'.
+
+[7m31[0m const coverImage = podcast.cover_image_url || podcast.featured_image_url || '/images/default-podcast-cover.jpg';
+[7m  [0m [91m                           ~~~~~~~~~~~~~~~[0m
+[96msrc/pages/podcast/[slug].astro[0m:[93m4[0m:[93m1[0m - [93mwarning[0m[90m ts(6133): [0m'Footer' is declared but its value is never read.
+
+[7m4[0m import Footer from '../../components/Footer.astro';
+[7m [0m [93m~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~~[0m
+
+[96msrc/pages/podcast/edit/[id].astro[0m:[93m61[0m:[93m41[0m - [91merror[0m[90m ts(2322): [0mType '{ children: any; title: string; currentUrl: string; }' is not assignable to type 'IntrinsicAttributes & Props'.
+  Property 'currentUrl' does not exist on type 'IntrinsicAttributes & Props'.
+
+[7m61[0m <Layout title={`Edit ${podcast.title}`} currentUrl={Astro.url.pathname}>
+[7m  [0m [91m                                        ~~~~~~~~~~[0m
+[96msrc/pages/podcast/edit/[id].astro[0m:[93m61[0m:[93m32[0m - [91merror[0m[90m ts(2339): [0mProperty 'title' does not exist on type 'never'.
+
+[7m61[0m <Layout title={`Edit ${podcast.title}`} currentUrl={Astro.url.pathname}>
+[7m  [0m [91m                               ~~~~~[0m
+[96msrc/pages/podcast/edit/[id].astro[0m:[93m55[0m:[93m5[0m - [91merror[0m[90m ts(2698): [0mSpread types may only be created from object types.
+
+[7m55[0m     ...podcast,
+[7m  [0m [91m    ~~~~~~~~~~[0m
+[96msrc/pages/podcast/edit/[id].astro[0m:[93m51[0m:[93m26[0m - [91merror[0m[90m ts(2339): [0mProperty 'slug' does not exist on type 'never'.
+
+[7m51[0m     if (t) topicSlug = t.slug;
+[7m  [0m [91m                         ~~~~[0m
+[96msrc/pages/podcast/edit/[id].astro[0m:[93m50[0m:[93m87[0m - [91merror[0m[90m ts(2339): [0mProperty 'topic_id' does not exist on type 'never'.
+
+[7m50[0m     const { data: t } = await supabase.from('topics').select('slug').eq('id', podcast.topic_id).single();
+[7m  [0m [91m                                                                                      ~~~~~~~~[0m
+[96msrc/pages/podcast/edit/[id].astro[0m:[93m49[0m:[93m13[0m - [91merror[0m[90m ts(2339): [0mProperty 'topic_id' does not exist on type 'never'.
+
+[7m49[0m if (podcast.topic_id) {
+[7m  [0m [91m            ~~~~~~~~[0m
+[96msrc/pages/podcast/edit/[id].astro[0m:[93m42[0m:[93m13[0m - [91merror[0m[90m ts(2339): [0mProperty 'author_id' does not exist on type 'never'.
+
+[7m42[0m if (podcast.author_id !== user.id && !isModerator) {
+[7m  [0m [91m            ~~~~~~~~~[0m
+[96msrc/pages/podcast/edit/[id].astro[0m:[93m39[0m:[93m31[0m - [91merror[0m[90m ts(2339): [0mProperty 'role' does not exist on type 'never'.
+
+[7m39[0m const userRole = userProfile?.role || 'Basic';
+[7m  [0m [91m                              ~~~~[0m
+[96msrc/pages/podcast/edit/[id].astro[0m:[93m30[0m:[93m15[0m - [91merror[0m[90m ts(2345): [0mArgument of type 'string | undefined' is not assignable to parameter of type '{}'.
+  Type 'undefined' is not assignable to type '{}'.
+
+[7m30[0m     .eq('id', id)
+[7m  [0m [91m              ~~[0m
+
+[96msrc/pages/post/[slug].astro[0m:[93m41[0m:[93m30[0m - [91merror[0m[90m ts(2339): [0mProperty 'title' does not exist on type 'never'.
+
+[7m41[0m <SocialLayout title={`${post.title} | Zvenia Social`}>
+[7m  [0m [91m                             ~~~~~[0m
+
+[96msrc/pages/post/edit/[id].astro[0m:[93m57[0m:[93m35[0m - [91merror[0m[90m ts(2339): [0mProperty 'title' does not exist on type 'never'.
+
+[7m57[0m <Layout title={`Edit Post: ${post.title}`}>
+[7m  [0m [91m                                  ~~~~~[0m
+[96msrc/pages/post/edit/[id].astro[0m:[93m52[0m:[93m5[0m - [91merror[0m[90m ts(2698): [0mSpread types may only be created from object types.
+
+[7m52[0m     ...post,
+[7m  [0m [91m    ~~~~~~~[0m
+[96msrc/pages/post/edit/[id].astro[0m:[93m47[0m:[93m31[0m - [91merror[0m[90m ts(2339): [0mProperty 'slug' does not exist on type 'never'.
+
+[7m47[0m         topicSlug = topicData.slug;
+[7m  [0m [91m                              ~~~~[0m
+[96msrc/pages/post/edit/[id].astro[0m:[93m43[0m:[93m24[0m - [91merror[0m[90m ts(2339): [0mProperty 'topic_id' does not exist on type 'never'.
+
+[7m43[0m         .eq('id', post.topic_id)
+[7m  [0m [91m                       ~~~~~~~~[0m
+[96msrc/pages/post/edit/[id].astro[0m:[93m39[0m:[93m10[0m - [91merror[0m[90m ts(2339): [0mProperty 'topic_id' does not exist on type 'never'.
+
+[7m39[0m if (post.topic_id) {
+[7m  [0m [91m         ~~~~~~~~[0m
+[96msrc/pages/post/edit/[id].astro[0m:[93m31[0m:[93m10[0m - [91merror[0m[90m ts(2339): [0mProperty 'author_id' does not exist on type 'never'.
+
+[7m31[0m if (post.author_id !== user.id) {
+[7m  [0m [91m         ~~~~~~~~~[0m
+
+[96msrc/pages/service/[slug].astro[0m:[93m73[0m:[93m21[0m - [91merror[0m[90m ts(2322): [0mType '{ children: any[]; href: string; onClick: string; class: string; }' is not assignable to type 'AnchorHTMLAttributes'.
+  Property 'onClick' does not exist on type 'AnchorHTMLAttributes'. Did you mean 'onclick'?
+
+[7m73[0m         <a href="/" onClick="history.back(); return false;" class="inline-flex items-center gap-2 text-gray-400 hover:text-white transition-colors mb-2">
+[7m  [0m [91m                    ~~~~~~~[0m
+[96msrc/pages/service/[slug].astro[0m:[93m60[0m:[93m57[0m - [91merror[0m[90m ts(2339): [0mProperty 'content' does not exist on type 'never'.
+
+[7m60[0m     description: serviceData.description || serviceData.content
+[7m  [0m [91m                                                        ~~~~~~~[0m
+[96msrc/pages/service/[slug].astro[0m:[93m60[0m:[93m30[0m - [91merror[0m[90m ts(2339): [0mProperty 'description' does not exist on type 'never'.
+
+[7m60[0m     description: serviceData.description || serviceData.content
+[7m  [0m [91m                             ~~~~~~~~~~~[0m
+[96msrc/pages/service/[slug].astro[0m:[93m59[0m:[93m5[0m - [91merror[0m[90m ts(2698): [0mSpread types may only be created from object types.
+
+[7m59[0m     ...serviceData,
+[7m  [0m [91m    ~~~~~~~~~~~~~~[0m
+[96msrc/pages/service/[slug].astro[0m:[93m49[0m:[93m31[0m - [91merror[0m[90m ts(2339): [0mProperty 'author_id' does not exist on type 'never'.
+
+[7m49[0m         .eq('id', serviceData.author_id)
+[7m  [0m [91m                              ~~~~~~~~~[0m
+[96msrc/pages/service/[slug].astro[0m:[93m45[0m:[93m17[0m - [91merror[0m[90m ts(2339): [0mProperty 'author_id' does not exist on type 'never'.
+
+[7m45[0m if (serviceData.author_id) {
+[7m  [0m [91m                ~~~~~~~~~[0m
+[96msrc/pages/service/[slug].astro[0m:[93m64[0m:[93m7[0m - [93mwarning[0m[90m ts(6133): [0m'isExternal' is declared but its value is never read.
+
+[7m64[0m const isExternal = !!service.company_link;
+[7m  [0m [93m      ~~~~~~~~~~[0m
+
+[96msrc/pages/service/edit/[id].astro[0m:[93m52[0m:[93m41[0m - [91merror[0m[90m ts(2339): [0mProperty 'title' does not exist on type 'never'.
+
+[7m52[0m <Layout title={`Edit Service: ${service.title}`}>
+[7m  [0m [91m                                        ~~~~~[0m
+[96msrc/pages/service/edit/[id].astro[0m:[93m48[0m:[93m26[0m - [91merror[0m[90m ts(2339): [0mProperty 'content' does not exist on type 'never'.
+
+[7m48[0m     description: service.content // Map DB 'content' to Form 'description'
+[7m  [0m [91m                         ~~~~~~~[0m
+[96msrc/pages/service/edit/[id].astro[0m:[93m46[0m:[93m5[0m - [91merror[0m[90m ts(2698): [0mSpread types may only be created from object types.
+
+[7m46[0m     ...service,
+[7m  [0m [91m    ~~~~~~~~~~[0m
+[96msrc/pages/service/edit/[id].astro[0m:[93m43[0m:[93m27[0m - [91merror[0m[90m ts(2339): [0mProperty 'topic' does not exist on type 'never'.
+
+[7m43[0m const topicSlug = service.topic?.slug || '';
+[7m  [0m [91m                          ~~~~~[0m
+[96msrc/pages/service/edit/[id].astro[0m:[93m37[0m:[93m13[0m - [91merror[0m[90m ts(2339): [0mProperty 'author_id' does not exist on type 'never'.
+
+[7m37[0m if (service.author_id !== user.id) {
+[7m  [0m [91m            ~~~~~~~~~[0m
+
+Result (178 files): 
+- 264 errors
+- 0 warnings
+- 75 hints
+

@@ -34,7 +34,7 @@ export const onRequest = defineMiddleware(async (context, next) => {
     if (user) {
         const { data: profile } = await supabase
             .from('profiles')
-            .select('role, country')
+            .select('role, country, full_name')
             .eq('id', user.id)
             .single();
 
@@ -45,6 +45,7 @@ export const onRequest = defineMiddleware(async (context, next) => {
         if (profile) {
             (user as any).role = profile.role || 'Basic';
             (user as any).country = profile.country;
+            (user as any).full_name = profile.full_name;
         }
     }
 

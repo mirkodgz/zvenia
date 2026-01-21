@@ -8,8 +8,8 @@
     console.log('MiningBackground script loaded');
     const canvas = document.getElementById('mining-canvas') as HTMLCanvasElement;
     const ctx = canvas.getContext('2d');
-    let width, height;
-    let particles = [];
+    let width: number, height: number;
+    let particles: Particle[] = [];
 
     // Configuration
     const particleCount = 100; // Increased count

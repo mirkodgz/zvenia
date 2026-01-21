@@ -1,0 +1,61 @@
+
+> zvenia@0.0.1 build
+> astro build
+
+[2m02:57:40[22m [34m[@astrojs/node][39m Enabling sessions with filesystem storage
+[2m02:57:40[22m [34m[vite][39m Re-optimizing dependencies because vite config has changed
+[2m02:57:40[22m [34m[content][39m Syncing content
+[2m02:57:40[22m [34m[content][39m Synced content
+[2m02:57:40[22m [34m[types][39m Generated [2m149ms[22m
+[2m02:57:40[22m [34m[build][39m output: [34m"server"[39m
+[2m02:57:40[22m [34m[build][39m mode: [34m"server"[39m
+[2m02:57:40[22m [34m[build][39m directory: [34mD:\zvenia\dist\[39m
+[2m02:57:40[22m [34m[build][39m adapter: [32m@astrojs/node[39m
+[2m02:57:40[22m [34m[build][39m Collecting build info...
+[2m02:57:40[22m [34m[build][39m [32m✓ Completed in 190ms.[39m
+[2m02:57:40[22m [34m[build][39m Building server entrypoints...
+[33m[1m02:57:42[22m [WARN] [vite][39m [33m"serializeCookieHeader" is imported from external module "@supabase/ssr" but never used in "src/lib/supabase.ts".[39m
+[2m02:57:42[22m [34m[vite][39m [32m✓ built in 1.65s[39m
+[2m02:57:42[22m [34m[build][39m [32m✓ Completed in 1.70s.[39m
+
+[42m[30m building client (vite) [39m[49m
+[2m02:57:42[22m [34m[vite][39m transforming...
+[2m02:57:43[22m [34m[vite][39m [32m✓[39m 164 modules transformed.
+[2m02:57:43[22m [34m[vite][39m rendering chunks...
+[2m02:57:44[22m [34m[vite][39m computing gzip size...
+[2m02:57:44[22m [34m[vite][39m [2mdist/client/[22m[35m_astro/PdfViewer.3rKmSiDJ.css                                  [39m[1m[2m  8.97 kB[22m[1m[22m[2m │ gzip:   1.96 kB[22m
+[2m02:57:44[22m [34m[vite][39m [2mdist/client/[22m[36m_astro/__vite-browser-external.BIHI7g3E.js                     [39m[1m[2m  0.03 kB[22m[1m[22m[2m │ gzip:   0.05 kB[22m
+[2m02:57:44[22m [34m[vite][39m [2mdist/client/[22m[36m_astro/EventCard.BlzmFAEM.js                                   [39m[1m[2m  0.13 kB[22m[1m[22m[2m │ gzip:   0.13 kB[22m
+[2m02:57:44[22m [34m[vite][39m [2mdist/client/[22m[36m_astro/PodcastRow.EaPMO--J.js                                  [39m[1m[2m  0.14 kB[22m[1m[22m[2m │ gzip:   0.13 kB[22m
+[2m02:57:44[22m [34m[vite][39m [2mdist/client/[22m[36m_astro/ServiceCard.CN9ry6Iw.js                                 [39m[1m[2m  0.17 kB[22m[1m[22m[2m │ gzip:   0.15 kB[22m
+[2m02:57:44[22m [34m[vite][39m [2mdist/client/[22m[36m_astro/supabase.E32zLJp1.js                                    [39m[1m[2m  0.33 kB[22m[1m[22m[2m │ gzip:   0.30 kB[22m
+[2m02:57:44[22m [34m[vite][39m [2mdist/client/[22m[36m_astro/login.astro_astro_type_script_index_0_lang.BpJ_ya2_.js  [39m[1m[2m  0.40 kB[22m[1m[22m[2m │ gzip:   0.31 kB[22m
+[2m02:57:44[22m [34m[vite][39m [2mdist/client/[22m[36m_astro/join.astro_astro_type_script_index_0_lang.B5Z9lTqO.js   [39m[1m[2m  0.40 kB[22m[1m[22m[2m │ gzip:   0.31 kB[22m
+[2m02:57:44[22m [34m[vite][39m [2mdist/client/[22m[36m_astro/jsx-runtime.ClP7wGfN.js                                 [39m[1m[2m  1.00 kB[22m[1m[22m[2m │ gzip:   0.62 kB[22m
+[2m02:57:44[22m [34m[vite][39m [2mdist/client/[22m[36m_astro/CreateContent.DHyUx683.js                               [39m[1m[2m  1.55 kB[22m[1m[22m[2m │ gzip:   0.80 kB[22m
+[2m02:57:44[22m [34m[vite][39m [2mdist/client/[22m[36m_astro/ServiceRow.HDDOQZpv.js                                  [39m[1m[2m  1.68 kB[22m[1m[22m[2m │ gzip:   0.75 kB[22m
+[2m02:57:44[22m [34m[vite][39m [2mdist/client/[22m[36m_astro/FollowButton.CBBi5tvk.js                                [39m[1m[2m  1.82 kB[22m[1m[22m[2m │ gzip:   0.96 kB[22m
+[2m02:57:44[22m [34m[vite][39m [2mdist/client/[22m[36m_astro/ServiceCard.Dhi6BuFd.js                                 [39m[1m[2m  2.10 kB[22m[1m[22m[2m │ gzip:   0.95 kB[22m
+[2m02:57:44[22m [34m[vite][39m [2mdist/client/[22m[36m_astro/PostOptions.BxrZCJN3.js                                 [39m[1m[2m  2.66 kB[22m[1m[22m[2m │ gzip:   1.24 kB[22m
+[2m02:57:44[22m [34m[vite][39m [2mdist/client/[22m[36m_astro/ServiceOptions.Vq3S3Hsz.js                              [39m[1m[2m  4.01 kB[22m[1m[22m[2m │ gzip:   1.57 kB[22m
+[2m02:57:44[22m [34m[vite][39m [2mdist/client/[22m[36m_astro/UserManagement.BLjkwpHQ.js                              [39m[1m[2m  5.03 kB[22m[1m[22m[2m │ gzip:   1.87 kB[22m
+[2m02:57:44[22m [34m[vite][39m [2mdist/client/[22m[36m_astro/CreateContentModal.3xsM1_69.js                          [39m[1m[2m  6.11 kB[22m[1m[22m[2m │ gzip:   2.06 kB[22m
+[2m02:57:44[22m [34m[vite][39m [2mdist/client/[22m[36m_astro/index.DK-fsZOb.js                                       [39m[1m[2m  6.81 kB[22m[1m[22m[2m │ gzip:   2.73 kB[22m
+[2m02:57:44[22m [34m[vite][39m [2mdist/client/[22m[36m_astro/EventCard.DhbBjrSl.js                                   [39m[1m[2m  7.27 kB[22m[1m[22m[2m │ gzip:   2.47 kB[22m
+[2m02:57:44[22m [34m[vite][39m [2mdist/client/[22m[36m_astro/PodcastRow.DlgZljri.js                                  [39m[1m[2m  7.32 kB[22m[1m[22m[2m │ gzip:   2.63 kB[22m
+[2m02:57:44[22m [34m[vite][39m [2mdist/client/[22m[36m_astro/PodcastForm.DVyMDvcC.js                                 [39m[1m[2m  8.05 kB[22m[1m[22m[2m │ gzip:   2.53 kB[22m
+[2m02:57:44[22m [34m[vite][39m [2mdist/client/[22m[36m_astro/ServiceForm.CRqZb04n.js                                 [39m[1m[2m  8.08 kB[22m[1m[22m[2m │ gzip:   2.18 kB[22m
+[2m02:57:44[22m [34m[vite][39m [2mdist/client/[22m[36m_astro/PostForm.BZsqZOmp.js                                    [39m[1m[2m 12.60 kB[22m[1m[22m[2m │ gzip:   3.76 kB[22m
+[2m02:57:44[22m [34m[vite][39m [2mdist/client/[22m[36m_astro/SocialFooter.Oe89W-dA.js                                [39m[1m[2m 12.80 kB[22m[1m[22m[2m │ gzip:   4.41 kB[22m
+[2m02:57:44[22m [34m[vite][39m [2mdist/client/[22m[36m_astro/EventForm.BjAJ8f1k.js                                   [39m[1m[2m 15.52 kB[22m[1m[22m[2m │ gzip:   3.50 kB[22m
+[2m02:57:44[22m [34m[vite][39m [2mdist/client/[22m[36m_astro/client.nc8uITnr.js                                      [39m[1m[2m136.51 kB[22m[1m[22m[2m │ gzip:  44.01 kB[22m
+[2m02:57:44[22m [34m[vite][39m [2mdist/client/[22m[36m_astro/index.DkUcqVkk.js                                       [39m[1m[2m180.17 kB[22m[1m[22m[2m │ gzip:  47.99 kB[22m
+[2m02:57:44[22m [34m[vite][39m [2mdist/client/[22m[36m_astro/PdfViewer.8cpU6Tln.js                                   [39m[1m[2m348.17 kB[22m[1m[22m[2m │ gzip: 104.10 kB[22m
+[2m02:57:44[22m [34m[vite][39m [32m✓ built in 1.61s[39m
+
+[42m[30m prerendering static routes [39m[49m
+[2m02:57:44[22m [32m✓ Completed in 28ms.
+[39m
+[2m02:57:44[22m [34m[build][39m Rearranging server assets...
+[2m02:57:44[22m [34m[build][39m Server built in [1m3.55s[22m
+[2m02:57:44[22m [34m[build][39m [1mComplete![22m

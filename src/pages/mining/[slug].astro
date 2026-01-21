@@ -131,22 +131,12 @@ const formatDate = (dateStr: string | null) => {
     <div class="space-y-4">
         
         <!-- Topic Header -->
-        <div class="bg-[#1A1A1A] rounded-lg border border-white/10 p-6 mb-6 relative overflow-hidden">
-             <div class="absolute top-0 right-0 w-64 h-64 bg-primary-900/10 blur-[80px] rounded-full pointer-events-none -mr-16 -mt-16"></div>
-             
+        <div class="bg-[var(--bg-card)] border border-[var(--border-color)] p-6 mb-6 relative overflow-hidden">
              <div class="relative z-10">
-                <div class="flex items-center gap-3 mb-2">
-                    <span class="text-xs font-bold text-primary-400 bg-primary-500/10 px-2 py-1 rounded uppercase tracking-wider">Topic</span>
-                    <span class="text-xs text-gray-500">#{slug}</span>
-                </div>
-                <h1 class="text-3xl font-bold text-white mb-2">{topic.name}</h1>
-                <p class="text-gray-400 text-sm max-w-2xl">
+                <h1 class="text-3xl font-bold text-[var(--text-main)] mb-2">{topic.name}</h1>
+                <p class="text-[var(--text-secondary)] text-sm max-w-2xl">
                     Latest discussions, news, and insights on {topic.name}.
                 </p>
-                <div class="flex gap-3 mt-6">
-                    <button class="px-6 py-2 bg-white text-black font-bold rounded-full text-sm hover:bg-gray-200 transition-colors">Follow Topic</button>
-                    <button class="px-6 py-2 border border-white/20 text-white font-semibold rounded-full text-sm hover:bg-white/5 transition-colors">Share</button>
-                </div>
              </div>
         </div>
 
@@ -176,18 +166,19 @@ const formatDate = (dateStr: string | null) => {
         )}
 
         <!-- Functional Tabs -->
-        <div class="flex border-b border-white/10 mb-4 overflow-x-auto no-scrollbar" id="topic-tabs">
-            <button class="tab-btn px-4 py-3 text-sm font-bold border-b-2 border-primary-500 text-primary-400 shrink-0 transition-colors uppercase tracking-wide" data-target="posts">
-                Posts ({postIds.length})
+        <!-- Functional Tabs -->
+        <div class="flex gap-4 mb-6 overflow-x-auto no-scrollbar pb-1" id="topic-tabs">
+            <button class="tab-btn btn-tab btn-tab-active shrink-0" data-target="posts">
+                Posts ({postItems.length})
             </button>
-            <button class="tab-btn px-4 py-3 text-sm font-medium border-b-2 border-transparent text-gray-400 hover:text-white shrink-0 transition-colors uppercase tracking-wide" data-target="events">
+            <button class="tab-btn btn-tab shrink-0" data-target="events">
                 Events ({eventItems.length})
             </button>
-            <button class="tab-btn px-4 py-3 text-sm font-medium border-b-2 border-transparent text-gray-400 hover:text-white shrink-0 transition-colors uppercase tracking-wide" data-target="podcasts">
-                Podcasts ({podcastIds.length})
+            <button class="tab-btn btn-tab shrink-0" data-target="podcasts">
+                Podcasts ({podcastItems.length})
             </button>
-            <button class="tab-btn px-4 py-3 text-sm font-medium border-b-2 border-transparent text-gray-400 hover:text-white shrink-0 transition-colors uppercase tracking-wide" data-target="services">
-                Services ({serviceIds.length})
+            <button class="tab-btn btn-tab shrink-0" data-target="services">
+                Services ({serviceItems.length})
             </button>
         </div>
 
@@ -433,19 +424,34 @@ const formatDate = (dateStr: string | null) => {
         const buttons = document.querySelectorAll('.tab-btn');
         const contents = document.querySelectorAll('.tab-content');
 
+        // Styles
+        const activeClasses = ['btn-tab-active'];
+        const inactiveClasses = ['btn-tab']; // We just remove active class, basic class handles the rest? No, because we remove everything.
+        // Actually, we should just toggle btn-tab-active if btn-tab is present.
+        // But my previous logic did a full reset. Let's adapt.
+        
+        // Re-simplifying: The HTML has 'btn-tab'. Active has 'btn-tab-active'.
+        // Inactive state is just 'btn-tab'.
+        
         buttons.forEach(btn => {
-            btn.addEventListener('click', () => {
-                const target = btn.getAttribute('data-target');
+            // Remove old listeners to prevent duplicates (cloning trick)
+            const newBtn = btn.cloneNode(true);
+            btn.parentNode.replaceChild(newBtn, btn);
+            
+            newBtn.addEventListener('click', () => {
+                const target = newBtn.getAttribute('data-target');
 
-                // 1. Update Buttons Styling
-                buttons.forEach(b => {
-                    b.classList.remove('border-primary-500', 'text-primary-400', 'font-bold');
-                    b.classList.add('border-transparent', 'text-gray-400', 'font-medium');
+                // 1. Reset ALL buttons
+                document.querySelectorAll('.tab-btn').forEach(b => {
+                    b.classList.remove('btn-tab-active');
+                    // Ensure base class is there
+                    if (!b.classList.contains('btn-tab')) b.classList.add('btn-tab');
                 });
-                btn.classList.remove('border-transparent', 'text-gray-400', 'font-medium');
-                btn.classList.add('border-primary-500', 'text-primary-400', 'font-bold');
 
-                // 2. Show/Hide Content
+                // 2. Set Current to Active
+                newBtn.classList.add('btn-tab-active');
+
+                // 3. Show/Hide Content
                 contents.forEach(c => c.classList.add('hidden'));
                 document.getElementById(`tab-${target}`)?.classList.remove('hidden');
             });

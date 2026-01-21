@@ -16,7 +16,7 @@ const { title, description = "Zvenia - Community for Mining Professionals" } = A
 	<head>
 		<meta charset="UTF-8" />
 		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/svg+xml" href="/favicon.svg" />
+		<link rel="icon" type="image/png" href="/favicon.png" />
 		<meta name="generator" content={Astro.generator} />
         <meta name="description" content={description} />
 		<title>{title}</title>
@@ -24,32 +24,29 @@ const { title, description = "Zvenia - Community for Mining Professionals" } = A
         <!-- Fonts: Outfit -->
         <link rel="preconnect" href="https://fonts.googleapis.com">
         <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Outfit:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-        <script is:inline>
-            const theme = localStorage.getItem('theme') || 'dark';
-            document.documentElement.setAttribute('data-theme', theme);
-        </script>
+        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
+
 	</head>
-	<body class="min-h-screen font-sans selection:bg-primary-500 selection:text-white">
+	<body class="bg-[var(--bg-body)] min-h-screen font-sans selection:bg-primary-500 selection:text-white">
         <!-- Fixed Header -->
 		<Header />
 
-        <div class="pt-24 pb-12 px-4 sm:px-6 lg:px-8 max-w-[1400px] mx-auto">
-            <div class="grid grid-cols-1 lg:grid-cols-12 gap-6 relative">
+        <div class="pt-20 pb-12 px-4 sm:px-6 lg:px-8 w-full mx-auto">
+            <div class="social-layout-grid">
                 
                 <!-- LEFT COLUMN (Sticky Sidebar) -->
                 <!-- Hidden on mobile, visible on LG screens -->
-                <aside class="hidden lg:block lg:col-span-3 xl:col-span-3 sticky top-24 h-[calc(100vh-8rem)] overflow-y-auto no-scrollbar">
+                <aside class="hidden lg:block sticky top-20 h-[calc(100vh-8rem)] overflow-y-auto no-scrollbar">
                     <slot name="left-sidebar" />
                 </aside>
 
                 <!-- CENTER COLUMN (Feed) -->
-                <main class="col-span-1 lg:col-span-6 xl:col-span-6 min-h-screen">
+                <main class="min-h-screen min-w-0">
             		<slot />
                 </main>
 
                 <!-- RIGHT COLUMN (Sticky Widgets) -->
-                <aside class="hidden lg:block lg:col-span-3 xl:col-span-3 sticky top-24 h-[calc(100vh-8rem)] overflow-y-auto no-scrollbar">
+                <aside class="hidden lg:block sticky top-20 h-[calc(100vh-8rem)] overflow-y-auto no-scrollbar">
                     <slot name="right-sidebar" />
                 </aside>
                 
@@ -70,5 +67,17 @@ const { title, description = "Zvenia - Community for Mining Professionals" } = A
     .no-scrollbar {
         -ms-overflow-style: none;  /* IE and Edge */
         scrollbar-width: none;  /* Firefox */
+    }
+    /* Force Grid Layout */
+    .social-layout-grid {
+        display: grid;
+        grid-template-columns: 1fr;
+        gap: 1.5rem;
+        position: relative;
+    }
+    @media (min-width: 1024px) {
+        .social-layout-grid {
+            grid-template-columns: 280px 1fr 320px !important;
+        }
     }
 </style>

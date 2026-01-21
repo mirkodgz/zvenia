@@ -49,7 +49,7 @@ const EventCard: React.FC<EventCardProps> = ({ event, currentUser }) => {
     const dateDisplay = formatDateRange(event.start_date, event.end_date);
 
     return (
-        <div className="bg-[#1A1A1A] rounded-lg border border-white/10 overflow-hidden hover:border-primary-500/30 transition-all group flex flex-col h-full relative">
+        <div className="bg-[#1A1A1A] border border-white/10 overflow-hidden hover:border-primary-500/30 transition-all group flex flex-col h-full relative">
 
             {/* Options Menu (Absolute Top Right) */}
             <div className="absolute top-3 right-3 z-30">
@@ -71,7 +71,7 @@ const EventCard: React.FC<EventCardProps> = ({ event, currentUser }) => {
                 )}
 
                 {/* Overlay Badge - Moved to Left to avoid conflict with Options */}
-                <div className="absolute top-3 left-3 bg-black/60 backdrop-blur-md border border-white/10 px-3 py-1 rounded-full text-xs font-bold text-white shadow-lg">
+                <div className="absolute top-3 left-3 bg-black/60 backdrop-blur-md border border-white/10 px-3 py-1 text-xs font-bold text-white shadow-lg">
                     Event
                 </div>
             </div>
@@ -103,7 +103,7 @@ const EventCard: React.FC<EventCardProps> = ({ event, currentUser }) => {
                 {/* CTA Button */}
                 <a
                     href={`/event/${event.slug}`}
-                    className="mt-4 w-full py-2.5 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-primary-500/50 rounded-md text-sm font-bold text-center text-white transition-all flex items-center justify-center gap-2"
+                    className="mt-4 w-full py-2.5 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-primary-500/50 text-sm font-bold text-center text-white transition-all flex items-center justify-center gap-2"
                 >
                     View Details
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>

@@ -106,24 +106,21 @@ export default function CreateContentModal({ currentUser, userInitials, activeFe
 
     const getButtonClass = (feedType: string) => {
         const isActive = activeFeed === feedType;
-        return `flex items-center gap-2 py-2 px-3 rounded text-sm font-semibold transition-all duration-200 ${isActive
-            ? 'bg-primary-500/10 text-primary-400 border border-primary-500/20 shadow-[0_0_15px_rgba(var(--color-primary-500),0.1)]'
-            : 'text-[var(--text-secondary)] hover:bg-[var(--bg-surface-hover)] hover:text-[var(--text-main)] border border-transparent'
-            }`;
+        return isActive ? 'btn-tab btn-tab-active' : 'btn-tab';
     };
 
     return (
         <>
             {/* --- TRIGGER WIDGET (Replaces static HTML) --- */}
-            <div className="bg-[var(--bg-surface)] rounded-lg border border-[var(--border-color)] p-4 mb-6">
+            <div className="bg-[var(--bg-surface)] border border-[var(--border-color)] p-4 mb-6">
                 <div
                     onClick={() => openModal('post')}
                     className="flex gap-3 group cursor-pointer"
                 >
-                    <div className="w-12 h-12 rounded-full bg-[var(--bg-surface-hover)] flex-shrink-0 flex items-center justify-center border border-[var(--border-color)] group-hover:border-primary-500/50 transition-colors text-[var(--text-main)] font-bold">
+                    <div className="w-12 h-12 bg-[var(--bg-surface-hover)] flex-shrink-0 flex items-center justify-center border border-[var(--border-color)] group-hover:border-primary-500/50 transition-colors text-[var(--text-main)] font-bold">
                         {userInitials}
                     </div>
-                    <div className="w-full bg-[var(--bg-body)] border border-[var(--border-color)] rounded-full px-6 py-3 text-sm text-[var(--text-secondary)] group-hover:border-primary-500/50 group-hover:text-[var(--text-main)] transition-all flex items-center shadow-inner">
+                    <div className="w-full bg-[var(--bg-body)] border border-[var(--border-color)] px-6 py-3 text-sm text-[var(--text-secondary)] group-hover:border-primary-500/50 group-hover:text-[var(--text-main)] transition-all flex items-center shadow-inner">
                         Start a post, share a mining update...
                     </div>
                 </div>
@@ -150,7 +147,7 @@ export default function CreateContentModal({ currentUser, userInitials, activeFe
                 >
                     <div
                         ref={modalRef}
-                        className="bg-[var(--bg-surface)] w-full max-w-4xl max-h-[90vh] rounded-xl border border-[var(--border-color)] shadow-2xl overflow-hidden flex flex-col relative animate-in zoom-in-95 duration-200"
+                        className="bg-[var(--bg-surface)] w-full max-w-4xl max-h-[90vh] border border-[var(--border-color)] shadow-2xl overflow-hidden flex flex-col relative animate-in zoom-in-95 duration-200"
                     >
                         {/* Close Button */}
                         <button

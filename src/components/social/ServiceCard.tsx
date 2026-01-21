@@ -33,7 +33,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service, currentUser }) => {
         .trim();
 
     return (
-        <div className="flex-shrink-0 w-full group relative block bg-[var(--bg-card)] rounded-lg overflow-hidden border border-[var(--border-color)] hover:border-primary-500/50 transition-all scroll-snap-align-start h-full flex flex-col">
+        <div className="flex-shrink-0 w-full group relative block bg-[var(--bg-card)] overflow-hidden border border-[var(--border-color)] hover:border-primary-500/50 transition-all scroll-snap-align-start h-full flex flex-col">
 
             {/* Options Menu (Absolute Top Right) */}
             <div className="absolute top-2 right-2 z-20">
@@ -58,7 +58,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service, currentUser }) => {
 
                     {/* Price Badge (Optional styling choice, or keep standard) */}
                     {service.price && (
-                        <div className="absolute bottom-2 right-2 bg-black/70 text-white text-xs px-2 py-1 rounded backdrop-blur-sm border border-white/10">
+                        <div className="absolute bottom-2 right-2 bg-black/70 text-white text-xs px-2 py-1 backdrop-blur-sm border border-white/10">
                             ${service.price}
                         </div>
                     )}
@@ -83,7 +83,7 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service, currentUser }) => {
 
                     {service.organizer_company && (
                         <div className="mt-auto pt-2 flex items-center gap-2">
-                            <span className="text-[10px] uppercase font-bold text-[var(--text-secondary)] bg-[var(--bg-surface)] border border-[var(--border-color)] px-2 py-0.5 rounded truncate max-w-full">
+                            <span className="text-[10px] uppercase font-bold text-[var(--text-secondary)] bg-[var(--bg-surface)] border border-[var(--border-color)] px-2 py-0.5 truncate max-w-full">
                                 {service.organizer_company}
                             </span>
                         </div>

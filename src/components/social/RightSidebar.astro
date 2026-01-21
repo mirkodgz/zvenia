@@ -16,7 +16,7 @@ const { data: managers } = await supabase
 
 <div class="space-y-4">
     <!-- Promoted / Ads Widget -->
-    <div class="bg-[var(--bg-surface)] rounded-lg border border-[var(--border-color)] p-4">
+    <div class="bg-[var(--bg-surface)] border border-[var(--border-color)] p-4">
         <div class="flex justify-between items-center mb-3">
              <h3 class="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider">Promoted</h3>
              <span class="text-[10px] text-gray-600">Ad</span>
@@ -26,7 +26,7 @@ const { data: managers } = await supabase
             {ads?.map((ad) => (
                 <a href={ad.link_url || '#'} target="_blank" class="block group">
                     {ad.image_url && (
-                        <div class="rounded-md overflow-hidden aspect-video mb-2">
+                        <div class="overflow-hidden aspect-video mb-2">
                              <img src={ad.image_url} alt={ad.title} class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-500" />
                         </div>
                     )}
@@ -39,12 +39,12 @@ const { data: managers } = await supabase
     </div>
 
     <!-- Who to Follow Widget -->
-    <div class="bg-[var(--bg-surface)] rounded-lg border border-[var(--border-color)] p-4">
+    <div class="bg-[var(--bg-surface)] border border-[var(--border-color)] p-4">
         <h3 class="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-4">Experts to Follow</h3>
         <ul class="space-y-4">
             {managers?.map((manager) => (
                 <li class="flex items-start gap-3">
-                    <div class="w-10 h-10 rounded-full bg-[var(--bg-surface-hover)] flex-shrink-0 overflow-hidden">
+                    <div class="w-10 h-10 bg-[var(--bg-surface-hover)] flex-shrink-0 overflow-hidden">
                         {manager.image_url ? (
                             <img src={manager.image_url} class="w-full h-full object-cover" />
                         ) : (
@@ -54,7 +54,7 @@ const { data: managers } = await supabase
                     <div>
                         <h4 class="text-sm font-semibold text-[var(--text-main)] leading-none mb-1">{manager.title}</h4>
                         <p class="text-xs text-[var(--text-secondary)] line-clamp-1">{manager.country || 'Global'}</p>
-                        <button class="mt-2 text-xs font-bold text-primary-400 border border-primary-500/30 rounded-full px-3 py-1 hover:bg-primary-500/10 transition-colors">
+                        <button class="mt-2 text-xs font-bold text-primary-400 border border-primary-500/30 px-3 py-1 hover:bg-primary-500/10 transition-colors">
                             + Follow
                         </button>
                     </div>

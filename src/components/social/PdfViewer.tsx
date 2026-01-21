@@ -15,6 +15,32 @@ export const PdfViewer: React.FC<PdfViewerProps> = ({ url }) => {
     const [numPages, setNumPages] = useState<number>(0);
     const [pageNumber, setPageNumber] = useState<number>(1);
     const [loading, setLoading] = useState<boolean>(true);
+    const [pdfWidth, setPdfWidth] = useState<number>(550);
+    const containerRef = React.useRef<HTMLDivElement>(null);
+
+    React.useEffect(() => {
+        if (!containerRef.current) return;
+
+        const updateWidth = () => {
+            if (containerRef.current) {
+                const currentWidth = containerRef.current.clientWidth;
+                // Subtract padding approx (32px) and a safety margin
+                const target = currentWidth - 40;
+                // Don't let it be 0, flip to 300 safely, max 600
+                setPdfWidth(target > 600 ? 600 : (target < 200 ? 200 : target));
+            }
+        };
+
+        // Initial
+        updateWidth();
+
+        const resizeObserver = new ResizeObserver(() => {
+            updateWidth();
+        });
+        resizeObserver.observe(containerRef.current);
+
+        return () => resizeObserver.disconnect();
+    }, []);
 
     function onDocumentLoadSuccess({ numPages }: { numPages: number }) {
         setNumPages(numPages);
@@ -22,7 +48,7 @@ export const PdfViewer: React.FC<PdfViewerProps> = ({ url }) => {
     }
 
     return (
-        <div className="w-full bg-slate-900 rounded-lg overflow-hidden border border-slate-700 mt-4 mb-4">
+        <div ref={containerRef} className="w-full bg-slate-900 rounded-lg overflow-hidden border border-slate-700 mt-4 mb-4">
             {/* Header / Controls */}
             <div className="flex justify-between items-center bg-slate-800 px-4 py-2 border-b border-slate-700">
                 <span className="text-white text-sm font-medium flex items-center">
@@ -61,7 +87,7 @@ export const PdfViewer: React.FC<PdfViewerProps> = ({ url }) => {
             </div>
 
             {/* Viewer Area */}
-            <div className="flex justify-center bg-slate-100 p-4 min-h-[300px] overflow-auto">
+            <div className="flex justify-center bg-slate-100 p-4 min-h-[300px] overflow-hidden">
                 <Document
                     file={url}
                     onLoadSuccess={onDocumentLoadSuccess}
@@ -73,7 +99,7 @@ export const PdfViewer: React.FC<PdfViewerProps> = ({ url }) => {
                         pageNumber={pageNumber}
                         renderTextLayer={false}
                         renderAnnotationLayer={false}
-                        width={550}
+                        width={pdfWidth}
                         className="bg-white shadow-xl"
                     />
                 </Document>

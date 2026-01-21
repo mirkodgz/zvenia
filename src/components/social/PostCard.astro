@@ -34,14 +34,14 @@ const getCleanContent = (item: any) => {
 };
 ---
 
-<article class="bg-[var(--bg-surface)] rounded-lg border border-[var(--border-color)] overflow-hidden hover:border-primary-500/20 transition-colors animate-fade-in">
+<article class="bg-[var(--bg-surface)] border border-[var(--border-color)] overflow-hidden hover:border-primary-500/20 transition-colors animate-fade-in">
     
     <!-- 1. Header: Author, Date, Options -->
     <div class="p-4 flex gap-3 items-start justify-between">
             <div class="flex gap-3 items-center">
                 <!-- Avatar -->
                 <a href={`/in/${post.author_id}`} class="block flex-shrink-0">
-                    <div class="w-10 h-10 rounded-full bg-gradient-to-br from-gray-700 to-gray-900 border border-[var(--border-color)] flex items-center justify-center text-sm font-bold text-white overflow-hidden hover:opacity-80 transition-opacity">
+                    <div class="w-10 h-10 bg-gradient-to-br from-gray-700 to-gray-900 border border-[var(--border-color)] flex items-center justify-center text-sm font-bold text-white overflow-hidden hover:opacity-80 transition-opacity">
                         {post.author?.avatar_url ? (
                             <img src={post.author.avatar_url} class="w-full h-full object-cover"/>
                         ) : (

@@ -126,15 +126,15 @@ const userInitial = user.email ? user.email.charAt(0).toUpperCase() : 'U';
 
 <Layout title="Your Profile | Zvenia">
     <Header slot="header" />
-    <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 py-8 pt-24">
+    <div class="w-full mx-auto px-4 sm:px-6 lg:px-8 py-8 pt-20">
         
-        <div class="grid grid-cols-1 lg:grid-cols-4 gap-6">
+        <div class="grid grid-cols-1 lg:grid-cols-[1fr_320px] gap-6">
             
             {/* LEFT COLUMN: Main Profile Info */}
-            <div class="lg:col-span-3 space-y-6">
+            <div class="space-y-6">
                 
                 {/* 1. Profile Card (LinkedIn Style) */}
-                <div class="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-xl overflow-hidden shadow-sm relative">
+                <div class="bg-[var(--bg-card)] border border-[var(--border-color)] overflow-hidden shadow-sm relative">
                     {/* Banner Image */}
                     <div class="h-48 bg-gradient-to-r from-blue-700 to-cyan-500 relative">
                          {/* Optional: Add "Edit Banner" button here if implemented */}
@@ -206,22 +206,19 @@ const userInitial = user.email ? user.email.charAt(0).toUpperCase() : 'U';
                 </div>
 
                 {/* 2. Content Tabs & Feed */}
-                <div class="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-xl shadow-sm overflow-hidden">
+                <div class="bg-[var(--bg-card)] border border-[var(--border-color)] shadow-sm overflow-hidden">
                     {/* Tabs */}
-                    <div class="border-b border-[var(--border-color)] px-4">
-                        <nav class="-mb-px flex space-x-6" aria-label="Tabs">
+                    <div class="px-4 py-4">
+                        <nav class="flex gap-2 overflow-x-auto no-scrollbar" aria-label="Tabs">
                             {allowedTabs.map(tab => (
                                 <a
                                     href={`?tab=${tab}`}
                                     class={`
-                                        whitespace-nowrap py-4 px-2 border-b-2 font-medium text-sm capitalize transition-colors
-                                        ${currentTab === tab
-                                            ? 'border-emerald-600 text-emerald-600'
-                                            : 'border-transparent text-[var(--text-secondary)] hover:text-[var(--text-main)] hover:border-[var(--border-color)]'
-                                        }
+                                        btn-tab shrink-0
+                                        ${currentTab === tab ? 'btn-tab-active' : ''}
                                     `}
                                 >
-                                    {tab} <span class="opacity-60 ml-1">({tabCounts[tab] || 0})</span>
+                                    {tab} <span class="ml-1 opacity-70">({tabCounts[tab] || 0})</span>
                                 </a>
                             ))}
                         </nav>
@@ -258,7 +255,7 @@ const userInitial = user.email ? user.email.charAt(0).toUpperCase() : 'U';
             {/* RIGHT COLUMN: Sidebar */}
             <div class="hidden lg:block space-y-4">
                 {/* Language / Public Profile */}
-                <div class="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-xl p-4 shadow-sm">
+                <div class="bg-[var(--bg-card)] border border-[var(--border-color)] p-4 shadow-sm">
                     <div class="flex justify-between items-center mb-2 border-b border-[var(--border-color)] pb-2">
                         <span class="text-md font-bold text-[var(--text-main)]">Profile language</span>
                         <svg class="w-5 h-5 text-[var(--text-secondary)] cursor-pointer" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
@@ -273,7 +270,7 @@ const userInitial = user.email ? user.email.charAt(0).toUpperCase() : 'U';
                 </div>
 
                 {/* Ad / Promo */}
-                 <div class="bg-[var(--bg-card)] border border-[var(--border-color)] rounded-xl p-4 shadow-sm text-center">
+                 <div class="bg-[var(--bg-card)] border border-[var(--border-color)] p-4 shadow-sm text-center">
                     <p class="text-[var(--text-secondary)] text-xs mb-2">Ad •</p>
                     <div class="bg-[var(--bg-surface-hover)] h-32 rounded-lg flex items-center justify-center mb-2">
                         <span class="text-[var(--text-secondary)] font-bold">Zvenia Hire</span>

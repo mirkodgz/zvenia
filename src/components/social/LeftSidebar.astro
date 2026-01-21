@@ -5,7 +5,7 @@ import { supabase } from '../../lib/supabase';
 const { data: topics, error } = await supabase
   .from('topics')
   .select('*')
-  .order('name');
+  .order('name') as { data: any[], error: any };
 
 if (error) {
   console.error('Error fetching topics:', error);
@@ -24,10 +24,10 @@ const { slug: currentSlug } = Astro.params;
 
 <div class="space-y-4">
     <!-- Profile Widget -->
-    <div class="bg-[var(--bg-surface)] rounded-lg border border-[var(--border-color)] p-4 mb-4">
+    <div class="bg-[var(--bg-surface)] border border-[var(--border-color)] p-4 mb-4">
         <div class="flex items-center gap-3 mb-3">
-            <div class="w-10 h-10 rounded-full bg-gradient-to-br from-primary-500 to-green-600 flex items-center justify-center text-black font-bold text-lg">
-                {user.avatar ? <img src={user.avatar} class="w-full h-full rounded-full object-cover" /> : user.initial}
+            <div class="w-10 h-10 bg-gradient-to-br from-primary-500 to-green-600 flex items-center justify-center text-black font-bold text-lg">
+                {user.avatar ? <img src={user.avatar} class="w-full h-full object-cover" /> : user.initial}
             </div>
             <div class="overflow-hidden">
                 <h3 class="text-sm font-bold text-[var(--text-main)] leading-tight truncate" title={user.name}>{user.name}</h3>
@@ -41,20 +41,20 @@ const { slug: currentSlug } = Astro.params;
     </div>
 
     <!-- Topics List Widget -->
-    <div class="bg-[var(--bg-surface)] rounded-lg border border-[var(--border-color)] p-4">
+    <div class="bg-[var(--bg-surface)] border border-[var(--border-color)] p-4">
         <h3 class="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-4">Mining Topics</h3>
         <ul class="space-y-1">
             <li>
-                <a href="/mining/all" class={`flex items-center gap-3 py-2 px-2 text-sm rounded-md transition-colors whitespace-nowrap overflow-hidden text-ellipsis ${currentSlug === 'all' ? "text-primary-400 bg-primary-500/10 font-bold border-l-2 border-primary-500" : "text-[var(--text-secondary)] hover:text-primary-400 hover:bg-[var(--bg-surface-hover)] border-l-2 border-transparent"}`}>
+                <a href="/mining/all" class={`flex items-center gap-3 py-2 px-2 text-sm transition-colors whitespace-nowrap overflow-hidden text-ellipsis ${currentSlug === 'all' ? "text-[var(--text-main)] bg-[#00c44b] font-bold border-l-2 border-primary-500" : "text-[var(--text-secondary)] hover:text-[var(--text-secondary)] hover:bg-[#7bdcb5] border-l-2 border-transparent"}`}>
                     <span class={currentSlug === 'all' ? "opacity-100" : "opacity-50"}>#</span> All Topics
                 </a>
             </li>
 
             {topics?.map((topic) => {
                 const isActive = currentSlug === topic.slug;
-                const baseClass = "flex items-center gap-3 py-2 px-2 text-sm rounded-md transition-colors whitespace-nowrap overflow-hidden text-ellipsis";
-                const activeMod = "text-primary-400 bg-primary-500/10 font-bold border-l-2 border-primary-500";
-                const inactiveMod = "text-[var(--text-secondary)] hover:text-primary-400 hover:bg-[var(--bg-surface-hover)] border-l-2 border-transparent";
+                const baseClass = "flex items-center gap-3 py-2 px-2 text-sm transition-colors whitespace-nowrap overflow-hidden text-ellipsis";
+                const activeMod = "text-[var(--text-main)] bg-[#00c44b] font-bold border-l-2 border-primary-500";
+                const inactiveMod = "text-[var(--text-secondary)] hover:text-[var(--text-secondary)] hover:bg-[#7bdcb5] border-l-2 border-transparent";
                 const finalClass = `${baseClass} ${isActive ? activeMod : inactiveMod}`;
                 
                 return (
