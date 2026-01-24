@@ -1,0 +1,57 @@
+---
+interface Props {
+  authorName: string;
+  authorAvatarUrl?: string | null;
+  profileUrl?: string;
+}
+
+const {
+  authorName,
+  authorAvatarUrl,
+  profileUrl = "#",
+} = Astro.props;
+
+const backgroundUrl =
+  "https://res.cloudinary.com/dun3slcfg/images/v1691587336/cloud-files/Background-Default-/Background-Default-.jpg";
+---
+
+<div>
+  <div class="bg-white border border-[var(--border-color)] overflow-hidden shadow-sm" style="border-radius: var(--radius-s);">
+    <div
+      class="relative bg-cover"
+      style={`height: 80px; background-image: url('${backgroundUrl}'); background-position: right top; background-size: 200% auto; background-repeat: no-repeat;`}
+    >
+      <div class="absolute left-1/2 -bottom-6 -translate-x-1/2">
+        <div class="w-12 h-12 bg-white border border-[var(--border-color)] overflow-hidden shadow-sm" style="border-radius: 0.6666666667rem;">
+          {authorAvatarUrl ? (
+            <img
+              src={authorAvatarUrl}
+              alt={authorName}
+              class="w-full h-full object-cover"
+              loading="lazy"
+            />
+          ) : (
+            <div class="w-full h-full flex items-center justify-center text-xs text-[#202124] font-medium">
+              {authorName?.slice(0, 2)?.toUpperCase()}
+            </div>
+          )}
+        </div>
+      </div>
+    </div>
+
+    <div class="pt-10 pb-4 px-4 text-center">
+      <div class="text-[#202124]" style="font-size: 15px; font-weight: 700; line-height: 1.3em;">
+        {authorName}
+      </div>
+      <a
+        href={profileUrl}
+        class="mt-2 inline-block"
+        style="font-size: 15px; font-weight: 400; color: #0a66c2;"
+      >
+        View Profile
+      </a>
+    </div>
+  </div>
+</div>
+
+

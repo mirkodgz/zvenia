@@ -3,8 +3,13 @@ import AdminLayout from '../../layouts/AdminLayout.astro';
 import { createSupabaseServerClient } from '../../lib/supabase';
 
 // Server Side Protection
+import { isAdministrator, type UserRole } from '../../lib/admin/roles';
+
 const user = Astro.locals.user;
-if (!user || user.role !== 'Administrator') {
+const profile = (Astro.locals as any).profile;
+const userRole = (profile?.role || (user as any)?.role || 'Basic') as UserRole;
+
+if (!user || !isAdministrator(userRole)) {
     return Astro.redirect('/');
 }
 
@@ -15,14 +20,14 @@ const { count: postCount } = await supabase.from('posts').select('*', { count: '
 const { count: eventCount } = await supabase.from('events').select('*', { count: 'exact', head: true });
 // Simple breakdown
 const { data: roleCounts } = await supabase.from('profiles').select('role');
-const roles = roleCounts?.reduce((acc: any, curr) => {
+const roles = roleCounts?.reduce((acc: any, curr: any) => {
     acc[curr.role || 'Basic'] = (acc[curr.role || 'Basic'] || 0) + 1;
     return acc;
 }, {}) || {};
 
 ---
 
-<AdminLayout title="Dashboard" activePage="dashboard">
+<AdminLayout title="Dashboard">
     <h1 class="text-2xl font-bold text-white tracking-tight mb-8">Dashboard Overview</h1>
 
     <!-- KPI Cards -->

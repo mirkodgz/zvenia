@@ -1,58 +1,89 @@
 ---
+import HeaderUserDropdown from './HeaderUserDropdown';
+import { createSupabaseServerClient } from '../lib/supabase';
+
+// Obtener profile si no está en locals (para rutas que no pasan por el middleware completo)
+const locals = Astro.locals as any;
+let profile: { role?: string } | null = locals.profile;
+
+// Debug: Log para verificar
+console.log('[Header] locals.profile:', locals.profile);
+console.log('[Header] locals.user:', locals.user?.id, locals.user?.email);
+
+if (!profile && locals.user) {
+    console.log('[Header] Profile no encontrado en locals, obteniendo desde Supabase...');
+    const supabase = createSupabaseServerClient({ req: Astro.request, cookies: Astro.cookies });
+    // Solo obtener las columnas que existen en la tabla
+    const { data: profileData, error: profileError } = await supabase
+        .from('profiles')
+        .select('role, full_name, avatar_url')
+        .eq('id', locals.user.id)
+        .single();
+    
+    console.log('[Header] Profile query result:', { profileData, profileError });
+    
+    if (profileError) {
+        console.error('[Header] Error obteniendo profile:', profileError);
+    }
+    
+    if (profileData && 'role' in profileData) {
+        profile = {
+            role: (profileData as any).role || undefined,
+        };
+        console.log('[Header] Profile obtenido:', profile);
+    } else {
+        console.warn('[Header] Profile data no válido:', profileData);
+    }
+} else if (profile) {
+    console.log('[Header] Profile encontrado en locals:', profile);
+}
 ---
 
-<header class="fixed w-full top-0 z-50 [background:var(--bg-header)] backdrop-blur-md border-b border-[var(--border-color)] transition-all duration-300" id="main-header">
-  <div class="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-    <div class="flex items-center justify-between h-16">
-      <!-- Logo (Centered) -->
-      <div class="absolute left-1/2 transform -translate-x-1/2 flex-shrink-0">
-        <a href="/" class="flex items-center gap-2">
-           <img src="/zvenia-Logo.svg" alt="Zvenia" class="h-10 w-auto" />
+<header class="fixed top-0 left-0 z-[1000] w-full border-b border-[var(--border-color)] transition-all duration-300" id="main-header" style="height: 70px; min-height: 70px; max-height: 70px; box-sizing: border-box;">
+    <div class="flex h-full items-center justify-between w-full px-4 sm:px-6 lg:px-8" style="background-color: #0d241b;">
+      <!-- Block 1: Left Logo (ZVENIA Mining) -->
+      <div class="flex items-center flex-shrink-0">
+        <a href="/">
+          <img src="/ZVENIA-Mining-Logo.svg" alt="ZVENIA Mining" class="w-full" style="max-height: 45px; height: auto;" />
         </a>
       </div>
 
+      <!-- Block 2: Center Logo (ZVENIA) -->
+      <div class="flex items-center justify-center flex-1">
+        <a href="/">
+          <img src="/zvenia-Logo.svg" alt="Zvenia" class="w-auto" style="height: 40px;" />
+        </a>
+      </div>
 
-
-      <!-- CTA Buttons -->
-
-        <div class="hidden lg:flex lg:flex-1 lg:justify-end lg:gap-x-6 items-center">
+      <!-- Block 3: Right Actions (User Menu / Login) -->
+      <div class="flex items-center justify-end flex-shrink-0 gap-x-6">
             {
                 Astro.locals.user ? (
                    <div class="flex items-center gap-4">
-                       <!-- Notification Icon -->
-                       <button class="text-gray-300 hover:text-white transition-colors relative group hidden md:block">
-                          <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="1.5" stroke="currentColor" class="w-6 h-6">
-                            <path stroke-linecap="round" stroke-linejoin="round" d="M14.857 17.082a23.848 23.848 0 005.454-1.31A8.967 8.967 0 0118 9.75v-.7V9A6 6 0 006 9v.75a8.967 8.967 0 01-2.312 6.022c1.733.64 3.56 1.085 5.455 1.31m5.714 0a24.255 24.255 0 01-5.714 0m5.714 0a3 3 0 11-5.714 0" />
-                          </svg>
-                          <span class="absolute -top-1 -right-1 w-2.5 h-2.5 bg-primary-500 rounded-full border-2 border-black group-hover:scale-110 transition-transform"></span>
-                       </button>
-
-                       <div class="relative group">
-                        <button type="button" class="flex items-center gap-x-2 text-sm font-semibold leading-6 text-white hover:text-primary-400 transition-colors">
-                            <span class="sr-only">Open user menu</span>
-                             <div class="h-8 w-8 rounded-full bg-primary-500/20 border border-primary-500/50 flex items-center justify-center text-primary-400 font-bold overflow-hidden">
-                                {Astro.locals.user.user_metadata?.avatar_url ? (
-                                    <img src={Astro.locals.user.user_metadata.avatar_url} alt="Profile" class="h-full w-full object-cover" />
-                                ) : (
-                                    Astro.locals.user.email?.charAt(0).toUpperCase() || 'U'
-                                )}
-                             </div>
-                             <span class="hidden xl:block">{(Astro.locals.user as any).full_name || Astro.locals.user.user_metadata?.full_name || Astro.locals.user.email?.split('@')[0]}</span>
-                             <svg class="h-5 w-5 flex-none text-gray-400 group-hover:text-primary-400" viewBox="0 0 20 20" fill="currentColor" aria-hidden="true">
-                                <path fill-rule="evenodd" d="M5.23 7.21a.75.75 0 011.06.02L10 11.168l3.71-3.938a.75.75 0 111.08 1.04l-4.25 4.5a.75.75 0 01-1.08 0l-4.25-4.5a.75.75 0 01.02-1.06z" clip-rule="evenodd" />
-                            </svg>
-                        </button>
-                        <!-- Dropdown menu -->
-                        <div class="absolute right-0 z-10 mt-2 w-48 origin-top-right rounded-md bg-[var(--bg-surface)] py-1 shadow-lg ring-1 ring-[var(--border-color)] opacity-0 invisible group-hover:opacity-100 group-hover:visible transition-all duration-200">
-                             {Astro.locals.user.role === 'Administrator' && (
-                                <a href="/admin" class="block px-4 py-2 text-sm text-yellow-500 font-bold hover:bg-white/5">Admin Dashboard</a>
-                             )}
-                             <a href="/profile" class="block px-4 py-2 text-sm text-[var(--text-main)] hover:bg-[var(--bg-surface-hover)]">Your Profile</a>
-                             <a href="/settings" class="block px-4 py-2 text-sm text-[var(--text-secondary)] hover:bg-[var(--bg-surface-hover)]">Settings</a>
-                             <div class="border-t border-white/10 my-1"></div>
-                             <a href="/api/auth/signout" class="block px-4 py-2 text-sm text-red-400 hover:bg-white/5">Sign Out</a>
-                        </div>
-                   </div>
+                       {(() => {
+                          const locals = Astro.locals as any;
+                          const user = locals.user;
+                          
+                          // Asegurar que el rol venga del profile, no del user
+                          const userRole = profile?.role || (user?.role && user?.role !== 'authenticated' ? user?.role : null) || null;
+                          
+                          return (
+                            <HeaderUserDropdown 
+                              client:load
+                              user={{
+                                email: user?.email || '',
+                                first_name: user?.first_name || null,
+                                last_name: user?.last_name || null,
+                                full_name: user?.full_name || null,
+                                avatar_url: user?.avatar_url || null,
+                                role: userRole, // Usar el rol del profile primero
+                              }}
+                              profile={profile ? {
+                                role: profile.role,
+                              } : null}
+                            />
+                          );
+                       })()}
                    </div>
                 ) : (
                     <>
@@ -74,7 +105,6 @@
         </button>
       </div>
     </div>
-  </div>
 
   <!-- Mobile Menu (Hidden by default) -->
   <div class="hidden md:hidden bg-black border-t border-white/10" id="mobile-menu">

@@ -1,72 +1,77 @@
 ---
-import { supabase } from '../../lib/supabase';
+import { supabase } from "../../lib/supabase";
+
+interface Props {
+    activeTopicSlug?: string | null;
+}
+
+const { activeTopicSlug } = Astro.props;
 
 // Fetch Topics
-const { data: topics, error } = await supabase
-  .from('topics')
-  .select('*')
-  .order('name') as { data: any[], error: any };
+const { data: topics, error } = (await supabase
+    .from("topics")
+    .select("*")
+    .order("name")) as { data: any[]; error: any };
 
 if (error) {
-  console.error('Error fetching topics:', error);
+    console.error("Error fetching topics:", error);
 }
 
 // Mock User Data (Replace with Auth later)
 const currentUser = Astro.locals.user;
 const user = {
-    name: currentUser?.user_metadata?.full_name || currentUser?.email || "Guest User",
+    name:
+        currentUser?.user_metadata?.full_name ||
+        currentUser?.email ||
+        "Guest User",
     headline: "Mining Professional", // Placeholder for now
     avatar: currentUser?.user_metadata?.avatar_url || null,
-    initial: (currentUser?.email?.[0] || 'G').toUpperCase()
+    initial: (currentUser?.email?.[0] || "G").toUpperCase(),
 };
 const { slug: currentSlug } = Astro.params;
+const pathname = Astro.url.pathname;
 ---
 
-<div class="space-y-4">
-    <!-- Profile Widget -->
-    <div class="bg-[var(--bg-surface)] border border-[var(--border-color)] p-4 mb-4">
-        <div class="flex items-center gap-3 mb-3">
-            <div class="w-10 h-10 bg-gradient-to-br from-primary-500 to-green-600 flex items-center justify-center text-black font-bold text-lg">
-                {user.avatar ? <img src={user.avatar} class="w-full h-full object-cover" /> : user.initial}
-            </div>
-            <div class="overflow-hidden">
-                <h3 class="text-sm font-bold text-[var(--text-main)] leading-tight truncate" title={user.name}>{user.name}</h3>
-                <p class="text-xs text-[var(--text-secondary)]">{user.headline}</p>
-            </div>
-        </div>
-        <div class="flex justify-between items-center text-xs text-[var(--text-secondary)] border-t border-[var(--border-color)] pt-3">
-            <span class="hover:text-[var(--text-main)] cursor-pointer transition-colors">124 connections</span>
-            <span class="hover:text-[var(--text-main)] cursor-pointer transition-colors">850 views</span>
-        </div>
-    </div>
+<div class="bg-[#dedede] min-h-full">
+    <ul class="flex flex-col text-[var(--neutral)] text-sm tracking-normal">
+        <!-- HOME LINK -->
+        <li class="border-b border-[var(--neutral)]">
+            <a
+                href="/"
+                class={`flex items-center gap-2 px-4 py-3 transition-colors whitespace-nowrap overflow-hidden text-ellipsis ${pathname === "/" ? "bg-[#00c44b] font-bold" : "hover:bg-[#9fdbb6]"}`}
+            >
+                <span class="material-icons" style="font-size: 16px; line-height: 1; width: 16px; height: 16px; display: inline-flex; align-items: center; justify-content: center;">home</span>
+                Home
+            </a>
+        </li>
 
-    <!-- Topics List Widget -->
-    <div class="bg-[var(--bg-surface)] border border-[var(--border-color)] p-4">
-        <h3 class="text-xs font-bold text-[var(--text-secondary)] uppercase tracking-wider mb-4">Mining Topics</h3>
-        <ul class="space-y-1">
-            <li>
-                <a href="/mining/all" class={`flex items-center gap-3 py-2 px-2 text-sm transition-colors whitespace-nowrap overflow-hidden text-ellipsis ${currentSlug === 'all' ? "text-[var(--text-main)] bg-[#00c44b] font-bold border-l-2 border-primary-500" : "text-[var(--text-secondary)] hover:text-[var(--text-secondary)] hover:bg-[#7bdcb5] border-l-2 border-transparent"}`}>
-                    <span class={currentSlug === 'all' ? "opacity-100" : "opacity-50"}>#</span> All Topics
-                </a>
-            </li>
+        <!-- MY ZVENIA LINK -->
+        <li class="border-b border-[var(--neutral)]">
+            <a
+                href="/my-zvenia"
+                class={`flex items-center gap-2 px-4 py-3 transition-colors whitespace-nowrap overflow-hidden text-ellipsis ${pathname === "/my-zvenia" ? "bg-[#00c44b] font-bold" : "hover:bg-[#9fdbb6]"}`}
+            >
+                <span class="material-icons" style="font-size: 16px; line-height: 1; width: 16px; height: 16px; display: inline-flex; align-items: center; justify-content: center;">layers</span>
+                MY ZVENIA
+            </a>
+        </li>
 
-            {topics?.map((topic) => {
-                const isActive = currentSlug === topic.slug;
-                const baseClass = "flex items-center gap-3 py-2 px-2 text-sm transition-colors whitespace-nowrap overflow-hidden text-ellipsis";
-                const activeMod = "text-[var(--text-main)] bg-[#00c44b] font-bold border-l-2 border-primary-500";
-                const inactiveMod = "text-[var(--text-secondary)] hover:text-[var(--text-secondary)] hover:bg-[#7bdcb5] border-l-2 border-transparent";
-                const finalClass = `${baseClass} ${isActive ? activeMod : inactiveMod}`;
-                
+        <!-- DYNAMIC TOPICS -->
+        {
+            topics?.map((topic) => {
+                // Active if: 1) We're on the topic page, OR 2) We're viewing a post from this topic
+                const isActive = currentSlug === topic.slug || activeTopicSlug === topic.slug;
                 return (
-                <li>
-                    <a href={`/mining/${topic.slug}`} class={finalClass}>
-                        <span class={isActive ? "opacity-100" : "opacity-50"}>#</span> {topic.name}
-                    </a>
-                </li>
-            )})}
-        </ul>
-        <button class="w-full mt-4 py-2 text-xs font-semibold text-[var(--text-secondary)] hover:text-[var(--text-main)] transition-colors flex items-center justify-center gap-1">
-            Show more <svg class="w-3 h-3" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M19 9l-7 7-7-7"></path></svg>
-        </button>
-    </div>
+                    <li class="border-b border-[var(--neutral)]">
+                        <a
+                            href={`/mining/${topic.slug}`}
+                            class={`block px-4 py-3 transition-colors whitespace-nowrap overflow-hidden text-ellipsis ${isActive ? "bg-[#00c44b] font-medium" : "hover:bg-[#9fdbb6]"}`}
+                        >
+                            {topic.name}
+                        </a>
+                    </li>
+                );
+            })
+        }
+    </ul>
 </div>

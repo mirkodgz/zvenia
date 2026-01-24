@@ -76,7 +76,7 @@ export default function PostOptions({ postId, authorId, currentUserId, slug }: P
                         onClick={(e) => {
                             e.stopPropagation();
                             setIsOpen(false);
-                            window.location.href = `/post/edit/${postId}`;
+                            window.location.href = `/dashboard/posts/edit/${postId}`;
                         }}
                         className="block px-4 py-2 text-sm text-[var(--text-secondary)] hover:bg-[var(--bg-surface-hover)] hover:text-[var(--text-main)] w-full text-left flex items-center gap-2"
                     >

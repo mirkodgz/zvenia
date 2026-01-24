@@ -106,7 +106,7 @@ export default function EventOptions({ eventId, authorId, currentUserId, slug }:
                                 onClick={(e) => {
                                     e.stopPropagation();
                                     setIsOpen(false);
-                                    window.location.href = `/event/edit/${eventId}`;
+                                    window.location.href = `/dashboard/events/edit/${eventId}`;
                                 }}
                                 className="block px-4 py-2 text-sm text-[var(--text-secondary)] hover:bg-[var(--bg-surface-hover)] hover:text-[var(--text-main)] w-full text-left flex items-center gap-2"
                             >

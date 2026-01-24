@@ -21,6 +21,16 @@ export interface Database {
                     company: string | null
                     position: string | null
                     linkedin_url: string | null
+                    phone_number: string | null
+                    nationality: string | null
+                    profession: string | null
+                    work_country: string | null
+                    current_location: string | null
+                    headline_user: string | null
+                    main_language: string | null
+                    main_area_of_expertise: string | null
+                    username: string | null
+                    profile_slug: string | null
                     metadata: Json
                     created_at: string
                     updated_at: string
@@ -36,6 +46,16 @@ export interface Database {
                     company?: string | null
                     position?: string | null
                     linkedin_url?: string | null
+                    phone_number?: string | null
+                    nationality?: string | null
+                    profession?: string | null
+                    work_country?: string | null
+                    current_location?: string | null
+                    headline_user?: string | null
+                    main_language?: string | null
+                    main_area_of_expertise?: string | null
+                    username?: string | null
+                    profile_slug?: string | null
                     metadata?: Json
                     created_at?: string
                     updated_at?: string
@@ -51,6 +71,16 @@ export interface Database {
                     company?: string | null
                     position?: string | null
                     linkedin_url?: string | null
+                    phone_number?: string | null
+                    nationality?: string | null
+                    profession?: string | null
+                    work_country?: string | null
+                    current_location?: string | null
+                    headline_user?: string | null
+                    main_language?: string | null
+                    main_area_of_expertise?: string | null
+                    username?: string | null
+                    profile_slug?: string | null
                     metadata?: Json
                     created_at?: string
                     updated_at?: string

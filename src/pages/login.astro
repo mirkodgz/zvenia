@@ -49,9 +49,14 @@ import MiningBackground from '../components/MiningBackground.astro';
         </h1>
 
         <div class="w-full max-w-md bg-[var(--bg-card)] p-8 rounded-xl border border-[var(--border-color)] shadow-2xl backdrop-blur-sm">
-             <form class="space-y-4" action="/api/auth/signin" method="POST">
+             <form id="login-form" class="space-y-4" action="/api/auth/signin" method="POST">
                 <input type="hidden" name="remember" value="true">
                 
+                <!-- Error Message -->
+                <div id="error-message" class="hidden bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-lg text-sm">
+                    <p id="error-text"></p>
+                </div>
+
                 <div>
                     <input id="email-address" name="email" type="email" autocomplete="email" required 
                         class="block w-full rounded-lg border-0 bg-[var(--bg-surface-hover)] py-3.5 px-4 text-[var(--text-main)] ring-1 ring-inset ring-[var(--border-color)] placeholder:text-[var(--text-secondary)] focus:ring-2 focus:ring-primary-500 text-lg transition-all" 
@@ -69,7 +74,7 @@ import MiningBackground from '../components/MiningBackground.astro';
                 </button>
 
                 <div class="flex items-center justify-center pt-2">
-                    <a href="#" class="text-sm font-medium text-primary-500 hover:text-primary-400 hover:underline">
+                    <a href="/forgot-password" class="text-sm font-medium text-primary-500 hover:text-primary-400 hover:underline">
                         Forgot password?
                     </a>
                 </div>
@@ -96,6 +101,52 @@ import MiningBackground from '../components/MiningBackground.astro';
 <script>
   import { supabase } from "../lib/supabase";
 
+  // Handle form submission with better error messages
+  const loginForm = document.getElementById("login-form") as HTMLFormElement;
+  const errorMessage = document.getElementById("error-message") as HTMLDivElement;
+  const errorText = document.getElementById("error-text") as HTMLParagraphElement;
+
+  if (loginForm) {
+    loginForm.addEventListener("submit", async (e) => {
+      e.preventDefault();
+      
+      errorMessage.classList.add("hidden");
+      
+      const formData = new FormData(loginForm);
+      const response = await fetch("/api/auth/signin", {
+        method: "POST",
+        body: formData,
+      });
+
+      if (!response.ok) {
+        const data = await response.json();
+        const errorMsg = data.error || "Invalid login credentials";
+        
+        // Show error message
+        errorText.textContent = errorMsg;
+        errorMessage.classList.remove("hidden");
+        
+        // If it's a migration-related error, show special message
+        if (data.code === "migration_required" || errorMsg.includes("migrated to a new platform")) {
+          errorMessage.className = "bg-blue-50 border border-blue-200 text-blue-800 px-4 py-3 rounded-lg text-sm";
+          errorText.innerHTML = `
+            <strong>We've migrated to a new platform!</strong><br/>
+            Your password needs to be reset. ${data.emailSent ? 'We\'ve sent you an email with instructions.' : 'Please use "Forgot Password?" below to reset it.'}
+          `;
+        } else if (errorMsg.includes("migrated from WordPress") || errorMsg.includes("Invalid login credentials")) {
+          const helpText = document.createElement("p");
+          helpText.className = "mt-2 text-xs";
+          helpText.innerHTML = `If you were migrated from WordPress, please <a href="/forgot-password" class="text-[#00c44b] underline font-semibold">reset your password</a> to access the new platform.`;
+          errorText.appendChild(helpText);
+        }
+      } else {
+        // Success - redirect
+        window.location.href = "/";
+      }
+    });
+  }
+
+  // Google Login
   const googleBtn = document.getElementById("google-login");
 
   if (googleBtn) {

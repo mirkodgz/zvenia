@@ -1,8 +1,7 @@
 ---
-import { PdfViewer } from './PdfViewer';
-import PostOptions from './PostOptions';
-import SocialFooter from './SocialFooter';
-import FollowButton from './FollowButton';
+import { PdfViewer } from "./PdfViewer";
+import PostOptions from "./PostOptions";
+import SocialFooter from "./SocialFooter";
 
 interface Props {
     post: any;
@@ -13,206 +12,307 @@ interface Props {
 const { post, currentUser, isDetail = false } = Astro.props;
 
 const formatDate = (dateStr: string | null) => {
-    if(!dateStr) return '';
+    if (!dateStr) return "";
     const date = new Date(dateStr);
-    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-}
+    const day = String(date.getDate()).padStart(2, '0');
+    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const year = date.getFullYear();
+    return `${day}/${month}/${year}`;
+};
 
 // Helper to clean content logic (same as Topic page)
 const getCleanContent = (item: any) => {
-    const raw = item.content || item.excerpt || item.description || '';
-    if (!raw) return '';
+    const raw = item.content || item.excerpt || item.description || "";
+    if (!raw) return "";
     return raw
-        .replace(/<br\s*\/?>/gi, '\n')
-        .replace(/<\/p>/gi, '\n\n')
-        .replace(/<\/div>/gi, '\n')
-        .replace(/<li>/gi, '• ')
-        .replace(/<\/li>/gi, '\n')
-        .replace(/<[^>]*>?/gm, '') // Strip remaining tags
-        .replace(/&nbsp;/g, ' ')
+        .replace(/<br\s*\/?>/gi, "\n")
+        .replace(/<\/p>/gi, "\n\n")
+        .replace(/<\/div>/gi, "\n")
+        .replace(/<li>/gi, "• ")
+        .replace(/<\/li>/gi, "\n")
+        .replace(/<[^>]*>?/gm, "") // Strip remaining tags
+        .replace(/&nbsp;/g, " ")
         .trim();
 };
 ---
 
-<article class="bg-[var(--bg-surface)] border border-[var(--border-color)] overflow-hidden hover:border-primary-500/20 transition-colors animate-fade-in">
-    
+<article
+    class="bg-white overflow-hidden transition-colors animate-fade-in w-full mb-16 rounded-sm"
+    style="border: 0.1px none #22232633; box-shadow: 1px 2px 2px 2px #22232633;"
+>
     <!-- 1. Header: Author, Date, Options -->
-    <div class="p-4 flex gap-3 items-start justify-between">
-            <div class="flex gap-3 items-center">
-                <!-- Avatar -->
-                <a href={`/in/${post.author_id}`} class="block flex-shrink-0">
-                    <div class="w-10 h-10 bg-gradient-to-br from-gray-700 to-gray-900 border border-[var(--border-color)] flex items-center justify-center text-sm font-bold text-white overflow-hidden hover:opacity-80 transition-opacity">
-                        {post.author?.avatar_url ? (
-                            <img src={post.author.avatar_url} class="w-full h-full object-cover"/>
+    <div class="p-4 flex gap-3 items-start justify-between border-b border-[var(--border-color)]">
+        <div class="flex gap-3 items-center flex-1">
+            <!-- Avatar -->
+            <a href={`/in/${post.author_id}`} class="block flex-shrink-0">
+                <div
+                    class="w-12 h-12 rounded-full bg-gradient-to-br from-gray-300 to-gray-400 border-2 border-gray-200 flex items-center justify-center text-sm font-bold text-gray-700 overflow-hidden hover:opacity-90 transition-opacity shadow-sm"
+                >
+                    {
+                        post.author?.avatar_url ? (
+                            <img
+                                src={post.author.avatar_url}
+                                class="w-full h-full object-cover"
+                                alt={post.author?.full_name || 'Author'}
+                            />
                         ) : (
-                            (post.author?.full_name?.[0] || post.author_name?.[0] || 'U')
-                        )}
-                    </div>
-                </a>
-                
-                <!-- Meta -->
-                <div>
-                    <div class="flex items-center gap-2">
-                        <a href={`/in/${post.author_id}`} class="block group">
-                            <h3 class="text-sm font-bold text-[var(--text-main)] group-hover:text-primary-400 cursor-pointer flex items-center gap-1 transition-colors">
-                            {post.author?.full_name || post.author_name || 'Unknown Author'}
-                            <span class="text-blue-400 text-[10px]">✓</span> 
-                            </h3>
-                        </a>
-                        <FollowButton client:load targetUserId={post.author_id} currentUserId={currentUser?.id} />
-                    </div>
-                    <p class="text-xs text-[var(--text-secondary)]">
-                    {post.author?.profession ? `${post.author.profession} • ` : ''} 
-                    {formatDate(post.published_at || post.created_at)}
-                    </p>
+                            <span class="text-base">
+                                {post.author?.full_name?.[0] ||
+                                post.author_name?.[0] ||
+                                "U"}
+                            </span>
+                        )
+                    }
                 </div>
-            </div>
+            </a>
 
-            <!-- Menu (Edit/Delete) -->
-            <PostOptions 
-                client:visible 
-                postId={post.id} 
-                authorId={post.author_id} 
-                currentUserId={currentUser?.id}
-                slug={post.slug}
-            />
+            <!-- Meta -->
+            <div class="flex-1 min-w-0">
+                <div class="flex items-center gap-2 flex-wrap">
+                    <a href={`/in/${post.author_id}`} class="block group min-w-0">
+                        <h3
+                            class="text-base font-bold text-[#202124] group-hover:text-primary-500 cursor-pointer transition-colors truncate"
+                        >
+                            {
+                                post.author?.full_name ||
+                                    post.author_name ||
+                                    "Unknown Author"
+                            }
+                        </h3>
+                    </a>
+                </div>
+                <p class="text-xs text-[#0009] mt-0.5" style="font-size: 12px;">
+                    {formatDate(post.published_at || post.created_at)}
+                </p>
+            </div>
+        </div>
+
+        <!-- Menu (Edit/Delete) -->
+        <PostOptions
+            client:visible
+            postId={post.id}
+            authorId={post.author_id}
+            currentUserId={currentUser?.id}
+            slug={post.slug}
+        />
     </div>
 
     <!-- 2. Body: Content -->
-    <div class="px-4 pb-2">
+    <div class="px-4 pb-2 pt-4">
         {/* Breadcrumb if Topic */}
-        {post.topic && (
-            <a href={`/mining/${post.topic.slug}`} class="inline-block text-[10px] uppercase tracking-wider font-bold text-gray-500 hover:text-primary-400 mb-2 transition-colors">
-                # {post.topic.name}
-            </a>
-        )}
+        {
+            post.topic && (
+                <a
+                    href={`/mining/${post.topic.slug}`}
+                    class="inline-block mb-3 transition-colors group"
+                >
+                    <span class="zv--post-termslink text-[#202124] group-hover:text-primary-500 transition-colors inline-flex items-center gap-1.5">
+                        <span class="material-icons" style="font-size: 12px;">arrow_back</span>
+                        {post.topic.name}
+                    </span>
+                </a>
+            )
+        }
 
-        {isDetail ? (
-             <h1 class="text-2xl font-bold text-blue-400 mb-2">{post.title}</h1>
-        ) : (
-            <a href={`/post/${post.slug || post.id}`} class="block group">
-                <h4 class="text-base font-bold text-blue-400 mb-1 group-hover:underline cursor-pointer transition-colors">{post.title}</h4>
-            </a>
-        )}
-        
-        <p class={`post-content text-sm text-[var(--text-main)] opacity-80 leading-relaxed mb-3 transition-all duration-300 whitespace-pre-wrap ${!isDetail ? 'line-clamp-3' : ''}`}>
+        {
+            isDetail ? (
+                <h1 class="mb-3 text-[#202124]" style="font-size: 17px !important; line-height: 1.3em !important; font-weight: 700 !important;">
+                    {post.title}
+                </h1>
+            ) : (
+                <a href={`/post/${post.slug || post.id}`} class="block group">
+                    <h4 class="text-base font-bold text-[#202124] mb-1 group-hover:underline cursor-pointer transition-colors">
+                        {post.title}
+                    </h4>
+                </a>
+            )
+        }
+
+        <p
+            class={`post-content text-[#202124] leading-relaxed mb-3 transition-all duration-300 whitespace-pre-wrap ${!isDetail ? "line-clamp-3" : ""}`}
+            style="font-size: 15px; font-weight: 400;"
+            data-is-detail={isDetail}
+        >
             {getCleanContent(post)}
         </p>
 
-        {!isDetail && (
-            <button class="read-more-btn text-xs text-blue-400 hover:text-blue-300 mb-4 block text-right">...read more</button>
-        )}
-        
-        {post.source && (
-            <div class="mb-3 text-sm">
-                {post.source.startsWith('http') ? (
-                    <a href={post.source} target="_blank" rel="noopener noreferrer" class="text-blue-400 hover:underline break-all truncate block">
-                        {post.source}
-                    </a>
-                ) : (
-                    <span class="text-gray-400 italic">Source: {post.source}</span>
-                )}
-            </div>
-        )}
+        {
+            !isDetail ? (
+                <button class="read-more-btn mb-4 block text-right cursor-pointer" style="font-size: 15px; font-weight: 400; color: #0a66c2; text-align: right; width: 100%;">
+                    ...read more
+                </button>
+            ) : (
+                <button class="read-more-btn-detail mb-4 block text-right opacity-0 pointer-events-none transition-opacity cursor-pointer" style="display: none; font-size: 15px; font-weight: 400; color: #0a66c2; text-align: right; width: 100%;">
+                    ...read more
+                </button>
+            )
+        }
+
+        {
+            post.source && (
+                <div class="mb-3" style="font-size: 15px;">
+                    {post.source.startsWith("http") ? (
+                        <a
+                            href={post.source}
+                            target="_blank"
+                            rel="noopener noreferrer"
+                            class="text-[#202124] hover:underline break-all truncate block"
+                        >
+                            {post.source}
+                        </a>
+                    ) : (
+                        <span class="text-[#202124] italic">
+                            Source: {post.source}
+                        </span>
+                    )}
+                </div>
+            )
+        }
     </div>
 
     <!-- 3. Media: PDF or Gallery -->
     <!-- 3. Media: YouTube, Video, PDF, or Gallery -->
-    {(() => {
-        const youtubeUrl = post.metadata?.youtube_url;
-        const videoUrl = post.metadata?.video_url;
+    {
+        (() => {
+            const youtubeUrl = post.metadata?.youtube_url;
+            const videoUrl = post.metadata?.video_url;
 
-        // 3.1 YouTube
-        if(youtubeUrl) {
-            // Extract ID
-            let videoId = '';
-            try {
-                if(youtubeUrl.includes('youtube.com/watch')) {
-                    videoId = new URL(youtubeUrl).searchParams.get('v') || '';
-                } else if(youtubeUrl.includes('youtu.be/')) {
-                    videoId = youtubeUrl.split('youtu.be/')[1].split('?')[0];
+            // 3.1 YouTube
+            if (youtubeUrl) {
+                // Extract ID
+                let videoId = "";
+                try {
+                    if (youtubeUrl.includes("youtube.com/watch")) {
+                        videoId =
+                            new URL(youtubeUrl).searchParams.get("v") || "";
+                    } else if (youtubeUrl.includes("youtu.be/")) {
+                        videoId = youtubeUrl
+                            .split("youtu.be/")[1]
+                            .split("?")[0];
+                    }
+                } catch (e) {}
+
+                if (videoId) {
+                    return (
+                        <div class="w-full aspect-video bg-gray-100 overflow-hidden">
+                            <iframe
+                                width="100%"
+                                height="100%"
+                                src={`https://www.youtube.com/embed/${videoId}`}
+                                title="YouTube video player"
+                                frameborder="0"
+                                allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                                allowfullscreen
+                            ></iframe>
+                        </div>
+                    );
                 }
-            } catch(e) {}
+            }
 
-            if(videoId) {
+            // 3.2 Native Video
+            if (videoUrl) {
                 return (
-                    <div class="w-full aspect-video bg-black border-t border-b border-white/5">
-                        <iframe 
-                            width="100%" 
-                            height="100%" 
-                            src={`https://www.youtube.com/embed/${videoId}`} 
-                            title="YouTube video player" 
-                            frameborder="0" 
-                            allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture" 
-                            allowfullscreen>
-                        </iframe>
+                    <div class="w-full bg-gray-100 overflow-hidden">
+                        <video controls class="w-full max-h-[500px]">
+                            <source src={videoUrl} type="video/mp4" />
+                            Your browser does not support the video tag.
+                        </video>
                     </div>
                 );
             }
-        }
 
-        // 3.2 Native Video
-        if(videoUrl) {
-            return (
-                <div class="w-full bg-black border-t border-b border-white/5">
-                    <video controls class="w-full max-h-[500px]">
-                        <source src={videoUrl} type="video/mp4" />
-                        Your browser does not support the video tag.
-                    </video>
-                </div>
-            )
-        }
-
-        // 3.3 PDF
-        if (post.document_url) {
-            return (
-                <div class="px-4 pb-4">
-                    <PdfViewer client:only="react" url={`/api/pdf-proxy?url=${encodeURIComponent(post.document_url)}`} />
-                </div>
-            );
-        }
-
-        // 3.4 Image / Gallery
-        const gallery = post.metadata?.gallery || [];
-        const allImages = [post.featured_image_url, ...gallery].filter(Boolean);
-        
-        if (allImages.length === 0) return null;
-
-        if (allImages.length === 1) {
-            return (
-                <div class="w-full h-80 bg-black border-t border-b border-white/5">
-                    <img src={allImages[0]} alt={post.title} class="w-full h-full object-cover" loading="lazy" />
-                </div>
-            );
-        }
-
-        return (
-            <div class="relative w-full h-[400px] bg-black border-t border-b border-white/5 group carousel-container">
-                {/* Images Container */}
-                <div class="w-full h-full flex overflow-x-auto snap-x snap-mandatory scrollbar-hide scroll-smooth carousel-track">
-                    {allImages.map((img: string, idx: number) => (
-                        <div class="w-full h-full flex-shrink-0 snap-center relative">
-                            <img src={img} alt={`${post.title} - ${idx + 1}`} class="w-full h-full object-contain bg-black" loading="lazy" />
-                            <div class="absolute bottom-4 right-4 bg-black/60 text-white text-xs px-2 py-1 rounded-full backdrop-blur-sm">
-                                {idx + 1} / {allImages.length}
-                            </div>
+            // 3.3 PDF
+            if (post.document_url) {
+                return (
+                    <div class="px-4 pb-4">
+                        <div style="overflow: hidden;">
+                            <PdfViewer
+                                client:only="react"
+                                url={`/api/pdf-proxy?url=${encodeURIComponent(post.document_url)}`}
+                            />
                         </div>
-                    ))}
-                </div>
+                    </div>
+                );
+            }
 
-                {/* Navigation Buttons */}
-                <button class="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity disabled:opacity-0 nav-prev">
-                    <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M15 19l-7-7 7-7" /></svg>
-                </button>
-                <button class="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity disabled:opacity-0 nav-next">
-                    <svg class="w-6 h-6" fill="none" viewBox="0 0 24 24" stroke="currentColor"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M9 5l7 7-7 7" /></svg>
-                </button>
-            </div>
-        );
-    })()}
+            // 3.4 Image / Gallery
+            const gallery = post.metadata?.gallery || [];
+            const allImages = [post.featured_image_url, ...gallery].filter(
+                Boolean,
+            );
+
+            if (allImages.length === 0) return null;
+
+            if (allImages.length === 1) {
+                return (
+                    <div class="w-full h-80 bg-gray-100 overflow-hidden">
+                        <img
+                            src={allImages[0]}
+                            alt={post.title}
+                            class="w-full h-full object-cover"
+                            loading="lazy"
+                        />
+                    </div>
+                );
+            }
+
+            return (
+                <div class="relative w-full h-[400px] bg-gray-100 overflow-hidden group carousel-container">
+                    {/* Images Container */}
+                    <div class="w-full h-full flex overflow-x-auto snap-x snap-mandatory scrollbar-hide scroll-smooth carousel-track">
+                        {allImages.map((img: string, idx: number) => (
+                            <div class="w-full h-full flex-shrink-0 snap-center relative">
+                                <img
+                                    src={img}
+                                    alt={`${post.title} - ${idx + 1}`}
+                                    class="w-full h-full object-contain bg-gray-100"
+                                    loading="lazy"
+                                />
+                                <div class="absolute bottom-4 right-4 bg-black/60 text-white text-xs px-2 py-1 rounded-full backdrop-blur-sm">
+                                    {idx + 1} / {allImages.length}
+                                </div>
+                            </div>
+                        ))}
+                    </div>
+
+                    {/* Navigation Buttons */}
+                    <button class="absolute left-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity disabled:opacity-0 nav-prev">
+                        <svg
+                            class="w-6 h-6"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M15 19l-7-7 7-7"
+                            />
+                        </svg>
+                    </button>
+                    <button class="absolute right-4 top-1/2 -translate-y-1/2 bg-black/50 hover:bg-black/70 text-white p-2 rounded-full backdrop-blur-sm opacity-0 group-hover:opacity-100 transition-opacity disabled:opacity-0 nav-next">
+                        <svg
+                            class="w-6 h-6"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M9 5l7 7-7 7"
+                            />
+                        </svg>
+                    </button>
+                </div>
+            );
+        })()
+    }
 
     <!-- 4. Footer: Actions -->
-    <SocialFooter 
+    <SocialFooter
         client:visible
         postId={post.id}
         postSlug={post.slug}
@@ -224,55 +324,115 @@ const getCleanContent = (item: any) => {
 </article>
 <script>
     // Self-contained logic for this component instances
-    document.addEventListener('astro:page-load', () => {
-         // Re-attach listeners on navigation
-         attachListeners();
+    document.addEventListener("astro:page-load", () => {
+        // Re-attach listeners on navigation
+        attachListeners();
     });
-    
+
     // Initial load
-    document.addEventListener('DOMContentLoaded', attachListeners);
-    
+    document.addEventListener("DOMContentLoaded", attachListeners);
+
     // Expose for dynamic content (pagination)
-    window.attachListeners = attachListeners;
+    (window as any).attachListeners = attachListeners;
 
     function attachListeners() {
-        // Read More Logic
-        const readMoreBtns = document.querySelectorAll('.read-more-btn');
-        readMoreBtns.forEach(btn => {
-            if(btn.hasAttribute('data-bound')) return;
-            btn.setAttribute('data-bound', 'true');
-            btn.addEventListener('click', (e) => {
+        // Read More Logic for List View
+        const readMoreBtns = document.querySelectorAll(".read-more-btn");
+        readMoreBtns.forEach((btn) => {
+            if (btn.hasAttribute("data-bound")) return;
+            btn.setAttribute("data-bound", "true");
+            btn.addEventListener("click", (e) => {
                 const button = e.target as HTMLButtonElement;
-                const container = button.closest('div');
-                const text = container?.querySelector('.post-content');
+                const container = button.closest("div");
+                const text = container?.querySelector(".post-content");
                 if (text) {
-                    text.classList.toggle('line-clamp-3');
-                    button.textContent = text.classList.contains('line-clamp-3') ? '...read more' : 'Show less';
+                    text.classList.toggle("line-clamp-3");
+                    button.textContent = text.classList.contains("line-clamp-3")
+                        ? "...read more"
+                        : "Show less";
+                    // Maintain style
+                    button.style.fontSize = "15px";
+                    button.style.fontWeight = "400";
+                    button.style.color = "#0a66c2";
+                    button.style.textAlign = "right";
+                    button.style.width = "100%";
                 }
             });
         });
 
+        // Read More/Less Logic for Single Post (Detail View)
+        const detailPosts = document.querySelectorAll(".post-content[data-is-detail='true']");
+        detailPosts.forEach((contentEl) => {
+            const postContent = contentEl as HTMLElement;
+            const container = postContent.closest("div");
+            const readMoreBtn = container?.querySelector(".read-more-btn-detail") as HTMLButtonElement;
+            
+            if (!readMoreBtn || readMoreBtn.hasAttribute("data-bound")) return;
+            readMoreBtn.setAttribute("data-bound", "true");
+
+            // Check if content is long enough to need truncation
+            const originalHeight = postContent.scrollHeight;
+            const lineHeight = parseInt(window.getComputedStyle(postContent).lineHeight);
+            const maxLines = 10; // Show first 10 lines, then "read more"
+            const maxHeight = lineHeight * maxLines;
+
+            if (originalHeight > maxHeight) {
+                // Initially truncate
+                postContent.style.maxHeight = `${maxHeight}px`;
+                postContent.style.overflow = "hidden";
+                readMoreBtn.style.display = "block";
+                readMoreBtn.textContent = "...read more";
+                readMoreBtn.classList.remove("opacity-0", "pointer-events-none");
+                readMoreBtn.classList.add("opacity-100");
+
+                let isExpanded = false;
+                readMoreBtn.addEventListener("click", () => {
+                    isExpanded = !isExpanded;
+                    if (isExpanded) {
+                        postContent.style.maxHeight = "none";
+                        readMoreBtn.textContent = "Show less";
+                    } else {
+                        postContent.style.maxHeight = `${maxHeight}px`;
+                        readMoreBtn.textContent = "...read more";
+                        // Scroll to top of content when collapsing
+                        postContent.scrollIntoView({ behavior: "smooth", block: "start" });
+                    }
+                    // Maintain style
+                    readMoreBtn.style.fontSize = "15px";
+                    readMoreBtn.style.fontWeight = "400";
+                    readMoreBtn.style.color = "#0a66c2";
+                    readMoreBtn.style.textAlign = "right";
+                    readMoreBtn.style.width = "100%";
+                });
+            }
+        });
 
         // Carousel Logic
-        const carousels = document.querySelectorAll('.carousel-container');
-        carousels.forEach(container => {
-            if(container.hasAttribute('data-bound')) return;
-            container.setAttribute('data-bound', 'true');
+        const carousels = document.querySelectorAll(".carousel-container");
+        carousels.forEach((container) => {
+            if (container.hasAttribute("data-bound")) return;
+            container.setAttribute("data-bound", "true");
 
-            const track = container.querySelector('.carousel-track') as HTMLElement;
-            const prevBtn = container.querySelector('.nav-prev') as HTMLButtonElement;
-            const nextBtn = container.querySelector('.nav-next') as HTMLButtonElement;
+            const track = container.querySelector(
+                ".carousel-track",
+            ) as HTMLElement;
+            const prevBtn = container.querySelector(
+                ".nav-prev",
+            ) as HTMLButtonElement;
+            const nextBtn = container.querySelector(
+                ".nav-next",
+            ) as HTMLButtonElement;
 
-            if(!track || !prevBtn || !nextBtn) return;
+            if (!track || !prevBtn || !nextBtn) return;
 
             const scrollAmount = () => track.clientWidth;
 
-            prevBtn.addEventListener('click', () => {
-                track.scrollBy({ left: -scrollAmount(), behavior: 'smooth' });
+            prevBtn.addEventListener("click", () => {
+                track.scrollBy({ left: -scrollAmount(), behavior: "smooth" });
             });
 
-            nextBtn.addEventListener('click', () => {
-                track.scrollBy({ left: scrollAmount(), behavior: 'smooth' });
+            nextBtn.addEventListener("click", () => {
+                track.scrollBy({ left: scrollAmount(), behavior: "smooth" });
             });
         });
     }

@@ -112,7 +112,7 @@ export default function PodcastOptions({ podcastId, authorId, currentUserId, slu
                                 onClick={(e) => {
                                     e.stopPropagation();
                                     setIsOpen(false);
-                                    window.location.href = `/podcast/edit/${podcastId}`;
+                                    window.location.href = `/dashboard/podcasts/edit/${podcastId}`;
                                 }}
                                 className="block px-4 py-2 text-sm text-[var(--text-secondary)] hover:bg-[var(--bg-surface-hover)] hover:text-[var(--text-main)] w-full text-left flex items-center gap-2"
                             >

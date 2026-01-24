@@ -1,7 +1,8 @@
 ---
 import SocialLayout from '../../layouts/SocialLayout.astro';
+import PostAuthorSidebarCard from '../../components/social/PostAuthorSidebarCard.astro';
+import AdsSidebar from '../../components/social/AdsSidebar.astro';
 import LeftSidebar from '../../components/social/LeftSidebar.astro';
-import RightSidebar from '../../components/social/RightSidebar.astro';
 import PostCard from '../../components/social/PostCard.astro';
 import { supabase } from '../../lib/supabase';
 
@@ -38,14 +39,33 @@ if (error || !post) {
 const currentUser = Astro.locals.user;
 ---
 
-<SocialLayout title={`${post.title} | Zvenia Social`}>
+<SocialLayout title={`${post.title} | Zvenia Social`} hideRightSidebar={true}>
     
-    <LeftSidebar slot="left-sidebar" />
+    <!-- LEFT SIDEBAR: 25 Mining Topics (always visible, global component) -->
+    <LeftSidebar slot="left-sidebar" activeTopicSlug={post.topic?.slug} />
     
-    <div class="max-w-3xl mx-auto px-4 sm:px-0">
-        <PostCard post={post} currentUser={currentUser} isDetail={true} />
+    <!-- MAIN CONTENT: 3-column layout inside the content area -->
+    <div class="w-full px-4 sm:px-6">
+        <div class="flex flex-col lg:flex-row gap-6 items-start lg:justify-between">
+            <!-- Column 1: Author Card (Left) - Shown first on mobile, left on desktop -->
+            <aside class="flex-shrink-0 w-full lg:w-auto order-1" style="flex-basis: 220px;">
+                <PostAuthorSidebarCard
+                    authorName={post.author?.full_name || post.author_name || "Unknown Author"}
+                    authorAvatarUrl={post.author?.avatar_url}
+                    profileUrl="#"
+                />
+            </aside>
+            
+            <!-- Column 2: Post Content (Center) - Second on mobile, center on desktop -->
+            <main class="flex-shrink-0 mx-auto lg:mx-0 order-2" style="width: 500px; max-width: 100%;">
+                <PostCard post={post} currentUser={currentUser} isDetail={true} />
+            </main>
+            
+            <!-- Column 3: ADS (Right) - Hidden on mobile, shown on desktop -->
+            <aside class="hidden lg:block flex-shrink-0 order-3" style="flex-basis: 200px;">
+                <AdsSidebar />
+            </aside>
+        </div>
     </div>
-
-    <RightSidebar slot="right-sidebar" />
 
 </SocialLayout>

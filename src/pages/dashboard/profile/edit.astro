@@ -1,0 +1,37 @@
+---
+import SocialLayout from '../../../layouts/SocialLayout.astro';
+import { createSupabaseServerClient } from '../../../lib/supabase';
+import LeftSidebar from '../../../components/social/LeftSidebar.astro';
+import ProfileEditForm from '../../../components/dashboard/forms/ProfileEditForm.tsx';
+
+// Protected Route - Require authentication
+const user = Astro.locals.user;
+if (!user) {
+    return Astro.redirect('/login');
+}
+
+// Fetch current profile data
+const supabase = createSupabaseServerClient({ req: Astro.request, cookies: Astro.cookies });
+const { data: profile, error: profileError } = await supabase
+    .from('profiles')
+    .select('*')
+    .eq('id', user.id)
+    .single();
+
+if (profileError) {
+    console.error('[Settings] Error fetching profile:', profileError);
+    return Astro.redirect('/dashboard/profile?error=profile_not_found');
+}
+---
+
+<SocialLayout title="Edit Profile" hideRightSidebar={true}>
+    <LeftSidebar slot="left-sidebar" />
+    
+    <div class="max-w-5xl mx-auto py-8 px-4">
+        <ProfileEditForm 
+            client:load
+            currentUser={user}
+            initialProfile={profile}
+        />
+    </div>
+</SocialLayout>

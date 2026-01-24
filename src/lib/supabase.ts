@@ -11,6 +11,7 @@ if (!supabaseUrl || !supabaseKey) {
 }
 
 // Client-side client (Singleton for browser)
+// createBrowserClient maneja las cookies automáticamente
 export const supabase = createBrowserClient<Database>(supabaseUrl, supabaseKey);
 
 import type { AstroCookies } from 'astro';
