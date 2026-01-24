@@ -1,0 +1,16 @@
+---
+import SocialLayout from "../../layouts/SocialLayout.astro";
+import LeftSidebar from "../../components/social/LeftSidebar.astro";
+import RightSidebar from "../../components/social/RightSidebar.astro";
+import UserGrid from "../../components/social/UserGrid";
+---
+
+<SocialLayout title="Z-NETWORK | Zvenia Mining">
+    <LeftSidebar slot="left-sidebar" />
+
+    <div class="max-w-7xl mx-auto space-y-6">
+        <UserGrid client:visible />
+    </div>
+
+    <RightSidebar slot="right-sidebar" />
+</SocialLayout>

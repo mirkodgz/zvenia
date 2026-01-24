@@ -1,7 +1,7 @@
 import { Button } from '@/components/ui/button'
 import { Separator } from '@/components/ui/separator'
 
-import LoginForm from '@/components/shadcn-studio/blocks/login-page-04/login-form'
+import LoginForm from './login-form'
 
 const Login = () => {
   return (

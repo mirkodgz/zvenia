@@ -29,16 +29,20 @@ export const onRequest = defineMiddleware(async (context, next) => {
 
     context.locals.supabase = supabase;
 
-    // Obtener usuario autenticado
+    // Obtener sesión y usuario autenticado
     const {
-        data: { user },
-    } = await supabase.auth.getUser();
+        data: { session },
+    } = await supabase.auth.getSession();
+
+    const user = session?.user || null;
+
+    context.locals.session = session;
 
     // Si hay usuario, obtener su perfil
     if (user) {
         const { data: profile } = await supabase
             .from('profiles')
-            .select('role, country, full_name, first_name, last_name, avatar_url')
+            .select('role, country, full_name, first_name, last_name, avatar_url, profile_slug')
             .eq('id', user.id)
             .single();
 
@@ -49,6 +53,7 @@ export const onRequest = defineMiddleware(async (context, next) => {
             (user as any).first_name = profile.first_name;
             (user as any).last_name = profile.last_name;
             (user as any).avatar_url = profile.avatar_url;
+            (user as any).profile_slug = profile.profile_slug;
         }
 
         context.locals.user = user;
@@ -58,6 +63,7 @@ export const onRequest = defineMiddleware(async (context, next) => {
             role: (profile.role || 'Basic') as UserRole,
             full_name: profile.full_name || user.email!,
             avatar_url: profile.avatar_url || null,
+            profile_slug: profile.profile_slug || null,
         } : null;
     } else {
         context.locals.user = null;
@@ -113,6 +119,7 @@ export const onRequest = defineMiddleware(async (context, next) => {
             role: userRole,
             full_name: profile.full_name || user.email!,
             avatar_url: profile.avatar_url || null,
+            profile_slug: null // Admin access doesn't necessarily need a slug, but type requires it
         };
     }
 

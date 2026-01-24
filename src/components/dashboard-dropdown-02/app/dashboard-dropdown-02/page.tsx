@@ -1,6 +1,6 @@
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar'
 
-import ProfileDropdown from '@/components/shadcn-studio/blocks/dropdown-profile'
+import ProfileDropdown from '@/components/dashboard-dropdown-02/components/shadcn-studio/blocks/dropdown-profile'
 
 const DropdownPage = () => {
   return (

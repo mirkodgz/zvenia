@@ -1,17 +1,19 @@
 import React, { useState, useEffect, useRef } from 'react';
 import { supabase } from '../../lib/supabase';
+import { createClient } from '@supabase/supabase-js';
 
 interface LikeButtonProps {
     contentId: string;
     contentType: 'post' | 'service' | 'event' | 'podcast';
     initialCount: number;
     currentUserId?: string;
+    sessionAccessToken?: string;
 }
 
-export default function LikeButton({ contentId, contentType, initialCount, currentUserId }: LikeButtonProps) {
+export default function LikeButton({ contentId, contentType, initialCount, currentUserId, sessionAccessToken }: LikeButtonProps) {
     const [liked, setLiked] = useState(false);
     const [count, setCount] = useState(initialCount);
-    const [loading, setLoading] = useState(false);
+    // const [loading, setLoading] = useState(false); 
 
     // To prevent race conditions or double clicks
     const processingRef = useRef(false);
@@ -23,6 +25,7 @@ export default function LikeButton({ contentId, contentType, initialCount, curre
 
     const checkIfLiked = async () => {
         try {
+            // Using maybeSingle to verify if the user liked this specific content
             const { data, error } = await supabase
                 .from('social_likes')
                 .select('id')
@@ -40,24 +43,44 @@ export default function LikeButton({ contentId, contentType, initialCount, curre
     };
 
     const handleToggleLike = async () => {
-        if (!currentUserId) {
+        let activeUser = null;
+        let effectiveClient = supabase;
+
+        // 1. Try standard client check
+        const { data: { user } } = await supabase.auth.getUser();
+        activeUser = user;
+
+        // 2. Recovery: If standard client fails but we have a token
+        if (!activeUser && sessionAccessToken) {
+            console.log("⚠️ Client auth lost. Using isolated client with explicit token...");
+
+            const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL;
+            const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
+
+            // "Nuclear Option": Create a temporary client just for this request
+            // This guarantees the Auth header is present regardless of cookie state
+            effectiveClient = createClient(supabaseUrl, supabaseKey, {
+                global: {
+                    headers: {
+                        Authorization: `Bearer ${sessionAccessToken}`
+                    }
+                }
+            });
+
+            // Verify the token is valid by getting user from this new client
+            const { data: { user: recoveredUser } } = await effectiveClient.auth.getUser();
+            activeUser = recoveredUser;
+        }
+
+        if (!activeUser) {
+            console.error("Debug: No user found even with recovery.");
             alert("Please sign in to like content.");
             return;
         }
+
+        const actorId = activeUser.id;
+
         if (processingRef.current) return;
-
-        // DEBUG: Check Auth status
-        const { data: { user } } = await supabase.auth.getUser();
-        console.log("DEBUG: Like Button Click");
-        console.log("  - Prop currentUserId:", currentUserId);
-        console.log("  - Client User ID:", user?.id);
-
-        if (!user || user.id !== currentUserId) {
-            console.warn("  - MISMATCH OR NO SESSION!");
-            alert("Session mismatch. Please refresh or relogin.");
-            return;
-        }
-
         processingRef.current = true;
 
         // Optimistic update
@@ -70,11 +93,11 @@ export default function LikeButton({ contentId, contentType, initialCount, curre
         try {
             if (previousLiked) {
                 // Unlike
-                const { error } = await supabase
+                const { error } = await effectiveClient
                     .from('social_likes')
                     .delete()
                     .match({
-                        user_id: currentUserId,
+                        user_id: actorId,
                         content_type: contentType,
                         content_id: contentId
                     } as any);
@@ -82,10 +105,10 @@ export default function LikeButton({ contentId, contentType, initialCount, curre
                 if (error) throw error;
             } else {
                 // Like
-                const { error } = await supabase
+                const { error } = await effectiveClient
                     .from('social_likes')
                     .insert({
-                        user_id: currentUserId,
+                        user_id: actorId,
                         content_type: contentType,
                         content_id: contentId
                     } as any);
@@ -97,7 +120,8 @@ export default function LikeButton({ contentId, contentType, initialCount, curre
             // Revert on error
             setLiked(previousLiked);
             setCount(previousCount);
-            alert("Could not update like. Please try again.");
+            // ALERT THE REAL ERROR to debug
+            alert(`Error: ${(err as any).message || "Unknown error"}`);
         } finally {
             processingRef.current = false;
         }
@@ -109,7 +133,7 @@ export default function LikeButton({ contentId, contentType, initialCount, curre
                 e.stopPropagation();
                 handleToggleLike();
             }}
-            className={`flex items-center gap-1.5 transition-colors group text-xs font-medium ${liked ? 'text-green-400' : 'hover:text-green-400'}`}
+            className={`flex items-center gap-1.5 transition-colors group text-xs font-medium ${liked ? 'text-green-500' : 'hover:text-green-500'}`}
         >
             <svg
                 xmlns="http://www.w3.org/2000/svg"

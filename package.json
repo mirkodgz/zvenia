@@ -38,6 +38,7 @@
         "@types/react": "18.3.18",
         "@types/react-dom": "18.3.5",
         "astro": "^5.0.5",
+        "axios": "^1.13.2",
         "class-variance-authority": "^0.7.1",
         "cloudinary": "^2.9.0",
         "clsx": "^2.1.1",
@@ -45,6 +46,7 @@
         "csv-parse": "^6.1.0",
         "date-fns": "^4.1.0",
         "dotenv": "^17.2.3",
+        "fast-csv": "^5.0.5",
         "lucide-react": "^0.468.0",
         "react": "18.3.1",
         "react-dom": "18.3.1",
@@ -57,6 +59,7 @@
         "vaul": "^1.1.1"
     },
     "devDependencies": {
+        "@types/node": "^25.0.10",
         "prettier": "^3.4.2",
         "prettier-plugin-astro": "^0.14.1",
         "tsx": "^4.21.0"

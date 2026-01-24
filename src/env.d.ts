@@ -16,6 +16,15 @@ declare global {
         interface Locals {
             supabase: SupabaseClient<Database>;
             user: (User & { role?: string; country?: string | null }) | null;
+            session: import('@supabase/supabase-js').Session | null;
+            profile: {
+                id: string;
+                email: string;
+                role: string; // Use string or specific UserRole if imported
+                full_name: string;
+                avatar_url: string | null;
+                profile_slug: string | null;
+            } | null;
         }
     }
 }

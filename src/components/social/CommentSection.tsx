@@ -1,5 +1,6 @@
 import React, { useState, useEffect } from 'react';
 import { supabase } from '../../lib/supabase';
+import { createClient } from '@supabase/supabase-js';
 
 interface Comment {
     id: string;
@@ -17,9 +18,10 @@ interface CommentSectionProps {
     contentId: string;
     contentType: 'post' | 'service' | 'event' | 'podcast';
     currentUserId?: string;
+    sessionAccessToken?: string;
 }
 
-export default function CommentSection({ contentId, contentType, currentUserId }: CommentSectionProps) {
+export default function CommentSection({ contentId, contentType, currentUserId, sessionAccessToken }: CommentSectionProps) {
     const [comments, setComments] = useState<Comment[]>([]);
     const [newComment, setNewComment] = useState('');
     const [loading, setLoading] = useState(true);
@@ -27,8 +29,6 @@ export default function CommentSection({ contentId, contentType, currentUserId }
 
     useEffect(() => {
         fetchComments();
-
-        // Optional: Realtime subscription could go here
     }, [contentId]);
 
     const fetchComments = async () => {
@@ -49,8 +49,7 @@ export default function CommentSection({ contentId, contentType, currentUserId }
                 `)
                 .eq('content_type', contentType)
                 .eq('content_id', contentId)
-                .order('created_at', { ascending: true }); // Oldest first for comments usually? Or newest top? Let's do oldest first (chat style) or newest first. Blog comments usually oldest first. 
-            // Actually for feeds, usually newest first or "load more". Let's do Ascending (chronological).
+                .order('created_at', { ascending: true });
 
             if (error) throw error;
             setComments(data as any || []);
@@ -67,7 +66,23 @@ export default function CommentSection({ contentId, contentType, currentUserId }
 
         setSubmitting(true);
         try {
-            const { data, error } = await supabase
+            let effectiveClient = supabase;
+
+            // "Nuclear Option" for Comments: Use isolated client if token is present
+            if (sessionAccessToken) {
+                const supabaseUrl = import.meta.env.PUBLIC_SUPABASE_URL;
+                const supabaseKey = import.meta.env.PUBLIC_SUPABASE_ANON_KEY;
+
+                effectiveClient = createClient(supabaseUrl, supabaseKey, {
+                    global: {
+                        headers: {
+                            Authorization: `Bearer ${sessionAccessToken}`
+                        }
+                    }
+                });
+            }
+
+            const { data, error } = await effectiveClient
                 .from('social_comments')
                 .insert({
                     content: newComment.trim(),
@@ -81,11 +96,11 @@ export default function CommentSection({ contentId, contentType, currentUserId }
             if (error) throw error;
 
             setNewComment('');
-            // Refetch to get the profile data with the new comment (or optimistic update if we had profile data in hand)
             fetchComments();
         } catch (err) {
-            alert('Error posting comment');
             console.error(err);
+            // ALERT THE REAL ERROR to debug
+            alert(`Error posting comment: ${(err as any).message || "Unknown error"}`);
         } finally {
             setSubmitting(false);
         }
@@ -100,7 +115,7 @@ export default function CommentSection({ contentId, contentType, currentUserId }
     if (loading) return <div className="p-4 text-center text-xs text-gray-500">Loading comments...</div>;
 
     return (
-        <div className="border-t border-[var(--border-color)] bg-[var(--bg-surface-hover)]/50">
+        <div className="border-t border-(--border-color) bg-(--bg-surface-hover)/50">
             {/* List */}
             <div className="p-4 space-y-4 max-h-96 overflow-y-auto">
                 {comments.length === 0 ? (
@@ -108,7 +123,7 @@ export default function CommentSection({ contentId, contentType, currentUserId }
                 ) : (
                     comments.map(c => (
                         <div key={c.id} className="flex gap-3">
-                            <div className="flex-shrink-0 w-8 h-8 bg-gray-200 rounded-full overflow-hidden">
+                            <div className="shrink-0 w-8 h-8 bg-gray-200 rounded-full overflow-hidden">
                                 {c.profiles?.avatar_url ? (
                                     <img src={c.profiles.avatar_url} alt={c.profiles.username} className="w-full h-full object-cover" />
                                 ) : (
@@ -118,12 +133,12 @@ export default function CommentSection({ contentId, contentType, currentUserId }
                                 )}
                             </div>
                             <div className="flex-1">
-                                <div className="bg-[var(--bg-card)] p-3 rounded-lg rounded-tl-none border border-[var(--border-color)] text-sm shadow-sm">
+                                <div className="bg-(--bg-card) p-3 rounded-lg rounded-tl-none border border-(--border-color) text-sm shadow-sm">
                                     <div className="flex justify-between items-baseline mb-1">
-                                        <span className="font-semibold text-[var(--text-main)] text-xs">{c.profiles?.full_name || 'Unknown'}</span>
+                                        <span className="font-semibold text-(--text-main) text-xs">{c.profiles?.full_name || 'Unknown'}</span>
                                         <span className="text-[10px] text-gray-400">{formatDate(c.created_at)}</span>
                                     </div>
-                                    <p className="text-[var(--text-secondary)] whitespace-pre-wrap">{c.content}</p>
+                                    <p className="text-(--text-secondary) whitespace-pre-wrap">{c.content}</p>
                                 </div>
                             </div>
                         </div>
@@ -133,13 +148,13 @@ export default function CommentSection({ contentId, contentType, currentUserId }
 
             {/* Input */}
             {currentUserId ? (
-                <form onSubmit={handleSubmit} className="p-3 border-t border-[var(--border-color)] flex gap-2">
+                <form onSubmit={handleSubmit} className="p-3 border-t border-(--border-color) flex gap-2">
                     <input
                         type="text"
                         value={newComment}
                         onChange={(e) => setNewComment(e.target.value)}
                         placeholder="Write a comment..."
-                        className="flex-1 bg-[var(--bg-main)] border border-[var(--border-color)] rounded-full px-4 py-2 text-sm focus:outline-none focus:border-green-500 transition-colors"
+                        className="flex-1 bg-(--bg-main) border border-(--border-color) rounded-full px-4 py-2 text-sm focus:outline-none focus:border-green-500 transition-colors"
                         disabled={submitting}
                     />
                     <button
@@ -153,7 +168,7 @@ export default function CommentSection({ contentId, contentType, currentUserId }
                     </button>
                 </form>
             ) : (
-                <div className="p-3 text-center border-t border-[var(--border-color)]">
+                <div className="p-3 text-center border-t border-(--border-color)">
                     <p className="text-xs text-gray-500">
                         Please <a href="/login" className="text-green-500 hover:underline">sign in</a> to comment.
                     </p>

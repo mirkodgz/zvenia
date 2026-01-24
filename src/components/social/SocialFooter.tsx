@@ -10,6 +10,7 @@ interface SocialFooterProps {
     likesCount: number;
     commentsCount: number;
     currentUserId?: string;
+    sessionAccessToken?: string; // Hydration token
 }
 
 export default function SocialFooter({
@@ -18,7 +19,8 @@ export default function SocialFooter({
     postTitle,
     likesCount,
     commentsCount,
-    currentUserId
+    currentUserId,
+    sessionAccessToken
 }: SocialFooterProps) {
     const [showComments, setShowComments] = useState(false);
     const [localCommentsCount, setLocalCommentsCount] = useState(commentsCount);
@@ -26,7 +28,7 @@ export default function SocialFooter({
     return (
         <div className="flex flex-col">
             {/* Action Bar */}
-            <div className="px-4 py-3 bg-[var(--bg-surface-hover)] border-t border-[var(--border-color)] flex justify-between items-center text-[var(--text-secondary)]">
+            <div className="px-4 py-3 bg-(--bg-surface-hover) border-t border-(--border-color) flex justify-between items-center text-(--text-secondary)">
                 {/* Left: Interactions */}
                 <div className="flex gap-6 text-xs font-medium">
                     <LikeButton
@@ -34,6 +36,7 @@ export default function SocialFooter({
                         contentType="post"
                         initialCount={likesCount}
                         currentUserId={currentUserId}
+                        sessionAccessToken={sessionAccessToken}
                     />
 
                     <button
@@ -64,6 +67,7 @@ export default function SocialFooter({
                         contentId={postId}
                         contentType="post"
                         currentUserId={currentUserId}
+                        sessionAccessToken={sessionAccessToken}
                     />
                 </div>
             )}

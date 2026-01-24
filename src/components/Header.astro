@@ -1,129 +1,202 @@
 ---
-import HeaderUserDropdown from './HeaderUserDropdown';
-import { createSupabaseServerClient } from '../lib/supabase';
+import HeaderUserDropdown from "./HeaderUserDropdown";
+import HeaderNotifications from "./HeaderNotifications";
+import { createSupabaseServerClient } from "../lib/supabase";
 
 // Obtener profile si no está en locals (para rutas que no pasan por el middleware completo)
+// Obtener profile si no está en locals (para rutas que no pasan por el middleware completo)
 const locals = Astro.locals as any;
-let profile: { role?: string } | null = locals.profile;
+let profile: { role?: string; profile_slug?: string } | null = locals.profile;
 
 // Debug: Log para verificar
-console.log('[Header] locals.profile:', locals.profile);
-console.log('[Header] locals.user:', locals.user?.id, locals.user?.email);
+console.log("[Header] locals.profile:", locals.profile);
+console.log("[Header] locals.user:", locals.user?.id, locals.user?.email);
 
 if (!profile && locals.user) {
-    console.log('[Header] Profile no encontrado en locals, obteniendo desde Supabase...');
-    const supabase = createSupabaseServerClient({ req: Astro.request, cookies: Astro.cookies });
-    // Solo obtener las columnas que existen en la tabla
-    const { data: profileData, error: profileError } = await supabase
-        .from('profiles')
-        .select('role, full_name, avatar_url')
-        .eq('id', locals.user.id)
-        .single();
-    
-    console.log('[Header] Profile query result:', { profileData, profileError });
-    
-    if (profileError) {
-        console.error('[Header] Error obteniendo profile:', profileError);
-    }
-    
-    if (profileData && 'role' in profileData) {
-        profile = {
-            role: (profileData as any).role || undefined,
-        };
-        console.log('[Header] Profile obtenido:', profile);
-    } else {
-        console.warn('[Header] Profile data no válido:', profileData);
-    }
+  console.log(
+    "[Header] Profile no encontrado en locals, obteniendo desde Supabase...",
+  );
+  const supabase = createSupabaseServerClient({
+    req: Astro.request,
+    cookies: Astro.cookies,
+  });
+  // Solo obtener las columnas que existen en la tabla
+  const { data: profileData, error: profileError } = await supabase
+    .from("profiles")
+    .select("role, full_name, avatar_url, profile_slug")
+    .eq("id", locals.user.id)
+    .single();
+
+  console.log("[Header] Profile query result:", { profileData, profileError });
+
+  if (profileError) {
+    console.error("[Header] Error obteniendo profile:", profileError);
+  }
+
+  if (profileData) {
+    profile = {
+      role: (profileData as any).role || undefined,
+      profile_slug: (profileData as any).profile_slug || undefined,
+    };
+    console.log("[Header] Profile obtenido:", profile);
+  } else {
+    console.warn("[Header] Profile data no válido:", profileData);
+  }
 } else if (profile) {
-    console.log('[Header] Profile encontrado en locals:', profile);
+  console.log("[Header] Profile encontrado en locals:", profile);
 }
 ---
 
-<header class="fixed top-0 left-0 z-[1000] w-full border-b border-[var(--border-color)] transition-all duration-300" id="main-header" style="height: 70px; min-height: 70px; max-height: 70px; box-sizing: border-box;">
-    <div class="flex h-full items-center justify-between w-full px-4 sm:px-6 lg:px-8" style="background-color: #0d241b;">
-      <!-- Block 1: Left Logo (ZVENIA Mining) -->
-      <div class="flex items-center flex-shrink-0">
-        <a href="/">
-          <img src="/ZVENIA-Mining-Logo.svg" alt="ZVENIA Mining" class="w-full" style="max-height: 45px; height: auto;" />
-        </a>
-      </div>
-
-      <!-- Block 2: Center Logo (ZVENIA) -->
-      <div class="flex items-center justify-center flex-1">
-        <a href="/">
-          <img src="/zvenia-Logo.svg" alt="Zvenia" class="w-auto" style="height: 40px;" />
-        </a>
-      </div>
-
-      <!-- Block 3: Right Actions (User Menu / Login) -->
-      <div class="flex items-center justify-end flex-shrink-0 gap-x-6">
-            {
-                Astro.locals.user ? (
-                   <div class="flex items-center gap-4">
-                       {(() => {
-                          const locals = Astro.locals as any;
-                          const user = locals.user;
-                          
-                          // Asegurar que el rol venga del profile, no del user
-                          const userRole = profile?.role || (user?.role && user?.role !== 'authenticated' ? user?.role : null) || null;
-                          
-                          return (
-                            <HeaderUserDropdown 
-                              client:load
-                              user={{
-                                email: user?.email || '',
-                                first_name: user?.first_name || null,
-                                last_name: user?.last_name || null,
-                                full_name: user?.full_name || null,
-                                avatar_url: user?.avatar_url || null,
-                                role: userRole, // Usar el rol del profile primero
-                              }}
-                              profile={profile ? {
-                                role: profile.role,
-                              } : null}
-                            />
-                          );
-                       })()}
-                   </div>
-                ) : (
-                    <>
-                        <a href="/login" class="text-sm font-semibold leading-6 text-white hover:text-primary-400 transition-colors">Log In</a>
-                        <a href="/join" class="rounded-md bg-primary-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-primary-500 focus-visible:outline focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600 transition-colors">
-                            Join <span aria-hidden="true">&rarr;</span>
-                        </a>
-                    </>
-                )
-            }
-        </div>
-
-      <!-- Mobile Menu Button -->
-      <div class="md:hidden">
-        <button type="button" class="text-gray-300 hover:text-white p-2" aria-label="Menu" id="mobile-menu-btn">
-          <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24">
-            <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M4 6h16M4 12h16M4 18h16"></path>
-          </svg>
-        </button>
-      </div>
+<header
+  class="fixed top-0 left-0 z-1000 w-full border-b border-(--border-color) transition-all duration-300"
+  id="main-header"
+  style="height: 70px; min-height: 70px; max-height: 70px; box-sizing: border-box;"
+>
+  <div
+    class="flex h-full items-center justify-between w-full px-4 sm:px-6 lg:px-8"
+    style="background-color: #0d241b;"
+  >
+    <!-- Block 1: Left Logo (ZVENIA Mining) -->
+    <div class="flex items-center shrink-0">
+      <a href="/">
+        <img
+          src="/ZVENIA-Mining-Logo.svg"
+          alt="ZVENIA Mining"
+          class="w-full"
+          style="max-height: 45px; height: auto;"
+        />
+      </a>
     </div>
 
+    <!-- Block 2: Center Logo (ZVENIA) -->
+    <div class="flex items-center justify-center flex-1">
+      <a href="/">
+        <img
+          src="/zvenia-Logo.svg"
+          alt="Zvenia"
+          class="w-auto"
+          style="height: 40px;"
+        />
+      </a>
+    </div>
+
+    <!-- Block 3: Right Actions (User Menu / Login) -->
+    <div class="flex items-center justify-end shrink-0 gap-x-6">
+      {
+        Astro.locals.user ? (
+          <div class="flex items-center gap-4">
+            <HeaderNotifications
+              client:load
+              currentUserId={Astro.locals.user?.id}
+              sessionAccessToken={(Astro.locals as any).session?.access_token}
+            />
+            {(() => {
+              const locals = Astro.locals as any;
+              const user = locals.user;
+
+              // Asegurar que el rol venga del profile, no del user
+              const userRole =
+                profile?.role ||
+                (user?.role && user?.role !== "authenticated"
+                  ? user?.role
+                  : null) ||
+                null;
+
+              return (
+                <HeaderUserDropdown
+                  client:load
+                  user={{
+                    email: user?.email || "",
+                    first_name: user?.first_name || null,
+                    last_name: user?.last_name || null,
+                    full_name: user?.full_name || null,
+                    avatar_url: user?.avatar_url || null,
+                    role: userRole, // Usar el rol del profile primero
+                  }}
+                  profile={
+                    profile
+                      ? {
+                          role: profile.role,
+                          profile_slug: profile.profile_slug,
+                        }
+                      : null
+                  }
+                />
+              );
+            })()}
+          </div>
+        ) : (
+          <>
+            <a
+              href="/login"
+              class="text-sm font-semibold leading-6 text-white hover:text-primary-400 transition-colors"
+            >
+              Log In
+            </a>
+            <a
+              href="/join"
+              class="rounded-md bg-primary-600 px-3.5 py-2.5 text-sm font-semibold text-white shadow-sm hover:bg-primary-500 focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600 transition-colors"
+            >
+              Join <span aria-hidden="true">&rarr;</span>
+            </a>
+          </>
+        )
+      }
+    </div>
+
+    <!-- Mobile Menu Button -->
+    <div class="md:hidden">
+      <button
+        type="button"
+        class="text-gray-300 hover:text-white p-2"
+        aria-label="Menu"
+        id="mobile-menu-btn"
+      >
+        <svg
+          class="w-6 h-6"
+          fill="none"
+          stroke="currentColor"
+          viewBox="0 0 24 24"
+        >
+          <path
+            stroke-linecap="round"
+            stroke-linejoin="round"
+            stroke-width="2"
+            d="M4 6h16M4 12h16M4 18h16"></path>
+        </svg>
+      </button>
+    </div>
+  </div>
+
   <!-- Mobile Menu (Hidden by default) -->
-  <div class="hidden md:hidden bg-black border-t border-white/10" id="mobile-menu">
+  <div
+    class="hidden md:hidden bg-black border-t border-white/10"
+    id="mobile-menu"
+  >
     <div class="px-4 pt-2 pb-6 space-y-1">
       <!-- Mobile Nav Links Removed -->
       <div class="pt-4 border-t border-white/10 mt-4 flex flex-col gap-3">
-        <a href="/login" class="block text-center px-3 py-2 text-base font-medium text-gray-300 hover:text-white">Log In</a>
-        <a href="/join" class="block text-center px-3 py-3 text-base font-bold text-black bg-primary-400 hover:bg-primary-500 rounded-md">Join Free</a>
+        <a
+          href="/login"
+          class="block text-center px-3 py-2 text-base font-medium text-gray-300 hover:text-white"
+          >Log In</a
+        >
+        <a
+          href="/join"
+          class="block text-center px-3 py-3 text-base font-bold text-black bg-primary-400 hover:bg-primary-500 rounded-md"
+          >Join Free</a
+        >
       </div>
     </div>
   </div>
 </header>
 <script>
-  const btn = document.getElementById('mobile-menu-btn');
-  const menu = document.getElementById('mobile-menu');
+  const btn = document.getElementById("mobile-menu-btn");
+  const menu = document.getElementById("mobile-menu");
 
   if (btn && menu) {
-    btn.addEventListener('click', () => {
-      menu.classList.toggle('hidden');
+    btn.addEventListener("click", () => {
+      menu.classList.toggle("hidden");
     });
   }
 </script>

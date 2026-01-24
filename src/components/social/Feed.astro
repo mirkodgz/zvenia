@@ -1,58 +1,55 @@
 ---
-import { supabase } from '../../lib/supabase';
-import CreateContentModal from '../dashboard/CreateContentModal';
-import PostCard from './PostCard.astro';
-import PodcastRow from './PodcastRow';
-import EventCard from './EventCard';
-import ServiceCard from './ServiceCard';
+import { supabase } from "../../lib/supabase";
+import CreateContentModal from "../dashboard/CreateContentModal";
+import PostCard from "./PostCard.astro";
+import PodcastRow from "./PodcastRow";
+import EventCard from "./EventCard";
+import ServiceCard from "./ServiceCard";
 
 // ... (existing imports)
 
 // ...
 
-
-
 // 1. Get Feed Type from URL
-const feedType = Astro.url.searchParams.get('feed') || 'post';
+const feedType = Astro.url.searchParams.get("feed") || "post";
 
 // 2. Polymorphic Fetching
 let data: any[] = [];
 let error = null;
 
-if (feedType === 'post') {
+if (feedType === "post") {
     const { data: posts, error: err } = await supabase
-        .from('posts')
-        .select(`*, author:profiles(full_name, avatar_url, profession, company), topic:topics(name, slug)`)
-        .order('created_at', { ascending: false })
+        .from("posts")
+        .select(
+            `*, author:profiles(full_name, avatar_url, profession, company, profile_slug), topic:topics(name, slug)`,
+        )
+        .order("created_at", { ascending: false })
         .limit(20);
     data = posts || [];
     error = err;
-
-} else if (feedType === 'event') {
+} else if (feedType === "event") {
     const now = new Date().toISOString();
     const { data: events, error: err } = await supabase
-        .from('events')
-        .select('*')
+        .from("events")
+        .select("*")
         .or(`end_date.gte.${now},start_date.gte.${now}`) // Future events
-        .order('created_at', { ascending: false })
+        .order("created_at", { ascending: false })
         .limit(50);
     data = events || [];
     error = err;
-
-} else if (feedType === 'podcast') {
+} else if (feedType === "podcast") {
     const { data: podcasts, error: err } = await supabase
-        .from('podcasts')
-        .select('*')
-        .order('created_at', { ascending: false })
+        .from("podcasts")
+        .select("*")
+        .order("created_at", { ascending: false })
         .limit(20);
     data = podcasts || [];
     error = err;
-
-} else if (feedType === 'service') {
+} else if (feedType === "service") {
     const { data: services, error: err } = await supabase
-        .from('services')
-        .select('*')
-        .order('created_at', { ascending: false })
+        .from("services")
+        .select("*")
+        .order("created_at", { ascending: false })
         .limit(20);
     data = services || [];
     error = err;
@@ -64,83 +61,287 @@ if (error) {
 
 // Helper: Date Format
 const formatDate = (dateStr: string | null) => {
-    if(!dateStr) return '';
-    return new Date(dateStr).toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-}
+    if (!dateStr) return "";
+    return new Date(dateStr).toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+    });
+};
 ---
 
 <div class="w-full mx-auto pb-20">
-    
     <!-- Header / Creator -->
-    {Astro.locals.user && (
-        <CreateContentModal 
-            client:load 
-            currentUser={Astro.locals.user} 
-            userInitials={Astro.locals.user.email?.charAt(0).toUpperCase() || 'U'}
-            activeFeed={feedType}
-        />
-    )}
+    {
+        Astro.locals.user && (
+            <CreateContentModal
+                client:load
+                currentUser={Astro.locals.user}
+                userInitials={
+                    Astro.locals.user.email?.charAt(0).toUpperCase() || "U"
+                }
+                activeFeed={feedType}
+            />
+        )
+    }
 
     <!-- Feed Label -->
     <div class="flex justify-between items-center px-4 mb-4">
-        <h3 class="text-[var(--text-main)] font-bold text-lg capitalize flex items-center gap-2">
-            {feedType === 'post' && (
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-primary-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><line x1="10" y1="9" x2="8" y2="9"/></svg>
-            )}
-            {feedType === 'event' && (
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-primary-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-            )}
-            {feedType === 'podcast' && (
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-primary-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
-            )}
-            {feedType === 'service' && (
-                <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5 text-primary-400" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>
-            )}
-            
-            {feedType === 'post' && 'Latest Posts'}
-            {feedType === 'event' && 'Upcoming Events'}
-            {feedType === 'podcast' && 'Recent Podcasts'}
-            {feedType === 'service' && 'Professional Services'}
+        <h3
+            class="text-(--text-main) font-bold text-lg capitalize flex items-center gap-2"
+        >
+            {
+                feedType === "post" && (
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="w-5 h-5 text-primary-400"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                    >
+                        <>
+                            <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" />
+                            <polyline points="14 2 14 8 20 8" />
+                            <line x1="16" y1="13" x2="8" y2="13" />
+                            <line x1="16" y1="17" x2="8" y2="17" />
+                            <line x1="10" y1="9" x2="8" y2="9" />
+                        </>
+                    </svg>
+                )
+            }
+            {
+                feedType === "event" && (
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="w-5 h-5 text-primary-400"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                    >
+                        <>
+                            <rect
+                                x="3"
+                                y="4"
+                                width="18"
+                                height="18"
+                                rx="2"
+                                ry="2"
+                            />
+                            <line x1="16" y1="2" x2="16" y2="6" />
+                            <line x1="8" y1="2" x2="8" y2="6" />
+                            <line x1="3" y1="10" x2="21" y2="10" />
+                        </>
+                    </svg>
+                )
+            }
+            {
+                feedType === "podcast" && (
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="w-5 h-5 text-primary-400"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                    >
+                        <>
+                            <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" />
+                            <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
+                            <line x1="12" y1="19" x2="12" y2="23" />
+                            <line x1="8" y1="23" x2="16" y2="23" />
+                        </>
+                    </svg>
+                )
+            }
+            {
+                feedType === "service" && (
+                    <svg
+                        xmlns="http://www.w3.org/2000/svg"
+                        class="w-5 h-5 text-primary-400"
+                        viewBox="0 0 24 24"
+                        fill="none"
+                        stroke="currentColor"
+                        stroke-width="2"
+                        stroke-linecap="round"
+                        stroke-linejoin="round"
+                    >
+                        <>
+                            <rect
+                                x="2"
+                                y="7"
+                                width="20"
+                                height="14"
+                                rx="2"
+                                ry="2"
+                            />
+                            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+                        </>
+                    </svg>
+                )
+            }
+
+            {feedType === "post" && "Latest Posts"}
+            {feedType === "event" && "Upcoming Events"}
+            {feedType === "podcast" && "Recent Podcasts"}
+            {feedType === "service" && "Professional Services"}
         </h3>
-        <span class="text-xs text-gray-500">Sorted by: <span class="font-bold text-[var(--text-main)]">Newest</span></span>
+        <span class="text-xs text-gray-500"
+            >Sorted by: <span class="font-bold text-(--text-main)">Newest</span
+            ></span
+        >
     </div>
 
     <!-- Empty State -->
-    {data.length === 0 && (
-        <div class="text-center py-16 bg-[#1A1A1A] border border-white/10 mx-4">
-            <div class="mb-4 opacity-20 flex justify-center">
-                {feedType === 'post' && <svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><line x1="10" y1="9" x2="8" y2="9"/></svg>}
-                {feedType === 'event' && <svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>}
-                {feedType === 'podcast' && <svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>}
-                {feedType === 'service' && <svg xmlns="http://www.w3.org/2000/svg" class="w-16 h-16 text-white" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>}
+    {
+        data.length === 0 && (
+            <div class="text-center py-16 bg-[#1A1A1A] border border-white/10 mx-4">
+                <div class="mb-4 opacity-20 flex justify-center">
+                    {feedType === "post" && (
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="w-16 h-16 text-white"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="1.5"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        >
+                            <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" />
+                            <polyline points="14 2 14 8 20 8" />
+                            <line x1="16" y1="13" x2="8" y2="13" />
+                            <line x1="16" y1="17" x2="8" y2="17" />
+                            <line x1="10" y1="9" x2="8" y2="9" />
+                        </svg>
+                    )}
+                    {feedType === "event" && (
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="w-16 h-16 text-white"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="1.5"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        >
+                            <rect
+                                x="3"
+                                y="4"
+                                width="18"
+                                height="18"
+                                rx="2"
+                                ry="2"
+                            />
+                            <line x1="16" y1="2" x2="16" y2="6" />
+                            <line x1="8" y1="2" x2="8" y2="6" />
+                            <line x1="3" y1="10" x2="21" y2="10" />
+                        </svg>
+                    )}
+                    {feedType === "podcast" && (
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="w-16 h-16 text-white"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="1.5"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        >
+                            <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" />
+                            <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
+                            <line x1="12" y1="19" x2="12" y2="23" />
+                            <line x1="8" y1="23" x2="16" y2="23" />
+                        </svg>
+                    )}
+                    {feedType === "service" && (
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="w-16 h-16 text-white"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="1.5"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        >
+                            <rect
+                                x="2"
+                                y="7"
+                                width="20"
+                                height="14"
+                                rx="2"
+                                ry="2"
+                            />
+                            <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+                        </svg>
+                    )}
+                </div>
+                <h3 class="text-xl font-bold text-white mb-2">
+                    No {feedType}s found
+                </h3>
+                <p class="text-gray-400 text-sm">Be the first to create one!</p>
             </div>
-            <h3 class="text-xl font-bold text-white mb-2">No {feedType}s found</h3>
-            <p class="text-gray-400 text-sm">Be the first to create one!</p>
-        </div>
-    )}
+        )
+    }
 
     <!-- FEED RENDERER -->
-    <div class={(feedType === 'event' || feedType === 'service') ? 'grid grid-cols-1 md:grid-cols-2 gap-4 px-2' : 'space-y-4 px-2'}>
-        
+    <div
+        class={feedType === "event" || feedType === "service"
+            ? "grid grid-cols-1 md:grid-cols-2 gap-4 px-2"
+            : "space-y-4 px-2"}
+    >
         {/* POSTS */}
-        {feedType === 'post' && data.map((item) => (
-            <PostCard post={item} currentUser={Astro.locals.user} />
-        ))}
+        {
+            feedType === "post" &&
+                data.map((item) => (
+                    <PostCard post={item} currentUser={Astro.locals.user} />
+                ))
+        }
 
         {/* EVENTS */}
-        {feedType === 'event' && data.map((item) => (
-             <EventCard client:load event={item} currentUser={Astro.locals.user} />
-        ))}
+        {
+            feedType === "event" &&
+                data.map((item) => (
+                    <EventCard
+                        client:load
+                        event={item}
+                        currentUser={Astro.locals.user}
+                    />
+                ))
+        }
 
         {/* PODCASTS */}
-        {feedType === 'podcast' && data.map((item) => (
-            <PodcastRow client:load podcast={item} currentUser={Astro.locals.user} />
-        ))}
+        {
+            feedType === "podcast" &&
+                data.map((item) => (
+                    <PodcastRow
+                        client:load
+                        podcast={item}
+                        currentUser={Astro.locals.user}
+                    />
+                ))
+        }
 
         {/* SERVICES */}
-        {feedType === 'service' && data.map((item) => (
-            <ServiceCard client:load service={item} currentUser={Astro.locals.user} />
-        ))}
-        
+        {
+            feedType === "service" &&
+                data.map((item) => (
+                    <ServiceCard
+                        client:load
+                        service={item}
+                        currentUser={Astro.locals.user}
+                    />
+                ))
+        }
     </div>
 </div>

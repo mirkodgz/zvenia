@@ -1,119 +1,163 @@
 ---
-import SocialLayout from '../../layouts/SocialLayout.astro';
-import LeftSidebar from '../../components/social/LeftSidebar.astro';
-import AdsSidebar from '../../components/social/AdsSidebar.astro';
-import EventCard from '../../components/social/EventCard';
-import PostCard from '../../components/social/PostCard.astro';
-import PodcastRow from '../../components/social/PodcastRow';
-import ServiceRow from '../../components/social/ServiceRow';
-import { supabase } from '../../lib/supabase';
+import SocialLayout from "../../layouts/SocialLayout.astro";
+import LeftSidebar from "../../components/social/LeftSidebar.astro";
+import AdsSidebar from "../../components/social/AdsSidebar.astro";
+import EventCard from "../../components/social/EventCard";
+import PostCard from "../../components/social/PostCard.astro";
+import PodcastRow from "../../components/social/PodcastRow";
+import ServiceRow from "../../components/social/ServiceRow";
+import { supabase } from "../../lib/supabase";
 
 const { slug } = Astro.params;
 
 if (!slug) {
-  return Astro.redirect('/404');
+    return Astro.redirect("/404");
 }
 
 // SSR: Fetch Topic by Slug
-let topic;
+let topic: any;
 
-if (slug === 'all' || slug === 'all-topics') {
+if (slug === "all" || slug === "all-topics") {
     topic = {
         id: null,
-        name: 'All Topics',
-        slug: 'all',
-        description: 'browse all posts from every category.'
+        name: "All Topics",
+        slug: "all",
+        description: "browse all posts from every category.",
     };
 } else {
     const { data } = await supabase
-      .from('topics')
-      .select('*')
-      .eq('slug', slug)
-      .single();
+        .from("topics")
+        .select("*")
+        .eq("slug", slug)
+        .single();
     topic = data;
 }
 
 if (!topic) {
-  return Astro.redirect('/404');
+    return Astro.redirect("/404");
 }
 
 // Helper to fetch IDs from junction tables
 async function getLinkedIds(table: string, topicId: string, idCol: string) {
-    const { data } = await supabase.from(table).select(idCol).eq('topic_id', topicId);
+    const { data } = await supabase
+        .from(table)
+        .select(idCol)
+        .eq("topic_id", topicId);
     return data?.map((r: any) => r[idCol]) || [];
 }
 
 // 2. Parallel Fetching of Content Relations
-console.log(`[TOPIC DEBUG] Fetching content for topic: ${topic.name} (${topic.id})`);
+console.log(
+    `[TOPIC DEBUG] Fetching content for topic: ${topic.name} (${topic.id})`,
+);
 
-const [postIds, podcastIds, talkIds, presentationIds, serviceIds, eventIds] = await Promise.all([
-    // Posts: Direct FK or All
-    (topic.id 
-        ? supabase.from('posts').select('id').eq('topic_id', topic.id)
-        : supabase.from('posts').select('id').order('created_at', { ascending: false }).limit(2000)
-    ).then(({ data, error }) => {
-        if(error) console.error('[TOPIC DEBUG] Post Fetch Error:', error);
-        return data?.map(p => p.id) || [];
-    }),
-    
-    // Podcasts: Direct FK
-    supabase.from('podcasts').select('id').eq('topic_id', topic.id).then(({ data }) => data?.map(p => p.id) || []),
+const [postIds, podcastIds, talkIds, presentationIds, serviceIds, eventIds] =
+    await Promise.all([
+        // Posts: Direct FK or All
+        (topic.id
+            ? supabase.from("posts").select("id").eq("topic_id", topic.id)
+            : supabase
+                  .from("posts")
+                  .select("id")
+                  .order("created_at", { ascending: false })
+                  .limit(2000)
+        ).then(({ data, error }) => {
+            if (error) console.error("[TOPIC DEBUG] Post Fetch Error:", error);
+            return data?.map((p) => p.id) || [];
+        }),
 
-    getLinkedIds('talks_topics', topic.id, 'talks_id'),
-    getLinkedIds('presentations_topics', topic.id, 'presentations_id'),
-    
-    // Services: Direct FK
-    supabase.from('services').select('id').eq('topic_id', topic.id).then(({ data }) => data?.map(s => s.id) || []),
-    
-    // Events: Direct FK
-    supabase.from('events').select('id').eq('topic_id', topic.id).then(({ data }) => data?.map(e => e.id) || [])
-]);
+        // Podcasts: Direct FK
+        (topic.id
+            ? supabase.from("podcasts").select("id").eq("topic_id", topic.id)
+            : supabase.from("podcasts").select("id").limit(20)
+        ).then(({ data }) => data?.map((p) => p.id) || []),
 
-console.log(`[TOPIC DEBUG] Found IDs - Posts: ${postIds.length}, Events: ${eventIds.length}, Podcasts: ${podcastIds.length}, Services: ${serviceIds.length}`);
+        topic.id
+            ? getLinkedIds("talks_topics", topic.id, "talks_id")
+            : Promise.resolve([]),
+        topic.id
+            ? getLinkedIds("presentations_topics", topic.id, "presentations_id")
+            : Promise.resolve([]),
+
+        // Services: Direct FK
+        (topic.id
+            ? supabase.from("services").select("id").eq("topic_id", topic.id)
+            : supabase.from("services").select("id").limit(20)
+        ).then(({ data }) => data?.map((s) => s.id) || []),
+
+        // Events: Direct FK
+        (topic.id
+            ? supabase.from("events").select("id").eq("topic_id", topic.id)
+            : supabase.from("events").select("id").limit(100)
+        ).then(({ data }) => data?.map((e) => e.id) || []),
+    ]);
+
+console.log(
+    `[TOPIC DEBUG] Found IDs - Posts: ${postIds.length}, Events: ${eventIds.length}, Podcasts: ${podcastIds.length}, Services: ${serviceIds.length}`,
+);
 
 // 3. Fetch Actual Content
-const fetchContent = async (table: string, ids: string[], typeLabel: string) => {
+const fetchContent = async (
+    table: string,
+    ids: string[],
+    typeLabel: string,
+) => {
     if (ids.length === 0) return [];
-    
+
     // Safety: Slice IDs to max 500 to prevent "URI too long" errors with Supabase GET
     // Since we pre-sort the IDs (see below), taking the first N is safe.
     // Increased from 100 to 500 to support topics with many posts
-    const safeIds = ids.slice(0, 500); 
+    const safeIds = ids.slice(0, 500);
 
-    let selectQuery = '*';
-    if (table === 'posts') {
-        selectQuery = '*, author:profiles(full_name, avatar_url, profession, company)';
-    } else if (table === 'services') {
-        selectQuery = '*, type:service_types(name, slug)';
+    let selectQuery = "*";
+    if (table === "posts") {
+        selectQuery =
+            "*, author:profiles(full_name, avatar_url, profession, company, profile_slug)";
+    } else if (table === "services") {
+        selectQuery = "*, type:service_types(name, slug)";
     }
 
-    let query = supabase.from(table).select(selectQuery).in('id', safeIds);
-    
+    let query = supabase.from(table).select(selectQuery).in("id", safeIds);
+
     // For Events, only show FUTURE events (date >= now)
-    if (table === 'events') {
+    if (table === "events") {
         const now = new Date().toISOString();
-        query = query.or(`end_date.gte.${now},start_date.gte.${now}`)
-                     .order('start_date', { ascending: true });
-    } else if (table === 'services') {
-        query = query.order('created_at', { ascending: false });
+        query = query
+            .or(`end_date.gte.${now},start_date.gte.${now}`)
+            .order("start_date", { ascending: true });
+    } else if (table === "services") {
+        query = query.order("created_at", { ascending: false });
     } else {
         // Maintain order for posts/others
-        query = query.order('created_at', { ascending: false }); 
+        query = query.order("created_at", { ascending: false });
     }
 
     // Initial limit: 15 posts for infinite scroll, 100 for events, 20 for others
-    const limit = (table === 'posts') ? 15 : (table === 'events' ? 100 : 20);
+    const limit = table === "posts" ? 15 : table === "events" ? 100 : 20;
     const { data } = await query.limit(limit);
-    return data?.map(item => ({ ...item, type: typeLabel, collection: table })) || [];
+    return (
+        data?.map((item: any) => ({
+            ...item,
+            type: typeLabel,
+            collection: table,
+        })) || []
+    );
 };
 
-const [postItems, podcastItems, talkItems, presentationItems, serviceItems, realEventItems] = await Promise.all([
-    fetchContent('posts', postIds, 'Post'),
-    fetchContent('podcasts', podcastIds, 'Podcast'),
-    fetchContent('talks', talkIds, 'Talk'), 
-    fetchContent('presentations', presentationIds, 'Presentation'),
-    fetchContent('services', serviceIds, 'Service'),
-    fetchContent('events', eventIds, 'Event')
+const [
+    postItems,
+    podcastItems,
+    talkItems,
+    presentationItems,
+    serviceItems,
+    realEventItems,
+] = await Promise.all([
+    fetchContent("posts", postIds, "Post"),
+    fetchContent("podcasts", podcastIds, "Podcast"),
+    fetchContent("talks", talkIds, "Talk"),
+    fetchContent("presentations", presentationIds, "Presentation"),
+    fetchContent("services", serviceIds, "Service"),
+    fetchContent("events", eventIds, "Event"),
 ]);
 
 // Events Section is now just Real Events
@@ -121,73 +165,138 @@ const eventItems = realEventItems;
 
 // Simple Date Formatter
 const formatDate = (dateStr: string | null) => {
-    if(!dateStr) return '';
+    if (!dateStr) return "";
     const date = new Date(dateStr);
-    return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
-}
+    return date.toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+    });
+};
 ---
 
-<SocialLayout title={`${topic.name} - Mining Topic | Zvenia`} hideRightSidebar={true}>
+<SocialLayout
+    title={`${topic.name} - Mining Topic | Zvenia`}
+    hideRightSidebar={true}
+>
     <LeftSidebar slot="left-sidebar" activeTopicSlug={topic.slug} />
 
     <!-- MAIN CONTENT: 3-column layout similar to single post -->
     <div class="w-full px-4 sm:px-6">
-        <div class="flex flex-col lg:flex-row gap-6 items-start lg:justify-between">
+        <div
+            class="flex flex-col lg:flex-row gap-6 items-start lg:justify-between"
+        >
             <!-- Column 1: Empty/Spacer (Left) - For future use -->
-            <aside class="hidden lg:block flex-shrink-0" style="flex-basis: 220px;">
+            <aside class="hidden lg:block shrink-0" style="flex-basis: 220px;">
                 <!-- Reserved for future components -->
             </aside>
-            
+
             <!-- Column 2: Topic Content (Center) -->
-            <main class="flex-1 w-full lg:w-auto order-1" style="max-width: 500px; width: 100%;">
+            <main
+                class="flex-1 w-full lg:w-auto order-1"
+                style="max-width: 500px; width: 100%;"
+            >
                 <!-- First Block: Header + Tabs -->
                 <div class="mb-6">
                     <!-- Topic Header -->
                     <div class="mb-4">
-                        <h1 class="text-3xl font-bold text-[#202124] mb-2">{topic.name}</h1>
-                        <p class="text-[#202124] text-sm" style="font-size: 15px; font-weight: 400;">
-                            Latest discussions, news, and insights on {topic.name}.
+                        <h1 class="text-3xl font-bold text-dark mb-2">
+                            {topic.name}
+                        </h1>
+                        <p
+                            class="text-dark text-sm"
+                            style="font-size: 15px; font-weight: 400;"
+                        >
+                            Latest discussions, news, and insights on {
+                                topic.name
+                            }.
                         </p>
                     </div>
 
                     <!-- Search Bar (Only for All Topics) -->
-                    {slug === 'all' && (
-                        <div class="mb-4 relative group">
-                            <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                                <svg class="h-5 w-5 text-gray-500 group-focus-within:text-primary-400 transition-colors" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke="currentColor">
-                                    <path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
-                                </svg>
-                            </div>
-                            <input 
-                                type="text" 
-                                id="post-search" 
-                                placeholder="Search posts..." 
-                                class="block w-full pl-11 pr-4 py-3 bg-white border border-[var(--border-color)] rounded-full text-[#202124] placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500 transition-all text-sm shadow-sm"
-                                style="border-radius: 0.6666666667rem;"
-                            />
-                            <div class="absolute inset-y-0 right-0 pr-3 flex items-center">
-                                <div id="search-spinner" class="hidden animate-spin h-4 w-4 text-primary-400">
-                                     <svg xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24">
-                                       <circle class="opacity-25" cx="12" cy="12" r="10" stroke="currentColor" stroke-width="4"></circle>
-                                       <path class="opacity-75" fill="currentColor" d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"></path>
-                                     </svg>
+                    {
+                        slug === "all" && (
+                            <div class="mb-4 relative group">
+                                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
+                                    <svg
+                                        class="h-5 w-5 text-gray-500 group-focus-within:text-primary-400 transition-colors"
+                                        xmlns="http://www.w3.org/2000/svg"
+                                        fill="none"
+                                        viewBox="0 0 24 24"
+                                        stroke="currentColor"
+                                    >
+                                        <path
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                            stroke-width="2"
+                                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                                        />
+                                    </svg>
+                                </div>
+                                <input
+                                    type="text"
+                                    id="post-search"
+                                    placeholder="Search posts..."
+                                    class="block w-full pl-11 pr-4 py-3 bg-white border border-(--border-color) rounded-full text-dark placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500 transition-all text-sm shadow-sm"
+                                    style="border-radius: 0.6666666667rem;"
+                                />
+                                <div class="absolute inset-y-0 right-0 pr-3 flex items-center">
+                                    <div
+                                        id="search-spinner"
+                                        class="hidden animate-spin h-4 w-4 text-primary-400"
+                                    >
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            fill="none"
+                                            viewBox="0 0 24 24"
+                                        >
+                                            <circle
+                                                class="opacity-25"
+                                                cx="12"
+                                                cy="12"
+                                                r="10"
+                                                stroke="currentColor"
+                                                stroke-width="4"
+                                            />
+                                            <path
+                                                class="opacity-75"
+                                                fill="currentColor"
+                                                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                                            />
+                                        </svg>
+                                    </div>
                                 </div>
                             </div>
-                        </div>
-                    )}
+                        )
+                    }
 
                     <!-- Functional Tabs -->
-                    <div class="flex gap-4 overflow-x-auto no-scrollbar pb-1" id="topic-tabs">
-                        <button class="tab-btn btn-tab btn-tab-active shrink-0" data-target="posts">
+                    <div
+                        class="flex gap-4 overflow-x-auto no-scrollbar pb-1"
+                        id="topic-tabs"
+                    >
+                        <button
+                            class="tab-btn btn-tab btn-tab-active shrink-0"
+                            data-target="posts"
+                        >
                             Posts ({postIds.length})
                         </button>
-                        <button class="tab-btn btn-tab shrink-0" data-target="events">
+                        <button
+                            class="tab-btn btn-tab shrink-0"
+                            data-target="events"
+                        >
                             Events ({eventIds.length})
                         </button>
-                        <button class="tab-btn btn-tab shrink-0" data-target="podcasts">
+                        <button
+                            class="tab-btn btn-tab shrink-0"
+                            data-target="podcasts"
+                        >
                             Podcasts ({podcastIds.length})
                         </button>
-                        <button class="tab-btn btn-tab shrink-0" data-target="services">
+                        <button
+                            class="tab-btn btn-tab shrink-0"
+                            data-target="services"
+                        >
                             Services ({serviceIds.length})
                         </button>
                     </div>
@@ -195,326 +304,568 @@ const formatDate = (dateStr: string | null) => {
 
                 <!-- Second Block: Content Sections -->
                 <div class="space-y-4">
-
                     <!-- Content Sections -->
-        
+
                     <!-- POSTS SECTION -->
                     <div id="tab-posts" class="tab-content space-y-8">
-                        {postItems.length === 0 ? (
-                            <div class="text-center py-12 bg-white rounded-lg border border-[var(--border-color)] flex flex-col items-center" style="border-radius: 0.6666666667rem;">
-                                <div class="mb-4 text-gray-400">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z"/><polyline points="14 2 14 8 20 8"/><line x1="16" y1="13" x2="8" y2="13"/><line x1="16" y1="17" x2="8" y2="17"/><line x1="10" y1="9" x2="8" y2="9"/></svg>
+                        {
+                            postItems.length === 0 ? (
+                                <div
+                                    class="text-center py-12 bg-white rounded-lg border border-(--border-color) flex flex-col items-center"
+                                    style="border-radius: 0.6666666667rem;"
+                                >
+                                    <div class="mb-4 text-gray-400">
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            class="w-12 h-12"
+                                            viewBox="0 0 24 24"
+                                            fill="none"
+                                            stroke="currentColor"
+                                            stroke-width="1.5"
+                                            stroke-linecap="round"
+                                            stroke-linejoin="round"
+                                        >
+                                            <>
+                                                <path d="M14.5 2H6a2 2 0 0 0-2 2v16a2 2 0 0 0 2 2h12a2 2 0 0 0 2-2V7.5L14.5 2z" />
+                                                <polyline points="14 2 14 8 20 8" />
+                                                <line
+                                                    x1="16"
+                                                    y1="13"
+                                                    x2="8"
+                                                    y2="13"
+                                                />
+                                                <line
+                                                    x1="16"
+                                                    y1="17"
+                                                    x2="8"
+                                                    y2="17"
+                                                />
+                                                <line
+                                                    x1="10"
+                                                    y1="9"
+                                                    x2="8"
+                                                    y2="9"
+                                                />
+                                            </>
+                                        </svg>
+                                    </div>
+                                    <h3 class="text-xl font-bold text-dark mb-2">
+                                        No posts yet
+                                    </h3>
+                                    <p
+                                        class="text-dark text-sm"
+                                        style="font-size: 15px;"
+                                    >
+                                        Be the first to post about {topic.name}!
+                                    </p>
                                 </div>
-                                <h3 class="text-xl font-bold text-[#202124] mb-2">No posts yet</h3>
-                                <p class="text-[#202124] text-sm" style="font-size: 15px;">Be the first to post about {topic.name}!</p>
-                            </div>
-                        ) : (
-                            postItems.map((item) => (
-                                <PostCard post={item} currentUser={Astro.locals.user} />
-                            ))
-                        )}
+                            ) : (
+                                postItems.map((item) => (
+                                    <PostCard
+                                        post={item}
+                                        currentUser={Astro.locals.user}
+                                    />
+                                ))
+                            )
+                        }
                     </div>
 
                     <!-- Infinite Scroll Sentinel (invisible trigger for auto-loading) -->
-                    <div id="scroll-sentinel" class="h-20 flex items-center justify-center">
-                        <div id="loading-indicator" class="hidden text-xs text-[#202124] animate-pulse">
+                    <div
+                        id="scroll-sentinel"
+                        class="h-20 flex items-center justify-center"
+                    >
+                        <div
+                            id="loading-indicator"
+                            class="hidden text-xs text-dark animate-pulse"
+                        >
                             Loading more posts...
                         </div>
                     </div>
-                    
+
                     <!-- Load More Button (hidden by default, shown only if infinite scroll fails) -->
-                    <div class="mt-8 text-center pb-12 hidden" id="load-more-container">
-                        <button id="load-more-btn" class="px-8 py-3 bg-white border border-[var(--border-color)] rounded-full text-sm font-bold text-[#202124] hover:border-primary-500 hover:bg-primary-500/10 transition-all disabled:opacity-50 disabled:cursor-not-allowed uppercase tracking-wider" style="border-radius: 0.6666666667rem;">
+                    <div
+                        class="mt-8 text-center pb-12 hidden"
+                        id="load-more-container"
+                    >
+                        <button
+                            id="load-more-btn"
+                            class="px-8 py-3 bg-white border border-(--border-color) rounded-full text-sm font-bold text-dark hover:border-primary-500 hover:bg-primary-500/10 transition-all disabled:opacity-50 disabled:cursor-not-allowed uppercase tracking-wider"
+                            style="border-radius: 0.6666666667rem;"
+                        >
                             Load More Posts
                         </button>
                     </div>
                 </div>
             </main>
-            
+
             <!-- Column 3: ADS (Right) -->
-            <aside class="hidden lg:block flex-shrink-0 order-3" style="flex-basis: 200px;">
+            <aside
+                class="hidden lg:block shrink-0 order-3"
+                style="flex-basis: 200px;"
+            >
                 <AdsSidebar />
             </aside>
         </div>
     </div>
 
-        <script define:vars={{ initialOffset: postItems.length, currentSlug: slug }}>
-            let offset = initialOffset; 
-            let currentSearch = '';
-            const limit = 15; // Load 15 posts at a time for smooth infinite scroll
-            let isLoading = false;
-            let hasMorePosts = true;
-            
-            const btn = document.getElementById('load-more-btn');
-            const loadMoreContainer = document.getElementById('load-more-container');
-            const sentinel = document.getElementById('scroll-sentinel');
-            const loadingIndicator = document.getElementById('loading-indicator');
-            const container = document.getElementById('tab-posts');
-            const searchInput = document.getElementById('post-search');
-            const searchSpinner = document.getElementById('search-spinner');
+    <script define:vars={{ initialOffset: postItems.length, currentSlug: slug }}
+    >
+        let offset = initialOffset;
+        let currentSearch = "";
+        const limit = 15; // Load 15 posts at a time for smooth infinite scroll
+        let isLoading = false;
+        let hasMorePosts = true;
 
-            // Debounce Helper
-            const debounce = (func, wait) => {
-                let timeout;
-                return (...args) => {
-                    clearTimeout(timeout);
-                    timeout = setTimeout(() => func.apply(this, args), wait);
-                };
+        const btn = document.getElementById("load-more-btn");
+        const loadMoreContainer = document.getElementById(
+            "load-more-container",
+        );
+        const sentinel = document.getElementById("scroll-sentinel");
+        const loadingIndicator = document.getElementById("loading-indicator");
+        const container = document.getElementById("tab-posts");
+        const searchInput = document.getElementById("post-search");
+        const searchSpinner = document.getElementById("search-spinner");
+
+        // Debounce Helper
+        const debounce = (func, wait) => {
+            let timeout;
+            return (...args) => {
+                clearTimeout(timeout);
+                timeout = setTimeout(() => func.apply(this, args), wait);
             };
+        };
 
-            const loadPosts = async (isSearch = false) => {
-                // Prevent multiple simultaneous loads
-                if (isLoading) return;
-                if (!hasMorePosts && !isSearch) return;
+        const loadPosts = async (isSearch = false) => {
+            // Prevent multiple simultaneous loads
+            if (isLoading) return;
+            if (!hasMorePosts && !isSearch) return;
 
-                isLoading = true;
-                if (isSearch && searchSpinner) searchSpinner.classList.remove('hidden');
-                if (!isSearch && loadingIndicator) loadingIndicator.classList.remove('hidden');
-                if (btn) btn.disabled = true;
+            isLoading = true;
+            if (isSearch && searchSpinner)
+                searchSpinner.classList.remove("hidden");
+            if (!isSearch && loadingIndicator)
+                loadingIndicator.classList.remove("hidden");
+            if (btn) btn.disabled = true;
 
-                try {
-                    const fetchOffset = isSearch ? 0 : offset;
-                    const url = `/partials/posts-partial?slug=${currentSlug}&limit=${limit}&offset=${fetchOffset}&search=${encodeURIComponent(currentSearch)}`;
-                    
-                    const res = await fetch(url);
-                    if (!res.ok) throw new Error('Fetch failed');
-                    
-                    const html = await res.text();
-                    
-                    if (isSearch) {
-                        // Replace Content
-                        container.innerHTML = html;
-                        offset = limit; // Next offset
-                        hasMorePosts = html.trim().length > 0;
-                        if (loadMoreContainer) loadMoreContainer.classList.add('hidden');
-                    } else {
-                        // Append Content (Infinite Scroll)
-                        if (!html.trim()) {
-                            hasMorePosts = false;
-                            if (sentinel) sentinel.classList.add('hidden');
-                            if (loadMoreContainer) loadMoreContainer.classList.add('hidden');
-                            return;
-                        }
-                        const temp = document.createElement('div');
-                        temp.innerHTML = html;
-                        while (temp.firstChild) {
-                            container.appendChild(temp.firstChild);
-                        }
-                        offset += limit;
-                        hasMorePosts = true;
+            try {
+                const fetchOffset = isSearch ? 0 : offset;
+                const url = `/partials/posts-partial?slug=${currentSlug}&limit=${limit}&offset=${fetchOffset}&search=${encodeURIComponent(currentSearch)}`;
+
+                const res = await fetch(url);
+                if (!res.ok) throw new Error("Fetch failed");
+
+                const html = await res.text();
+
+                if (isSearch) {
+                    // Replace Content
+                    container.innerHTML = html;
+                    offset = limit; // Next offset
+                    hasMorePosts = html.trim().length > 0;
+                    if (loadMoreContainer)
+                        loadMoreContainer.classList.add("hidden");
+                } else {
+                    // Append Content (Infinite Scroll)
+                    if (!html.trim()) {
+                        hasMorePosts = false;
+                        if (sentinel) sentinel.classList.add("hidden");
+                        if (loadMoreContainer)
+                            loadMoreContainer.classList.add("hidden");
+                        return;
                     }
-
-                    // Re-bind listeners
-                    if (typeof window.attachListeners === 'function') {
-                        window.attachListeners();
+                    const temp = document.createElement("div");
+                    temp.innerHTML = html;
+                    while (temp.firstChild) {
+                        container.appendChild(temp.firstChild);
                     }
-
-                } catch (e) {
-                    console.error(e);
-                    hasMorePosts = false;
-                    if (sentinel) sentinel.classList.add('hidden');
-                    // Show manual load button as fallback
-                    if (loadMoreContainer) loadMoreContainer.classList.remove('hidden');
-                    if (btn) btn.textContent = "Error loading posts. Click to retry.";
-                } finally {
-                    isLoading = false;
-                    if (searchSpinner) searchSpinner.classList.add('hidden');
-                    if (loadingIndicator) loadingIndicator.classList.add('hidden');
-                    if (btn) btn.disabled = false;
+                    offset += limit;
+                    hasMorePosts = true;
                 }
-            };
 
-            // Intersection Observer for Infinite Scroll
-            if (sentinel && 'IntersectionObserver' in window) {
-                const observer = new IntersectionObserver((entries) => {
-                    entries.forEach(entry => {
-                        if (entry.isIntersecting && hasMorePosts && !isLoading && !currentSearch) {
+                // Re-bind listeners
+                if (typeof window.attachListeners === "function") {
+                    window.attachListeners();
+                }
+            } catch (e) {
+                console.error(e);
+                hasMorePosts = false;
+                if (sentinel) sentinel.classList.add("hidden");
+                // Show manual load button as fallback
+                if (loadMoreContainer)
+                    loadMoreContainer.classList.remove("hidden");
+                if (btn)
+                    btn.textContent = "Error loading posts. Click to retry.";
+            } finally {
+                isLoading = false;
+                if (searchSpinner) searchSpinner.classList.add("hidden");
+                if (loadingIndicator) loadingIndicator.classList.add("hidden");
+                if (btn) btn.disabled = false;
+            }
+        };
+
+        // Intersection Observer for Infinite Scroll
+        if (sentinel && "IntersectionObserver" in window) {
+            const observer = new IntersectionObserver(
+                (entries) => {
+                    entries.forEach((entry) => {
+                        if (
+                            entry.isIntersecting &&
+                            hasMorePosts &&
+                            !isLoading &&
+                            !currentSearch
+                        ) {
                             loadPosts(false);
                         }
                     });
-                }, {
-                    rootMargin: '200px' // Start loading 200px before reaching the sentinel
-                });
+                },
+                {
+                    rootMargin: "200px", // Start loading 200px before reaching the sentinel
+                },
+            );
 
-                observer.observe(sentinel);
-            } else {
-                // Fallback: Show manual load button if IntersectionObserver is not supported
-                if (loadMoreContainer) loadMoreContainer.classList.remove('hidden');
-            }
+            observer.observe(sentinel);
+        } else {
+            // Fallback: Show manual load button if IntersectionObserver is not supported
+            if (loadMoreContainer) loadMoreContainer.classList.remove("hidden");
+        }
 
-            // Search Listener
-            if (searchInput) {
-                searchInput.addEventListener('input', debounce((e) => {
+        // Search Listener
+        if (searchInput) {
+            searchInput.addEventListener(
+                "input",
+                debounce((e) => {
                     currentSearch = e.target.value.trim();
                     hasMorePosts = true; // Reset for new search
                     loadPosts(true);
-                }, 500));
-            }
+                }, 500),
+            );
+        }
 
-            // Manual Load More Button (fallback)
-            if (btn) {
-                btn.addEventListener('click', () => loadPosts(false));
-            }
+        // Manual Load More Button (fallback)
+        if (btn) {
+            btn.addEventListener("click", () => loadPosts(false));
+        }
 
-            // Hide sentinel if initial load shows all posts
-            if (initialOffset < limit) {
-                if (sentinel) sentinel.classList.add('hidden');
-            }
-        </script>
+        // Hide sentinel if initial load shows all posts
+        if (initialOffset < limit) {
+            if (sentinel) sentinel.classList.add("hidden");
+        }
+    </script>
 
-                    <!-- EVENTS SECTION -->
-                    <div id="tab-events" class="tab-content hidden space-y-4">
-                        <div class="space-y-12">
-                            {(() => {
-                                const series = eventItems.filter(e => !e.event_type || e.event_type === 'event-series');
-                                const webinars = eventItems.filter(e => e.event_type === 'webinar' || e.event_type === 'webinars');
-                                const trainings = eventItems.filter(e => e.event_type === 'training-course' || e.event_type === 'training-courses');
+    <!-- EVENTS SECTION -->
+    <div id="tab-events" class="tab-content hidden space-y-4">
+        <div class="space-y-12">
+            {
+                (() => {
+                    const series = eventItems.filter(
+                        (e) => !e.event_type || e.event_type === "event-series",
+                    );
+                    const webinars = eventItems.filter(
+                        (e) =>
+                            e.event_type === "webinar" ||
+                            e.event_type === "webinars",
+                    );
+                    const trainings = eventItems.filter(
+                        (e) =>
+                            e.event_type === "training-course" ||
+                            e.event_type === "training-courses",
+                    );
 
-                                const renderSection = (title: string, items: any[]) => {
-                                    if (items.length === 0) return null;
-                                    return (
-                                        <div>
-                                            <h3 class="text-xl font-bold text-[#202124] mb-4 border-b border-[var(--border-color)] pb-2">{title}</h3>
-                                            <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
-                                                {items.map((item) => (
-                                                    <EventCard client:load event={item} currentUser={Astro.locals.user} />
-                                                ))}
-                                            </div>
+                    const renderSection = (title: string, items: any[]) => {
+                        if (items.length === 0) return null;
+                        return (
+                            <div>
+                                <h3 class="text-xl font-bold text-dark mb-4 border-b border-(--border-color) pb-2">
+                                    {title}
+                                </h3>
+                                <div class="grid grid-cols-1 md:grid-cols-2 gap-4">
+                                    {items.map((item) => (
+                                        <EventCard
+                                            client:load
+                                            event={item}
+                                            currentUser={Astro.locals.user}
+                                        />
+                                    ))}
+                                </div>
+                            </div>
+                        );
+                    };
+
+                    return (
+                        <>
+                            {renderSection("Event Series", series)}
+                            {renderSection("Webinars", webinars)}
+                            {renderSection("Training Courses", trainings)}
+
+                            {series.length === 0 &&
+                                webinars.length === 0 &&
+                                trainings.length === 0 && (
+                                    <div
+                                        class="text-center py-12 bg-white rounded-lg border border-(--border-color) flex flex-col items-center"
+                                        style="border-radius: 0.6666666667rem;"
+                                    >
+                                        <div class="mb-4 text-gray-400">
+                                            <svg
+                                                xmlns="http://www.w3.org/2000/svg"
+                                                class="w-12 h-12"
+                                                viewBox="0 0 24 24"
+                                                fill="none"
+                                                stroke="currentColor"
+                                                stroke-width="1.5"
+                                                stroke-linecap="round"
+                                                stroke-linejoin="round"
+                                            >
+                                                <rect
+                                                    x="3"
+                                                    y="4"
+                                                    width="18"
+                                                    height="18"
+                                                    rx="2"
+                                                    ry="2"
+                                                />
+                                                <line
+                                                    x1="16"
+                                                    y1="2"
+                                                    x2="16"
+                                                    y2="6"
+                                                />
+                                                <line
+                                                    x1="8"
+                                                    y1="2"
+                                                    x2="8"
+                                                    y2="6"
+                                                />
+                                                <line
+                                                    x1="3"
+                                                    y1="10"
+                                                    x2="21"
+                                                    y2="10"
+                                                />
+                                            </svg>
                                         </div>
-                                    );
-                                };
+                                        <h3 class="text-xl font-bold text-dark mb-2">
+                                            No events scheduled
+                                        </h3>
+                                    </div>
+                                )}
+                        </>
+                    );
+                })()
+            }
+        </div>
+    </div>
 
-                                return (
-                                    <>
-                                        {renderSection('Event Series', series)}
-                                        {renderSection('Webinars', webinars)}
-                                        {renderSection('Training Courses', trainings)}
-                                        
-                                        {series.length === 0 && webinars.length === 0 && trainings.length === 0 && (
-                                            <div class="text-center py-12 bg-white rounded-lg border border-[var(--border-color)] flex flex-col items-center" style="border-radius: 0.6666666667rem;">
-                                                <div class="mb-4 text-gray-400">
-                                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="3" y="4" width="18" height="18" rx="2" ry="2"/><line x1="16" y1="2" x2="16" y2="6"/><line x1="8" y1="2" x2="8" y2="6"/><line x1="3" y1="10" x2="21" y2="10"/></svg>
-                                                </div>
-                                                <h3 class="text-xl font-bold text-[#202124] mb-2">No events scheduled</h3>
-                                            </div>
-                                        )}
-                                    </>
-                                );
-                            })()}
-                        </div>
+    <!-- PODCASTS SECTION -->
+    <div id="tab-podcasts" class="tab-content hidden space-y-4">
+        {
+            podcastItems.length === 0 ? (
+                <div
+                    class="text-center py-12 bg-white rounded-lg border border-(--border-color) flex flex-col items-center"
+                    style="border-radius: 0.6666666667rem;"
+                >
+                    <div class="mb-4 text-gray-400">
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="w-12 h-12"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="1.5"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        >
+                            <>
+                                <path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z" />
+                                <path d="M19 10v2a7 7 0 0 1-14 0v-2" />
+                                <line x1="12" y1="19" x2="12" y2="23" />
+                                <line x1="8" y1="23" x2="16" y2="23" />
+                            </>
+                        </svg>
                     </div>
+                    <h3 class="text-xl font-bold text-dark mb-2">
+                        No podcasts yet
+                    </h3>
+                </div>
+            ) : (
+                podcastItems.map((item) => (
+                    <PodcastRow
+                        client:load
+                        podcast={item}
+                        currentUser={Astro.locals.user}
+                    />
+                ))
+            )
+        }
+    </div>
 
-                    <!-- PODCASTS SECTION -->
-                    <div id="tab-podcasts" class="tab-content hidden space-y-4">
-                        {podcastItems.length === 0 ? (
-                            <div class="text-center py-12 bg-white rounded-lg border border-[var(--border-color)] flex flex-col items-center" style="border-radius: 0.6666666667rem;">
-                                <div class="mb-4 text-gray-400">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><path d="M12 1a3 3 0 0 0-3 3v8a3 3 0 0 0 6 0V4a3 3 0 0 0-3-3z"/><path d="M19 10v2a7 7 0 0 1-14 0v-2"/><line x1="12" y1="19" x2="12" y2="23"/><line x1="8" y1="23" x2="16" y2="23"/></svg>
-                                </div>
-                                <h3 class="text-xl font-bold text-[#202124] mb-2">No podcasts yet</h3>
-                            </div>
-                        ) : (
-                            podcastItems.map((item) => (
-                                <PodcastRow client:load podcast={item} currentUser={Astro.locals.user} />
-                            ))
-                        )}
+    <!-- SERVICES SECTION -->
+    <div id="tab-services" class="tab-content hidden space-y-4">
+        {
+            serviceItems.length === 0 ? (
+                <div
+                    class="text-center py-12 bg-white rounded-lg border border-(--border-color) flex flex-col items-center"
+                    style="border-radius: 0.6666666667rem;"
+                >
+                    <div class="mb-4 text-gray-400">
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            class="w-12 h-12"
+                            viewBox="0 0 24 24"
+                            fill="none"
+                            stroke="currentColor"
+                            stroke-width="1.5"
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                        >
+                            <>
+                                <rect
+                                    x="2"
+                                    y="7"
+                                    width="20"
+                                    height="14"
+                                    rx="2"
+                                    ry="2"
+                                />
+                                <path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" />
+                            </>
+                        </svg>
                     </div>
+                    <h3 class="text-xl font-bold text-dark mb-2">
+                        No services found
+                    </h3>
+                </div>
+            ) : (
+                <div class="space-y-8">
+                    {(() => {
+                        // Group Services by Type Name
+                        const servicesByType: any = {};
+                        const uncategorized: any[] = [];
 
-                    <!-- SERVICES SECTION -->
-                    <div id="tab-services" class="tab-content hidden space-y-4">
-                        {serviceItems.length === 0 ? (
-                            <div class="text-center py-12 bg-white rounded-lg border border-[var(--border-color)] flex flex-col items-center" style="border-radius: 0.6666666667rem;">
-                                <div class="mb-4 text-gray-400">
-                                    <svg xmlns="http://www.w3.org/2000/svg" class="w-12 h-12" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="1.5" stroke-linecap="round" stroke-linejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2"/><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16"/></svg>                    
-                                </div>
-                                <h3 class="text-xl font-bold text-[#202124] mb-2">No services found</h3>
-                            </div>
-                        ) : (
-                            <div class="space-y-8">
-                                {(() => {
-                                    // Group Services by Type Name
-                                    const servicesByType = {};
-                                    const uncategorized = [];
+                        serviceItems.forEach((item: any) => {
+                            const typeName = item.type?.name;
+                            if (typeName) {
+                                if (!servicesByType[typeName])
+                                    servicesByType[typeName] = [];
+                                servicesByType[typeName].push(item);
+                            } else {
+                                uncategorized.push(item);
+                            }
+                        });
 
-                                    serviceItems.forEach((item: any) => {
-                                        const typeName = item.type?.name;
-                                        if (typeName) {
-                                            if (!servicesByType[typeName]) servicesByType[typeName] = [];
-                                            servicesByType[typeName].push(item);
-                                        } else {
-                                            uncategorized.push(item);
-                                        }
-                                    });
+                        // Define Order (optional)
+                        const order = ["Consulting", "Software", "Books"];
+                        const renderedTypes = Object.keys(servicesByType).sort(
+                            (a, b) => {
+                                const idxA = order.indexOf(a);
+                                const idxB = order.indexOf(b);
+                                if (idxA !== -1 && idxB !== -1)
+                                    return idxA - idxB;
+                                if (idxA !== -1) return -1;
+                                if (idxB !== -1) return 1;
+                                return a.localeCompare(b);
+                            },
+                        );
 
-                                    // Define Order (optional)
-                                    const order = ['Consulting', 'Software', 'Books'];
-                                    const renderedTypes = Object.keys(servicesByType).sort((a, b) => {
-                                         const idxA = order.indexOf(a);
-                                         const idxB = order.indexOf(b);
-                                         if (idxA !== -1 && idxB !== -1) return idxA - idxB;
-                                         if (idxA !== -1) return -1;
-                                         if (idxB !== -1) return 1;
-                                         return a.localeCompare(b);
-                                    });
+                        return (
+                            <>
+                                {renderedTypes.map((type) => (
+                                    <ServiceRow
+                                        client:load
+                                        title={type}
+                                        services={servicesByType[type]}
+                                        currentUser={Astro.locals.user}
+                                    />
+                                ))}
 
-                                    return (
-                                        <>
-                                            {renderedTypes.map(type => (
-                                                 <ServiceRow client:load title={type} services={servicesByType[type]} />
-                                            ))}
-                                            
-                                            {uncategorized.length > 0 && (
-                                                <ServiceRow client:load title="Other Services" services={uncategorized} />
-                                            )}
-                                        </>
-                                    );
-                                })()}
-                            </div>
-                        )}
-                    </div>
+                                {uncategorized.length > 0 && (
+                                    <ServiceRow
+                                        client:load
+                                        title="Other Services"
+                                        services={uncategorized}
+                                        currentUser={Astro.locals.user}
+                                    />
+                                )}
+                            </>
+                        );
+                    })()}
+                </div>
+            )
+        }
+    </div>
 </SocialLayout>
 
 <script>
     // Tab Switching Logic
     const initTabs = () => {
-        const buttons = document.querySelectorAll('.tab-btn');
-        const contents = document.querySelectorAll('.tab-content');
+        const buttons = document.querySelectorAll(".tab-btn");
+        const contents = document.querySelectorAll(".tab-content");
 
-        // Styles
-        const activeClasses = ['btn-tab-active'];
-        const inactiveClasses = ['btn-tab']; // We just remove active class, basic class handles the rest? No, because we remove everything.
-        // Actually, we should just toggle btn-tab-active if btn-tab is present.
-        // But my previous logic did a full reset. Let's adapt.
-        
-        // Re-simplifying: The HTML has 'btn-tab'. Active has 'btn-tab-active'.
-        // Inactive state is just 'btn-tab'.
-        
-        buttons.forEach(btn => {
-            // Remove old listeners to prevent duplicates (cloning trick)
-            const newBtn = btn.cloneNode(true);
-            btn.parentNode.replaceChild(newBtn, btn);
-            
-            newBtn.addEventListener('click', () => {
-                const target = newBtn.getAttribute('data-target');
-
-                // 1. Reset ALL buttons
-                document.querySelectorAll('.tab-btn').forEach(b => {
-                    b.classList.remove('btn-tab-active');
-                    // Ensure base class is there
-                    if (!b.classList.contains('btn-tab')) b.classList.add('btn-tab');
+        // Restore active tab from generic localStorage if available
+        const savedTab = localStorage.getItem("zvenia-active-tab-legacy");
+        if (savedTab) {
+            // Validate it exists
+            const targetContent = document.getElementById(`tab-${savedTab}`);
+            if (targetContent) {
+                // Update buttons
+                buttons.forEach((b) => {
+                    b.classList.remove(
+                        "btn-tab-active",
+                        "bg-[#091235]",
+                        "text-white",
+                    );
+                    if (b.getAttribute("data-target") === savedTab) {
+                        b.classList.add(
+                            "btn-tab-active",
+                            "bg-[#091235]",
+                            "text-white",
+                        );
+                    }
                 });
+                // Update Content
+                contents.forEach((c) => c.classList.add("hidden"));
+                targetContent.classList.remove("hidden");
+            }
+        }
 
-                // 2. Set Current to Active
-                newBtn.classList.add('btn-tab-active');
+        buttons.forEach((btn) => {
+            // Clone to remove old listeners (safe practice)
+            const newBtn = btn.cloneNode(true) as Element;
+            if (btn.parentNode) {
+                btn.parentNode.replaceChild(newBtn, btn);
+            }
 
-                // 3. Show/Hide Content
-                contents.forEach(c => c.classList.add('hidden'));
-                document.getElementById(`tab-${target}`)?.classList.remove('hidden');
+            newBtn.addEventListener("click", () => {
+                const targetId = newBtn.getAttribute("data-target");
+
+                // Toggle Buttons
+                const allButtons = document.querySelectorAll(".tab-btn");
+                allButtons.forEach((b) =>
+                    b.classList.remove(
+                        "btn-tab-active",
+                        "bg-[#091235]",
+                        "text-white",
+                    ),
+                );
+                newBtn.classList.add(
+                    "btn-tab-active",
+                    "bg-[#091235]",
+                    "text-white",
+                );
+
+                // Toggle Content
+                contents.forEach((c) => c.classList.add("hidden"));
+                document
+                    .getElementById(`tab-${targetId}`)
+                    ?.classList.remove("hidden");
+
+                // Save Preference
+                if (targetId)
+                    localStorage.setItem("zvenia-active-tab-legacy", targetId);
             });
         });
     };
 
     // Run on load and after Astro transitions (if enabled)
     initTabs();
-    document.addEventListener('astro:page-load', initTabs);
+    document.addEventListener("astro:page-load", initTabs);
 </script>

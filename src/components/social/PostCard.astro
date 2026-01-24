@@ -14,11 +14,16 @@ const { post, currentUser, isDetail = false } = Astro.props;
 const formatDate = (dateStr: string | null) => {
     if (!dateStr) return "";
     const date = new Date(dateStr);
-    const day = String(date.getDate()).padStart(2, '0');
-    const month = String(date.getMonth() + 1).padStart(2, '0');
+    const day = String(date.getDate()).padStart(2, "0");
+    const month = String(date.getMonth() + 1).padStart(2, "0");
     const year = date.getFullYear();
     return `${day}/${month}/${year}`;
 };
+
+// Determine Profile URL (New Design vs Old)
+const profileUrl = post.author?.profile_slug
+    ? `/profile/${post.author.profile_slug}`
+    : `/in/${post.author_id}`;
 
 // Helper to clean content logic (same as Topic page)
 const getCleanContent = (item: any) => {
@@ -41,25 +46,27 @@ const getCleanContent = (item: any) => {
     style="border: 0.1px none #22232633; box-shadow: 1px 2px 2px 2px #22232633;"
 >
     <!-- 1. Header: Author, Date, Options -->
-    <div class="p-4 flex gap-3 items-start justify-between border-b border-[var(--border-color)]">
+    <div
+        class="p-4 flex gap-3 items-start justify-between border-b border-(--border-color)"
+    >
         <div class="flex gap-3 items-center flex-1">
             <!-- Avatar -->
-            <a href={`/in/${post.author_id}`} class="block flex-shrink-0">
+            <a href={profileUrl} class="block shrink-0">
                 <div
-                    class="w-12 h-12 rounded-full bg-gradient-to-br from-gray-300 to-gray-400 border-2 border-gray-200 flex items-center justify-center text-sm font-bold text-gray-700 overflow-hidden hover:opacity-90 transition-opacity shadow-sm"
+                    class="w-12 h-12 rounded-full bg-linear-to-br from-gray-300 to-gray-400 border-2 border-gray-200 flex items-center justify-center text-sm font-bold text-gray-700 overflow-hidden hover:opacity-90 transition-opacity shadow-sm"
                 >
                     {
                         post.author?.avatar_url ? (
                             <img
                                 src={post.author.avatar_url}
                                 class="w-full h-full object-cover"
-                                alt={post.author?.full_name || 'Author'}
+                                alt={post.author?.full_name || "Author"}
                             />
                         ) : (
                             <span class="text-base">
                                 {post.author?.full_name?.[0] ||
-                                post.author_name?.[0] ||
-                                "U"}
+                                    post.author_name?.[0] ||
+                                    "U"}
                             </span>
                         )
                     }
@@ -69,9 +76,9 @@ const getCleanContent = (item: any) => {
             <!-- Meta -->
             <div class="flex-1 min-w-0">
                 <div class="flex items-center gap-2 flex-wrap">
-                    <a href={`/in/${post.author_id}`} class="block group min-w-0">
+                    <a href={profileUrl} class="block group min-w-0">
                         <h3
-                            class="text-base font-bold text-[#202124] group-hover:text-primary-500 cursor-pointer transition-colors truncate"
+                            class="text-base font-bold text-dark group-hover:text-primary-500 cursor-pointer transition-colors truncate"
                         >
                             {
                                 post.author?.full_name ||
@@ -106,8 +113,10 @@ const getCleanContent = (item: any) => {
                     href={`/mining/${post.topic.slug}`}
                     class="inline-block mb-3 transition-colors group"
                 >
-                    <span class="zv--post-termslink text-[#202124] group-hover:text-primary-500 transition-colors inline-flex items-center gap-1.5">
-                        <span class="material-icons" style="font-size: 12px;">arrow_back</span>
+                    <span class="zv--post-termslink text-dark group-hover:text-primary-500 transition-colors inline-flex items-center gap-1.5">
+                        <span class="material-icons" style="font-size: 12px;">
+                            arrow_back
+                        </span>
                         {post.topic.name}
                     </span>
                 </a>
@@ -116,12 +125,15 @@ const getCleanContent = (item: any) => {
 
         {
             isDetail ? (
-                <h1 class="mb-3 text-[#202124]" style="font-size: 17px !important; line-height: 1.3em !important; font-weight: 700 !important;">
+                <h1
+                    class="mb-3 text-dark"
+                    style="font-size: 17px !important; line-height: 1.3em !important; font-weight: 700 !important;"
+                >
                     {post.title}
                 </h1>
             ) : (
                 <a href={`/post/${post.slug || post.id}`} class="block group">
-                    <h4 class="text-base font-bold text-[#202124] mb-1 group-hover:underline cursor-pointer transition-colors">
+                    <h4 class="text-base font-bold text-dark mb-1 group-hover:underline cursor-pointer transition-colors">
                         {post.title}
                     </h4>
                 </a>
@@ -129,7 +141,7 @@ const getCleanContent = (item: any) => {
         }
 
         <p
-            class={`post-content text-[#202124] leading-relaxed mb-3 transition-all duration-300 whitespace-pre-wrap ${!isDetail ? "line-clamp-3" : ""}`}
+            class={`post-content text-dark leading-relaxed mb-3 transition-all duration-300 whitespace-pre-wrap ${!isDetail ? "line-clamp-3" : ""}`}
             style="font-size: 15px; font-weight: 400;"
             data-is-detail={isDetail}
         >
@@ -138,11 +150,17 @@ const getCleanContent = (item: any) => {
 
         {
             !isDetail ? (
-                <button class="read-more-btn mb-4 block text-right cursor-pointer" style="font-size: 15px; font-weight: 400; color: #0a66c2; text-align: right; width: 100%;">
+                <button
+                    class="read-more-btn mb-4 block text-right cursor-pointer"
+                    style="font-size: 15px; font-weight: 400; color: #0a66c2; text-align: right; width: 100%;"
+                >
                     ...read more
                 </button>
             ) : (
-                <button class="read-more-btn-detail mb-4 block text-right opacity-0 pointer-events-none transition-opacity cursor-pointer" style="display: none; font-size: 15px; font-weight: 400; color: #0a66c2; text-align: right; width: 100%;">
+                <button
+                    class="read-more-btn-detail mb-4 block text-right opacity-0 pointer-events-none transition-opacity cursor-pointer"
+                    style="display: none; font-size: 15px; font-weight: 400; color: #0a66c2; text-align: right; width: 100%;"
+                >
                     ...read more
                 </button>
             )
@@ -156,12 +174,12 @@ const getCleanContent = (item: any) => {
                             href={post.source}
                             target="_blank"
                             rel="noopener noreferrer"
-                            class="text-[#202124] hover:underline break-all truncate block"
+                            class="text-dark hover:underline break-all truncate block"
                         >
                             {post.source}
                         </a>
                     ) : (
-                        <span class="text-[#202124] italic">
+                        <span class="text-dark italic">
                             Source: {post.source}
                         </span>
                     )}
@@ -203,7 +221,7 @@ const getCleanContent = (item: any) => {
                                 frameborder="0"
                                 allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
                                 allowfullscreen
-                            ></iframe>
+                            />
                         </div>
                     );
                 }
@@ -261,7 +279,7 @@ const getCleanContent = (item: any) => {
                     {/* Images Container */}
                     <div class="w-full h-full flex overflow-x-auto snap-x snap-mandatory scrollbar-hide scroll-smooth carousel-track">
                         {allImages.map((img: string, idx: number) => (
-                            <div class="w-full h-full flex-shrink-0 snap-center relative">
+                            <div class="w-full h-full shrink-0 snap-center relative">
                                 <img
                                     src={img}
                                     alt={`${post.title} - ${idx + 1}`}
@@ -320,6 +338,7 @@ const getCleanContent = (item: any) => {
         likesCount={post.likes_count || 0}
         commentsCount={post.comments_count || 0}
         currentUserId={currentUser?.id}
+        sessionAccessToken={Astro.locals.session?.access_token}
     />
 </article>
 <script>
@@ -361,18 +380,24 @@ const getCleanContent = (item: any) => {
         });
 
         // Read More/Less Logic for Single Post (Detail View)
-        const detailPosts = document.querySelectorAll(".post-content[data-is-detail='true']");
+        const detailPosts = document.querySelectorAll(
+            ".post-content[data-is-detail='true']",
+        );
         detailPosts.forEach((contentEl) => {
             const postContent = contentEl as HTMLElement;
             const container = postContent.closest("div");
-            const readMoreBtn = container?.querySelector(".read-more-btn-detail") as HTMLButtonElement;
-            
+            const readMoreBtn = container?.querySelector(
+                ".read-more-btn-detail",
+            ) as HTMLButtonElement;
+
             if (!readMoreBtn || readMoreBtn.hasAttribute("data-bound")) return;
             readMoreBtn.setAttribute("data-bound", "true");
 
             // Check if content is long enough to need truncation
             const originalHeight = postContent.scrollHeight;
-            const lineHeight = parseInt(window.getComputedStyle(postContent).lineHeight);
+            const lineHeight = parseInt(
+                window.getComputedStyle(postContent).lineHeight,
+            );
             const maxLines = 10; // Show first 10 lines, then "read more"
             const maxHeight = lineHeight * maxLines;
 
@@ -382,7 +407,10 @@ const getCleanContent = (item: any) => {
                 postContent.style.overflow = "hidden";
                 readMoreBtn.style.display = "block";
                 readMoreBtn.textContent = "...read more";
-                readMoreBtn.classList.remove("opacity-0", "pointer-events-none");
+                readMoreBtn.classList.remove(
+                    "opacity-0",
+                    "pointer-events-none",
+                );
                 readMoreBtn.classList.add("opacity-100");
 
                 let isExpanded = false;
@@ -395,7 +423,10 @@ const getCleanContent = (item: any) => {
                         postContent.style.maxHeight = `${maxHeight}px`;
                         readMoreBtn.textContent = "...read more";
                         // Scroll to top of content when collapsing
-                        postContent.scrollIntoView({ behavior: "smooth", block: "start" });
+                        postContent.scrollIntoView({
+                            behavior: "smooth",
+                            block: "start",
+                        });
                     }
                     // Maintain style
                     readMoreBtn.style.fontSize = "15px";
