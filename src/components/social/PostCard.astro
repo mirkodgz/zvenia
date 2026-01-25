@@ -10,6 +10,9 @@ interface Props {
 }
 
 const { post, currentUser, isDetail = false } = Astro.props;
+console.log(
+    `[PostCard Debug] ID: ${post.id}, PDF: "${post.document_url}", IMG: "${post.featured_image_url}"`,
+);
 
 const formatDate = (dateStr: string | null) => {
     if (!dateStr) return "";
@@ -100,6 +103,7 @@ const getCleanContent = (item: any) => {
             postId={post.id}
             authorId={post.author_id}
             currentUserId={currentUser?.id}
+            currentUserRole={currentUser?.role}
             slug={post.slug}
         />
     </div>

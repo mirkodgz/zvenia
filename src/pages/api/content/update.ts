@@ -1,6 +1,6 @@
 
 import type { APIRoute } from "astro";
-import { createSupabaseServerClient } from "../../../lib/supabase";
+import { createSupabaseServerClient, getServiceSupabase } from "../../../lib/supabase";
 
 export const POST: APIRoute = async ({ request, cookies }) => {
     const supabase = createSupabaseServerClient({ req: request, cookies });
@@ -162,20 +162,31 @@ export const POST: APIRoute = async ({ request, cookies }) => {
             slug,
             excerpt,
             content,
-            featured_image_url,
-            document_url,
-            source,
+            featured_image_url: featured_image_url || null,
+            document_url: document_url || null,
+            source: source || null,
             metadata: metadata || {}
         };
     }
 
-    const { error: updateError } = await (supabase
+    // Use service role if moderator to bypass RLS "auth.uid() = author_id"
+    const dbClient = isModerator ? getServiceSupabase() : supabase;
+
+    console.log(`[API Update] User: ${user.id} | Role: ${userRole} | IsModerator: ${isModerator} | Client: ${isModerator ? 'SERVICE' : 'STANDARD'}`);
+
+    const { error: updateError, count } = await (dbClient
         .from(table) as any)
         .update(updatePayload)
-        .eq('id', id);
+        .eq('id', id)
+        .select('*', { count: 'exact' }); // Request count
 
     if (updateError) {
         return new Response(JSON.stringify({ error: updateError.message }), { status: 500 });
+    }
+
+    if (count === 0) {
+        console.error(`[API Update] Update silently failed (Count 0). RLS likely blocked it.`);
+        return new Response(JSON.stringify({ error: "Update failed: Permission denied (RLS blocked update)" }), { status: 403 });
     }
 
 
@@ -184,7 +195,7 @@ export const POST: APIRoute = async ({ request, cookies }) => {
     if (topicUUID) {
         // Unified update for all content types (posts, events, podcasts, services)
         // All tables now populate 'topic_id' directly.
-        await (supabase.from(table) as any).update({ topic_id: topicUUID }).eq('id', id);
+        await (dbClient.from(table) as any).update({ topic_id: topicUUID }).eq('id', id);
     }
 
     return new Response(JSON.stringify({ success: true, slug: slug }), { status: 200 });

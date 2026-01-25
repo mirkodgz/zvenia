@@ -161,6 +161,32 @@ export default function PostForm({ currentUser, initialData }: PostFormProps) {
                 metadata: formData.metadata // Explicitly include metadata
             };
 
+            // STRICT SANITIZATION: Clear fields based on active tab to prevent mixed content
+            if (activeMediaType === 'image') {
+                finalPayload.document_url = '';
+                finalPayload.metadata.video_url = '';
+                finalPayload.metadata.youtube_url = '';
+                // Ensure featured_image_url is set if not present but gallery exists
+                if (!finalPayload.featured_image_url && finalPayload.metadata.gallery?.length > 0) {
+                    finalPayload.featured_image_url = finalPayload.metadata.gallery[0];
+                }
+            } else if (activeMediaType === 'pdf') {
+                finalPayload.featured_image_url = '';
+                finalPayload.metadata.gallery = [];
+                finalPayload.metadata.video_url = '';
+                finalPayload.metadata.youtube_url = '';
+            } else if (activeMediaType === 'video') {
+                finalPayload.featured_image_url = '';
+                finalPayload.document_url = '';
+                finalPayload.metadata.gallery = [];
+                finalPayload.metadata.youtube_url = '';
+            } else if (activeMediaType === 'youtube') {
+                finalPayload.featured_image_url = '';
+                finalPayload.document_url = '';
+                finalPayload.metadata.gallery = [];
+                finalPayload.metadata.video_url = '';
+            }
+
             const response = await fetch(endpoint, {
                 method: 'POST',
                 headers: {

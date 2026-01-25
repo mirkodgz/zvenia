@@ -1,49 +1,56 @@
-
 ---
-import SocialLayout from '../../../../layouts/SocialLayout.astro';
-import LeftSidebar from '../../../../components/social/LeftSidebar.astro';
-import PostForm from '../../../../components/dashboard/forms/PostForm';
+import SocialLayout from "../../../../layouts/SocialLayout.astro";
+import LeftSidebar from "../../../../components/social/LeftSidebar.astro";
+import PostForm from "../../../../components/dashboard/forms/PostForm";
+import type { Database } from "../../../../types/database.types";
 
 const { id } = Astro.params;
 
 if (!id) {
-    return Astro.redirect('/404');
+    return Astro.redirect("/404");
 }
 
 // 1. Check Auth in SSR (Use Middleware locals)
 const user = Astro.locals.user;
 if (!user) {
-    return Astro.redirect('/login');
+    return Astro.redirect("/login");
 }
 
-// 2. Fetch Post with Topic (Use Middleware authenticated client)
 // 2. Fetch Post (Simplified, no bridge table)
-const { data: post, error } = await Astro.locals.supabase
-    .from('posts')
-    .select('*')
-    .eq('id', id)
+const { data: rawPost, error } = await Astro.locals.supabase
+    .from("posts")
+    .select("*")
+    .eq("id", id)
     .single();
 
-if (error || !post) {
-   return Astro.redirect('/404');
+if (error || !rawPost) {
+    return Astro.redirect("/404");
 }
 
-// 3. Ownership Check
-if (post.author_id !== user.id) {
-    return Astro.redirect('/');
+const post = rawPost as Database["public"]["Tables"]["posts"]["Row"] & {
+    topic_id?: string | null;
+};
+
+// 3. Ownership Check (Allow Admins)
+const role = (user as any).role;
+const isOwner = post.author_id === user.id;
+const isAdmin = role === "Administrator";
+
+if (!isOwner && !isAdmin) {
+    return Astro.redirect("/");
 }
 
 // 4. Transform Data for Form
-let topicSlug = '';
+let topicSlug = "";
 
 // Try to resolve topic slug if topic_id exists
 if (post.topic_id) {
     const { data: topicData } = await Astro.locals.supabase
-        .from('topics')
-        .select('slug')
-        .eq('id', post.topic_id)
+        .from("topics")
+        .select("slug")
+        .eq("id", post.topic_id)
         .single();
-    
+
     if (topicData) {
         topicSlug = topicData.slug;
     }
@@ -51,20 +58,20 @@ if (post.topic_id) {
 
 const initialData = {
     ...post,
-    topic_id: topicSlug // properties must match PostFormData interface in PostForm
+    content: post.content || undefined,
+    excerpt: post.excerpt || undefined,
+    featured_image_url: post.featured_image_url || undefined,
+    topic_id: topicSlug,
+    metadata: post.metadata as any,
 };
 ---
 
 <SocialLayout title={`Edit Post: ${post.title}`} hideRightSidebar={true}>
     <LeftSidebar slot="left-sidebar" />
-    
+
     <div class="max-w-5xl mx-auto px-4 py-8">
-        <h1 class="text-2xl font-bold text-[#202124] mb-6">Edit Post</h1>
-        
-        <PostForm 
-            client:load 
-            currentUser={user} 
-            initialData={initialData}
-        />
+        <h1 class="text-2xl font-bold text-dark mb-6">Edit Post</h1>
+
+        <PostForm client:load currentUser={user} initialData={initialData} />
     </div>
 </SocialLayout>
