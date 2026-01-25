@@ -9,20 +9,28 @@ export const GET: APIRoute = async ({ request }) => {
     console.log('[Proxy] Target Raw:', rawTarget);
 
     // Ensure we handle encoded/decoded states
-    const targetUrl = rawTarget ? decodeURIComponent(rawTarget) : null;
-    // Double decode check: if it starts with http it is fine, if it keeps having % ...
-    // Actually searchParams.get() already decodes ONCE. 
-    // If we passed valid URL, it should be fine. 
-    // But let's log the final targetUrl.
+    // searchParams.get() already decodes the URI component
+    const targetUrl = rawTarget;
 
     if (!targetUrl) {
         return new Response(`Missing URL parameter. Input: ${request.url}`, { status: 400 });
     }
 
+    // Safety check for absolute URL
+    if (!targetUrl.startsWith('http')) {
+        console.error('[Proxy] Invalid URL (must be absolute):', targetUrl);
+        return new Response(`Invalid URL: ${targetUrl}`, { status: 400 });
+    }
+
     try {
-        const response = await fetch(targetUrl);
+        const response = await fetch(targetUrl, {
+            headers: {
+                'User-Agent': 'Mozilla/5.0 (Windows NT 10.0; Win64; x64) AppleWebKit/537.36 (KHTML, like Gecko) Chrome/91.0.4472.124 Safari/537.36'
+            }
+        });
 
         if (!response.ok) {
+            console.error(`[Proxy] Fetch failed: ${response.status} ${response.statusText}`);
             return new Response(`Failed to fetch PDF: ${response.statusText}`, { status: response.status });
         }
 
@@ -36,7 +44,8 @@ export const GET: APIRoute = async ({ request }) => {
                 'Access-Control-Allow-Origin': '*', // Allow all
             }
         });
-    } catch (err) {
-        return new Response('Internal Server Error', { status: 500 });
+    } catch (err: any) {
+        console.error('[Proxy] Detailed Error:', err);
+        return new Response(`Internal Server Error: ${err.message}`, { status: 500 });
     }
 }

@@ -55,11 +55,17 @@ const [postIds, podcastIds, talkIds, presentationIds, serviceIds, eventIds] =
     await Promise.all([
         // Posts: Direct FK or All
         (topic.id
-            ? supabase.from("posts").select("id").eq("topic_id", topic.id)
+            ? supabase
+                  .from("posts")
+                  .select("id")
+                  .eq("topic_id", topic.id)
+                  .order("created_at", { ascending: false })
+                  .order("id", { ascending: true })
             : supabase
                   .from("posts")
                   .select("id")
                   .order("created_at", { ascending: false })
+                  .order("id", { ascending: true })
                   .limit(2000)
         ).then(({ data, error }) => {
             if (error) console.error("[TOPIC DEBUG] Post Fetch Error:", error);
@@ -68,7 +74,11 @@ const [postIds, podcastIds, talkIds, presentationIds, serviceIds, eventIds] =
 
         // Podcasts: Direct FK
         (topic.id
-            ? supabase.from("podcasts").select("id").eq("topic_id", topic.id)
+            ? supabase
+                  .from("podcasts")
+                  .select("id")
+                  .eq("topic_id", topic.id)
+                  .order("created_at", { ascending: false })
             : supabase.from("podcasts").select("id").limit(20)
         ).then(({ data }) => data?.map((p) => p.id) || []),
 
@@ -81,13 +91,21 @@ const [postIds, podcastIds, talkIds, presentationIds, serviceIds, eventIds] =
 
         // Services: Direct FK
         (topic.id
-            ? supabase.from("services").select("id").eq("topic_id", topic.id)
+            ? supabase
+                  .from("services")
+                  .select("id")
+                  .eq("topic_id", topic.id)
+                  .order("created_at", { ascending: false })
             : supabase.from("services").select("id").limit(20)
         ).then(({ data }) => data?.map((s) => s.id) || []),
 
         // Events: Direct FK
         (topic.id
-            ? supabase.from("events").select("id").eq("topic_id", topic.id)
+            ? supabase
+                  .from("events")
+                  .select("id")
+                  .eq("topic_id", topic.id)
+                  .order("created_at", { ascending: false })
             : supabase.from("events").select("id").limit(100)
         ).then(({ data }) => data?.map((e) => e.id) || []),
     ]);
@@ -129,7 +147,9 @@ const fetchContent = async (
         query = query.order("created_at", { ascending: false });
     } else {
         // Maintain order for posts/others
-        query = query.order("created_at", { ascending: false });
+        query = query
+            .order("created_at", { ascending: false })
+            .order("id", { ascending: true });
     }
 
     // Initial limit: 15 posts for infinite scroll, 100 for events, 20 for others
@@ -213,66 +233,9 @@ const formatDate = (dateStr: string | null) => {
                         </p>
                     </div>
 
-                    <!-- Search Bar (Only for All Topics) -->
-                    {
-                        slug === "all" && (
-                            <div class="mb-4 relative group">
-                                <div class="absolute inset-y-0 left-0 pl-4 flex items-center pointer-events-none">
-                                    <svg
-                                        class="h-5 w-5 text-gray-500 group-focus-within:text-primary-400 transition-colors"
-                                        xmlns="http://www.w3.org/2000/svg"
-                                        fill="none"
-                                        viewBox="0 0 24 24"
-                                        stroke="currentColor"
-                                    >
-                                        <path
-                                            stroke-linecap="round"
-                                            stroke-linejoin="round"
-                                            stroke-width="2"
-                                            d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
-                                        />
-                                    </svg>
-                                </div>
-                                <input
-                                    type="text"
-                                    id="post-search"
-                                    placeholder="Search posts..."
-                                    class="block w-full pl-11 pr-4 py-3 bg-white border border-(--border-color) rounded-full text-dark placeholder-gray-500 focus:outline-none focus:ring-2 focus:ring-primary-500/50 focus:border-primary-500 transition-all text-sm shadow-sm"
-                                    style="border-radius: 0.6666666667rem;"
-                                />
-                                <div class="absolute inset-y-0 right-0 pr-3 flex items-center">
-                                    <div
-                                        id="search-spinner"
-                                        class="hidden animate-spin h-4 w-4 text-primary-400"
-                                    >
-                                        <svg
-                                            xmlns="http://www.w3.org/2000/svg"
-                                            fill="none"
-                                            viewBox="0 0 24 24"
-                                        >
-                                            <circle
-                                                class="opacity-25"
-                                                cx="12"
-                                                cy="12"
-                                                r="10"
-                                                stroke="currentColor"
-                                                stroke-width="4"
-                                            />
-                                            <path
-                                                class="opacity-75"
-                                                fill="currentColor"
-                                                d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
-                                            />
-                                        </svg>
-                                    </div>
-                                </div>
-                            </div>
-                        )
-                    }
-
                     <!-- Functional Tabs -->
                     <div
-                        class="flex gap-4 overflow-x-auto no-scrollbar pb-1"
+                        class="flex gap-4 overflow-x-auto no-scrollbar pb-1 mb-4"
                         id="topic-tabs"
                     >
                         <button
@@ -299,6 +262,62 @@ const formatDate = (dateStr: string | null) => {
                         >
                             Services ({serviceIds.length})
                         </button>
+                    </div>
+
+                    <!-- Search Bar (Subtle & Below Tabs) -->
+                    <div class="mb-4 relative group max-w-sm">
+                        <div
+                            class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
+                        >
+                            <svg
+                                class="h-4 w-4 text-gray-400 group-focus-within:text-primary-400 transition-colors"
+                                xmlns="http://www.w3.org/2000/svg"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                            >
+                                <path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"
+                                ></path>
+                            </svg>
+                        </div>
+                        <input
+                            type="text"
+                            id="post-search"
+                            placeholder="Search in this topic..."
+                            class="block w-full pl-9 pr-4 py-2 bg-transparent border border-gray-200 rounded-full text-dark placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-primary-500 focus:border-primary-500 transition-all text-xs"
+                            style="border-radius: 9999px;"
+                        />
+                        <div
+                            class="absolute inset-y-0 right-0 pr-3 flex items-center"
+                        >
+                            <div
+                                id="search-spinner"
+                                class="hidden animate-spin h-3 w-3 text-primary-400"
+                            >
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                >
+                                    <circle
+                                        class="opacity-25"
+                                        cx="12"
+                                        cy="12"
+                                        r="10"
+                                        stroke="currentColor"
+                                        stroke-width="4"></circle>
+                                    <path
+                                        class="opacity-75"
+                                        fill="currentColor"
+                                        d="M4 12a8 8 0 018-8V0C5.373 0 0 5.373 0 12h4zm2 5.291A7.962 7.962 0 014 12H0c0 3.042 1.135 5.824 3 7.938l3-2.647z"
+                                    ></path>
+                                </svg>
+                            </div>
+                        </div>
                     </div>
                 </div>
 

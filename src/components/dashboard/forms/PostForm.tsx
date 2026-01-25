@@ -301,7 +301,7 @@ export default function PostForm({ currentUser, initialData }: PostFormProps) {
     return (
         <form onSubmit={handleSubmit} className="space-y-6 max-w-3xl mx-auto">
             <div>
-                <label htmlFor="topic_id" className="block text-sm font-medium text-[var(--text-secondary)] mb-2">Topic / Category</label>
+                <label htmlFor="topic_id" className="block text-sm font-medium text-(--text-secondary) mb-2">Topic / Category</label>
                 <select
                     id="topic_id"
                     name="topic_id"
@@ -309,18 +309,18 @@ export default function PostForm({ currentUser, initialData }: PostFormProps) {
                     value={formData.topic_id} // Bind value to state
                     onChange={handleChange as any}
                     disabled={isLoadingTopics}
-                    className="w-full bg-[var(--bg-body)] border border-[var(--border-color)] rounded-lg px-4 py-3 text-[var(--text-main)] placeholder-gray-500 focus:border-primary-500 focus:ring-1 focus:ring-primary-500 transition-colors appearance-none"
+                    className="w-full bg-(--bg-body) border border-(--border-color) rounded-lg px-4 py-3 text-(--text-main) placeholder-gray-500 focus:border-primary-500 focus:ring-1 focus:ring-primary-500 transition-colors appearance-none"
                 >
                     <option value="">{isLoadingTopics ? 'Loading topics...' : 'Select a Mining Topic...'}</option>
                     {topics.map(t => (
                         <option key={t.id} value={t.slug}>{t.name}</option>
                     ))}
                 </select>
-                <p className="text-xs text-[var(--text-secondary)] mt-1">Select the most relevant mining sector for your post.</p>
+                <p className="text-xs text-(--text-secondary) mt-1">Select the most relevant mining sector for your post.</p>
             </div>
 
             <div>
-                <label htmlFor="title" className="block text-sm font-medium text-[var(--text-secondary)] mb-2">Title</label>
+                <label htmlFor="title" className="block text-sm font-medium text-(--text-secondary) mb-2">Title</label>
                 <input
                     type="text"
                     name="title"
@@ -328,15 +328,15 @@ export default function PostForm({ currentUser, initialData }: PostFormProps) {
                     required
                     value={formData.title}
                     onChange={handleChange}
-                    className="w-full bg-[var(--bg-body)] border border-[var(--border-color)] rounded-lg px-4 py-3 text-[var(--text-main)] placeholder-gray-500 focus:border-primary-500 focus:ring-1 focus:ring-primary-500 transition-colors"
+                    className="w-full bg-(--bg-body) border border-(--border-color) rounded-lg px-4 py-3 text-(--text-main) placeholder-gray-500 focus:border-primary-500 focus:ring-1 focus:ring-primary-500 transition-colors"
                     placeholder="How to optimize mining operations..."
                 />
             </div>
 
             <div>
-                <label htmlFor="slug" className="block text-sm font-medium text-[var(--text-secondary)] mb-2">Slug (URL)</label>
+                <label htmlFor="slug" className="block text-sm font-medium text-(--text-secondary) mb-2">Slug (URL)</label>
                 <div className="flex rounded-md shadow-sm">
-                    <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-[var(--border-color)] bg-[var(--bg-surface-hover)] text-[var(--text-secondary)] sm:text-sm">
+                    <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-(--border-color) bg-(--bg-surface-hover) text-(--text-secondary) sm:text-sm">
                         zvenia.com/post/
                     </span>
                     <input
@@ -346,13 +346,13 @@ export default function PostForm({ currentUser, initialData }: PostFormProps) {
                         required
                         value={formData.slug}
                         onChange={handleChange}
-                        className="flex-1 min-w-0 block w-full px-4 py-3 rounded-none rounded-r-md bg-[var(--bg-body)] border border-[var(--border-color)] text-[var(--text-main)] focus:border-primary-500 focus:ring-1 focus:ring-primary-500 sm:text-sm"
+                        className="flex-1 min-w-0 block w-full px-4 py-3 rounded-none rounded-r-md bg-(--bg-body) border border-(--border-color) text-(--text-main) focus:border-primary-500 focus:ring-1 focus:ring-primary-500 sm:text-sm"
                     />
                 </div>
             </div>
 
             <div>
-                <label className="block text-sm font-bold text-[var(--text-main)] mb-3">What would you like to share? ( Optional )</label>
+                <label className="block text-sm font-bold text-(--text-main) mb-3">What would you like to share? ( Optional )</label>
 
                 {/* Media Type Selector */}
                 <div className="flex flex-wrap gap-4 mb-4">
@@ -371,8 +371,8 @@ export default function PostForm({ currentUser, initialData }: PostFormProps) {
                                 setActiveMediaType(type as any);
                             }}
                             className={`flex items-center gap-2 px-4 py-2 rounded-lg border transition-all capitalize ${activeMediaType === type
-                                ? 'bg-primary-500/20 border-primary-500 text-[var(--text-main)]'
-                                : 'bg-[var(--bg-body)] border-[var(--border-color)] text-[var(--text-secondary)] hover:bg-[var(--bg-surface-hover)]'
+                                ? 'bg-primary-500/20 border-primary-500 text-(--text-main)'
+                                : 'bg-(--bg-body) border-(--border-color) text-(--text-secondary) hover:bg-(--bg-surface-hover)'
                                 }`}
                         >
                             <span className={`w-4 h-4 rounded-sm border ${activeMediaType === type ? 'bg-primary-500 border-primary-500' : 'border-gray-500'}`}></span>
@@ -382,14 +382,14 @@ export default function PostForm({ currentUser, initialData }: PostFormProps) {
                 </div>
 
                 {/* Upload Area / Input Area */}
-                <div className="border-2 border-dashed border-[var(--border-color)] rounded-lg p-6 text-center hover:border-primary-500/50 transition-colors bg-[var(--bg-body)] min-h-[200px] flex flex-col justify-center">
+                <div className="border-2 border-dashed border-(--border-color) rounded-lg p-6 text-center hover:border-primary-500/50 transition-colors bg-(--bg-body) min-h-[200px] flex flex-col justify-center">
                     {activeMediaType === 'youtube' ? (
                         <div className="w-full max-w-md mx-auto">
-                            <label className="block text-left text-sm text-[var(--text-secondary)] mb-1">YouTube Video URL</label>
+                            <label className="block text-left text-sm text-(--text-secondary) mb-1">YouTube Video URL</label>
                             <input
                                 type="url"
                                 placeholder="https://www.youtube.com/watch?v=..."
-                                className="w-full bg-[var(--bg-surface)] border border-[var(--border-color)] rounded px-3 py-2 text-[var(--text-main)] focus:border-primary-500"
+                                className="w-full bg-(--bg-surface) border border-(--border-color) rounded px-3 py-2 text-(--text-main) focus:border-primary-500"
                                 value={formData.metadata?.youtube_url || ''}
                                 onChange={(e) => setFormData(prev => ({
                                     ...prev,
@@ -400,7 +400,7 @@ export default function PostForm({ currentUser, initialData }: PostFormProps) {
                     ) : (
                         // File Upload Logic (Image, Video, PDF)
                         isUploading ? (
-                            <div className="text-[var(--text-secondary)] flex flex-col items-center">
+                            <div className="text-(--text-secondary) flex flex-col items-center">
                                 <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-500 mb-2"></div>
                                 <span>Uploading...</span>
                             </div>
@@ -409,7 +409,7 @@ export default function PostForm({ currentUser, initialData }: PostFormProps) {
                                 {/* PREVIEWS */}
                                 {/* 1. Video Preview */}
                                 {formData.metadata?.video_url && activeMediaType === 'video' && (
-                                    <div className="relative w-full max-w-md mx-auto bg-black rounded-lg overflow-hidden border border-[var(--border-color)]">
+                                    <div className="relative w-full max-w-md mx-auto bg-black rounded-lg overflow-hidden border border-(--border-color)">
                                         <video src={formData.metadata.video_url} controls className="w-full h-auto max-h-[300px]" />
                                         <button
                                             type="button"
@@ -421,7 +421,7 @@ export default function PostForm({ currentUser, initialData }: PostFormProps) {
 
                                 {/* 2. PDF Preview */}
                                 {formData.document_url && activeMediaType === 'pdf' && (
-                                    <div className="relative p-4 bg-[var(--bg-surface)] rounded-lg border border-[var(--border-color)] flex items-center justify-between max-w-md mx-auto w-full">
+                                    <div className="relative p-4 bg-(--bg-surface) rounded-lg border border-(--border-color) flex items-center justify-between max-w-md mx-auto w-full">
                                         <div className="flex items-center truncate">
                                             <div className="text-2xl mr-3">📄</div>
                                             <a href={formData.document_url} target="_blank" className="text-sm text-primary-400 hover:underline truncate">{formData.document_url.split('/').pop()}</a>
@@ -443,7 +443,7 @@ export default function PostForm({ currentUser, initialData }: PostFormProps) {
                                             </div>
                                         )}
                                         {formData.metadata?.gallery?.map((img: string, idx: number) => (
-                                            <div key={idx} className="relative group aspect-square rounded-lg overflow-hidden border border-[var(--border-color)]">
+                                            <div key={idx} className="relative group aspect-square rounded-lg overflow-hidden border border-(--border-color)">
                                                 <img src={img} alt="Gallery" className="w-full h-full object-cover" />
                                                 <button type="button" onClick={() => setFormData(prev => {
                                                     const newG = [...prev.metadata.gallery];
@@ -470,12 +470,12 @@ export default function PostForm({ currentUser, initialData }: PostFormProps) {
                                         <label
                                             htmlFor="file-upload"
                                             className={`cursor-pointer flex flex-col items-center justify-center transition-colors ${activeMediaType === 'image' && (formData.featured_image_url)
-                                                ? 'w-full h-full border-2 border-dashed border-[var(--border-color)] rounded-lg hover:bg-[var(--bg-surface-hover)]'
-                                                : 'inline-block px-4 py-2 bg-[var(--bg-surface-hover)] hover:bg-[var(--bg-surface)] rounded text-sm font-bold text-[var(--text-main)]'
+                                                ? 'w-full h-full border-2 border-dashed border-(--border-color) rounded-lg hover:bg-(--bg-surface-hover)'
+                                                : 'inline-block px-4 py-2 bg-(--bg-surface-hover) hover:bg-(--bg-surface) rounded text-sm font-bold text-(--text-main)'
                                                 }`}
                                         >
                                             {activeMediaType === 'image' && formData.featured_image_url ? (
-                                                <span className="text-2xl text-[var(--text-secondary)]">+</span>
+                                                <span className="text-2xl text-(--text-secondary)">+</span>
                                             ) : (
                                                 <span>{activeMediaType === 'image' && !formData.featured_image_url ? 'Select Images' : activeMediaType === 'video' ? 'Select Video' : 'Select PDF'}</span>
                                             )}
@@ -489,20 +489,20 @@ export default function PostForm({ currentUser, initialData }: PostFormProps) {
             </div>
 
             <div>
-                <label htmlFor="source" className="block text-sm font-medium text-[var(--text-secondary)] mb-2">Source / Reference (URL or Text)</label>
+                <label htmlFor="source" className="block text-sm font-medium text-(--text-secondary) mb-2">Source / Reference (URL or Text)</label>
                 <input
                     type="text"
                     name="source"
                     id="source"
                     value={formData.source}
                     onChange={handleChange}
-                    className="w-full bg-[var(--bg-body)] border border-[var(--border-color)] rounded-lg px-4 py-3 text-[var(--text-main)] placeholder-gray-500 focus:border-primary-500 focus:ring-1 focus:ring-primary-500 transition-colors"
+                    className="w-full bg-(--bg-body) border border-(--border-color) rounded-lg px-4 py-3 text-(--text-main) placeholder-gray-500 focus:border-primary-500 focus:ring-1 focus:ring-primary-500 transition-colors"
                     placeholder="https://example.com or 'Company Internal Report'"
                 />
             </div>
 
             <div>
-                <label htmlFor="content" className="block text-sm font-medium text-[var(--text-secondary)] mb-2">Content</label>
+                <label htmlFor="content" className="block text-sm font-medium text-(--text-secondary) mb-2">Content</label>
                 <textarea
                     name="content"
                     id="content"
@@ -510,16 +510,16 @@ export default function PostForm({ currentUser, initialData }: PostFormProps) {
                     required
                     value={formData.content}
                     onChange={handleChange}
-                    className="w-full bg-[var(--bg-body)] border border-[var(--border-color)] rounded-lg px-4 py-3 text-[var(--text-main)] placeholder-gray-500 focus:border-primary-500 focus:ring-1 focus:ring-primary-500 transition-colors font-mono text-sm"
+                    className="w-full bg-(--bg-body) border border-(--border-color) rounded-lg px-4 py-3 text-(--text-main) placeholder-gray-500 focus:border-primary-500 focus:ring-1 focus:ring-primary-500 transition-colors font-mono text-sm"
                     placeholder="Write your article content here (Markdown supported)..."
                 />
             </div>
 
-            <div className="pt-4 border-t border-[var(--border-color)] flex justify-end">
+            <div className="pt-4 border-t border-(--border-color) flex justify-end">
                 <button
                     type="button"
                     onClick={() => window.location.href = '/'}
-                    className="mr-3 inline-flex justify-center rounded-md border border-[var(--border-color)] bg-transparent py-3 px-8 text-sm font-medium text-[var(--text-secondary)] shadow-sm hover:bg-[var(--bg-surface-hover)] hover:text-[var(--text-main)] focus:outline-none transition-all"
+                    className="mr-3 inline-flex justify-center rounded-md border border-(--border-color) bg-transparent py-3 px-8 text-sm font-medium text-(--text-secondary) shadow-sm hover:bg-(--bg-surface-hover) hover:text-(--text-main) focus:outline-none transition-all"
                 >
                     Cancel
                 </button>

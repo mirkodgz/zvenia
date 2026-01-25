@@ -37,6 +37,7 @@ if (slug !== "all" && slug !== "all-topics") {
 // Order and Paginate
 query = query
     .order("created_at", { ascending: false })
+    .order("id", { ascending: true })
     .range(offset, offset + limit - 1);
 
 const { data: posts } = await query;
