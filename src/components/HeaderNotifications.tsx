@@ -94,8 +94,8 @@ export default function HeaderNotifications({ currentUserId, sessionAccessToken 
             });
         }
 
-        let query = effectiveClient
-            .from('notifications')
+        let query = (effectiveClient
+            .from('notifications') as any)
             .update({ is_read: true } as any)
             .eq('user_id', currentUserId);
 

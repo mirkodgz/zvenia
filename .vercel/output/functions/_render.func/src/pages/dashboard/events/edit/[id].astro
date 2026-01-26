@@ -1,0 +1,66 @@
+---
+import SocialLayout from "../../../../layouts/SocialLayout.astro";
+import LeftSidebar from "../../../../components/social/LeftSidebar.astro";
+import EventForm from "../../../../components/dashboard/forms/EventForm";
+
+const { id } = Astro.params;
+
+if (!id) {
+    return Astro.redirect("/404");
+}
+
+// 1. Check Auth
+const user = Astro.locals.user;
+if (!user) {
+    return Astro.redirect("/login");
+}
+
+// 2. Fetch Event with Related Data
+const { data: event, error } = await Astro.locals.supabase
+    .from("events")
+    .select(
+        `
+        *,
+        topic:topics (
+            slug,
+            name
+        )
+    `,
+    )
+    .eq("id", id)
+    .single();
+
+if (error || !event) {
+    console.error("Error fetching event for edit:", error);
+    return Astro.redirect("/404");
+}
+
+// 3. Ownership Check (Allow Admins)
+const userRole = (user as any).role || "Basic";
+const isModerator = ["Administrator", "CountryManager"].includes(userRole);
+
+// Cast to any to avoid 'never' type inference issues with complex Supabase query
+const eventData = event as any;
+
+if (eventData.author_id !== user.id && !isModerator) {
+    return Astro.redirect("/");
+}
+
+// 4. Transform Data for Form
+const topicSlug = eventData.topic?.slug || "";
+
+const initialData = {
+    ...eventData,
+    topic_slug: topicSlug,
+};
+---
+
+<SocialLayout title={`Edit Event: ${eventData.title}`} hideRightSidebar={true}>
+    <LeftSidebar slot="left-sidebar" />
+
+    <div class="max-w-5xl mx-auto px-4 py-8">
+        <h1 class="text-2xl font-bold text-dark mb-6">Edit Event</h1>
+
+        <EventForm client:load currentUser={user} initialData={initialData} />
+    </div>
+</SocialLayout>
