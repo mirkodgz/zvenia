@@ -44,72 +44,74 @@ export default function PostForm({ currentUser, initialData }: PostFormProps) {
     const [isUploading, setIsUploading] = useState(false);
 
     const handleFileUpload = async (e: React.ChangeEvent<HTMLInputElement>) => {
-        const file = e.target.files?.[0];
-        if (!file) return;
-
-        // Strict Type Check
-        const isPdf = file.type === 'application/pdf';
-        const isImage = file.type.startsWith('image/');
-        const isVideo = file.type.startsWith('video/');
-
-        if (!isPdf && !isImage && !isVideo) {
-            alert('Format not supported.');
-            return;
-        }
+        const files = e.target.files;
+        if (!files || files.length === 0) return;
 
         setIsUploading(true);
-        const uploadFormData = new FormData();
-        uploadFormData.append('file', file);
 
         try {
-            const response = await fetch('/api/upload', {
-                method: 'POST',
-                body: uploadFormData,
-            });
-            const data = await response.json();
+            // Process all files
+            for (let i = 0; i < files.length; i++) {
+                const file = files[i];
 
-            if (!response.ok) throw new Error(data.error || 'Upload failed');
+                // Strict Type Check
+                const isPdf = file.type === 'application/pdf';
+                const isImage = file.type.startsWith('image/');
+                const isVideo = file.type.startsWith('video/');
 
-            let finalUrl = data.url;
-
-            if (isVideo) {
-                // Video Logic
-                setFormData(prev => ({
-                    ...prev,
-                    metadata: { ...prev.metadata, video_url: finalUrl }
-                }));
-            } else if (isPdf) {
-                // PDF Logic: Only 1 Allowed. Keep original PDF URL.
-                setFormData(prev => ({ ...prev, document_url: finalUrl }));
-            } else {
-                // Image Logic: Gallery Support
-                // If Cloudinary thinks it's a PDF (but user wants image), force .jpg extension
-                if (data.format === 'pdf') {
-                    finalUrl = finalUrl.replace(/\.pdf$/i, '.jpg');
+                if (!isPdf && !isImage && !isVideo) {
+                    alert(`Format not supported for file: ${file.name}`);
+                    continue;
                 }
 
-                // Image Logic: Gallery Support
-                setFormData(prev => {
-                    const currentGallery = prev.metadata?.gallery || [];
+                const uploadFormData = new FormData();
+                uploadFormData.append('file', file);
 
-                    // If no main image, set as main
-                    if (!prev.featured_image_url) {
-                        return { ...prev, featured_image_url: finalUrl };
+                const response = await fetch('/api/upload', {
+                    method: 'POST',
+                    body: uploadFormData,
+                });
+                const data = await response.json();
+
+                if (!response.ok) throw new Error(data.error || 'Upload failed');
+
+                let finalUrl = data.url;
+
+                if (isVideo) {
+                    // Video Logic - Last one wins for now as only 1 is supported
+                    setFormData(prev => ({
+                        ...prev,
+                        metadata: { ...prev.metadata, video_url: finalUrl }
+                    }));
+                } else if (isPdf) {
+                    // PDF Logic: Only 1 Allowed.
+                    setFormData(prev => ({ ...prev, document_url: finalUrl }));
+                } else {
+                    // Image Logic: Gallery Support
+                    if (data.format === 'pdf') {
+                        finalUrl = finalUrl.replace(/\.pdf$/i, '.jpg');
                     }
 
-                    // Otherwise append to gallery
-                    return {
-                        ...prev,
-                        metadata: {
-                            ...prev.metadata,
-                            gallery: [...currentGallery, finalUrl]
+                    setFormData(prev => {
+                        const currentGallery = prev.metadata?.gallery || [];
+                        // If no main image, set as main
+                        if (!prev.featured_image_url) {
+                            return { ...prev, featured_image_url: finalUrl };
                         }
-                    };
-                });
+                        // Otherwise append to gallery
+                        return {
+                            ...prev,
+                            metadata: {
+                                ...prev.metadata,
+                                gallery: [...currentGallery, finalUrl]
+                            }
+                        };
+                    });
+                }
             }
         } catch (error) {
             console.error('Upload Error:', error);
-            alert('Failed to upload file');
+            alert('Failed to upload one or more files');
         } finally {
             setIsUploading(false);
         }
@@ -167,8 +169,11 @@ export default function PostForm({ currentUser, initialData }: PostFormProps) {
                 finalPayload.metadata.video_url = '';
                 finalPayload.metadata.youtube_url = '';
                 // Ensure featured_image_url is set if not present but gallery exists
+                // Ensure featured_image_url is set if not present but gallery exists
                 if (!finalPayload.featured_image_url && finalPayload.metadata.gallery?.length > 0) {
                     finalPayload.featured_image_url = finalPayload.metadata.gallery[0];
+                    // Remove the promoted image from the gallery to prevent duplication/resurrection
+                    finalPayload.metadata.gallery = finalPayload.metadata.gallery.slice(1);
                 }
             } else if (activeMediaType === 'pdf') {
                 finalPayload.featured_image_url = '';
@@ -205,7 +210,11 @@ export default function PostForm({ currentUser, initialData }: PostFormProps) {
             }
 
             alert(isEdit ? 'Post updated successfully!' : 'Post created successfully!');
-            window.location.href = '/';
+
+
+            const params = new URLSearchParams(window.location.search);
+            const returnTo = params.get('returnTo') || '/';
+            window.location.href = returnTo;
 
         } catch (error: any) {
             console.error("Submission error:", error);
@@ -466,6 +475,7 @@ export default function PostForm({ currentUser, initialData }: PostFormProps) {
                                             onChange={handleFileUpload}
                                             // Disable if video/pdf already exists (only 1 allowed)
                                             disabled={activeMediaType === 'video' && !!formData.metadata?.video_url || activeMediaType === 'pdf' && !!formData.document_url}
+                                            multiple={activeMediaType === 'image'}
                                         />
                                         <label
                                             htmlFor="file-upload"
@@ -518,7 +528,11 @@ export default function PostForm({ currentUser, initialData }: PostFormProps) {
             <div className="pt-4 border-t border-(--border-color) flex justify-end">
                 <button
                     type="button"
-                    onClick={() => window.location.href = '/'}
+                    onClick={() => {
+                        const params = new URLSearchParams(window.location.search);
+                        const returnTo = params.get('returnTo') || '/';
+                        window.location.href = returnTo;
+                    }}
                     className="mr-3 inline-flex justify-center rounded-md border border-(--border-color) bg-transparent py-3 px-8 text-sm font-medium text-(--text-secondary) shadow-sm hover:bg-(--bg-surface-hover) hover:text-(--text-main) focus:outline-none transition-all"
                 >
                     Cancel

@@ -49,15 +49,21 @@ const EventCard: React.FC<EventCardProps> = ({ event, currentUser }) => {
     const dateDisplay = formatDateRange(event.start_date, event.end_date);
 
     return (
-        <div className="bg-[#1A1A1A] border border-white/10 overflow-hidden hover:border-primary-500/30 transition-all group flex flex-col h-full relative">
+        <div className="bg-white border border-(--border-color) overflow-hidden hover:border-primary-500/50 transition-all group flex flex-col h-full relative shadow-sm hover:shadow-md">
 
             {/* Options Menu (Absolute Top Right) */}
             <div className="absolute top-3 right-3 z-30">
-                <EventOptions eventId={event.id} authorId={event.author_id} currentUserId={currentUser?.id} slug={event.slug} />
+                <EventOptions
+                    eventId={event.id}
+                    authorId={event.author_id}
+                    currentUserId={currentUser?.id}
+                    currentUserRole={currentUser?.role}
+                    slug={event.slug}
+                />
             </div>
 
             {/* Cover Image */}
-            <div className="relative h-48 w-full bg-black border-b border-white/5 overflow-hidden">
+            <div className="relative h-48 w-full bg-gray-100 border-b border-gray-100 overflow-hidden">
                 {event.featured_image_url ? (
                     <img
                         src={event.featured_image_url}
@@ -71,13 +77,13 @@ const EventCard: React.FC<EventCardProps> = ({ event, currentUser }) => {
                 )}
 
                 {/* Overlay Badge - Moved to Left to avoid conflict with Options */}
-                <div className="absolute top-3 left-3 bg-black/60 backdrop-blur-md border border-white/10 px-3 py-1 text-xs font-bold text-white shadow-lg">
+                <div className="absolute top-3 left-3 bg-white/90 backdrop-blur-md border border-(--border-color) px-3 py-1 text-xs font-bold text-(--text-main) shadow-sm">
                     Event
                 </div>
             </div>
 
             {/* Content Body */}
-            <div className="p-5 flex flex-col flex-grow">
+            <div className="p-5 flex flex-col grow">
                 {/* Date */}
                 <div className="text-primary-400 text-xs font-bold uppercase tracking-wider mb-2 flex items-center gap-2">
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"></path></svg>
@@ -85,7 +91,7 @@ const EventCard: React.FC<EventCardProps> = ({ event, currentUser }) => {
                 </div>
 
                 {/* Title */}
-                <h3 className="text-lg font-bold text-white mb-2 line-clamp-2 group-hover:text-primary-400 transition-colors">
+                <h3 className="text-lg font-bold text-(--text-main) mb-2 line-clamp-2 group-hover:text-primary-600 transition-colors">
                     {event.title}
                 </h3>
 
@@ -98,12 +104,12 @@ const EventCard: React.FC<EventCardProps> = ({ event, currentUser }) => {
                 )}
 
                 {/* Spacer to push button down */}
-                <div className="flex-grow"></div>
+                <div className="grow"></div>
 
                 {/* CTA Button */}
                 <a
                     href={`/event/${event.slug}`}
-                    className="mt-4 w-full py-2.5 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-primary-500/50 text-sm font-bold text-center text-white transition-all flex items-center justify-center gap-2"
+                    className="mt-4 w-full py-2.5 bg-transparent hover:bg-gray-50 border border-(--border-color) hover:border-primary-500/50 text-sm font-bold text-center text-(--text-main) transition-all flex items-center justify-center gap-2 rounded-md"
                 >
                     View Details
                     <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"></path></svg>

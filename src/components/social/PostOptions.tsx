@@ -78,7 +78,8 @@ export default function PostOptions({ postId, authorId, currentUserId, currentUs
                         onClick={(e) => {
                             e.stopPropagation();
                             setIsOpen(false);
-                            window.location.href = `/dashboard/posts/edit/${postId}`;
+                            const returnTo = encodeURIComponent(window.location.pathname);
+                            window.location.href = `/dashboard/posts/edit/${postId}?returnTo=${returnTo}`;
                         }}
                         className="w-full text-left px-4 py-2 text-sm text-(--text-secondary) hover:bg-(--bg-surface-hover) hover:text-(--text-main) flex items-center gap-2"
                     >

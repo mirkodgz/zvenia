@@ -4,14 +4,15 @@ interface EventOptionsProps {
     eventId: string;
     authorId: string;
     currentUserId: string | undefined;
+    currentUserRole?: string;
     slug?: string;
 }
 
-export default function EventOptions({ eventId, authorId, currentUserId, slug }: EventOptionsProps) {
+export default function EventOptions({ eventId, authorId, currentUserId, currentUserRole, slug }: EventOptionsProps) {
     const [isOpen, setIsOpen] = useState(false);
     const [copied, setCopied] = useState(false);
     const menuRef = useRef<HTMLDivElement>(null);
-    const isAuthor = currentUserId === authorId;
+    const canEdit = currentUserId === authorId || currentUserRole === 'Administrator' || currentUserRole === 'CountryManager';
     const linkSlug = slug || eventId;
 
     // Close on click outside
@@ -65,7 +66,7 @@ export default function EventOptions({ eventId, authorId, currentUserId, slug }:
                     e.stopPropagation();
                     setIsOpen(!isOpen);
                 }}
-                className="text-[var(--text-secondary)] hover:text-[var(--text-main)] p-1 rounded-full hover:bg-[var(--bg-card)] transition-colors bg-[var(--bg-surface)] backdrop-blur-sm"
+                className="text-(--text-secondary) hover:text-(--text-main) p-1 rounded-full hover:bg-(--bg-card) transition-colors bg-(--bg-surface) backdrop-blur-sm"
                 title="Options"
             >
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -74,7 +75,7 @@ export default function EventOptions({ eventId, authorId, currentUserId, slug }:
             </button>
 
             {isOpen && (
-                <div className="absolute right-0 mt-2 w-48 bg-[var(--bg-card)] rounded-md shadow-lg py-1 border border-[var(--border-color)] overflow-hidden animate-fade-in">
+                <div className="absolute right-0 mt-2 w-48 bg-(--bg-card) rounded-md shadow-lg py-1 border border-(--border-color) overflow-hidden animate-fade-in">
 
                     {/* Copy Link - Everyone */}
                     <button
@@ -83,7 +84,7 @@ export default function EventOptions({ eventId, authorId, currentUserId, slug }:
                             e.stopPropagation();
                             handleCopyLink();
                         }}
-                        className="block px-4 py-2 text-sm text-[var(--text-secondary)] hover:bg-[var(--bg-surface-hover)] hover:text-[var(--text-main)] w-full text-left flex items-center gap-2 group transition-colors"
+                        className="px-4 py-2 text-sm text-(--text-secondary) hover:bg-(--bg-surface-hover) hover:text-(--text-main) w-full text-left flex items-center gap-2 group transition-colors"
                     >
                         {copied ? (
                             <>
@@ -98,17 +99,17 @@ export default function EventOptions({ eventId, authorId, currentUserId, slug }:
                         )}
                     </button>
 
-                    {/* Edit/Delete - Author Only */}
-                    {isAuthor && (
+                    {/* Edit/Delete - Author or Admin */}
+                    {canEdit && (
                         <>
-                            <div className="h-px bg-[var(--border-color)] my-1"></div>
+                            <div className="h-px bg-(--border-color) my-1"></div>
                             <button
                                 onClick={(e) => {
                                     e.stopPropagation();
                                     setIsOpen(false);
                                     window.location.href = `/dashboard/events/edit/${eventId}`;
                                 }}
-                                className="block px-4 py-2 text-sm text-[var(--text-secondary)] hover:bg-[var(--bg-surface-hover)] hover:text-[var(--text-main)] w-full text-left flex items-center gap-2"
+                                className="px-4 py-2 text-sm text-(--text-secondary) hover:bg-(--bg-surface-hover) hover:text-(--text-main) w-full text-left flex items-center gap-2"
                             >
                                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
                                 Edit Event
@@ -119,7 +120,7 @@ export default function EventOptions({ eventId, authorId, currentUserId, slug }:
                                     e.stopPropagation();
                                     handleDelete();
                                 }}
-                                className="block px-4 py-2 text-sm text-red-400 hover:bg-red-500/10 hover:text-red-300 w-full text-left flex items-center gap-2"
+                                className="px-4 py-2 text-sm text-red-400 hover:bg-red-500/10 hover:text-red-300 w-full text-left flex items-center gap-2"
                             >
                                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                                 Delete Event
