@@ -15,10 +15,10 @@
     },
     "dependencies": {
         "@astrojs/check": "^0.9.4",
-        "@astrojs/node": "^9.5.2",
         "@astrojs/react": "^4.1.2",
         "@astrojs/rss": "^4.0.10",
         "@astrojs/sitemap": "^3.2.1",
+        "@astrojs/vercel": "^9.0.4",
         "@cloudinary/react": "^1.14.3",
         "@cloudinary/url-gen": "^1.22.0",
         "@radix-ui/react-avatar": "^1.1.1",
