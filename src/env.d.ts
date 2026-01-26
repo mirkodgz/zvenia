@@ -25,6 +25,7 @@ declare global {
                 avatar_url: string | null;
                 profile_slug: string | null;
             } | null;
+            country?: string;
         }
     }
 }

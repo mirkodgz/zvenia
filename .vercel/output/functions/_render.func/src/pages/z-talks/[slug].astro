@@ -1,0 +1,168 @@
+---
+import SocialLayout from "../../layouts/SocialLayout.astro";
+import LeftSidebar from "../../components/social/LeftSidebar.astro";
+import RightSidebar from "../../components/social/RightSidebar.astro";
+import { createSupabaseServerClient } from "../../lib/supabase";
+import { ArrowLeft, Play, Calendar, User, Briefcase } from "lucide-react";
+import type { Database } from "../../types/database.types";
+
+const { slug } = Astro.params;
+
+if (!slug) return Astro.redirect("/404");
+
+const supabase = createSupabaseServerClient({
+    req: Astro.request,
+    cookies: Astro.cookies,
+});
+
+type Talk = Database["public"]["Tables"]["talks"]["Row"];
+
+const { data: talk, error } = await supabase
+    .from("talks")
+    .select("*")
+    .eq("slug", slug)
+    .single<Talk>();
+
+if (error || !talk) {
+    console.error("Talk not found:", error);
+    return Astro.redirect("/404");
+}
+
+const metadata = (talk.metadata as any) || {};
+const guestName = metadata["guest-z-talk"] || "Invitado Especial";
+const company = metadata["guest-company"] || "Zvenia Mining";
+// Handle video URLs by converting to jpg extension for thumbnail, similar to card
+let imageUrl = talk.featured_image_url;
+if (imageUrl && imageUrl.includes(".mp4")) {
+    imageUrl = imageUrl.replace(".mp4", ".jpg");
+}
+
+// Format date
+const publishDate = talk.published_at
+    ? new Date(talk.published_at).toLocaleDateString("es-ES", {
+          year: "numeric",
+          month: "long",
+          day: "numeric",
+      })
+    : "";
+---
+
+<SocialLayout title={`${talk.title} | Z-TALKS`} hideRightSidebar={false}>
+    <LeftSidebar slot="left-sidebar" />
+
+    <div class="max-w-4xl mx-auto px-4 py-6">
+        {/* Back Button */}
+        <a
+            href="/z-talks"
+            class="inline-flex items-center text-(--text-secondary) hover:text-(--text-main) mb-6 transition-colors"
+        >
+            <ArrowLeft className="w-4 h-4 mr-2" />
+            Volver a Z-Talks
+        </a>
+
+        {/* Video Player Placeholder / Hero Image */}
+        {
+            /* Video Player or Hero Image */
+            talk.video_url ? (
+                <div class="relative w-full aspect-video bg-black rounded-lg overflow-hidden shadow-2xl mb-8 group ring-1 ring-white/10">
+                    <video controls class="w-full h-full" poster={imageUrl}>
+                        <source src={talk.video_url} type="video/mp4" />
+                        Tu navegador no soporta la etiqueta de video.
+                    </video>
+                </div>
+            ) : (
+                /* Fallback to Image Placeholder logic */
+                <div class="relative w-full aspect-video bg-black rounded-2xl overflow-hidden shadow-2xl mb-8 group ring-1 ring-white/10">
+                    {imageUrl ? (
+                        <img
+                            src={imageUrl}
+                            alt={talk.title}
+                            class="absolute inset-0 w-full h-full object-cover opacity-80"
+                        />
+                    ) : (
+                        <div class="absolute inset-0 bg-linear-to-br from-gray-800 to-gray-900" />
+                    )}
+
+                    {/* Play Button Overlay (Visual only in fallback) */}
+                    <div class="absolute inset-0 flex items-center justify-center">
+                        <div class="bg-white/10 backdrop-blur-md rounded-full p-6 border border-white/20 transition-transform duration-300 cursor-not-allowed opacity-50">
+                            <Play className="w-12 h-12 text-white fill-current ml-1" />
+                        </div>
+                    </div>
+
+                    <div class="absolute bottom-0 inset-x-0 h-32 bg-linear-to-t from-black via-black/60 to-transparent" />
+                </div>
+            )
+        }
+
+        {/* Title and Metadata */}
+        <div class="space-y-6">
+            <div>
+                <h1
+                    class="text-3xl sm:text-4xl font-extrabold text-(--text-main) mb-3 tracking-tight font-font-primary"
+                >
+                    {talk.title}
+                </h1>
+
+                <div
+                    class="flex flex-wrap items-center gap-4 text-sm text-(--text-secondary) font-medium"
+                >
+                    <span class="inline-flex items-center gap-1.5">
+                        <Calendar className="w-4 h-4" />
+                        {publishDate}
+                    </span>
+                    <span
+                        class="w-1 h-1 bg-(--text-secondary) rounded-full opacity-50"
+                    ></span>
+                    <span
+                        class="bg-(--primary-color)/10 text-(--primary-color) px-2.5 py-0.5 rounded-full text-xs border border-(--primary-color)/20"
+                    >
+                        Z-TALK
+                    </span>
+                </div>
+            </div>
+
+            {/* Guest Info Card */}
+            <div
+                class="bg-(--bg-card) border border-(--border-color) rounded-xl p-6"
+            >
+                <h2
+                    class="text-xs font-bold text-(--text-secondary) uppercase tracking-wider mb-4"
+                >
+                    Invitado
+                </h2>
+                <div class="flex items-start gap-4">
+                    <div
+                        class="w-12 h-12 rounded-full bg-linear-to-br from-(--primary-color) to-purple-600 flex items-center justify-center shrink-0"
+                    >
+                        <span class="text-white font-bold text-lg">
+                            {guestName.charAt(0)}
+                        </span>
+                    </div>
+                    <div>
+                        <div class="flex items-center gap-2 mb-1">
+                            <h3 class="text-lg font-bold text-(--text-main)">
+                                {guestName}
+                            </h3>
+                        </div>
+                        <div
+                            class="flex items-center gap-2 text-(--text-secondary) text-sm"
+                        >
+                            <Briefcase className="w-4 h-4" />
+                            <span>{company}</span>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            {/* Description / Content (if any) */}
+            <div
+                class="prose prose-invert max-w-none text-(--text-secondary) leading-relaxed text-base sm:text-lg space-y-4"
+                set:html={talk.description ||
+                    "No hay descripción disponible para esta charla."}
+            />
+        </div>
+    </div>
+
+    <RightSidebar slot="right-sidebar" />
+</SocialLayout>

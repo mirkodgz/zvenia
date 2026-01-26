@@ -86,6 +86,26 @@ export interface Database {
                     updated_at?: string
                 }
             }
+            countries: {
+                Row: {
+                    id: number
+                    display_name: string
+                    iso_two: string
+                    created_at: string
+                }
+                Insert: {
+                    id?: number
+                    display_name: string
+                    iso_two: string
+                    created_at?: string
+                }
+                Update: {
+                    id?: number
+                    display_name?: string
+                    iso_two?: string
+                    created_at?: string
+                }
+            }
             events: {
                 Row: {
                     id: string

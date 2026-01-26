@@ -4,15 +4,24 @@ import Header from "../components/Header.astro";
 
 interface Props {
   title: string;
+  activePage?: string;
 }
 
-const { title } = Astro.props;
+const { title, activePage } = Astro.props;
 const profile = (Astro.locals as any).profile;
 
 // Verificar que profile existe, si no redirigir
 if (!profile) {
     return Astro.redirect('/admin/login');
 }
+
+const getLinkClass = (page: string) => {
+    const baseClass = "flex items-center gap-3 px-4 py-3 rounded-lg transition-colors";
+    const inactiveClass = "text-gray-700 hover:bg-gray-100";
+    const activeClass = "bg-primary-50 text-primary-700 font-medium";
+    
+    return `${baseClass} ${activePage === page ? activeClass : inactiveClass}`;
+};
 ---
 
 <!doctype html>
@@ -49,7 +58,7 @@ if (!profile) {
           <!-- Dashboard -->
           <a
             href="/admin"
-            class="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors"
+            class={getLinkClass('dashboard')}
           >
             <span class="material-icons text-[20px]">dashboard</span>
             <span class="font-medium">Dashboard</span>
@@ -58,7 +67,7 @@ if (!profile) {
           <!-- Posts -->
           <a
             href="/admin/posts"
-            class="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors"
+            class={getLinkClass('posts')}
           >
             <span class="material-icons text-[20px]">article</span>
             <span class="font-medium">Posts</span>
@@ -67,7 +76,7 @@ if (!profile) {
           <!-- Events -->
           <a
             href="/admin/events"
-            class="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors"
+            class={getLinkClass('events')}
           >
             <span class="material-icons text-[20px]">event</span>
             <span class="font-medium">Events</span>
@@ -76,7 +85,7 @@ if (!profile) {
           <!-- Podcasts -->
           <a
             href="/admin/podcasts"
-            class="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors"
+            class={getLinkClass('podcasts')}
           >
             <span class="material-icons text-[20px]">podcasts</span>
             <span class="font-medium">Podcasts</span>
@@ -85,7 +94,7 @@ if (!profile) {
           <!-- Services -->
           <a
             href="/admin/services"
-            class="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors"
+            class={getLinkClass('services')}
           >
             <span class="material-icons text-[20px]">business_center</span>
             <span class="font-medium">Services</span>
@@ -96,7 +105,7 @@ if (!profile) {
           <!-- Topics -->
           <a
             href="/admin/topics"
-            class="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors"
+            class={getLinkClass('topics')}
           >
             <span class="material-icons text-[20px]">category</span>
             <span class="font-medium">Topics</span>
@@ -105,7 +114,7 @@ if (!profile) {
           <!-- Media -->
           <a
             href="/admin/media"
-            class="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors"
+            class={getLinkClass('media')}
           >
             <span class="material-icons text-[20px]">perm_media</span>
             <span class="font-medium">Media</span>
@@ -118,7 +127,7 @@ if (!profile) {
               <!-- Users (solo Administrator) -->
               <a
                 href="/admin/users"
-                class="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors"
+                class={getLinkClass('users')}
               >
                 <span class="material-icons text-[20px]">people</span>
                 <span class="font-medium">Users</span>
@@ -127,7 +136,7 @@ if (!profile) {
               <!-- Settings (solo Administrator) -->
               <a
                 href="/admin/settings"
-                class="flex items-center gap-3 px-4 py-3 rounded-lg text-gray-700 hover:bg-gray-100 transition-colors"
+                class={getLinkClass('settings')}
               >
                 <span class="material-icons text-[20px]">settings</span>
                 <span class="font-medium">Settings</span>

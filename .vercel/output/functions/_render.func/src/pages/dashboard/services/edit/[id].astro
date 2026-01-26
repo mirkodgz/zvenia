@@ -1,0 +1,65 @@
+---
+import SocialLayout from '../../../../layouts/SocialLayout.astro';
+import LeftSidebar from '../../../../components/social/LeftSidebar.astro';
+import ServiceForm from '../../../../components/dashboard/forms/ServiceForm';
+
+const { id } = Astro.params;
+
+if (!id) {
+    return Astro.redirect('/404');
+}
+
+// 1. Check Auth
+const user = Astro.locals.user;
+if (!user) {
+    return Astro.redirect('/login');
+}
+
+// 2. Fetch Service with Related Data
+// Note: We use the simple direct relation topic:topics(slug, name)
+const { data: service, error } = await Astro.locals.supabase
+    .from('services')
+    .select(`
+        *,
+        topic:topics (
+            slug,
+            name
+        )
+    `)
+    .eq('id', id)
+    .single();
+
+if (error || !service) {
+    console.error("Error fetching service for edit:", error);
+    return Astro.redirect('/404');
+}
+
+// 3. Ownership Check
+if (service.author_id !== user.id) {
+    return Astro.redirect('/');
+}
+
+// 4. Transform Data for Form
+// ServiceForm expects 'topic_id' to be the SLUG based on our recent fix.
+const topicSlug = service.topic?.slug || '';
+
+const initialData = {
+    ...service,
+    topic_id: topicSlug, // Map fetched topic to the form's expected topic_id (which is a slug)
+    description: service.content // Map DB 'content' to Form 'description'
+};
+---
+
+<SocialLayout title={`Edit Service: ${service.title}`} hideRightSidebar={true}>
+    <LeftSidebar slot="left-sidebar" />
+    
+    <div class="max-w-5xl mx-auto px-4 py-8">
+        <h1 class="text-2xl font-bold text-[#202124] mb-6">Edit Service</h1>
+        
+        <ServiceForm 
+            client:load 
+            currentUser={user} 
+            initialData={initialData}
+        />
+    </div>
+</SocialLayout>

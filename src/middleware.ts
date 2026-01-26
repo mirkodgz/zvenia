@@ -29,7 +29,13 @@ export const onRequest = defineMiddleware(async (context, next) => {
 
     context.locals.supabase = supabase;
 
-    // Obtener sesión y usuario autenticado
+    // Capture geolocation from Vercel headers
+    const country = context.request.headers.get('x-vercel-ip-country');
+    if (country) {
+        context.locals.country = country;
+    }
+
+    // 2. Refresh session if expired
     const {
         data: { session },
     } = await supabase.auth.getSession();

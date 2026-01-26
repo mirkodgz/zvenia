@@ -52,7 +52,13 @@ export const createSupabaseServerClient = (context: {
             },
             remove(key, options) {
                 if (context.cookies) {
-                    context.cookies.delete(key, options);
+                    context.cookies.delete(key, {
+                        ...options,
+                        path: '/',
+                        secure: false, // HARDCODED FALSE: Match set() to ensure deletion works
+                        sameSite: 'lax',
+                        httpOnly: true,
+                    });
                     return;
                 }
             },

@@ -1,0 +1,177 @@
+---
+import SocialLayout from '../../layouts/SocialLayout.astro';
+import LeftSidebar from '../../components/social/LeftSidebar.astro';
+import RightSidebar from '../../components/social/RightSidebar.astro';
+import ServiceOptions from '../../components/social/ServiceOptions';
+import { supabase } from '../../lib/supabase';
+
+const { slug } = Astro.params;
+
+if (!slug) {
+  return Astro.redirect('/404');
+}
+
+// Fetch Service Data
+let query = supabase
+  .from('services')
+  .select(`
+    *,
+    topic:topics(*)
+  `);
+
+// Detect if slug is a valid UUID
+const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(slug);
+
+console.log(`[SERVICE DEBUG] slug param: "${slug}", isUuid: ${isUuid}`);
+
+if (isUuid) {
+    query = query.eq('id', slug);
+} else {
+    query = query.eq('slug', slug);
+}
+
+const { data: serviceData, error } = await query.single();
+
+if (error) {
+    console.error("[SERVICE DEBUG] Supabase Error:", error);
+}
+
+if (error || !serviceData) {
+  console.error("Service not found or error:", error);
+  return Astro.redirect('/404');
+}
+
+// Manual join for Author (Profile) to resolve missing FK issue
+if (serviceData.author_id) {
+    const { data: author } = await supabase
+        .from('profiles')
+        .select('*')
+        .eq('id', serviceData.author_id)
+        .single();
+    
+    if (author) {
+        // @ts-ignore
+        serviceData.author = author;
+    }
+}
+
+const service = { 
+    ...serviceData, 
+    description: serviceData.description || serviceData.content 
+};
+
+const coverImage = service.featured_image_url || service.quick_view_image_url || '/images/default-service.jpg';
+const isExternal = !!service.company_link;
+---
+
+<SocialLayout title={`${service.title} | Zvenia Services`}>
+    <LeftSidebar slot="left-sidebar" />
+
+    <div class="space-y-6 pb-20">
+        
+        {/* --- Back Button --- */}
+        <a href="/" onClick="history.back(); return false;" class="inline-flex items-center gap-2 text-gray-400 hover:text-white transition-colors mb-2">
+            <svg xmlns="http://www.w3.org/2000/svg" class="w-5 h-5" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M19 12H5"/><path d="M12 19l-7-7 7-7"/></svg>
+            Back
+        </a>
+
+        {/* --- HERO / CARD CONTENT --- */}
+        <article class="bg-[var(--bg-card)] rounded-xl border border-[var(--border-color)] overflow-hidden relative">
+            
+            {/* Options Menu */}
+            <div class="absolute top-4 right-4 z-30">
+                <ServiceOptions 
+                    client:load 
+                    serviceId={service.id} 
+                    authorId={service.author_id} 
+                    currentUserId={Astro.locals.user?.id}
+                    slug={service.slug}
+                />
+            </div>
+
+            {/* Banner Image */}
+            <div class="relative h-64 sm:h-80 w-full bg-[var(--bg-surface)]">
+                <img 
+                    src={coverImage} 
+                    alt={service.title} 
+                    class="w-full h-full object-cover"
+                />
+                <div class="absolute inset-0 bg-gradient-to-t from-[var(--bg-card)] to-transparent opacity-90"></div>
+            </div>
+
+            {/* Content Body */}
+            <div class="p-6 sm:p-8 -mt-20 relative z-10">
+                
+                {/* Meta Badge */}
+                <div class="flex flex-wrap gap-2 mb-4">
+                    {service.topic && (
+                         <a href={`/mining/${service.topic.slug}`} class="text-xs font-bold text-primary-400 bg-primary-500/10 px-2 py-1 rounded uppercase tracking-wider hover:bg-primary-500/20 transition-colors">
+                            {service.topic.name}
+                        </a>
+                    )}
+                    {service.type_of_ads && (
+                        <span class="text-xs font-bold text-[var(--text-secondary)] bg-[var(--bg-surface-hover)] border border-[var(--border-color)] px-2 py-1 rounded uppercase tracking-wider">
+                            {service.type_of_ads}
+                        </span>
+                    )}
+                </div>
+
+                {/* Title & Organizer */}
+                <h1 class="text-3xl sm:text-4xl font-bold text-[var(--text-main)] mb-2 leading-tight">
+                    {service.title}
+                </h1>
+                
+                {service.organizer_company && (
+                    <div class="flex items-center gap-2 mb-6">
+                        <span class="text-sm font-medium text-[var(--text-secondary)]">Organized by</span>
+                        <span class="text-sm font-bold text-[var(--text-main)]">{service.organizer_company}</span>
+                    </div>
+                )}
+
+                {/* Description */}
+                <div class="prose prose-invert max-w-none text-[var(--text-secondary)] mb-8 leading-relaxed whitespace-pre-wrap">
+                    {service.description}
+                </div>
+
+                {/* Metadata Grid */}
+                <div class="grid grid-cols-1 sm:grid-cols-2 gap-4 mb-8 p-4 bg-[var(--bg-surface)] rounded-lg border border-[var(--border-color)]">
+                    {service.target_country && (
+                        <div>
+                            <span class="block text-xs text-gray-500 uppercase font-bold mb-1">Target Country</span>
+                            <span class="text-sm text-[var(--text-main)]">{service.target_country}</span>
+                        </div>
+                    )}
+                    {service.created_at && (
+                        <div>
+                            <span class="block text-xs text-gray-500 uppercase font-bold mb-1">Posted On</span>
+                            <span class="text-sm text-[var(--text-main)]">{new Date(service.created_at).toLocaleDateString()}</span>
+                        </div>
+                    )}
+                    {/* Add more fields here as discovered/needed */}
+                </div>
+
+                {/* CTA Actions */}
+                <div class="flex flex-wrap gap-4">
+                    {service.company_link && (
+                        <a 
+                            href={service.company_link} 
+                            target="_blank" 
+                            rel="noopener noreferrer"
+                            class="flex-1 sm:flex-none bg-white text-black px-6 py-3 rounded-lg font-bold text-center hover:bg-gray-200 transition-colors flex items-center justify-center gap-2"
+                        >
+                            Visit Website
+                            <svg xmlns="http://www.w3.org/2000/svg" class="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" stroke-width="2" stroke-linecap="round" stroke-linejoin="round"><path d="M18 13v6a2 2 0 0 1-2 2H5a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h6"/><polyline points="15 3 21 3 21 9"/><line x1="10" y1="14" x2="21" y2="3"/></svg>
+                        </a>
+                    )}
+                    <button class="flex-1 sm:flex-none px-6 py-3 rounded-lg font-bold text-[var(--text-main)] border border-[var(--border-color)] hover:bg-[var(--bg-surface-hover)] transition-colors">
+                        Contact Organizer
+                    </button>
+                </div>
+
+            </div>
+        </article>
+
+    </div>
+
+    <RightSidebar slot="right-sidebar" />
+</SocialLayout>

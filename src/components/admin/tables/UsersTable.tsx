@@ -46,9 +46,9 @@ export default function UsersTable() {
     const [searchTerm, setSearchTerm] = useState('');
     const [sorting, setSorting] = useState<SortingState>([]);
     const [editingId, setEditingId] = useState<string | null>(null);
-    const [editForm, setEditForm] = useState<{ role: string; work_country: string }>({ 
-        role: 'Basic', 
-        work_country: '' 
+    const [editForm, setEditForm] = useState<{ role: string; work_country: string }>({
+        role: 'Basic',
+        work_country: ''
     });
 
     const supabase = createBrowserClient(
@@ -98,24 +98,31 @@ export default function UsersTable() {
     const handleDelete = async (id: string) => {
         if (!confirm('Are you sure you want to delete this user? This action cannot be undone.')) return;
 
-        const { error } = await supabase
-            .from('profiles')
-            .delete()
-            .eq('id', id);
+        // Use API endpoint for full deletion (Auth + Profile)
+        try {
+            const response = await fetch(`/api/admin/users/action?id=${id}`, {
+                method: 'DELETE',
+            });
 
-        if (error) {
-            console.error('Error deleting user:', error);
-            alert('Error deleting user');
-        } else {
+            if (!response.ok) {
+                const data = await response.json();
+                throw new Error(data.error || 'Failed to delete');
+            }
+
+            // Update UI on success
             setUsers(users.filter(u => u.id !== id));
+
+        } catch (err: any) {
+            console.error('Error deleting user:', err);
+            alert('Error deleting user: ' + err.message);
         }
     };
 
     const startEdit = (user: Profile) => {
         setEditingId(user.id);
-        setEditForm({ 
-            role: user.role || 'Basic', 
-            work_country: user.work_country || '' 
+        setEditForm({
+            role: user.role || 'Basic',
+            work_country: user.work_country || ''
         });
     };
 
@@ -137,9 +144,9 @@ export default function UsersTable() {
             console.error('Error updating user:', error);
             alert('Error updating user: ' + error.message);
         } else {
-            setUsers(users.map(u => 
-                u.id === id 
-                    ? { ...u, role: editForm.role, work_country: editForm.work_country || null } 
+            setUsers(users.map(u =>
+                u.id === id
+                    ? { ...u, role: editForm.role, work_country: editForm.work_country || null }
                     : u
             ));
             setEditingId(null);
@@ -170,10 +177,10 @@ export default function UsersTable() {
                 header: 'User',
                 cell: ({ row }) => {
                     const user = row.original;
-                    const displayName = user.full_name || 
-                                      (user.first_name && user.last_name ? `${user.first_name} ${user.last_name}` : null) ||
-                                      user.email?.split('@')[0] || 
-                                      'N/A';
+                    const displayName = user.full_name ||
+                        (user.first_name && user.last_name ? `${user.first_name} ${user.last_name}` : null) ||
+                        user.email?.split('@')[0] ||
+                        'N/A';
                     return (
                         <div className="flex items-center gap-2">
                             {user.avatar_url ? (

@@ -1,0 +1,55 @@
+---
+import { supabase } from "../../lib/supabase";
+import PostCard from "../../components/social/PostCard.astro";
+
+// Accept query params
+const limit = parseInt(Astro.url.searchParams.get("limit") || "20");
+const offset = parseInt(Astro.url.searchParams.get("offset") || "0");
+const slug = Astro.url.searchParams.get("slug") || "all";
+const search = Astro.url.searchParams.get("search") || "";
+
+// Fetch Logic (Replicated from [slug].astro roughly)
+let query = supabase
+    .from("posts")
+    .select(
+        "*, author:profiles(full_name, avatar_url, profession, company, profile_slug)",
+    );
+
+if (search) {
+    query = query.ilike("title", `%${search}%`);
+}
+
+if (slug !== "all" && slug !== "all-topics") {
+    // Determine topic ID first?
+    // Optimization: For now assuming 'all' is the primary use case for this button per user request.
+    // If we need topic-specific pagination, we'd look up the topic here.
+    // Let's implement basic Topic Lookup to be robust.
+    const { data: topic } = await supabase
+        .from("topics")
+        .select("id")
+        .eq("slug", slug)
+        .single();
+    const topicData = topic as any;
+    if (topicData) {
+        query = query.eq("topic_id", topicData.id);
+    }
+}
+
+// Order and Paginate
+query = query
+    .order("created_at", { ascending: false })
+    .order("id", { ascending: true })
+    .range(offset, offset + limit - 1);
+
+const { data: posts } = await query;
+const currentUser = Astro.locals.user;
+---
+
+{
+    posts?.map((post: any) => (
+        <PostCard
+            post={{ ...post, type: "Post", collection: "posts" }}
+            currentUser={currentUser}
+        />
+    ))
+}
