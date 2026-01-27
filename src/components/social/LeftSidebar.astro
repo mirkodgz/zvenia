@@ -32,46 +32,51 @@ const { slug: currentSlug } = Astro.params;
 const pathname = Astro.url.pathname;
 ---
 
-<div class="bg-[#dedede] min-h-full">
-    <ul class="flex flex-col text-[var(--neutral)] text-sm tracking-normal">
+<div class="bg-[#dedede] min-h-full border-r border-[#cbcbcb]">
+    <nav class="p-4 space-y-1">
         <!-- HOME LINK -->
-        <li class="border-b border-[var(--neutral)]">
-            <a
-                href="/"
-                class={`flex items-center gap-2 px-4 py-3 transition-colors whitespace-nowrap overflow-hidden text-ellipsis ${pathname === "/" ? "bg-[#00c44b] font-bold" : "hover:bg-[#9fdbb6]"}`}
-            >
-                <span class="material-icons" style="font-size: 16px; line-height: 1; width: 16px; height: 16px; display: inline-flex; align-items: center; justify-content: center;">home</span>
-                Home
-            </a>
-        </li>
+        <a
+            href="/"
+            class={`flex items-center gap-3 px-4 py-2 rounded-lg transition-colors ${pathname === "/" ? "bg-white text-[#00c44b] font-medium shadow-sm" : "text-gray-700 hover:bg-white/50"}`}
+        >
+            <span class="material-icons text-[20px]">home</span>
+            <span class="font-medium">Home</span>
+        </a>
 
-        <!-- MY ZVENIA LINK -->
-        <li class="border-b border-[var(--neutral)]">
-            <a
-                href="/my-zvenia"
-                class={`flex items-center gap-2 px-4 py-3 transition-colors whitespace-nowrap overflow-hidden text-ellipsis ${pathname === "/my-zvenia" ? "bg-[#00c44b] font-bold" : "hover:bg-[#9fdbb6]"}`}
-            >
-                <span class="material-icons" style="font-size: 16px; line-height: 1; width: 16px; height: 16px; display: inline-flex; align-items: center; justify-content: center;">layers</span>
-                MY ZVENIA
-            </a>
-        </li>
+        <hr class="my-2 border-[#cbcbcb]" />
 
         <!-- DYNAMIC TOPICS -->
         {
             topics?.map((topic) => {
-                // Active if: 1) We're on the topic page, OR 2) We're viewing a post from this topic
-                const isActive = currentSlug === topic.slug || activeTopicSlug === topic.slug;
+                const isActive =
+                    currentSlug === topic.slug ||
+                    activeTopicSlug === topic.slug;
+
+                // Extract number prefix if present (e.g. "01 General")
+                const match = topic.name.match(/^(\d+)\s+(.+)$/);
+                const number = match ? match[1] : null;
+                const name = match ? match[2] : topic.name;
+
                 return (
-                    <li class="border-b border-[var(--neutral)]">
-                        <a
-                            href={`/mining/${topic.slug}`}
-                            class={`block px-4 py-3 transition-colors whitespace-nowrap overflow-hidden text-ellipsis ${isActive ? "bg-[#00c44b] font-medium" : "hover:bg-[#9fdbb6]"}`}
-                        >
-                            {topic.name}
-                        </a>
-                    </li>
+                    <a
+                        href={`/mining/${topic.slug}`}
+                        class={`flex items-center gap-3 px-4 py-2 rounded-lg transition-colors group ${isActive ? "bg-white text-[#00c44b] font-medium shadow-sm" : "text-gray-700 hover:bg-white/50"}`}
+                    >
+                        {number ? (
+                            <span
+                                class={`text-sm font-mono ${isActive ? "text-[#00c44b]" : "text-gray-500 group-hover:text-gray-700"}`}
+                            >
+                                {number}
+                            </span>
+                        ) : (
+                            <span class="material-icons text-[20px]">
+                                folder
+                            </span>
+                        )}
+                        <span class="font-medium truncate">{name}</span>
+                    </a>
                 );
             })
         }
-    </ul>
+    </nav>
 </div>
