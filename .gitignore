@@ -1,6 +1,12 @@
 
 # generated types
+
+# build artifacts
+.vercel/
+dist/
+.output/
 .astro/
+
 
 # dependencies
 node_modules/
