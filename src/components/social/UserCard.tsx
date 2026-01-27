@@ -49,9 +49,11 @@ const UserCard: React.FC<UserCardProps> = ({ user }) => {
                                 className="w-full h-full object-cover"
                             />
                         ) : (
-                            <div className="w-full h-full flex items-center justify-center bg-gray-200 text-gray-400 text-3xl font-bold">
-                                {initial}
-                            </div>
+                            <img
+                                src="/igm-default.webp"
+                                alt="Default Profile"
+                                className="w-full h-full object-cover opacity-80"
+                            />
                         )}
                     </div>
                 </div>
