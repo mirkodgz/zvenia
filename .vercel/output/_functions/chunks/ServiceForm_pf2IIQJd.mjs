@@ -1,6 +1,6 @@
 import { jsx, jsxs } from 'react/jsx-runtime';
 import { useState, useEffect } from 'react';
-import { s as supabase } from './supabase_DZBRYQhj.mjs';
+import { s as supabase } from './supabase_DsxxBtwu.mjs';
 
 function ServiceForm({ currentUser, initialData }) {
   const [isLoadingOptions, setIsLoadingOptions] = useState(true);

@@ -7,7 +7,7 @@ import { ChevronRight, Check, Circle, ShieldCheckIcon, LayoutDashboardIcon, Glob
 import * as AvatarPrimitive from '@radix-ui/react-avatar';
 import { c as cn } from './utils_C0eazIxq.mjs';
 import * as DropdownMenuPrimitive from '@radix-ui/react-dropdown-menu';
-import { s as supabase, c as createSupabaseServerClient } from './supabase_DZBRYQhj.mjs';
+import { s as supabase, c as createSupabaseServerClient } from './supabase_DsxxBtwu.mjs';
 import { createClient } from '@supabase/supabase-js';
 
 const Avatar = React.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(

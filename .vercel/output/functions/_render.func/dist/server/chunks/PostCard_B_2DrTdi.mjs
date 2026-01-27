@@ -2,7 +2,7 @@ import { e as createComponent, f as createAstro, m as maybeRenderHead, h as addA
 import 'piccolore';
 import { jsxs, jsx, Fragment } from 'react/jsx-runtime';
 import { useState, useRef, useEffect } from 'react';
-import { s as supabase } from './supabase_DZBRYQhj.mjs';
+import { s as supabase } from './supabase_DsxxBtwu.mjs';
 import { createClient } from '@supabase/supabase-js';
 
 function PostOptions({ postId, authorId, currentUserId, currentUserRole, slug }) {

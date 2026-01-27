@@ -1,7 +1,7 @@
 import { e as createComponent, f as createAstro, k as renderComponent, r as renderTemplate, h as addAttribute, p as Fragment, m as maybeRenderHead } from '../../chunks/astro/server_0Ysjtq05.mjs';
 import 'piccolore';
-import { $ as $$SocialLayout, a as $$LeftSidebar } from '../../chunks/LeftSidebar_DEdUkq9E.mjs';
-import { c as createSupabaseServerClient } from '../../chunks/supabase_DZBRYQhj.mjs';
+import { $ as $$SocialLayout, a as $$LeftSidebar } from '../../chunks/LeftSidebar_DwHsW1bP.mjs';
+import { c as createSupabaseServerClient } from '../../chunks/supabase_DsxxBtwu.mjs';
 export { renderers } from '../../renderers.mjs';
 
 const $$Astro = createAstro();

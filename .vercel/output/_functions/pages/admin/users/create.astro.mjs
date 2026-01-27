@@ -1,6 +1,6 @@
 import { e as createComponent, f as createAstro, k as renderComponent, n as renderScript, r as renderTemplate, m as maybeRenderHead, h as addAttribute } from '../../../chunks/astro/server_0Ysjtq05.mjs';
 import 'piccolore';
-import { $ as $$AdminLayout } from '../../../chunks/AdminLayout_58zGMNs9.mjs';
+import { $ as $$AdminLayout } from '../../../chunks/AdminLayout_kIrHDt3T.mjs';
 import { R as ROLES } from '../../../chunks/roles_C8ezOKbC.mjs';
 export { renderers } from '../../../renderers.mjs';
 

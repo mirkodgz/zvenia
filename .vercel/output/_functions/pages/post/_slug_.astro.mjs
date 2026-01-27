@@ -1,9 +1,9 @@
 import { e as createComponent, f as createAstro, m as maybeRenderHead, h as addAttribute, r as renderTemplate, k as renderComponent } from '../../chunks/astro/server_0Ysjtq05.mjs';
 import 'piccolore';
-import { $ as $$SocialLayout, a as $$LeftSidebar } from '../../chunks/LeftSidebar_DEdUkq9E.mjs';
+import { $ as $$SocialLayout, a as $$LeftSidebar } from '../../chunks/LeftSidebar_DwHsW1bP.mjs';
 import 'clsx';
-import { $ as $$PostCard } from '../../chunks/PostCard_CkbnP1Ya.mjs';
-import { s as supabase } from '../../chunks/supabase_DZBRYQhj.mjs';
+import { $ as $$PostCard } from '../../chunks/PostCard_B_2DrTdi.mjs';
+import { s as supabase } from '../../chunks/supabase_DsxxBtwu.mjs';
 export { renderers } from '../../renderers.mjs';
 
 const $$Astro$1 = createAstro();

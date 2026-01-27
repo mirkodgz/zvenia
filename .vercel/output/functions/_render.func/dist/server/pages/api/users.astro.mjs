@@ -1,4 +1,4 @@
-import { c as createSupabaseServerClient } from '../../chunks/supabase_DZBRYQhj.mjs';
+import { c as createSupabaseServerClient } from '../../chunks/supabase_DsxxBtwu.mjs';
 export { renderers } from '../../renderers.mjs';
 
 const GET = async ({ request, cookies }) => {

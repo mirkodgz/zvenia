@@ -1,7 +1,7 @@
 import { e as createComponent, f as createAstro, l as renderHead, k as renderComponent, h as addAttribute, o as renderSlot, p as Fragment, r as renderTemplate } from './astro/server_0Ysjtq05.mjs';
 import 'piccolore';
 /* empty css                         */
-import { $ as $$Header } from './Header_k3myN7Xc.mjs';
+import { $ as $$Header } from './Header_C4uP1oNu.mjs';
 
 const $$Astro = createAstro();
 const $$AdminLayout = createComponent(($$result, $$props, $$slots) => {

@@ -1,6 +1,6 @@
 import { e as createComponent, f as createAstro, k as renderComponent, r as renderTemplate, m as maybeRenderHead } from '../../chunks/astro/server_0Ysjtq05.mjs';
 import 'piccolore';
-import { $ as $$AdminLayout } from '../../chunks/AdminLayout_58zGMNs9.mjs';
+import { $ as $$AdminLayout } from '../../chunks/AdminLayout_kIrHDt3T.mjs';
 import { jsx, jsxs } from 'react/jsx-runtime';
 import { useState, useEffect, useMemo } from 'react';
 import { useReactTable, getSortedRowModel, getPaginationRowModel, getFilteredRowModel, getCoreRowModel, flexRender } from '@tanstack/react-table';

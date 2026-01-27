@@ -1,11 +1,11 @@
 import { e as createComponent, f as createAstro, h as addAttribute, l as renderHead, k as renderComponent, o as renderSlot, r as renderTemplate, m as maybeRenderHead } from './astro/server_0Ysjtq05.mjs';
 import 'piccolore';
 /* empty css                         */
-import { $ as $$Header } from './Header_k3myN7Xc.mjs';
+import { $ as $$Header } from './Header_C4uP1oNu.mjs';
 import { $ as $$Footer } from './Footer_DyX1phjR.mjs';
 /* empty css                          */
 import 'clsx';
-import { s as supabase } from './supabase_DZBRYQhj.mjs';
+import { s as supabase } from './supabase_DsxxBtwu.mjs';
 
 const $$Astro$1 = createAstro();
 const $$SocialLayout = createComponent(($$result, $$props, $$slots) => {

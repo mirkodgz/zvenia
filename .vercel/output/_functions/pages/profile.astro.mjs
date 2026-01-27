@@ -1,7 +1,7 @@
 import { e as createComponent, k as renderComponent, r as renderTemplate, m as maybeRenderHead } from '../chunks/astro/server_0Ysjtq05.mjs';
 import 'piccolore';
-import { $ as $$SocialLayout, a as $$LeftSidebar } from '../chunks/LeftSidebar_DEdUkq9E.mjs';
-import { $ as $$RightSidebar } from '../chunks/RightSidebar_DDFO6qYz.mjs';
+import { $ as $$SocialLayout, a as $$LeftSidebar } from '../chunks/LeftSidebar_DwHsW1bP.mjs';
+import { $ as $$RightSidebar } from '../chunks/RightSidebar_BK4xkNnG.mjs';
 export { renderers } from '../renderers.mjs';
 
 const $$Profile = createComponent(($$result, $$props, $$slots) => {

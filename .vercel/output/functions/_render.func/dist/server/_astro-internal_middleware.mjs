@@ -1,6 +1,6 @@
 import { d as defineMiddleware, s as sequence } from './chunks/index_6imdRQNK.mjs';
 import { createServerClient } from '@supabase/ssr';
-import './chunks/supabase_DZBRYQhj.mjs';
+import './chunks/supabase_DsxxBtwu.mjs';
 import { i as isAdministrator } from './chunks/roles_C8ezOKbC.mjs';
 import 'es-module-lexer';
 import './chunks/astro-designed-error-pages_9AgQjlnd.mjs';

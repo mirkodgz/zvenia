@@ -1,7 +1,7 @@
 import { e as createComponent, f as createAstro, k as renderComponent, r as renderTemplate, m as maybeRenderHead } from '../../../../chunks/astro/server_0Ysjtq05.mjs';
 import 'piccolore';
-import { $ as $$SocialLayout, a as $$LeftSidebar } from '../../../../chunks/LeftSidebar_DEdUkq9E.mjs';
-import { P as PostForm } from '../../../../chunks/PostForm_yIeYG45x.mjs';
+import { $ as $$SocialLayout, a as $$LeftSidebar } from '../../../../chunks/LeftSidebar_DwHsW1bP.mjs';
+import { P as PostForm } from '../../../../chunks/PostForm_CEcwncIS.mjs';
 export { renderers } from '../../../../renderers.mjs';
 
 const $$Astro = createAstro();

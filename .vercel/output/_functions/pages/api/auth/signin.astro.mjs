@@ -1,4 +1,4 @@
-import { c as createSupabaseServerClient } from '../../../chunks/supabase_DZBRYQhj.mjs';
+import { c as createSupabaseServerClient } from '../../../chunks/supabase_DsxxBtwu.mjs';
 import { createClient } from '@supabase/supabase-js';
 export { renderers } from '../../../renderers.mjs';
 

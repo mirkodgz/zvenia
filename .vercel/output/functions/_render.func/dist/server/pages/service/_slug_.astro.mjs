@@ -1,9 +1,9 @@
 import { e as createComponent, f as createAstro, k as renderComponent, r as renderTemplate, m as maybeRenderHead, h as addAttribute } from '../../chunks/astro/server_0Ysjtq05.mjs';
 import 'piccolore';
-import { $ as $$SocialLayout, a as $$LeftSidebar } from '../../chunks/LeftSidebar_DEdUkq9E.mjs';
-import { $ as $$RightSidebar } from '../../chunks/RightSidebar_DDFO6qYz.mjs';
+import { $ as $$SocialLayout, a as $$LeftSidebar } from '../../chunks/LeftSidebar_DwHsW1bP.mjs';
+import { $ as $$RightSidebar } from '../../chunks/RightSidebar_BK4xkNnG.mjs';
 import { S as ServiceOptions } from '../../chunks/ServiceOptions_Dmgq1fL7.mjs';
-import { s as supabase } from '../../chunks/supabase_DZBRYQhj.mjs';
+import { s as supabase } from '../../chunks/supabase_DsxxBtwu.mjs';
 export { renderers } from '../../renderers.mjs';
 
 const $$Astro = createAstro();

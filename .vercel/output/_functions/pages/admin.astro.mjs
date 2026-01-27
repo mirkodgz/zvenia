@@ -1,7 +1,7 @@
 import { e as createComponent, f as createAstro, k as renderComponent, r as renderTemplate, m as maybeRenderHead } from '../chunks/astro/server_0Ysjtq05.mjs';
 import 'piccolore';
-import { $ as $$AdminLayout } from '../chunks/AdminLayout_58zGMNs9.mjs';
-import { c as createSupabaseServerClient } from '../chunks/supabase_DZBRYQhj.mjs';
+import { $ as $$AdminLayout } from '../chunks/AdminLayout_kIrHDt3T.mjs';
+import { c as createSupabaseServerClient } from '../chunks/supabase_DsxxBtwu.mjs';
 import { i as isAdministrator } from '../chunks/roles_C8ezOKbC.mjs';
 export { renderers } from '../renderers.mjs';
 

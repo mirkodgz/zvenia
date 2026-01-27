@@ -1,11 +1,11 @@
 import { e as createComponent, f as createAstro, k as renderComponent, r as renderTemplate, m as maybeRenderHead } from '../chunks/astro/server_0Ysjtq05.mjs';
 import 'piccolore';
-import { $ as $$SocialLayout, a as $$LeftSidebar } from '../chunks/LeftSidebar_DEdUkq9E.mjs';
-import { $ as $$RightSidebar } from '../chunks/RightSidebar_DDFO6qYz.mjs';
+import { $ as $$SocialLayout, a as $$LeftSidebar } from '../chunks/LeftSidebar_DwHsW1bP.mjs';
+import { $ as $$RightSidebar } from '../chunks/RightSidebar_BK4xkNnG.mjs';
 import { jsxs, jsx } from 'react/jsx-runtime';
 import 'react';
 import { ExternalLink } from 'lucide-react';
-import { c as createSupabaseServerClient } from '../chunks/supabase_DZBRYQhj.mjs';
+import { c as createSupabaseServerClient } from '../chunks/supabase_DsxxBtwu.mjs';
 export { renderers } from '../renderers.mjs';
 
 const TalkCard = ({ talk }) => {

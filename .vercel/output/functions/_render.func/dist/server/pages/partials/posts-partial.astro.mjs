@@ -1,7 +1,7 @@
 import { e as createComponent, f as createAstro, k as renderComponent, r as renderTemplate } from '../../chunks/astro/server_0Ysjtq05.mjs';
 import 'piccolore';
-import { s as supabase } from '../../chunks/supabase_DZBRYQhj.mjs';
-import { $ as $$PostCard } from '../../chunks/PostCard_CkbnP1Ya.mjs';
+import { s as supabase } from '../../chunks/supabase_DsxxBtwu.mjs';
+import { $ as $$PostCard } from '../../chunks/PostCard_B_2DrTdi.mjs';
 export { renderers } from '../../renderers.mjs';
 
 const $$Astro = createAstro();

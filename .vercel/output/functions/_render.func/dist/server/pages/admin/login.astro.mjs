@@ -10,7 +10,7 @@ import { cva } from 'class-variance-authority';
 import { c as cn } from '../../chunks/utils_C0eazIxq.mjs';
 import * as CheckboxPrimitive from '@radix-ui/react-checkbox';
 import * as LabelPrimitive from '@radix-ui/react-label';
-import { s as supabase } from '../../chunks/supabase_DZBRYQhj.mjs';
+import { s as supabase } from '../../chunks/supabase_DsxxBtwu.mjs';
 import * as SeparatorPrimitive from '@radix-ui/react-separator';
 export { renderers } from '../../renderers.mjs';
 
