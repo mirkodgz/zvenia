@@ -1,5 +1,5 @@
 import { c as createSupabaseServerClient } from '../../../chunks/supabase_DsxxBtwu.mjs';
-export { renderers } from '../../../renderers.mjs';
+export { r as renderers } from '../../../chunks/_@astro-renderers_CxJDR4Zz.mjs';
 
 const GET = async ({ url, request, cookies, redirect }) => {
   const authCode = url.searchParams.get("code");

@@ -2,7 +2,7 @@ import { e as createComponent, k as renderComponent, n as renderScript, r as ren
 import 'piccolore';
 import { $ as $$Layout } from '../chunks/Layout_9oJT8HrB.mjs';
 import { $ as $$ThemeToggle, a as $$MiningBackground } from '../chunks/MiningBackground_DC608TxJ.mjs';
-export { renderers } from '../renderers.mjs';
+export { r as renderers } from '../chunks/_@astro-renderers_CxJDR4Zz.mjs';
 
 const $$Login = createComponent(async ($$result, $$props, $$slots) => {
   return renderTemplate`${renderComponent($$result, "Layout", $$Layout, { "title": "Zvenia - Iniciar Sesi\xF3n" }, { "default": async ($$result2) => renderTemplate` ${maybeRenderHead()}<div class="min-h-screen bg-[var(--bg-body)] flex flex-col justify-center lg:grid lg:grid-cols-2 relative overflow-hidden"> ${renderComponent($$result2, "ThemeToggle", $$ThemeToggle, {})} <!-- Animated Mining Background (Global) --> ${renderComponent($$result2, "MiningBackground", $$MiningBackground, {})} <!-- LEFT COLUMN: Branding & Value Prop (Centered content) --> <!-- LEFT COLUMN: Branding & Value Prop (Centered content) --> <div class="hidden lg:flex flex-col justify-center items-end px-16 relative z-10"> <div class="max-w-md text-right"> <!-- Zvenia Logo / Title --> <h1 class="text-6xl font-extrabold tracking-tighter text-primary-500 mb-6 drop-shadow-sm">

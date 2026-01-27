@@ -1,24 +1,24 @@
 import { e as createComponent, f as createAstro, k as renderComponent, r as renderTemplate } from '../../chunks/astro/server_0Ysjtq05.mjs';
 import 'piccolore';
-import { $ as $$AdminLayout } from '../../chunks/AdminLayout_kIrHDt3T.mjs';
-import { jsxs, jsx } from 'react/jsx-runtime';
-import { useState, useEffect, useMemo } from 'react';
+import { $ as $$AdminLayout } from '../../chunks/AdminLayout_BbSz0_Pi.mjs';
+import { j as jsxRuntimeExports } from '../../chunks/jsx-runtime_BO5PFvLt.mjs';
+import { a as reactExports } from '../../chunks/_@astro-renderers_CxJDR4Zz.mjs';
+export { r as renderers } from '../../chunks/_@astro-renderers_CxJDR4Zz.mjs';
 import { useReactTable, getSortedRowModel, getPaginationRowModel, getFilteredRowModel, getCoreRowModel, flexRender } from '@tanstack/react-table';
 import { createBrowserClient } from '@supabase/ssr';
 import { format } from 'date-fns';
 import { i as isAdministrator } from '../../chunks/roles_C8ezOKbC.mjs';
-export { renderers } from '../../renderers.mjs';
 
 function PostsTable() {
-  const [posts, setPosts] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [sorting, setSorting] = useState([]);
+  const [posts, setPosts] = reactExports.useState([]);
+  const [loading, setLoading] = reactExports.useState(true);
+  const [searchTerm, setSearchTerm] = reactExports.useState("");
+  const [sorting, setSorting] = reactExports.useState([]);
   const supabase = createBrowserClient(
     "https://ddgdtdhgaqeqnoigmfrh.supabase.co",
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRkZ2R0ZGhnYXFlcW5vaWdtZnJoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjcwNDE3NjMsImV4cCI6MjA4MjYxNzc2M30.aSW3Ds1z-8ta1sx-22P3NGyx4jzaY0aGNPPB9PsFcs0"
   );
-  useEffect(() => {
+  reactExports.useEffect(() => {
     fetchPosts();
   }, []);
   const fetchPosts = async () => {
@@ -42,14 +42,14 @@ function PostsTable() {
       setPosts(posts.filter((p) => p.id !== id));
     }
   };
-  const columns = useMemo(
+  const columns = reactExports.useMemo(
     () => [
       {
         accessorKey: "title",
         header: "Title",
-        cell: ({ row }) => /* @__PURE__ */ jsxs("div", { className: "max-w-xs", children: [
-          /* @__PURE__ */ jsx("div", { className: "font-medium text-gray-900 truncate", children: row.original.title }),
-          row.original.excerpt && /* @__PURE__ */ jsx("div", { className: "text-xs text-gray-600 truncate mt-1", children: row.original.excerpt })
+        cell: ({ row }) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "max-w-xs", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "font-medium text-gray-900 truncate", children: row.original.title }),
+          row.original.excerpt && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-xs text-gray-600 truncate mt-1", children: row.original.excerpt })
         ] })
       },
       {
@@ -57,16 +57,16 @@ function PostsTable() {
         header: "Author",
         cell: ({ row }) => {
           const author = row.original.author;
-          return /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-2", children: [
-            author?.avatar_url ? /* @__PURE__ */ jsx(
+          return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-2", children: [
+            author?.avatar_url ? /* @__PURE__ */ jsxRuntimeExports.jsx(
               "img",
               {
                 src: author.avatar_url,
                 alt: author.full_name || "",
                 className: "w-6 h-6 rounded-full"
               }
-            ) : /* @__PURE__ */ jsx("div", { className: "w-6 h-6 rounded-full bg-gray-300 flex items-center justify-center text-xs text-gray-700 font-medium", children: author?.full_name?.[0] || "?" }),
-            /* @__PURE__ */ jsx("span", { className: "text-gray-700", children: author?.full_name || "N/A" })
+            ) : /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-6 h-6 rounded-full bg-gray-300 flex items-center justify-center text-xs text-gray-700 font-medium", children: author?.full_name?.[0] || "?" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-gray-700", children: author?.full_name || "N/A" })
           ] });
         }
       },
@@ -75,27 +75,27 @@ function PostsTable() {
         header: "Published",
         cell: ({ row }) => {
           const date = row.original.published_at || row.original.created_at;
-          return /* @__PURE__ */ jsx("span", { className: "text-gray-600 text-sm", children: date ? format(new Date(date), "dd/MM/yyyy") : "-" });
+          return /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-gray-600 text-sm", children: date ? format(new Date(date), "dd/MM/yyyy") : "-" });
         }
       },
       {
         accessorKey: "created_at",
         header: "Created",
-        cell: ({ row }) => /* @__PURE__ */ jsx("span", { className: "text-gray-600 text-sm", children: format(new Date(row.original.created_at), "dd/MM/yyyy") })
+        cell: ({ row }) => /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-gray-600 text-sm", children: format(new Date(row.original.created_at), "dd/MM/yyyy") })
       },
       {
         id: "media",
         header: "Media",
-        cell: ({ row }) => /* @__PURE__ */ jsxs("div", { className: "flex gap-2", children: [
-          row.original.featured_image_url && /* @__PURE__ */ jsx("span", { className: "text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded", children: "Image" }),
-          row.original.document_url && /* @__PURE__ */ jsx("span", { className: "text-xs bg-purple-100 text-purple-700 px-2 py-1 rounded", children: "PDF" })
+        cell: ({ row }) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex gap-2", children: [
+          row.original.featured_image_url && /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-xs bg-blue-100 text-blue-700 px-2 py-1 rounded", children: "Image" }),
+          row.original.document_url && /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-xs bg-purple-100 text-purple-700 px-2 py-1 rounded", children: "PDF" })
         ] })
       },
       {
         id: "actions",
         header: "Actions",
-        cell: ({ row }) => /* @__PURE__ */ jsxs("div", { className: "flex gap-2", children: [
-          /* @__PURE__ */ jsx(
+        cell: ({ row }) => /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex gap-2", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
             "a",
             {
               href: `/post/${row.original.slug}`,
@@ -104,7 +104,7 @@ function PostsTable() {
               children: "View"
             }
           ),
-          /* @__PURE__ */ jsx(
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
             "a",
             {
               href: `/admin/posts/edit/${row.original.id}`,
@@ -112,7 +112,7 @@ function PostsTable() {
               children: "Edit"
             }
           ),
-          /* @__PURE__ */ jsx(
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
             "button",
             {
               onClick: () => handleDelete(row.original.id),
@@ -148,11 +148,11 @@ function PostsTable() {
       }
     }
   });
-  return /* @__PURE__ */ jsxs("div", { className: "bg-white rounded-lg border border-gray-200 p-6 shadow-sm", children: [
-    /* @__PURE__ */ jsxs("div", { className: "flex justify-between items-center mb-6", children: [
-      /* @__PURE__ */ jsx("h2", { className: "text-xl font-bold text-gray-900", children: "Posts Management" }),
-      /* @__PURE__ */ jsxs("div", { className: "flex gap-2", children: [
-        /* @__PURE__ */ jsx(
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "bg-white rounded-lg border border-gray-200 p-6 shadow-sm", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex justify-between items-center mb-6", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-xl font-bold text-gray-900", children: "Posts Management" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex gap-2", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
           "input",
           {
             type: "text",
@@ -162,7 +162,7 @@ function PostsTable() {
             className: "bg-gray-50 border border-gray-200 rounded px-3 py-1 text-gray-900 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500"
           }
         ),
-        /* @__PURE__ */ jsx(
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
           "a",
           {
             href: "/admin/posts/create",
@@ -172,13 +172,13 @@ function PostsTable() {
         )
       ] })
     ] }),
-    /* @__PURE__ */ jsx("div", { className: "overflow-x-auto", children: /* @__PURE__ */ jsxs("table", { className: "w-full text-left text-sm text-gray-600", children: [
-      /* @__PURE__ */ jsx("thead", { className: "bg-gray-50 uppercase font-bold text-xs text-gray-700", children: table.getHeaderGroups().map((headerGroup) => /* @__PURE__ */ jsx("tr", { children: headerGroup.headers.map((header) => /* @__PURE__ */ jsx(
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "overflow-x-auto", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("table", { className: "w-full text-left text-sm text-gray-600", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("thead", { className: "bg-gray-50 uppercase font-bold text-xs text-gray-700", children: table.getHeaderGroups().map((headerGroup) => /* @__PURE__ */ jsxRuntimeExports.jsx("tr", { children: headerGroup.headers.map((header) => /* @__PURE__ */ jsxRuntimeExports.jsx(
         "th",
         {
           className: "p-3 cursor-pointer hover:bg-gray-100",
           onClick: header.column.getToggleSortingHandler(),
-          children: /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-2", children: [
+          children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-2", children: [
             flexRender(header.column.columnDef.header, header.getContext()),
             {
               asc: " ↑",
@@ -188,10 +188,10 @@ function PostsTable() {
         },
         header.id
       )) }, headerGroup.id)) }),
-      /* @__PURE__ */ jsx("tbody", { className: "divide-y divide-gray-200", children: loading ? /* @__PURE__ */ jsx("tr", { children: /* @__PURE__ */ jsx("td", { colSpan: columns.length, className: "p-8 text-center text-gray-500", children: "Loading posts..." }) }) : table.getRowModel().rows.length === 0 ? /* @__PURE__ */ jsx("tr", { children: /* @__PURE__ */ jsx("td", { colSpan: columns.length, className: "p-8 text-center text-gray-500", children: "No posts found." }) }) : table.getRowModel().rows.map((row) => /* @__PURE__ */ jsx("tr", { className: "hover:bg-gray-50 transition-colors", children: row.getVisibleCells().map((cell) => /* @__PURE__ */ jsx("td", { className: "p-3", children: flexRender(cell.column.columnDef.cell, cell.getContext()) }, cell.id)) }, row.id)) })
+      /* @__PURE__ */ jsxRuntimeExports.jsx("tbody", { className: "divide-y divide-gray-200", children: loading ? /* @__PURE__ */ jsxRuntimeExports.jsx("tr", { children: /* @__PURE__ */ jsxRuntimeExports.jsx("td", { colSpan: columns.length, className: "p-8 text-center text-gray-500", children: "Loading posts..." }) }) : table.getRowModel().rows.length === 0 ? /* @__PURE__ */ jsxRuntimeExports.jsx("tr", { children: /* @__PURE__ */ jsxRuntimeExports.jsx("td", { colSpan: columns.length, className: "p-8 text-center text-gray-500", children: "No posts found." }) }) : table.getRowModel().rows.map((row) => /* @__PURE__ */ jsxRuntimeExports.jsx("tr", { className: "hover:bg-gray-50 transition-colors", children: row.getVisibleCells().map((cell) => /* @__PURE__ */ jsxRuntimeExports.jsx("td", { className: "p-3", children: flexRender(cell.column.columnDef.cell, cell.getContext()) }, cell.id)) }, row.id)) })
     ] }) }),
-    /* @__PURE__ */ jsxs("div", { className: "flex items-center justify-between mt-4", children: [
-      /* @__PURE__ */ jsxs("div", { className: "text-sm text-gray-600", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center justify-between mt-4", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-sm text-gray-600", children: [
         "Showing ",
         table.getState().pagination.pageIndex * table.getState().pagination.pageSize + 1,
         " to",
@@ -205,8 +205,8 @@ function PostsTable() {
         table.getFilteredRowModel().rows.length,
         " posts"
       ] }),
-      /* @__PURE__ */ jsxs("div", { className: "flex gap-2", children: [
-        /* @__PURE__ */ jsx(
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex gap-2", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
           "button",
           {
             onClick: () => table.previousPage(),
@@ -215,7 +215,7 @@ function PostsTable() {
             children: "Previous"
           }
         ),
-        /* @__PURE__ */ jsx(
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
           "button",
           {
             onClick: () => table.nextPage(),

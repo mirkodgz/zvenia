@@ -1,6 +1,6 @@
 import { c as createSupabaseServerClient } from '../../../chunks/supabase_DsxxBtwu.mjs';
 import { createClient } from '@supabase/supabase-js';
-export { renderers } from '../../../renderers.mjs';
+export { r as renderers } from '../../../chunks/_@astro-renderers_CxJDR4Zz.mjs';
 
 const SUPABASE_URL = "https://ddgdtdhgaqeqnoigmfrh.supabase.co";
 const SERVICE_KEY = "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRkZ2R0ZGhnYXFlcW5vaWdtZnJoIiwicm9sZSI6InNlcnZpY2Vfcm9sZSIsImlhdCI6MTc2NzA0MTc2MywiZXhwIjoyMDgyNjE3NzYzfQ.7NDs-99j4TtSDwkol4OVRTIeyFWJYd6LzzMFeHuQdK0";

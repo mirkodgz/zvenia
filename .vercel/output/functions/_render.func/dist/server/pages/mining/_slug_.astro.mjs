@@ -1,17 +1,17 @@
 import { e as createComponent, f as createAstro, k as renderComponent, n as renderScript, r as renderTemplate, p as Fragment, al as defineScriptVars, m as maybeRenderHead } from '../../chunks/astro/server_0Ysjtq05.mjs';
 import 'piccolore';
-import { $ as $$SocialLayout, a as $$LeftSidebar } from '../../chunks/LeftSidebar_DwHsW1bP.mjs';
+import { $ as $$SocialLayout, a as $$LeftSidebar } from '../../chunks/LeftSidebar_PEEkwiet.mjs';
 import { $ as $$RightSidebar } from '../../chunks/RightSidebar_BK4xkNnG.mjs';
-import { S as ServiceCard, E as EventCard } from '../../chunks/ServiceCard_wi3Dro0O.mjs';
-import { $ as $$PostCard } from '../../chunks/PostCard_B_2DrTdi.mjs';
-import { P as PodcastRow } from '../../chunks/PodcastRow_BuOEXnVg.mjs';
-import { jsxs, jsx } from 'react/jsx-runtime';
-import { useRef } from 'react';
+import { S as ServiceCard, E as EventCard } from '../../chunks/ServiceCard_DzMz7GPt.mjs';
+import { $ as $$PostCard } from '../../chunks/PostCard_D5ELRwwj.mjs';
+import { P as PodcastRow } from '../../chunks/PodcastRow_CTffmAUw.mjs';
+import { j as jsxRuntimeExports } from '../../chunks/jsx-runtime_BO5PFvLt.mjs';
+import { a as reactExports } from '../../chunks/_@astro-renderers_CxJDR4Zz.mjs';
+export { r as renderers } from '../../chunks/_@astro-renderers_CxJDR4Zz.mjs';
 import { s as supabase } from '../../chunks/supabase_DsxxBtwu.mjs';
-export { renderers } from '../../renderers.mjs';
 
 const ServiceRow = ({ title, services, currentUser }) => {
-  const scrollContainerRef = useRef(null);
+  const scrollContainerRef = reactExports.useRef(null);
   const scroll = (direction) => {
     if (scrollContainerRef.current) {
       const scrollAmount = 320;
@@ -22,12 +22,12 @@ const ServiceRow = ({ title, services, currentUser }) => {
     }
   };
   if (services.length === 0) return null;
-  return /* @__PURE__ */ jsxs("div", { className: "bg-[var(--bg-card)] rounded-xl border border-[var(--border-color)] p-6 mb-6 relative group/row transition-colors", children: [
-    /* @__PURE__ */ jsx("div", { className: "flex justify-between items-center mb-4", children: /* @__PURE__ */ jsxs("h3", { className: "text-xl font-bold text-[var(--text-main)] flex items-center gap-2", children: [
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "bg-[var(--bg-card)] rounded-xl border border-[var(--border-color)] p-6 mb-6 relative group/row transition-colors", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex justify-between items-center mb-4", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("h3", { className: "text-xl font-bold text-[var(--text-main)] flex items-center gap-2", children: [
       title,
-      /* @__PURE__ */ jsx("span", { className: "text-xs font-normal text-[var(--text-secondary)] bg-[var(--bg-surface)] px-2 py-0.5 rounded-full border border-[var(--border-color)]", children: services.length })
+      /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-xs font-normal text-[var(--text-secondary)] bg-[var(--bg-surface)] px-2 py-0.5 rounded-full border border-[var(--border-color)]", children: services.length })
     ] }) }),
-    /* @__PURE__ */ jsx(
+    /* @__PURE__ */ jsxRuntimeExports.jsx(
       "button",
       {
         onClick: () => scroll("left"),
@@ -35,7 +35,7 @@ const ServiceRow = ({ title, services, currentUser }) => {
         children: "←"
       }
     ),
-    /* @__PURE__ */ jsx(
+    /* @__PURE__ */ jsxRuntimeExports.jsx(
       "button",
       {
         onClick: () => scroll("right"),
@@ -43,13 +43,13 @@ const ServiceRow = ({ title, services, currentUser }) => {
         children: "→"
       }
     ),
-    /* @__PURE__ */ jsx(
+    /* @__PURE__ */ jsxRuntimeExports.jsx(
       "div",
       {
         ref: scrollContainerRef,
         className: "flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-hide",
         style: { scrollbarWidth: "none", msOverflowStyle: "none" },
-        children: services.map((service) => /* @__PURE__ */ jsx(ServiceCard, { service, currentUser }, service.id))
+        children: services.map((service) => /* @__PURE__ */ jsxRuntimeExports.jsx(ServiceCard, { service, currentUser }, service.id))
       }
     )
   ] });

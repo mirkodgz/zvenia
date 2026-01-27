@@ -1,9 +1,9 @@
 import { e as createComponent, f as createAstro, k as renderComponent, r as renderTemplate, m as maybeRenderHead, h as addAttribute } from '../../chunks/astro/server_0Ysjtq05.mjs';
 import 'piccolore';
 import { $ as $$Layout } from '../../chunks/Layout_9oJT8HrB.mjs';
-import { $ as $$Header } from '../../chunks/Header_C4uP1oNu.mjs';
+import { $ as $$Header } from '../../chunks/Header_FOfAroyN.mjs';
 import { s as supabase } from '../../chunks/supabase_DsxxBtwu.mjs';
-export { renderers } from '../../renderers.mjs';
+export { r as renderers } from '../../chunks/_@astro-renderers_CxJDR4Zz.mjs';
 
 const $$Astro = createAstro();
 const $$slug = createComponent(async ($$result, $$props, $$slots) => {

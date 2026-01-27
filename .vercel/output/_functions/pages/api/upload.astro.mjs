@@ -1,6 +1,6 @@
 import { v2 } from 'cloudinary';
 import dotenv from 'dotenv';
-export { renderers } from '../../renderers.mjs';
+export { r as renderers } from '../../chunks/_@astro-renderers_CxJDR4Zz.mjs';
 
 const __vite_import_meta_env__ = {"ASSETS_PREFIX": undefined, "BASE_URL": "/", "DEV": false, "MODE": "production", "PROD": true, "PUBLIC_SUPABASE_ANON_KEY": "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRkZ2R0ZGhnYXFlcW5vaWdtZnJoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjcwNDE3NjMsImV4cCI6MjA4MjYxNzc2M30.aSW3Ds1z-8ta1sx-22P3NGyx4jzaY0aGNPPB9PsFcs0", "PUBLIC_SUPABASE_URL": "https://ddgdtdhgaqeqnoigmfrh.supabase.co", "SITE": undefined, "SSR": true};
 dotenv.config();

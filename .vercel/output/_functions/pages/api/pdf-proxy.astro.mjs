@@ -1,4 +1,4 @@
-export { renderers } from '../../renderers.mjs';
+export { r as renderers } from '../../chunks/_@astro-renderers_CxJDR4Zz.mjs';
 
 const GET = async ({ request }) => {
   console.log("[Proxy] Request URL:", request.url);

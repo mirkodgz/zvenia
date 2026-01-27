@@ -1,7 +1,7 @@
 import { e as createComponent, k as renderComponent, n as renderScript, r as renderTemplate, m as maybeRenderHead } from '../chunks/astro/server_0Ysjtq05.mjs';
 import 'piccolore';
 import { $ as $$Layout } from '../chunks/Layout_9oJT8HrB.mjs';
-export { renderers } from '../renderers.mjs';
+export { r as renderers } from '../chunks/_@astro-renderers_CxJDR4Zz.mjs';
 
 const $$ForgotPassword = createComponent(async ($$result, $$props, $$slots) => {
   return renderTemplate`${renderComponent($$result, "Layout", $$Layout, { "title": "Reset Password - ZVENIA" }, { "default": async ($$result2) => renderTemplate` ${maybeRenderHead()}<div class="min-h-screen bg-[var(--bg-body)] flex flex-col justify-center px-6"> <div class="max-w-md mx-auto w-full"> <div class="bg-[var(--bg-card)] p-8 rounded-xl border border-[var(--border-color)] shadow-2xl"> <h1 class="text-2xl font-bold text-[var(--text-main)] mb-2">Reset Password</h1> <p class="text-sm text-[var(--text-secondary)] mb-6">

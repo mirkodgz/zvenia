@@ -1,57 +1,56 @@
 import { e as createComponent, f as createAstro, k as renderComponent, n as renderScript, r as renderTemplate, m as maybeRenderHead, h as addAttribute } from '../../chunks/astro/server_0Ysjtq05.mjs';
 import 'piccolore';
-import { $ as $$SocialLayout, a as $$LeftSidebar } from '../../chunks/LeftSidebar_DwHsW1bP.mjs';
+import { $ as $$SocialLayout, a as $$LeftSidebar } from '../../chunks/LeftSidebar_PEEkwiet.mjs';
 import { c as createSupabaseServerClient } from '../../chunks/supabase_DsxxBtwu.mjs';
 import { $ as $$RightSidebar } from '../../chunks/RightSidebar_BK4xkNnG.mjs';
 import { n as normalizeProfileSlug } from '../../chunks/utils_C0eazIxq.mjs';
-import { $ as $$PostCard } from '../../chunks/PostCard_B_2DrTdi.mjs';
-import { jsxs, jsx } from 'react/jsx-runtime';
-import 'react';
-import { P as PodcastOptions, E as EventCard, S as ServiceCard } from '../../chunks/ServiceCard_wi3Dro0O.mjs';
-export { renderers } from '../../renderers.mjs';
+import { $ as $$PostCard } from '../../chunks/PostCard_D5ELRwwj.mjs';
+import { j as jsxRuntimeExports } from '../../chunks/jsx-runtime_BO5PFvLt.mjs';
+export { r as renderers } from '../../chunks/_@astro-renderers_CxJDR4Zz.mjs';
+import { P as PodcastOptions, E as EventCard, S as ServiceCard } from '../../chunks/ServiceCard_DzMz7GPt.mjs';
 
 const PodcastCard = ({ podcast, currentUser }) => {
   const eps = Array.isArray(podcast.episodes) ? podcast.episodes : [];
   const episodeCount = eps.length;
   const latestEpisode = episodeCount > 0 ? eps[eps.length - 1] : null;
-  return /* @__PURE__ */ jsxs("div", { className: "bg-[#1A1A1A] rounded-lg border border-white/10 overflow-hidden hover:border-primary-500/30 transition-all group flex flex-col h-full relative", children: [
-    /* @__PURE__ */ jsx("div", { className: "absolute top-3 right-3 z-30", children: /* @__PURE__ */ jsx(PodcastOptions, { podcastId: podcast.id, authorId: podcast.author_id, currentUserId: currentUser?.id }) }),
-    /* @__PURE__ */ jsxs("div", { className: "relative h-48 w-full bg-black border-b border-white/5 overflow-hidden", children: [
-      podcast.cover_image_url ? /* @__PURE__ */ jsx(
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "bg-[#1A1A1A] rounded-lg border border-white/10 overflow-hidden hover:border-primary-500/30 transition-all group flex flex-col h-full relative", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute top-3 right-3 z-30", children: /* @__PURE__ */ jsxRuntimeExports.jsx(PodcastOptions, { podcastId: podcast.id, authorId: podcast.author_id, currentUserId: currentUser?.id }) }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "relative h-48 w-full bg-black border-b border-white/5 overflow-hidden", children: [
+      podcast.cover_image_url ? /* @__PURE__ */ jsxRuntimeExports.jsx(
         "img",
         {
           src: podcast.cover_image_url,
           alt: podcast.title,
           className: "w-full h-full object-cover opacity-90 group-hover:opacity-100 group-hover:scale-105 transition-all duration-500"
         }
-      ) : /* @__PURE__ */ jsx("div", { className: "w-full h-full flex items-center justify-center bg-neutral-900", children: /* @__PURE__ */ jsx("span", { className: "text-4xl", children: "🎙️" }) }),
-      /* @__PURE__ */ jsx("div", { className: "absolute top-3 left-3 bg-purple-600/90 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold text-white shadow-lg border border-white/20", children: "Podcast" })
+      ) : /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-full h-full flex items-center justify-center bg-neutral-900", children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-4xl", children: "🎙️" }) }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute top-3 left-3 bg-purple-600/90 backdrop-blur-md px-3 py-1 rounded-full text-xs font-bold text-white shadow-lg border border-white/20", children: "Podcast" })
     ] }),
-    /* @__PURE__ */ jsxs("div", { className: "p-5 flex flex-col flex-grow", children: [
-      podcast.host && /* @__PURE__ */ jsxs("div", { className: "text-purple-400 text-xs font-bold uppercase tracking-wider mb-2 flex items-center gap-1", children: [
-        /* @__PURE__ */ jsx("svg", { className: "w-3 h-3", fill: "none", stroke: "currentColor", viewBox: "0 0 24 24", children: /* @__PURE__ */ jsx("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: "2", d: "M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" }) }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "p-5 flex flex-col flex-grow", children: [
+      podcast.host && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-purple-400 text-xs font-bold uppercase tracking-wider mb-2 flex items-center gap-1", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("svg", { className: "w-3 h-3", fill: "none", stroke: "currentColor", viewBox: "0 0 24 24", children: /* @__PURE__ */ jsxRuntimeExports.jsx("path", { strokeLinecap: "round", strokeLinejoin: "round", strokeWidth: "2", d: "M19 11a7 7 0 01-7 7m0 0a7 7 0 01-7-7m7 7v4m0 0H8m4 0h4m-4-8a3 3 0 01-3-3V5a3 3 0 116 0v6a3 3 0 01-3 3z" }) }),
         "HOST: ",
         podcast.host
       ] }),
-      /* @__PURE__ */ jsx("h3", { className: "text-lg font-bold text-white mb-3 line-clamp-2 group-hover:text-purple-400 transition-colors", children: podcast.title }),
-      /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-3 mb-4", children: [
-        /* @__PURE__ */ jsxs("span", { className: "bg-white/5 px-2 py-1 rounded text-xs text-gray-400 border border-white/5", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-lg font-bold text-white mb-3 line-clamp-2 group-hover:text-purple-400 transition-colors", children: podcast.title }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-3 mb-4", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "bg-white/5 px-2 py-1 rounded text-xs text-gray-400 border border-white/5", children: [
           episodeCount,
           " Episodes"
         ] }),
-        latestEpisode && /* @__PURE__ */ jsxs("span", { className: "text-xs text-gray-500 line-clamp-1 italic", children: [
+        latestEpisode && /* @__PURE__ */ jsxRuntimeExports.jsxs("span", { className: "text-xs text-gray-500 line-clamp-1 italic", children: [
           "Latest: ",
           latestEpisode.title
         ] })
       ] }),
-      /* @__PURE__ */ jsx("div", { className: "flex-grow" }),
-      /* @__PURE__ */ jsxs(
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex-grow" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs(
         "a",
         {
           href: `/podcast/${podcast.slug}`,
           className: "mt-4 w-full py-2.5 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-purple-500/50 rounded-md text-sm font-bold text-center text-white transition-all flex items-center justify-center gap-2 group-hover:bg-purple-600/20",
           children: [
-            /* @__PURE__ */ jsx("svg", { className: "w-4 h-4", fill: "currentColor", viewBox: "0 0 24 24", children: /* @__PURE__ */ jsx("path", { d: "M8 5v14l11-7z" }) }),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("svg", { className: "w-4 h-4", fill: "currentColor", viewBox: "0 0 24 24", children: /* @__PURE__ */ jsxRuntimeExports.jsx("path", { d: "M8 5v14l11-7z" }) }),
             "Listen Now"
           ]
         }

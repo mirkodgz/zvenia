@@ -1,5 +1,5 @@
 import { c as createSupabaseServerClient } from '../../../chunks/supabase_DsxxBtwu.mjs';
-export { renderers } from '../../../renderers.mjs';
+export { r as renderers } from '../../../chunks/_@astro-renderers_CxJDR4Zz.mjs';
 
 const POST = async ({ request, cookies }) => {
   const supabase = createSupabaseServerClient({ req: request, cookies });

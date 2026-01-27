@@ -1,16 +1,16 @@
 import { e as createComponent, f as createAstro, k as renderComponent, r as renderTemplate, m as maybeRenderHead } from '../../../chunks/astro/server_0Ysjtq05.mjs';
 import 'piccolore';
-import { $ as $$SocialLayout, a as $$LeftSidebar } from '../../../chunks/LeftSidebar_DwHsW1bP.mjs';
+import { $ as $$SocialLayout, a as $$LeftSidebar } from '../../../chunks/LeftSidebar_PEEkwiet.mjs';
 import { s as supabase, c as createSupabaseServerClient } from '../../../chunks/supabase_DsxxBtwu.mjs';
-import { jsx, jsxs } from 'react/jsx-runtime';
-import { useState, useEffect } from 'react';
-export { renderers } from '../../../renderers.mjs';
+import { j as jsxRuntimeExports } from '../../../chunks/jsx-runtime_BO5PFvLt.mjs';
+import { a as reactExports } from '../../../chunks/_@astro-renderers_CxJDR4Zz.mjs';
+export { r as renderers } from '../../../chunks/_@astro-renderers_CxJDR4Zz.mjs';
 
 function ProfileEditForm({ currentUser, initialProfile }) {
-  const [countries, setCountries] = useState([]);
-  const [topics, setTopics] = useState([]);
-  const [isLoadingOptions, setIsLoadingOptions] = useState(true);
-  const [formData, setFormData] = useState({
+  const [countries, setCountries] = reactExports.useState([]);
+  const [topics, setTopics] = reactExports.useState([]);
+  const [isLoadingOptions, setIsLoadingOptions] = reactExports.useState(true);
+  const [formData, setFormData] = reactExports.useState({
     first_name: initialProfile?.first_name || "",
     last_name: initialProfile?.last_name || "",
     full_name: initialProfile?.full_name || "",
@@ -28,10 +28,10 @@ function ProfileEditForm({ currentUser, initialProfile }) {
     main_area_of_expertise: initialProfile?.main_area_of_expertise || "",
     avatar_url: initialProfile?.avatar_url || ""
   });
-  const [othersLanguages, setOthersLanguages] = useState(
+  const [othersLanguages, setOthersLanguages] = reactExports.useState(
     initialProfile?.metadata?.others_languages || []
   );
-  const [othersAreas, setOthersAreas] = useState(
+  const [othersAreas, setOthersAreas] = reactExports.useState(
     initialProfile?.metadata?.others_areas_of_expertise || []
   );
   const defaultPrivacy = {
@@ -62,16 +62,16 @@ function ProfileEditForm({ currentUser, initialProfile }) {
     others_areas_of_expertise: true
     // Visible por defecto
   };
-  const [privacySettings, setPrivacySettings] = useState(
+  const [privacySettings, setPrivacySettings] = reactExports.useState(
     initialProfile?.metadata?.privacy || defaultPrivacy
   );
-  const [isSubmitting, setIsSubmitting] = useState(false);
-  const [isUploading, setIsUploading] = useState(false);
-  const [successMessage, setSuccessMessage] = useState("");
-  const [errorMessage, setErrorMessage] = useState("");
-  const [fieldErrors, setFieldErrors] = useState({});
+  const [isSubmitting, setIsSubmitting] = reactExports.useState(false);
+  const [isUploading, setIsUploading] = reactExports.useState(false);
+  const [successMessage, setSuccessMessage] = reactExports.useState("");
+  const [errorMessage, setErrorMessage] = reactExports.useState("");
+  const [fieldErrors, setFieldErrors] = reactExports.useState({});
   const availableLanguages = ["Spanish", "English", "Russian", "French"];
-  useEffect(() => {
+  reactExports.useEffect(() => {
     const fetchOptions = async () => {
       try {
         const { data: countriesData } = await supabase.from("countries").select("id, name, display_name").order("display_name");
@@ -238,21 +238,21 @@ function ProfileEditForm({ currentUser, initialProfile }) {
     }
   };
   if (isLoadingOptions) {
-    return /* @__PURE__ */ jsx("div", { className: "text-center py-12 text-gray-500", children: "Loading form options..." });
+    return /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "text-center py-12 text-gray-500", children: "Loading form options..." });
   }
-  return /* @__PURE__ */ jsxs("form", { onSubmit: handleSubmit, className: "space-y-8 max-w-4xl mx-auto pb-12", children: [
-    /* @__PURE__ */ jsxs("div", { className: "border-b border-gray-200 pb-4", children: [
-      /* @__PURE__ */ jsx("h2", { className: "text-2xl font-bold text-[#202124] mb-1", children: "Edit Your Profile" }),
-      /* @__PURE__ */ jsx("p", { className: "text-sm text-gray-600", children: "Update your personal and professional information." })
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("form", { onSubmit: handleSubmit, className: "space-y-8 max-w-4xl mx-auto pb-12", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "border-b border-gray-200 pb-4", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-2xl font-bold text-[#202124] mb-1", children: "Edit Your Profile" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm text-gray-600", children: "Update your personal and professional information." })
     ] }),
-    successMessage && /* @__PURE__ */ jsx("div", { className: "bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded-lg", children: successMessage }),
-    errorMessage && /* @__PURE__ */ jsx("div", { className: "bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-lg", children: errorMessage }),
-    /* @__PURE__ */ jsxs("div", { className: "space-y-4", children: [
-      /* @__PURE__ */ jsx("h3", { className: "text-lg font-semibold text-[#202124] border-b border-gray-200 pb-2", children: "Basic Information" }),
-      /* @__PURE__ */ jsxs("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-4", children: [
-        /* @__PURE__ */ jsxs("div", { children: [
-          /* @__PURE__ */ jsx("label", { className: "block text-sm font-medium text-[#202124] mb-2", children: "First Name *" }),
-          /* @__PURE__ */ jsx(
+    successMessage && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "bg-green-50 border border-green-200 text-green-800 px-4 py-3 rounded-lg", children: successMessage }),
+    errorMessage && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "bg-red-50 border border-red-200 text-red-800 px-4 py-3 rounded-lg", children: errorMessage }),
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-4", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-lg font-semibold text-[#202124] border-b border-gray-200 pb-2", children: "Basic Information" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-4", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("label", { className: "block text-sm font-medium text-[#202124] mb-2", children: "First Name *" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
             "input",
             {
               type: "text",
@@ -264,9 +264,9 @@ function ProfileEditForm({ currentUser, initialProfile }) {
             }
           )
         ] }),
-        /* @__PURE__ */ jsxs("div", { children: [
-          /* @__PURE__ */ jsx("label", { className: "block text-sm font-medium text-[#202124] mb-2", children: "Last Name *" }),
-          /* @__PURE__ */ jsx(
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("label", { className: "block text-sm font-medium text-[#202124] mb-2", children: "Last Name *" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
             "input",
             {
               type: "text",
@@ -279,10 +279,10 @@ function ProfileEditForm({ currentUser, initialProfile }) {
           )
         ] })
       ] }),
-      /* @__PURE__ */ jsxs("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-4", children: [
-        /* @__PURE__ */ jsxs("div", { children: [
-          /* @__PURE__ */ jsx("label", { className: "block text-sm font-medium text-[#202124] mb-2", children: "Full Name" }),
-          /* @__PURE__ */ jsx(
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-4", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("label", { className: "block text-sm font-medium text-[#202124] mb-2", children: "Full Name" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
             "input",
             {
               type: "text",
@@ -294,9 +294,9 @@ function ProfileEditForm({ currentUser, initialProfile }) {
             }
           )
         ] }),
-        /* @__PURE__ */ jsxs("div", { children: [
-          /* @__PURE__ */ jsx("label", { className: "block text-sm font-medium text-[#202124] mb-2", children: "Username" }),
-          /* @__PURE__ */ jsx(
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("label", { className: "block text-sm font-medium text-[#202124] mb-2", children: "Username" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
             "input",
             {
               type: "text",
@@ -308,9 +308,9 @@ function ProfileEditForm({ currentUser, initialProfile }) {
           )
         ] })
       ] }),
-      /* @__PURE__ */ jsxs("div", { children: [
-        /* @__PURE__ */ jsx("label", { className: "block text-sm font-medium text-[#202124] mb-2", children: "Headline" }),
-        /* @__PURE__ */ jsx(
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("label", { className: "block text-sm font-medium text-[#202124] mb-2", children: "Headline" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
           "input",
           {
             type: "text",
@@ -322,9 +322,9 @@ function ProfileEditForm({ currentUser, initialProfile }) {
           }
         )
       ] }),
-      /* @__PURE__ */ jsxs("div", { children: [
-        /* @__PURE__ */ jsx("label", { className: "block text-sm font-medium text-[#202124] mb-2", children: "Email" }),
-        /* @__PURE__ */ jsx(
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("label", { className: "block text-sm font-medium text-[#202124] mb-2", children: "Email" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
           "input",
           {
             type: "email",
@@ -333,15 +333,15 @@ function ProfileEditForm({ currentUser, initialProfile }) {
             className: "w-full bg-gray-100 border border-gray-300 rounded-lg px-4 py-3 text-gray-500 cursor-not-allowed"
           }
         ),
-        /* @__PURE__ */ jsx("p", { className: "text-xs text-gray-500 mt-1", children: "Email cannot be changed" })
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs text-gray-500 mt-1", children: "Email cannot be changed" })
       ] })
     ] }),
-    /* @__PURE__ */ jsxs("div", { className: "space-y-4", children: [
-      /* @__PURE__ */ jsx("h3", { className: "text-lg font-semibold text-[#202124] border-b border-gray-200 pb-2", children: "Contact Information" }),
-      /* @__PURE__ */ jsxs("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-4", children: [
-        /* @__PURE__ */ jsxs("div", { children: [
-          /* @__PURE__ */ jsx("label", { className: "block text-sm font-medium text-[#202124] mb-2", children: "Phone Number" }),
-          /* @__PURE__ */ jsx(
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-4", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-lg font-semibold text-[#202124] border-b border-gray-200 pb-2", children: "Contact Information" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-4", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("label", { className: "block text-sm font-medium text-[#202124] mb-2", children: "Phone Number" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
             "input",
             {
               type: "tel",
@@ -352,9 +352,9 @@ function ProfileEditForm({ currentUser, initialProfile }) {
             }
           )
         ] }),
-        /* @__PURE__ */ jsxs("div", { children: [
-          /* @__PURE__ */ jsx("label", { className: "block text-sm font-medium text-[#202124] mb-2", children: "Nationality" }),
-          /* @__PURE__ */ jsxs(
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("label", { className: "block text-sm font-medium text-[#202124] mb-2", children: "Nationality" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs(
             "select",
             {
               name: "nationality",
@@ -362,16 +362,16 @@ function ProfileEditForm({ currentUser, initialProfile }) {
               onChange: handleChange,
               className: "w-full bg-white border border-gray-300 rounded-lg px-4 py-3 text-[#202124] focus:border-[#00c44b] focus:ring-1 focus:ring-[#00c44b] outline-none",
               children: [
-                /* @__PURE__ */ jsx("option", { value: "", children: "Select Nationality" }),
-                countries.map((country) => /* @__PURE__ */ jsx("option", { value: country.display_name, children: country.display_name }, country.id))
+                /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "", children: "Select Nationality" }),
+                countries.map((country) => /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: country.display_name, children: country.display_name }, country.id))
               ]
             }
           )
         ] })
       ] }),
-      /* @__PURE__ */ jsxs("div", { children: [
-        /* @__PURE__ */ jsx("label", { className: "block text-sm font-medium text-[#202124] mb-2", children: "Current Location" }),
-        /* @__PURE__ */ jsx(
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("label", { className: "block text-sm font-medium text-[#202124] mb-2", children: "Current Location" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
           "input",
           {
             type: "text",
@@ -384,12 +384,12 @@ function ProfileEditForm({ currentUser, initialProfile }) {
         )
       ] })
     ] }),
-    /* @__PURE__ */ jsxs("div", { className: "space-y-4", children: [
-      /* @__PURE__ */ jsx("h3", { className: "text-lg font-semibold text-[#202124] border-b border-gray-200 pb-2", children: "Professional Information" }),
-      /* @__PURE__ */ jsxs("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-4", children: [
-        /* @__PURE__ */ jsxs("div", { children: [
-          /* @__PURE__ */ jsx("label", { className: "block text-sm font-medium text-[#202124] mb-2", children: "Profession" }),
-          /* @__PURE__ */ jsx(
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-4", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-lg font-semibold text-[#202124] border-b border-gray-200 pb-2", children: "Professional Information" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-4", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("label", { className: "block text-sm font-medium text-[#202124] mb-2", children: "Profession" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
             "input",
             {
               type: "text",
@@ -401,9 +401,9 @@ function ProfileEditForm({ currentUser, initialProfile }) {
             }
           )
         ] }),
-        /* @__PURE__ */ jsxs("div", { children: [
-          /* @__PURE__ */ jsx("label", { className: "block text-sm font-medium text-[#202124] mb-2", children: "Work Country" }),
-          /* @__PURE__ */ jsxs(
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("label", { className: "block text-sm font-medium text-[#202124] mb-2", children: "Work Country" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs(
             "select",
             {
               name: "work_country",
@@ -411,17 +411,17 @@ function ProfileEditForm({ currentUser, initialProfile }) {
               onChange: handleChange,
               className: "w-full bg-white border border-gray-300 rounded-lg px-4 py-3 text-[#202124] focus:border-[#00c44b] focus:ring-1 focus:ring-[#00c44b] outline-none",
               children: [
-                /* @__PURE__ */ jsx("option", { value: "", children: "Select Work Country" }),
-                countries.map((country) => /* @__PURE__ */ jsx("option", { value: country.display_name, children: country.display_name }, country.id))
+                /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "", children: "Select Work Country" }),
+                countries.map((country) => /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: country.display_name, children: country.display_name }, country.id))
               ]
             }
           )
         ] })
       ] }),
-      /* @__PURE__ */ jsxs("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-4", children: [
-        /* @__PURE__ */ jsxs("div", { children: [
-          /* @__PURE__ */ jsx("label", { className: "block text-sm font-medium text-[#202124] mb-2", children: "Current Company" }),
-          /* @__PURE__ */ jsx(
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-4", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("label", { className: "block text-sm font-medium text-[#202124] mb-2", children: "Current Company" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
             "input",
             {
               type: "text",
@@ -432,9 +432,9 @@ function ProfileEditForm({ currentUser, initialProfile }) {
             }
           )
         ] }),
-        /* @__PURE__ */ jsxs("div", { children: [
-          /* @__PURE__ */ jsx("label", { className: "block text-sm font-medium text-[#202124] mb-2", children: "Current Position" }),
-          /* @__PURE__ */ jsx(
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("label", { className: "block text-sm font-medium text-[#202124] mb-2", children: "Current Position" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
             "input",
             {
               type: "text",
@@ -446,9 +446,9 @@ function ProfileEditForm({ currentUser, initialProfile }) {
           )
         ] })
       ] }),
-      /* @__PURE__ */ jsxs("div", { children: [
-        /* @__PURE__ */ jsx("label", { className: "block text-sm font-medium text-[#202124] mb-2", children: "LinkedIn URL" }),
-        /* @__PURE__ */ jsx(
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("label", { className: "block text-sm font-medium text-[#202124] mb-2", children: "LinkedIn URL" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
           "input",
           {
             type: "text",
@@ -468,19 +468,19 @@ function ProfileEditForm({ currentUser, initialProfile }) {
             placeholder: "https://linkedin.com/in/yourprofile or www.linkedin.com/in/yourprofile"
           }
         ),
-        fieldErrors.linkedin_url && /* @__PURE__ */ jsxs("p", { className: "mt-1 text-sm text-red-600 flex items-center gap-1", children: [
-          /* @__PURE__ */ jsx("svg", { className: "w-4 h-4", fill: "currentColor", viewBox: "0 0 20 20", children: /* @__PURE__ */ jsx("path", { fillRule: "evenodd", d: "M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z", clipRule: "evenodd" }) }),
+        fieldErrors.linkedin_url && /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "mt-1 text-sm text-red-600 flex items-center gap-1", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("svg", { className: "w-4 h-4", fill: "currentColor", viewBox: "0 0 20 20", children: /* @__PURE__ */ jsxRuntimeExports.jsx("path", { fillRule: "evenodd", d: "M18 10a8 8 0 11-16 0 8 8 0 0116 0zm-7 4a1 1 0 11-2 0 1 1 0 012 0zm-1-9a1 1 0 00-1 1v4a1 1 0 102 0V6a1 1 0 00-1-1z", clipRule: "evenodd" }) }),
           fieldErrors.linkedin_url
         ] }),
-        /* @__PURE__ */ jsx("p", { className: "mt-1 text-xs text-gray-500", children: "You can enter with or without https:// (e.g., www.linkedin.com/in/yourprofile)" })
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "mt-1 text-xs text-gray-500", children: "You can enter with or without https:// (e.g., www.linkedin.com/in/yourprofile)" })
       ] })
     ] }),
-    /* @__PURE__ */ jsxs("div", { className: "space-y-4", children: [
-      /* @__PURE__ */ jsx("h3", { className: "text-lg font-semibold text-[#202124] border-b border-gray-200 pb-2", children: "Language & Expertise" }),
-      /* @__PURE__ */ jsxs("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-4", children: [
-        /* @__PURE__ */ jsxs("div", { children: [
-          /* @__PURE__ */ jsx("label", { className: "block text-sm font-medium text-[#202124] mb-2", children: "Main Language" }),
-          /* @__PURE__ */ jsxs(
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-4", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-lg font-semibold text-[#202124] border-b border-gray-200 pb-2", children: "Language & Expertise" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-4", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("label", { className: "block text-sm font-medium text-[#202124] mb-2", children: "Main Language" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs(
             "select",
             {
               name: "main_language",
@@ -488,20 +488,20 @@ function ProfileEditForm({ currentUser, initialProfile }) {
               onChange: handleChange,
               className: "w-full bg-white border border-gray-300 rounded-lg px-4 py-3 text-[#202124] focus:border-[#00c44b] focus:ring-1 focus:ring-[#00c44b] outline-none",
               children: [
-                /* @__PURE__ */ jsx("option", { value: "", children: "Select Main Language" }),
-                availableLanguages.map((lang) => /* @__PURE__ */ jsx("option", { value: lang, children: lang }, lang))
+                /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "", children: "Select Main Language" }),
+                availableLanguages.map((lang) => /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: lang, children: lang }, lang))
               ]
             }
           )
         ] }),
-        /* @__PURE__ */ jsxs("div", { children: [
-          /* @__PURE__ */ jsx("label", { className: "block text-sm font-medium text-[#202124] mb-2", children: "Other Languages" }),
-          /* @__PURE__ */ jsx("div", { className: "flex flex-wrap gap-2", children: availableLanguages.map((lang) => /* @__PURE__ */ jsxs(
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("label", { className: "block text-sm font-medium text-[#202124] mb-2", children: "Other Languages" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "flex flex-wrap gap-2", children: availableLanguages.map((lang) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
             "label",
             {
               className: "flex items-center gap-2 cursor-pointer",
               children: [
-                /* @__PURE__ */ jsx(
+                /* @__PURE__ */ jsxRuntimeExports.jsx(
                   "input",
                   {
                     type: "checkbox",
@@ -510,17 +510,17 @@ function ProfileEditForm({ currentUser, initialProfile }) {
                     className: "w-4 h-4 text-[#00c44b] border-gray-300 rounded focus:ring-[#00c44b]"
                   }
                 ),
-                /* @__PURE__ */ jsx("span", { className: "text-sm text-[#202124]", children: lang })
+                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-sm text-[#202124]", children: lang })
               ]
             },
             lang
           )) })
         ] })
       ] }),
-      /* @__PURE__ */ jsxs("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-4", children: [
-        /* @__PURE__ */ jsxs("div", { children: [
-          /* @__PURE__ */ jsx("label", { className: "block text-sm font-medium text-[#202124] mb-2", children: "Main Area of Expertise" }),
-          /* @__PURE__ */ jsxs(
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-4", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("label", { className: "block text-sm font-medium text-[#202124] mb-2", children: "Main Area of Expertise" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs(
             "select",
             {
               name: "main_area_of_expertise",
@@ -528,20 +528,20 @@ function ProfileEditForm({ currentUser, initialProfile }) {
               onChange: handleChange,
               className: "w-full bg-white border border-gray-300 rounded-lg px-4 py-3 text-[#202124] focus:border-[#00c44b] focus:ring-1 focus:ring-[#00c44b] outline-none",
               children: [
-                /* @__PURE__ */ jsx("option", { value: "", children: "Select Main Area" }),
-                topics.map((topic) => /* @__PURE__ */ jsx("option", { value: topic.slug, children: topic.name }, topic.id))
+                /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: "", children: "Select Main Area" }),
+                topics.map((topic) => /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: topic.slug, children: topic.name }, topic.id))
               ]
             }
           )
         ] }),
-        /* @__PURE__ */ jsxs("div", { children: [
-          /* @__PURE__ */ jsx("label", { className: "block text-sm font-medium text-[#202124] mb-2", children: "Other Areas of Expertise" }),
-          /* @__PURE__ */ jsx("div", { className: "max-h-40 overflow-y-auto border border-gray-300 rounded-lg p-3", children: /* @__PURE__ */ jsx("div", { className: "space-y-2", children: topics.map((topic) => /* @__PURE__ */ jsxs(
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("label", { className: "block text-sm font-medium text-[#202124] mb-2", children: "Other Areas of Expertise" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "max-h-40 overflow-y-auto border border-gray-300 rounded-lg p-3", children: /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "space-y-2", children: topics.map((topic) => /* @__PURE__ */ jsxRuntimeExports.jsxs(
             "label",
             {
               className: "flex items-center gap-2 cursor-pointer",
               children: [
-                /* @__PURE__ */ jsx(
+                /* @__PURE__ */ jsxRuntimeExports.jsx(
                   "input",
                   {
                     type: "checkbox",
@@ -550,7 +550,7 @@ function ProfileEditForm({ currentUser, initialProfile }) {
                     className: "w-4 h-4 text-[#00c44b] border-gray-300 rounded focus:ring-[#00c44b]"
                   }
                 ),
-                /* @__PURE__ */ jsx("span", { className: "text-sm text-[#202124]", children: topic.name })
+                /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-sm text-[#202124]", children: topic.name })
               ]
             },
             topic.id
@@ -558,20 +558,20 @@ function ProfileEditForm({ currentUser, initialProfile }) {
         ] })
       ] })
     ] }),
-    /* @__PURE__ */ jsxs("div", { className: "space-y-4", children: [
-      /* @__PURE__ */ jsx("h3", { className: "text-lg font-semibold text-[#202124] border-b border-gray-200 pb-2", children: "Profile Picture" }),
-      /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-6", children: [
-        formData.avatar_url ? /* @__PURE__ */ jsx(
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-4", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-lg font-semibold text-[#202124] border-b border-gray-200 pb-2", children: "Profile Picture" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-6", children: [
+        formData.avatar_url ? /* @__PURE__ */ jsxRuntimeExports.jsx(
           "img",
           {
             src: formData.avatar_url,
             alt: "Avatar",
             className: "w-24 h-24 rounded-full object-cover border-2 border-gray-300"
           }
-        ) : /* @__PURE__ */ jsx("div", { className: "w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center border-2 border-gray-300", children: /* @__PURE__ */ jsx("span", { className: "text-gray-400 text-2xl", children: "👤" }) }),
-        /* @__PURE__ */ jsxs("div", { className: "flex-1", children: [
-          /* @__PURE__ */ jsx("label", { className: "block text-sm font-medium text-[#202124] mb-2", children: "Change Photo" }),
-          /* @__PURE__ */ jsx(
+        ) : /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-24 h-24 rounded-full bg-gray-200 flex items-center justify-center border-2 border-gray-300", children: /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-gray-400 text-2xl", children: "👤" }) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex-1", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("label", { className: "block text-sm font-medium text-[#202124] mb-2", children: "Change Photo" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
             "input",
             {
               type: "file",
@@ -581,19 +581,19 @@ function ProfileEditForm({ currentUser, initialProfile }) {
               className: "block w-full text-sm text-[#202124] file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-[#00c44b] file:text-white hover:file:bg-[#00a03d] cursor-pointer disabled:opacity-50"
             }
           ),
-          /* @__PURE__ */ jsx("p", { className: "text-xs text-gray-500 mt-1", children: "JPG, PNG or WEBP. Max size 5MB." }),
-          isUploading && /* @__PURE__ */ jsx("p", { className: "text-xs text-blue-600 mt-1", children: "Uploading..." })
+          /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs text-gray-500 mt-1", children: "JPG, PNG or WEBP. Max size 5MB." }),
+          isUploading && /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs text-blue-600 mt-1", children: "Uploading..." })
         ] })
       ] })
     ] }),
-    /* @__PURE__ */ jsxs("div", { className: "space-y-4", children: [
-      /* @__PURE__ */ jsx("h3", { className: "text-lg font-semibold text-[#202124] border-b border-gray-200 pb-2", children: "Privacy Settings" }),
-      /* @__PURE__ */ jsx("p", { className: "text-sm text-gray-600 mb-4", children: "Control what information is visible on your public profile. Your name, photo, and headline are always visible." }),
-      /* @__PURE__ */ jsxs("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-4", children: [
-        /* @__PURE__ */ jsxs("div", { className: "space-y-3", children: [
-          /* @__PURE__ */ jsx("h4", { className: "text-sm font-medium text-[#202124] mb-2", children: "Contact Information" }),
-          /* @__PURE__ */ jsxs("label", { className: "flex items-center gap-3 cursor-pointer", children: [
-            /* @__PURE__ */ jsx(
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-4", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-lg font-semibold text-[#202124] border-b border-gray-200 pb-2", children: "Privacy Settings" }),
+      /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm text-gray-600 mb-4", children: "Control what information is visible on your public profile. Your name, photo, and headline are always visible." }),
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-4", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-3", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { className: "text-sm font-medium text-[#202124] mb-2", children: "Contact Information" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "flex items-center gap-3 cursor-pointer", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
               "input",
               {
                 type: "checkbox",
@@ -602,10 +602,10 @@ function ProfileEditForm({ currentUser, initialProfile }) {
                 className: "w-4 h-4 text-[#00c44b] border-gray-300 rounded focus:ring-[#00c44b]"
               }
             ),
-            /* @__PURE__ */ jsx("span", { className: "text-sm text-[#202124]", children: "Show phone number" })
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-sm text-[#202124]", children: "Show phone number" })
           ] }),
-          /* @__PURE__ */ jsxs("label", { className: "flex items-center gap-3 cursor-pointer opacity-50 cursor-not-allowed", children: [
-            /* @__PURE__ */ jsx(
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "flex items-center gap-3 cursor-pointer opacity-50 cursor-not-allowed", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
               "input",
               {
                 type: "checkbox",
@@ -614,10 +614,10 @@ function ProfileEditForm({ currentUser, initialProfile }) {
                 className: "w-4 h-4 text-gray-300 border-gray-300 rounded"
               }
             ),
-            /* @__PURE__ */ jsx("span", { className: "text-sm text-gray-500", children: "Show email (always hidden for security)" })
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-sm text-gray-500", children: "Show email (always hidden for security)" })
           ] }),
-          /* @__PURE__ */ jsxs("label", { className: "flex items-center gap-3 cursor-pointer", children: [
-            /* @__PURE__ */ jsx(
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "flex items-center gap-3 cursor-pointer", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
               "input",
               {
                 type: "checkbox",
@@ -626,10 +626,10 @@ function ProfileEditForm({ currentUser, initialProfile }) {
                 className: "w-4 h-4 text-[#00c44b] border-gray-300 rounded focus:ring-[#00c44b]"
               }
             ),
-            /* @__PURE__ */ jsx("span", { className: "text-sm text-[#202124]", children: "Show nationality" })
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-sm text-[#202124]", children: "Show nationality" })
           ] }),
-          /* @__PURE__ */ jsxs("label", { className: "flex items-center gap-3 cursor-pointer", children: [
-            /* @__PURE__ */ jsx(
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "flex items-center gap-3 cursor-pointer", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
               "input",
               {
                 type: "checkbox",
@@ -638,13 +638,13 @@ function ProfileEditForm({ currentUser, initialProfile }) {
                 className: "w-4 h-4 text-[#00c44b] border-gray-300 rounded focus:ring-[#00c44b]"
               }
             ),
-            /* @__PURE__ */ jsx("span", { className: "text-sm text-[#202124]", children: "Show current location" })
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-sm text-[#202124]", children: "Show current location" })
           ] })
         ] }),
-        /* @__PURE__ */ jsxs("div", { className: "space-y-3", children: [
-          /* @__PURE__ */ jsx("h4", { className: "text-sm font-medium text-[#202124] mb-2", children: "Professional Information" }),
-          /* @__PURE__ */ jsxs("label", { className: "flex items-center gap-3 cursor-pointer", children: [
-            /* @__PURE__ */ jsx(
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-3", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { className: "text-sm font-medium text-[#202124] mb-2", children: "Professional Information" }),
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "flex items-center gap-3 cursor-pointer", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
               "input",
               {
                 type: "checkbox",
@@ -653,10 +653,10 @@ function ProfileEditForm({ currentUser, initialProfile }) {
                 className: "w-4 h-4 text-[#00c44b] border-gray-300 rounded focus:ring-[#00c44b]"
               }
             ),
-            /* @__PURE__ */ jsx("span", { className: "text-sm text-[#202124]", children: "Show company" })
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-sm text-[#202124]", children: "Show company" })
           ] }),
-          /* @__PURE__ */ jsxs("label", { className: "flex items-center gap-3 cursor-pointer", children: [
-            /* @__PURE__ */ jsx(
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "flex items-center gap-3 cursor-pointer", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
               "input",
               {
                 type: "checkbox",
@@ -665,10 +665,10 @@ function ProfileEditForm({ currentUser, initialProfile }) {
                 className: "w-4 h-4 text-[#00c44b] border-gray-300 rounded focus:ring-[#00c44b]"
               }
             ),
-            /* @__PURE__ */ jsx("span", { className: "text-sm text-[#202124]", children: "Show position" })
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-sm text-[#202124]", children: "Show position" })
           ] }),
-          /* @__PURE__ */ jsxs("label", { className: "flex items-center gap-3 cursor-pointer", children: [
-            /* @__PURE__ */ jsx(
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "flex items-center gap-3 cursor-pointer", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
               "input",
               {
                 type: "checkbox",
@@ -677,10 +677,10 @@ function ProfileEditForm({ currentUser, initialProfile }) {
                 className: "w-4 h-4 text-[#00c44b] border-gray-300 rounded focus:ring-[#00c44b]"
               }
             ),
-            /* @__PURE__ */ jsx("span", { className: "text-sm text-[#202124]", children: "Show LinkedIn URL" })
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-sm text-[#202124]", children: "Show LinkedIn URL" })
           ] }),
-          /* @__PURE__ */ jsxs("label", { className: "flex items-center gap-3 cursor-pointer", children: [
-            /* @__PURE__ */ jsx(
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "flex items-center gap-3 cursor-pointer", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
               "input",
               {
                 type: "checkbox",
@@ -689,10 +689,10 @@ function ProfileEditForm({ currentUser, initialProfile }) {
                 className: "w-4 h-4 text-[#00c44b] border-gray-300 rounded focus:ring-[#00c44b]"
               }
             ),
-            /* @__PURE__ */ jsx("span", { className: "text-sm text-[#202124]", children: "Show profession" })
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-sm text-[#202124]", children: "Show profession" })
           ] }),
-          /* @__PURE__ */ jsxs("label", { className: "flex items-center gap-3 cursor-pointer", children: [
-            /* @__PURE__ */ jsx(
+          /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "flex items-center gap-3 cursor-pointer", children: [
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
               "input",
               {
                 type: "checkbox",
@@ -701,14 +701,14 @@ function ProfileEditForm({ currentUser, initialProfile }) {
                 className: "w-4 h-4 text-[#00c44b] border-gray-300 rounded focus:ring-[#00c44b]"
               }
             ),
-            /* @__PURE__ */ jsx("span", { className: "text-sm text-[#202124]", children: "Show work country" })
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-sm text-[#202124]", children: "Show work country" })
           ] })
         ] })
       ] }),
-      /* @__PURE__ */ jsx("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-4 mt-4", children: /* @__PURE__ */ jsxs("div", { className: "space-y-3", children: [
-        /* @__PURE__ */ jsx("h4", { className: "text-sm font-medium text-[#202124] mb-2", children: "Language & Expertise" }),
-        /* @__PURE__ */ jsxs("label", { className: "flex items-center gap-3 cursor-pointer", children: [
-          /* @__PURE__ */ jsx(
+      /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "grid grid-cols-1 md:grid-cols-2 gap-4 mt-4", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "space-y-3", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("h4", { className: "text-sm font-medium text-[#202124] mb-2", children: "Language & Expertise" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "flex items-center gap-3 cursor-pointer", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
             "input",
             {
               type: "checkbox",
@@ -717,10 +717,10 @@ function ProfileEditForm({ currentUser, initialProfile }) {
               className: "w-4 h-4 text-[#00c44b] border-gray-300 rounded focus:ring-[#00c44b]"
             }
           ),
-          /* @__PURE__ */ jsx("span", { className: "text-sm text-[#202124]", children: "Show main language" })
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-sm text-[#202124]", children: "Show main language" })
         ] }),
-        /* @__PURE__ */ jsxs("label", { className: "flex items-center gap-3 cursor-pointer", children: [
-          /* @__PURE__ */ jsx(
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "flex items-center gap-3 cursor-pointer", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
             "input",
             {
               type: "checkbox",
@@ -729,10 +729,10 @@ function ProfileEditForm({ currentUser, initialProfile }) {
               className: "w-4 h-4 text-[#00c44b] border-gray-300 rounded focus:ring-[#00c44b]"
             }
           ),
-          /* @__PURE__ */ jsx("span", { className: "text-sm text-[#202124]", children: "Show other languages" })
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-sm text-[#202124]", children: "Show other languages" })
         ] }),
-        /* @__PURE__ */ jsxs("label", { className: "flex items-center gap-3 cursor-pointer", children: [
-          /* @__PURE__ */ jsx(
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "flex items-center gap-3 cursor-pointer", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
             "input",
             {
               type: "checkbox",
@@ -741,10 +741,10 @@ function ProfileEditForm({ currentUser, initialProfile }) {
               className: "w-4 h-4 text-[#00c44b] border-gray-300 rounded focus:ring-[#00c44b]"
             }
           ),
-          /* @__PURE__ */ jsx("span", { className: "text-sm text-[#202124]", children: "Show main area of expertise" })
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-sm text-[#202124]", children: "Show main area of expertise" })
         ] }),
-        /* @__PURE__ */ jsxs("label", { className: "flex items-center gap-3 cursor-pointer", children: [
-          /* @__PURE__ */ jsx(
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("label", { className: "flex items-center gap-3 cursor-pointer", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
             "input",
             {
               type: "checkbox",
@@ -753,14 +753,14 @@ function ProfileEditForm({ currentUser, initialProfile }) {
               className: "w-4 h-4 text-[#00c44b] border-gray-300 rounded focus:ring-[#00c44b]"
             }
           ),
-          /* @__PURE__ */ jsx("span", { className: "text-sm text-[#202124]", children: "Show other areas of expertise" })
+          /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-sm text-[#202124]", children: "Show other areas of expertise" })
         ] })
       ] }) }),
-      initialProfile?.profile_slug && /* @__PURE__ */ jsxs("div", { className: "mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg", children: [
-        /* @__PURE__ */ jsx("p", { className: "text-sm font-medium text-blue-900 mb-2", children: "Your Public Profile" }),
-        /* @__PURE__ */ jsx("p", { className: "text-xs text-blue-700 mb-2", children: "Share this link to let others view your public profile:" }),
-        /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-2", children: [
-          /* @__PURE__ */ jsx(
+      initialProfile?.profile_slug && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "mt-6 p-4 bg-blue-50 border border-blue-200 rounded-lg", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-sm font-medium text-blue-900 mb-2", children: "Your Public Profile" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx("p", { className: "text-xs text-blue-700 mb-2", children: "Share this link to let others view your public profile:" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-2", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
             "input",
             {
               type: "text",
@@ -770,7 +770,7 @@ function ProfileEditForm({ currentUser, initialProfile }) {
               onClick: (e) => e.target.select()
             }
           ),
-          /* @__PURE__ */ jsx(
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
             "button",
             {
               type: "button",
@@ -783,7 +783,7 @@ function ProfileEditForm({ currentUser, initialProfile }) {
               children: "Copy"
             }
           ),
-          /* @__PURE__ */ jsx(
+          /* @__PURE__ */ jsxRuntimeExports.jsx(
             "a",
             {
               href: `/profile/${initialProfile.profile_slug}/zv-user/`,
@@ -796,8 +796,8 @@ function ProfileEditForm({ currentUser, initialProfile }) {
         ] })
       ] })
     ] }),
-    /* @__PURE__ */ jsxs("div", { className: "flex gap-4 pt-6 border-t border-gray-200", children: [
-      /* @__PURE__ */ jsx(
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex gap-4 pt-6 border-t border-gray-200", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
         "button",
         {
           type: "submit",
@@ -806,7 +806,7 @@ function ProfileEditForm({ currentUser, initialProfile }) {
           children: isSubmitting ? "Saving..." : "Save Changes"
         }
       ),
-      /* @__PURE__ */ jsx(
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
         "a",
         {
           href: "/dashboard/profile",

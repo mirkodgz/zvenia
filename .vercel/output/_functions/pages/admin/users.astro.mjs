@@ -1,21 +1,21 @@
 import { e as createComponent, f as createAstro, k as renderComponent, r as renderTemplate, m as maybeRenderHead } from '../../chunks/astro/server_0Ysjtq05.mjs';
 import 'piccolore';
-import { $ as $$AdminLayout } from '../../chunks/AdminLayout_kIrHDt3T.mjs';
-import { jsx, jsxs } from 'react/jsx-runtime';
-import { useState, useEffect, useMemo } from 'react';
+import { $ as $$AdminLayout } from '../../chunks/AdminLayout_BbSz0_Pi.mjs';
+import { j as jsxRuntimeExports } from '../../chunks/jsx-runtime_BO5PFvLt.mjs';
+import { a as reactExports } from '../../chunks/_@astro-renderers_CxJDR4Zz.mjs';
+export { r as renderers } from '../../chunks/_@astro-renderers_CxJDR4Zz.mjs';
 import { useReactTable, getSortedRowModel, getPaginationRowModel, getFilteredRowModel, getCoreRowModel, flexRender } from '@tanstack/react-table';
 import { createBrowserClient } from '@supabase/ssr';
 import { format } from 'date-fns';
-export { renderers } from '../../renderers.mjs';
 
 const ROLES = ["Administrator", "CountryManager", "Ads", "Events", "Expert", "Basic"];
 function UsersTable() {
-  const [users, setUsers] = useState([]);
-  const [loading, setLoading] = useState(true);
-  const [searchTerm, setSearchTerm] = useState("");
-  const [sorting, setSorting] = useState([]);
-  const [editingId, setEditingId] = useState(null);
-  const [editForm, setEditForm] = useState({
+  const [users, setUsers] = reactExports.useState([]);
+  const [loading, setLoading] = reactExports.useState(true);
+  const [searchTerm, setSearchTerm] = reactExports.useState("");
+  const [sorting, setSorting] = reactExports.useState([]);
+  const [editingId, setEditingId] = reactExports.useState(null);
+  const [editForm, setEditForm] = reactExports.useState({
     role: "Basic",
     work_country: ""
   });
@@ -23,7 +23,7 @@ function UsersTable() {
     "https://ddgdtdhgaqeqnoigmfrh.supabase.co",
     "eyJhbGciOiJIUzI1NiIsInR5cCI6IkpXVCJ9.eyJpc3MiOiJzdXBhYmFzZSIsInJlZiI6ImRkZ2R0ZGhnYXFlcW5vaWdtZnJoIiwicm9sZSI6ImFub24iLCJpYXQiOjE3NjcwNDE3NjMsImV4cCI6MjA4MjYxNzc2M30.aSW3Ds1z-8ta1sx-22P3NGyx4jzaY0aGNPPB9PsFcs0"
   );
-  useEffect(() => {
+  reactExports.useEffect(() => {
     fetchUsers();
   }, []);
   const fetchUsers = async () => {
@@ -108,7 +108,7 @@ function UsersTable() {
         return "border-gray-500/30 bg-gray-500/10 text-gray-400";
     }
   };
-  const columns = useMemo(
+  const columns = reactExports.useMemo(
     () => [
       {
         accessorKey: "full_name",
@@ -116,18 +116,18 @@ function UsersTable() {
         cell: ({ row }) => {
           const user = row.original;
           const displayName = user.full_name || (user.first_name && user.last_name ? `${user.first_name} ${user.last_name}` : null) || user.email?.split("@")[0] || "N/A";
-          return /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-2", children: [
-            user.avatar_url ? /* @__PURE__ */ jsx(
+          return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-2", children: [
+            user.avatar_url ? /* @__PURE__ */ jsxRuntimeExports.jsx(
               "img",
               {
                 src: user.avatar_url,
                 alt: displayName,
                 className: "w-8 h-8 rounded-full object-cover"
               }
-            ) : /* @__PURE__ */ jsx("div", { className: "w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center text-xs text-gray-700 font-medium", children: displayName[0]?.toUpperCase() || "?" }),
-            /* @__PURE__ */ jsxs("div", { children: [
-              /* @__PURE__ */ jsx("div", { className: "font-medium text-gray-900", children: displayName }),
-              user.username && /* @__PURE__ */ jsxs("div", { className: "text-xs text-gray-500", children: [
+            ) : /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "w-8 h-8 rounded-full bg-gray-300 flex items-center justify-center text-xs text-gray-700 font-medium", children: displayName[0]?.toUpperCase() || "?" }),
+            /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "font-medium text-gray-900", children: displayName }),
+              user.username && /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-xs text-gray-500", children: [
                 "@",
                 user.username
               ] })
@@ -138,7 +138,7 @@ function UsersTable() {
       {
         accessorKey: "email",
         header: "Email",
-        cell: ({ row }) => /* @__PURE__ */ jsx("span", { className: "text-gray-700 text-sm", children: row.original.email })
+        cell: ({ row }) => /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-gray-700 text-sm", children: row.original.email })
       },
       {
         accessorKey: "role",
@@ -146,29 +146,29 @@ function UsersTable() {
         cell: ({ row }) => {
           const user = row.original;
           if (editingId === user.id) {
-            return /* @__PURE__ */ jsx(
+            return /* @__PURE__ */ jsxRuntimeExports.jsx(
               "select",
               {
                 value: editForm.role,
                 onChange: (e) => setEditForm({ ...editForm, role: e.target.value }),
                 className: "bg-white border border-primary-500 rounded px-2 py-1 text-gray-900 outline-none text-sm",
                 onClick: (e) => e.stopPropagation(),
-                children: ROLES.map((r) => /* @__PURE__ */ jsx("option", { value: r, children: r }, r))
+                children: ROLES.map((r) => /* @__PURE__ */ jsxRuntimeExports.jsx("option", { value: r, children: r }, r))
               }
             );
           }
-          return /* @__PURE__ */ jsx("span", { className: `px-2 py-1 rounded text-xs border ${getRoleBadgeColor(user.role)}`, children: user.role || "Basic" });
+          return /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: `px-2 py-1 rounded text-xs border ${getRoleBadgeColor(user.role)}`, children: user.role || "Basic" });
         }
       },
       {
         accessorKey: "company",
         header: "Company",
-        cell: ({ row }) => /* @__PURE__ */ jsx("span", { className: "text-gray-600 text-sm", children: row.original.company || "-" })
+        cell: ({ row }) => /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-gray-600 text-sm", children: row.original.company || "-" })
       },
       {
         accessorKey: "position",
         header: "Position",
-        cell: ({ row }) => /* @__PURE__ */ jsx("span", { className: "text-gray-600 text-sm", children: row.original.position || "-" })
+        cell: ({ row }) => /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-gray-600 text-sm", children: row.original.position || "-" })
       },
       {
         accessorKey: "work_country",
@@ -176,7 +176,7 @@ function UsersTable() {
         cell: ({ row }) => {
           const user = row.original;
           if (editingId === user.id) {
-            return /* @__PURE__ */ jsx(
+            return /* @__PURE__ */ jsxRuntimeExports.jsx(
               "input",
               {
                 type: "text",
@@ -188,18 +188,18 @@ function UsersTable() {
               }
             );
           }
-          return /* @__PURE__ */ jsx("span", { className: "text-gray-600 text-sm", children: user.work_country || user.nationality || "-" });
+          return /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-gray-600 text-sm", children: user.work_country || user.nationality || "-" });
         }
       },
       {
         accessorKey: "profession",
         header: "Profession",
-        cell: ({ row }) => /* @__PURE__ */ jsx("span", { className: "text-gray-600 text-sm", children: row.original.profession || "-" })
+        cell: ({ row }) => /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-gray-600 text-sm", children: row.original.profession || "-" })
       },
       {
         accessorKey: "created_at",
         header: "Created",
-        cell: ({ row }) => /* @__PURE__ */ jsx("span", { className: "text-gray-600 text-sm", children: format(new Date(row.original.created_at), "dd/MM/yyyy") })
+        cell: ({ row }) => /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "text-gray-600 text-sm", children: format(new Date(row.original.created_at), "dd/MM/yyyy") })
       },
       {
         id: "actions",
@@ -207,8 +207,8 @@ function UsersTable() {
         cell: ({ row }) => {
           const user = row.original;
           if (editingId === user.id) {
-            return /* @__PURE__ */ jsxs("div", { className: "flex gap-2", children: [
-              /* @__PURE__ */ jsx(
+            return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex gap-2", children: [
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
                 "button",
                 {
                   onClick: () => saveEdit(user.id),
@@ -216,7 +216,7 @@ function UsersTable() {
                   children: "Save"
                 }
               ),
-              /* @__PURE__ */ jsx(
+              /* @__PURE__ */ jsxRuntimeExports.jsx(
                 "button",
                 {
                   onClick: cancelEdit,
@@ -226,8 +226,8 @@ function UsersTable() {
               )
             ] });
           }
-          return /* @__PURE__ */ jsxs("div", { className: "flex gap-2", children: [
-            user.profile_slug && /* @__PURE__ */ jsx(
+          return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex gap-2", children: [
+            user.profile_slug && /* @__PURE__ */ jsxRuntimeExports.jsx(
               "a",
               {
                 href: `/profile/${user.profile_slug}/zv-user`,
@@ -236,7 +236,7 @@ function UsersTable() {
                 children: "View"
               }
             ),
-            /* @__PURE__ */ jsx(
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
               "button",
               {
                 onClick: () => startEdit(user),
@@ -244,7 +244,7 @@ function UsersTable() {
                 children: "Edit"
               }
             ),
-            /* @__PURE__ */ jsx(
+            /* @__PURE__ */ jsxRuntimeExports.jsx(
               "button",
               {
                 onClick: () => handleDelete(user.id),
@@ -282,18 +282,18 @@ function UsersTable() {
       }
     }
   });
-  return /* @__PURE__ */ jsxs("div", { className: "bg-white rounded-lg border border-gray-200 p-6 shadow-sm", children: [
-    /* @__PURE__ */ jsxs("div", { className: "flex justify-between items-center mb-6", children: [
-      /* @__PURE__ */ jsxs("div", { children: [
-        /* @__PURE__ */ jsx("h2", { className: "text-xl font-bold text-gray-900", children: "User Management" }),
-        /* @__PURE__ */ jsxs("p", { className: "text-sm text-gray-600 mt-1", children: [
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "bg-white rounded-lg border border-gray-200 p-6 shadow-sm", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex justify-between items-center mb-6", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx("h2", { className: "text-xl font-bold text-gray-900", children: "User Management" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("p", { className: "text-sm text-gray-600 mt-1", children: [
           "Total: ",
           users.length,
           " users"
         ] })
       ] }),
-      /* @__PURE__ */ jsxs("div", { className: "flex gap-2", children: [
-        /* @__PURE__ */ jsx(
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex gap-2", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
           "input",
           {
             type: "text",
@@ -303,7 +303,7 @@ function UsersTable() {
             className: "bg-gray-50 border border-gray-200 rounded px-3 py-1 text-gray-900 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500 w-64"
           }
         ),
-        /* @__PURE__ */ jsx(
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
           "button",
           {
             onClick: fetchUsers,
@@ -314,13 +314,13 @@ function UsersTable() {
         )
       ] })
     ] }),
-    /* @__PURE__ */ jsx("div", { className: "overflow-x-auto", children: /* @__PURE__ */ jsxs("table", { className: "w-full text-left text-sm text-gray-600", children: [
-      /* @__PURE__ */ jsx("thead", { className: "bg-gray-50 uppercase font-bold text-xs text-gray-700", children: table.getHeaderGroups().map((headerGroup) => /* @__PURE__ */ jsx("tr", { children: headerGroup.headers.map((header) => /* @__PURE__ */ jsx(
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "overflow-x-auto", children: /* @__PURE__ */ jsxRuntimeExports.jsxs("table", { className: "w-full text-left text-sm text-gray-600", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx("thead", { className: "bg-gray-50 uppercase font-bold text-xs text-gray-700", children: table.getHeaderGroups().map((headerGroup) => /* @__PURE__ */ jsxRuntimeExports.jsx("tr", { children: headerGroup.headers.map((header) => /* @__PURE__ */ jsxRuntimeExports.jsx(
         "th",
         {
           className: "p-3 cursor-pointer hover:bg-gray-100",
           onClick: header.column.getToggleSortingHandler(),
-          children: /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-2", children: [
+          children: /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-2", children: [
             flexRender(header.column.columnDef.header, header.getContext()),
             {
               asc: " ↑",
@@ -330,10 +330,10 @@ function UsersTable() {
         },
         header.id
       )) }, headerGroup.id)) }),
-      /* @__PURE__ */ jsx("tbody", { className: "divide-y divide-gray-200", children: loading ? /* @__PURE__ */ jsx("tr", { children: /* @__PURE__ */ jsx("td", { colSpan: columns.length, className: "p-8 text-center text-gray-500", children: "Loading users..." }) }) : table.getRowModel().rows.length === 0 ? /* @__PURE__ */ jsx("tr", { children: /* @__PURE__ */ jsx("td", { colSpan: columns.length, className: "p-8 text-center text-gray-500", children: "No users found." }) }) : table.getRowModel().rows.map((row) => /* @__PURE__ */ jsx("tr", { className: "hover:bg-gray-50 transition-colors", children: row.getVisibleCells().map((cell) => /* @__PURE__ */ jsx("td", { className: "p-3", children: flexRender(cell.column.columnDef.cell, cell.getContext()) }, cell.id)) }, row.id)) })
+      /* @__PURE__ */ jsxRuntimeExports.jsx("tbody", { className: "divide-y divide-gray-200", children: loading ? /* @__PURE__ */ jsxRuntimeExports.jsx("tr", { children: /* @__PURE__ */ jsxRuntimeExports.jsx("td", { colSpan: columns.length, className: "p-8 text-center text-gray-500", children: "Loading users..." }) }) : table.getRowModel().rows.length === 0 ? /* @__PURE__ */ jsxRuntimeExports.jsx("tr", { children: /* @__PURE__ */ jsxRuntimeExports.jsx("td", { colSpan: columns.length, className: "p-8 text-center text-gray-500", children: "No users found." }) }) : table.getRowModel().rows.map((row) => /* @__PURE__ */ jsxRuntimeExports.jsx("tr", { className: "hover:bg-gray-50 transition-colors", children: row.getVisibleCells().map((cell) => /* @__PURE__ */ jsxRuntimeExports.jsx("td", { className: "p-3", children: flexRender(cell.column.columnDef.cell, cell.getContext()) }, cell.id)) }, row.id)) })
     ] }) }),
-    /* @__PURE__ */ jsxs("div", { className: "flex items-center justify-between mt-4", children: [
-      /* @__PURE__ */ jsxs("div", { className: "text-sm text-gray-600", children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center justify-between mt-4", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "text-sm text-gray-600", children: [
         "Mostrando ",
         table.getState().pagination.pageIndex * table.getState().pagination.pageSize + 1,
         " a",
@@ -347,8 +347,8 @@ function UsersTable() {
         table.getFilteredRowModel().rows.length,
         " users"
       ] }),
-      /* @__PURE__ */ jsxs("div", { className: "flex gap-2", children: [
-        /* @__PURE__ */ jsx(
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex gap-2", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
           "button",
           {
             onClick: () => table.previousPage(),
@@ -357,7 +357,7 @@ function UsersTable() {
             children: "Previous"
           }
         ),
-        /* @__PURE__ */ jsx(
+        /* @__PURE__ */ jsxRuntimeExports.jsx(
           "button",
           {
             onClick: () => table.nextPage(),

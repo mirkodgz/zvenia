@@ -1,9 +1,9 @@
 import { e as createComponent, l as renderHead, k as renderComponent, r as renderTemplate } from '../../chunks/astro/server_0Ysjtq05.mjs';
 import 'piccolore';
 /* empty css                                    */
-import { jsx, jsxs } from 'react/jsx-runtime';
-import * as React from 'react';
-import { useState } from 'react';
+import { j as jsxRuntimeExports } from '../../chunks/jsx-runtime_BO5PFvLt.mjs';
+import { a as reactExports } from '../../chunks/_@astro-renderers_CxJDR4Zz.mjs';
+export { r as renderers } from '../../chunks/_@astro-renderers_CxJDR4Zz.mjs';
 import { Check, EyeOffIcon, EyeIcon } from 'lucide-react';
 import { Slot } from '@radix-ui/react-slot';
 import { cva } from 'class-variance-authority';
@@ -12,7 +12,6 @@ import * as CheckboxPrimitive from '@radix-ui/react-checkbox';
 import * as LabelPrimitive from '@radix-ui/react-label';
 import { s as supabase } from '../../chunks/supabase_DsxxBtwu.mjs';
 import * as SeparatorPrimitive from '@radix-ui/react-separator';
-export { renderers } from '../../renderers.mjs';
 
 const buttonVariants = cva(
   "inline-flex items-center justify-center whitespace-nowrap rounded-md text-sm font-medium transition-colors focus-visible:outline-none focus-visible:ring-1 focus-visible:ring-ring disabled:pointer-events-none disabled:opacity-50",
@@ -39,10 +38,10 @@ const buttonVariants = cva(
     }
   }
 );
-const Button = React.forwardRef(
+const Button = reactExports.forwardRef(
   ({ className, variant, size, asChild = false, ...props }, ref) => {
     const Comp = asChild ? Slot : "button";
-    return /* @__PURE__ */ jsx(
+    return /* @__PURE__ */ jsxRuntimeExports.jsx(
       Comp,
       {
         className: cn(buttonVariants({ variant, size, className })),
@@ -54,9 +53,9 @@ const Button = React.forwardRef(
 );
 Button.displayName = "Button";
 
-const Input = React.forwardRef(
+const Input = reactExports.forwardRef(
   ({ className, type, ...props }, ref) => {
-    return /* @__PURE__ */ jsx(
+    return /* @__PURE__ */ jsxRuntimeExports.jsx(
       "input",
       {
         type,
@@ -72,7 +71,7 @@ const Input = React.forwardRef(
 );
 Input.displayName = "Input";
 
-const Checkbox = React.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+const Checkbox = reactExports.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntimeExports.jsx(
   CheckboxPrimitive.Root,
   {
     ref,
@@ -81,11 +80,11 @@ const Checkbox = React.forwardRef(({ className, ...props }, ref) => /* @__PURE__
       className
     ),
     ...props,
-    children: /* @__PURE__ */ jsx(
+    children: /* @__PURE__ */ jsxRuntimeExports.jsx(
       CheckboxPrimitive.Indicator,
       {
         className: cn("flex items-center justify-center text-current"),
-        children: /* @__PURE__ */ jsx(Check, { className: "h-4 w-4" })
+        children: /* @__PURE__ */ jsxRuntimeExports.jsx(Check, { className: "h-4 w-4" })
       }
     )
   }
@@ -95,7 +94,7 @@ Checkbox.displayName = CheckboxPrimitive.Root.displayName;
 const labelVariants = cva(
   "text-sm font-medium leading-none peer-disabled:cursor-not-allowed peer-disabled:opacity-70"
 );
-const Label = React.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsx(
+const Label = reactExports.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */ jsxRuntimeExports.jsx(
   LabelPrimitive.Root,
   {
     ref,
@@ -106,9 +105,9 @@ const Label = React.forwardRef(({ className, ...props }, ref) => /* @__PURE__ */
 Label.displayName = LabelPrimitive.Root.displayName;
 
 function AdminLoginForm() {
-  const [isVisible, setIsVisible] = useState(false);
-  const [isLoading, setIsLoading] = useState(false);
-  const [error, setError] = useState("");
+  const [isVisible, setIsVisible] = reactExports.useState(false);
+  const [isLoading, setIsLoading] = reactExports.useState(false);
+  const [error, setError] = reactExports.useState("");
   const handleSubmit = async (e) => {
     e.preventDefault();
     setIsLoading(true);
@@ -136,8 +135,8 @@ function AdminLoginForm() {
       setIsLoading(false);
     }
   };
-  return /* @__PURE__ */ jsxs("form", { className: "space-y-4", onSubmit: handleSubmit, children: [
-    /* @__PURE__ */ jsx("div", { children: /* @__PURE__ */ jsx(
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs("form", { className: "space-y-4", onSubmit: handleSubmit, children: [
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: /* @__PURE__ */ jsxRuntimeExports.jsx(
       Input,
       {
         type: "text",
@@ -146,7 +145,7 @@ function AdminLoginForm() {
         disabled: isLoading
       }
     ) }),
-    /* @__PURE__ */ jsx("div", { children: /* @__PURE__ */ jsx(
+    /* @__PURE__ */ jsxRuntimeExports.jsx("div", { children: /* @__PURE__ */ jsxRuntimeExports.jsx(
       Input,
       {
         type: "email",
@@ -156,8 +155,8 @@ function AdminLoginForm() {
         disabled: isLoading
       }
     ) }),
-    /* @__PURE__ */ jsxs("div", { className: "relative", children: [
-      /* @__PURE__ */ jsx(
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "relative", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsx(
         Input,
         {
           id: "password",
@@ -169,7 +168,7 @@ function AdminLoginForm() {
           disabled: isLoading
         }
       ),
-      /* @__PURE__ */ jsxs(
+      /* @__PURE__ */ jsxRuntimeExports.jsxs(
         Button,
         {
           type: "button",
@@ -179,26 +178,26 @@ function AdminLoginForm() {
           className: "text-muted-foreground focus-visible:ring-ring/50 absolute inset-y-0 right-0 rounded-l-none hover:bg-transparent",
           disabled: isLoading,
           children: [
-            isVisible ? /* @__PURE__ */ jsx(EyeOffIcon, {}) : /* @__PURE__ */ jsx(EyeIcon, {}),
-            /* @__PURE__ */ jsx("span", { className: "sr-only", children: isVisible ? "Ocultar contraseña" : "Mostrar contraseña" })
+            isVisible ? /* @__PURE__ */ jsxRuntimeExports.jsx(EyeOffIcon, {}) : /* @__PURE__ */ jsxRuntimeExports.jsx(EyeIcon, {}),
+            /* @__PURE__ */ jsxRuntimeExports.jsx("span", { className: "sr-only", children: isVisible ? "Ocultar contraseña" : "Mostrar contraseña" })
           ]
         }
       )
     ] }),
-    /* @__PURE__ */ jsxs("div", { className: "flex items-center justify-between gap-y-2", children: [
-      /* @__PURE__ */ jsxs("div", { className: "flex items-center gap-3", children: [
-        /* @__PURE__ */ jsx(Checkbox, { id: "rememberMe", className: "size-6" }),
-        /* @__PURE__ */ jsx(Label, { htmlFor: "rememberMe", className: "text-muted-foreground", children: "Recuérdame" })
+    /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center justify-between gap-y-2", children: [
+      /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "flex items-center gap-3", children: [
+        /* @__PURE__ */ jsxRuntimeExports.jsx(Checkbox, { id: "rememberMe", className: "size-6" }),
+        /* @__PURE__ */ jsxRuntimeExports.jsx(Label, { htmlFor: "rememberMe", className: "text-muted-foreground", children: "Recuérdame" })
       ] }),
-      /* @__PURE__ */ jsx("a", { href: "#", className: "hover:underline text-sm text-muted-foreground", children: "¿Olvidaste tu contraseña?" })
+      /* @__PURE__ */ jsxRuntimeExports.jsx("a", { href: "#", className: "hover:underline text-sm text-muted-foreground", children: "¿Olvidaste tu contraseña?" })
     ] }),
-    error && /* @__PURE__ */ jsx("div", { className: "bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm", children: error }),
-    /* @__PURE__ */ jsx(Button, { className: "w-full bg-[#00c44b] hover:bg-[#00a33f] text-white", type: "submit", disabled: isLoading, children: isLoading ? "Iniciando sesión..." : "Iniciar Sesión en ZVENIA Admin" })
+    error && /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "bg-red-50 border border-red-200 text-red-700 px-4 py-3 rounded-lg text-sm", children: error }),
+    /* @__PURE__ */ jsxRuntimeExports.jsx(Button, { className: "w-full bg-[#00c44b] hover:bg-[#00a33f] text-white", type: "submit", disabled: isLoading, children: isLoading ? "Iniciando sesión..." : "Iniciar Sesión en ZVENIA Admin" })
   ] });
 }
 
-const Separator = React.forwardRef(
-  ({ className, orientation = "horizontal", decorative = true, ...props }, ref) => /* @__PURE__ */ jsx(
+const Separator = reactExports.forwardRef(
+  ({ className, orientation = "horizontal", decorative = true, ...props }, ref) => /* @__PURE__ */ jsxRuntimeExports.jsx(
     SeparatorPrimitive.Root,
     {
       ref,

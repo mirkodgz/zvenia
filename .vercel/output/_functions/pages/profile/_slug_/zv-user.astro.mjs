@@ -1,10 +1,10 @@
 import { e as createComponent, f as createAstro, k as renderComponent, r as renderTemplate, m as maybeRenderHead, h as addAttribute } from '../../../chunks/astro/server_0Ysjtq05.mjs';
 import 'piccolore';
-import { $ as $$SocialLayout, a as $$LeftSidebar } from '../../../chunks/LeftSidebar_DwHsW1bP.mjs';
+import { $ as $$SocialLayout, a as $$LeftSidebar } from '../../../chunks/LeftSidebar_PEEkwiet.mjs';
 import { c as createSupabaseServerClient } from '../../../chunks/supabase_DsxxBtwu.mjs';
 import { $ as $$RightSidebar } from '../../../chunks/RightSidebar_BK4xkNnG.mjs';
 import { n as normalizeProfileSlug } from '../../../chunks/utils_C0eazIxq.mjs';
-export { renderers } from '../../../renderers.mjs';
+export { r as renderers } from '../../../chunks/_@astro-renderers_CxJDR4Zz.mjs';
 
 const $$Astro = createAstro();
 const $$ZvUser = createComponent(async ($$result, $$props, $$slots) => {

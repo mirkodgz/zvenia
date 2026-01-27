@@ -1,8 +1,8 @@
 import { e as createComponent, k as renderComponent, r as renderTemplate, m as maybeRenderHead } from '../chunks/astro/server_0Ysjtq05.mjs';
 import 'piccolore';
-import { $ as $$SocialLayout, a as $$LeftSidebar } from '../chunks/LeftSidebar_DwHsW1bP.mjs';
+import { $ as $$SocialLayout, a as $$LeftSidebar } from '../chunks/LeftSidebar_PEEkwiet.mjs';
 import { $ as $$RightSidebar } from '../chunks/RightSidebar_BK4xkNnG.mjs';
-export { renderers } from '../renderers.mjs';
+export { r as renderers } from '../chunks/_@astro-renderers_CxJDR4Zz.mjs';
 
 const $$Profile = createComponent(($$result, $$props, $$slots) => {
   return renderTemplate`${renderComponent($$result, "SocialLayout", $$SocialLayout, { "title": "Profile - ZVENIA Mining" }, { "default": ($$result2) => renderTemplate`   ${maybeRenderHead()}<div class="h-full flex flex-col gap-6"> <div class="bg-white p-6 rounded-sm border border-gray-200"> <h1 class="text-2xl font-bold text-[var(--text-main)] mb-4">

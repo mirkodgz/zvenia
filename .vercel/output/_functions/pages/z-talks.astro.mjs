@@ -1,12 +1,11 @@
 import { e as createComponent, f as createAstro, k as renderComponent, r as renderTemplate, m as maybeRenderHead } from '../chunks/astro/server_0Ysjtq05.mjs';
 import 'piccolore';
-import { $ as $$SocialLayout, a as $$LeftSidebar } from '../chunks/LeftSidebar_DwHsW1bP.mjs';
+import { $ as $$SocialLayout, a as $$LeftSidebar } from '../chunks/LeftSidebar_PEEkwiet.mjs';
 import { $ as $$RightSidebar } from '../chunks/RightSidebar_BK4xkNnG.mjs';
-import { jsxs, jsx } from 'react/jsx-runtime';
-import 'react';
+import { j as jsxRuntimeExports } from '../chunks/jsx-runtime_BO5PFvLt.mjs';
+export { r as renderers } from '../chunks/_@astro-renderers_CxJDR4Zz.mjs';
 import { ExternalLink } from 'lucide-react';
 import { c as createSupabaseServerClient } from '../chunks/supabase_DsxxBtwu.mjs';
-export { renderers } from '../renderers.mjs';
 
 const TalkCard = ({ talk }) => {
   const metadata = talk.metadata;
@@ -15,23 +14,23 @@ const TalkCard = ({ talk }) => {
   if (imageUrl && imageUrl.includes(".mp4")) {
     imageUrl = imageUrl.replace(".mp4", ".jpg");
   }
-  return /* @__PURE__ */ jsxs(
+  return /* @__PURE__ */ jsxRuntimeExports.jsxs(
     "a",
     {
       href: `/z-talks/${talk.slug}`,
       className: "group block w-full bg-white rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden",
       children: [
-        /* @__PURE__ */ jsx("div", { className: "relative aspect-video w-full bg-gray-900 overflow-hidden", children: imageUrl ? /* @__PURE__ */ jsx(
+        /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "relative aspect-video w-full bg-gray-900 overflow-hidden", children: imageUrl ? /* @__PURE__ */ jsxRuntimeExports.jsx(
           "img",
           {
             src: imageUrl,
             alt: talk.title,
             className: "w-full h-full object-cover transition-transform duration-700 group-hover:scale-105"
           }
-        ) : /* @__PURE__ */ jsx("div", { className: "absolute inset-0 bg-linear-to-br from-gray-800 to-gray-900" }) }),
-        /* @__PURE__ */ jsxs("div", { className: "p-4 bg-white flex justify-between items-start gap-2", children: [
-          /* @__PURE__ */ jsx("h3", { className: "text-base font-bold text-gray-900 leading-tight font-font-primary group-hover:text-(--primary-color) transition-colors line-clamp-2", children: guestName }),
-          /* @__PURE__ */ jsx(ExternalLink, { className: "w-5 h-5 text-gray-400 group-hover:text-(--primary-color) transition-colors shrink-0" })
+        ) : /* @__PURE__ */ jsxRuntimeExports.jsx("div", { className: "absolute inset-0 bg-linear-to-br from-gray-800 to-gray-900" }) }),
+        /* @__PURE__ */ jsxRuntimeExports.jsxs("div", { className: "p-4 bg-white flex justify-between items-start gap-2", children: [
+          /* @__PURE__ */ jsxRuntimeExports.jsx("h3", { className: "text-base font-bold text-gray-900 leading-tight font-font-primary group-hover:text-(--primary-color) transition-colors line-clamp-2", children: guestName }),
+          /* @__PURE__ */ jsxRuntimeExports.jsx(ExternalLink, { className: "w-5 h-5 text-gray-400 group-hover:text-(--primary-color) transition-colors shrink-0" })
         ] })
       ]
     }

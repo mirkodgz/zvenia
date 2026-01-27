@@ -1,9 +1,9 @@
 import { e as createComponent, k as renderComponent, r as renderTemplate, m as maybeRenderHead } from '../chunks/astro/server_0Ysjtq05.mjs';
 import 'piccolore';
 import { $ as $$Layout } from '../chunks/Layout_9oJT8HrB.mjs';
-import { $ as $$Header } from '../chunks/Header_C4uP1oNu.mjs';
+import { $ as $$Header } from '../chunks/Header_FOfAroyN.mjs';
 import { $ as $$Footer } from '../chunks/Footer_DyX1phjR.mjs';
-export { renderers } from '../renderers.mjs';
+export { r as renderers } from '../chunks/_@astro-renderers_CxJDR4Zz.mjs';
 
 const $$404 = createComponent(($$result, $$props, $$slots) => {
   return renderTemplate`${renderComponent($$result, "Layout", $$Layout, { "title": "404 - P\xE1gina no encontrada | ZVENIA" }, { "default": ($$result2) => renderTemplate`  ${maybeRenderHead()}<main class="min-h-screen flex items-center justify-center bg-[#f3f3f3] px-4"> <div class="text-center max-w-md w-full"> <!-- Logo ZVENIA --> <div class="mb-8 flex justify-center"> <a href="/" class="inline-block"> <img src="/zvenia-Logo.svg" alt="ZVENIA Logo" class="h-12 w-auto mx-auto"> </a> </div> <!-- Error 404 --> <h1 class="text-6xl font-bold text-[#0d241b] mb-4">404</h1> <h2 class="text-2xl font-semibold text-[#0d241b] mb-4">
