@@ -25,9 +25,15 @@ const onRequest$1 = defineMiddleware(async (context, next) => {
     }
   });
   context.locals.supabase = supabase;
-  const country = context.request.headers.get("x-vercel-ip-country");
-  if (country) {
-    context.locals.country = country;
+  try {
+    if (context.request.headers) {
+      const country = context.request.headers.get("x-vercel-ip-country");
+      if (country) {
+        context.locals.country = country;
+      }
+    }
+  } catch (e) {
+    console.error("Error capturing geolocation headers:", e);
   }
   const {
     data: { session }

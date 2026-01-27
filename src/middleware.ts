@@ -29,10 +29,17 @@ export const onRequest = defineMiddleware(async (context, next) => {
 
     context.locals.supabase = supabase;
 
-    // Capture geolocation from Vercel headers
-    const country = context.request.headers.get('x-vercel-ip-country');
-    if (country) {
-        context.locals.country = country;
+    // Capture geolocation from Vercel headers with error handling
+    try {
+        if (context.request.headers) {
+            const country = context.request.headers.get('x-vercel-ip-country');
+            if (country) {
+                context.locals.country = country;
+            }
+        }
+    } catch (e) {
+        console.error("Error capturing geolocation headers:", e);
+        // Do not crash the request, just swallow the error
     }
 
     // 2. Refresh session if expired
