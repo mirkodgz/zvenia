@@ -2,7 +2,7 @@ import { createClient } from '@supabase/supabase-js';
 import dotenv from 'dotenv';
 import * as path from 'path';
 
-dotenv.config({ path: path.resolve(process.cwd(), '.env') });
+dotenv.config({ path: path.resolve(process.cwd(), '.env.local') });
 
 const SUPABASE_URL = process.env.PUBLIC_SUPABASE_URL;
 const SERVICE_KEY = process.env.SUPABASE_SERVICE_ROLE_KEY;
@@ -50,8 +50,8 @@ async function checkSchema() {
     Object.keys(profile).forEach(key => {
         const value = profile[key as keyof typeof profile];
         const type = value === null ? 'null' : typeof value;
-        const preview = value && typeof value === 'string' && value.length > 50 
-            ? value.substring(0, 50) + '...' 
+        const preview = value && typeof value === 'string' && value.length > 50
+            ? value.substring(0, 50) + '...'
             : value;
         console.log(`   ✅ ${key}: ${type} = ${preview}`);
     });
@@ -67,9 +67,9 @@ async function checkSchema() {
     console.log('🔍 VERIFICANDO CAMPOS NUEVOS:');
     newFields.forEach(field => {
         const exists = field in profile;
-        const hasValue = profile[field as keyof typeof profile] !== null && 
-                        profile[field as keyof typeof profile] !== undefined &&
-                        profile[field as keyof typeof profile] !== '';
+        const hasValue = profile[field as keyof typeof profile] !== null &&
+            profile[field as keyof typeof profile] !== undefined &&
+            profile[field as keyof typeof profile] !== '';
         console.log(`   ${exists ? '✅' : '❌'} ${field}: ${exists ? (hasValue ? 'Existe y tiene valor' : 'Existe pero vacío') : 'NO EXISTE'}`);
     });
 }
