@@ -7,7 +7,7 @@ const $$Astro = createAstro();
 const $$CountryManagersWidget = createComponent(async ($$result, $$props, $$slots) => {
   const Astro2 = $$result.createAstro($$Astro, $$props, $$slots);
   Astro2.self = $$CountryManagersWidget;
-  const { country } = Astro2.locals;
+  const { country, supabase } = Astro2.locals;
   const detectedCountryCode = country || null;
   let countryManager = null;
   let countryName = "your country";

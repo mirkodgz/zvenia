@@ -1,7 +1,7 @@
 import { e as createComponent, f as createAstro, m as maybeRenderHead, h as addAttribute, k as renderComponent, r as renderTemplate, p as Fragment$1 } from '../chunks/astro/server_0Ysjtq05.mjs';
 import 'piccolore';
 import { $ as $$SocialLayout, a as $$LeftSidebar } from '../chunks/LeftSidebar_DEdUkq9E.mjs';
-import { $ as $$RightSidebar } from '../chunks/RightSidebar_ChM3M26l.mjs';
+import { $ as $$RightSidebar } from '../chunks/RightSidebar_DDFO6qYz.mjs';
 import { s as supabase } from '../chunks/supabase_DZBRYQhj.mjs';
 import { jsxs, Fragment, jsx } from 'react/jsx-runtime';
 import { useState, useRef, useEffect } from 'react';

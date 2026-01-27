@@ -1,7 +1,7 @@
 import { e as createComponent, f as createAstro, k as renderComponent, r as renderTemplate, m as maybeRenderHead, u as unescapeHTML, h as addAttribute } from '../../chunks/astro/server_0Ysjtq05.mjs';
 import 'piccolore';
 import { $ as $$SocialLayout, a as $$LeftSidebar } from '../../chunks/LeftSidebar_DEdUkq9E.mjs';
-import { $ as $$RightSidebar } from '../../chunks/RightSidebar_ChM3M26l.mjs';
+import { $ as $$RightSidebar } from '../../chunks/RightSidebar_DDFO6qYz.mjs';
 import { c as createSupabaseServerClient } from '../../chunks/supabase_DZBRYQhj.mjs';
 import { ArrowLeft, Play, Calendar, Briefcase } from 'lucide-react';
 export { renderers } from '../../renderers.mjs';

@@ -1,7 +1,7 @@
 import { e as createComponent, f as createAstro, k as renderComponent, n as renderScript, r as renderTemplate, p as Fragment, al as defineScriptVars, m as maybeRenderHead } from '../../chunks/astro/server_0Ysjtq05.mjs';
 import 'piccolore';
 import { $ as $$SocialLayout, a as $$LeftSidebar } from '../../chunks/LeftSidebar_DEdUkq9E.mjs';
-import { $ as $$RightSidebar } from '../../chunks/RightSidebar_ChM3M26l.mjs';
+import { $ as $$RightSidebar } from '../../chunks/RightSidebar_DDFO6qYz.mjs';
 import { S as ServiceCard, E as EventCard } from '../../chunks/ServiceCard_wi3Dro0O.mjs';
 import { $ as $$PostCard } from '../../chunks/PostCard_CkbnP1Ya.mjs';
 import { P as PodcastRow } from '../../chunks/PodcastRow_BuOEXnVg.mjs';

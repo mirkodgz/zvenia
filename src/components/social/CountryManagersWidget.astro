@@ -1,7 +1,7 @@
 ---
-import { supabase } from "@/lib/supabase";
+// import { supabase } from "@/lib/supabase"; // Don't use browser client on server
 
-const { country } = Astro.locals;
+const { country, supabase } = Astro.locals;
 // Default to a known country if not detected (e.g., for testing or fallback) or handle gracefully
 const detectedCountryCode = country || null;
 

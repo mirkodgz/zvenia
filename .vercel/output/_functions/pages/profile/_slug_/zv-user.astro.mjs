@@ -2,7 +2,7 @@ import { e as createComponent, f as createAstro, k as renderComponent, r as rend
 import 'piccolore';
 import { $ as $$SocialLayout, a as $$LeftSidebar } from '../../../chunks/LeftSidebar_DEdUkq9E.mjs';
 import { c as createSupabaseServerClient } from '../../../chunks/supabase_DZBRYQhj.mjs';
-import { $ as $$RightSidebar } from '../../../chunks/RightSidebar_ChM3M26l.mjs';
+import { $ as $$RightSidebar } from '../../../chunks/RightSidebar_DDFO6qYz.mjs';
 import { n as normalizeProfileSlug } from '../../../chunks/utils_C0eazIxq.mjs';
 export { renderers } from '../../../renderers.mjs';
 
