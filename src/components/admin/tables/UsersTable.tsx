@@ -38,10 +38,11 @@ interface Profile {
     updated_at: string;
 }
 
-const ROLES = ['Administrator', 'CountryManager', 'Ads', 'Events', 'Expert', 'Basic'];
+const ROLES_FALLBACK = ['Administrator', 'CountryManager', 'Ads', 'Events', 'Expert', 'Basic'];
 
 export default function UsersTable() {
     const [users, setUsers] = useState<Profile[]>([]);
+    const [roles, setRoles] = useState<string[]>([]); // Dynamic Roles State
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
     const [sorting, setSorting] = useState<SortingState>([]);
@@ -58,7 +59,23 @@ export default function UsersTable() {
 
     useEffect(() => {
         fetchUsers();
+        fetchRoles(); // Fetch roles on mount
     }, []);
+
+    const fetchRoles = async () => {
+        const { data, error } = await supabase
+            .from('user_roles')
+            .select('role_name')
+            .order('role_name');
+
+        if (data) {
+            setRoles(data.map(r => r.role_name));
+        } else {
+            console.error("Error fetching roles:", error);
+            // Fallback just in case
+            setRoles(['Administrator', 'CountryManager', 'Ads', 'Events', 'Expert', 'Basic']);
+        }
+    };
 
     const fetchUsers = async () => {
         setLoading(true);
@@ -132,24 +149,41 @@ export default function UsersTable() {
     };
 
     const saveEdit = async (id: string) => {
-        const { error } = await supabase
-            .from('profiles')
-            .update({
-                role: editForm.role,
-                work_country: editForm.work_country || null
-            })
-            .eq('id', id);
+        try {
+            const response = await fetch('/api/admin/users/action', {
+                method: 'PUT',
+                headers: {
+                    'Content-Type': 'application/json',
+                },
+                body: JSON.stringify({
+                    id: id,
+                    role: editForm.role,
+                    country: editForm.work_country || null // Note: API expects 'country', component uses 'work_country'
+                }),
+            });
 
-        if (error) {
-            console.error('Error updating user:', error);
-            alert('Error updating user: ' + error.message);
-        } else {
+            const result = await response.json();
+
+            // DEBUG: Log result
+            console.log("Admin Update Result:", result);
+
+            if (!response.ok) {
+                throw new Error(result.error || 'Failed to update user');
+            }
+
+            alert("Success! User updated.");
+
+            // Update UI on success
             setUsers(users.map(u =>
                 u.id === id
                     ? { ...u, role: editForm.role, work_country: editForm.work_country || null }
                     : u
             ));
             setEditingId(null);
+
+        } catch (err: any) {
+            console.error('Error updating user:', err);
+            alert('Error updating user: ' + err.message);
         }
     };
 

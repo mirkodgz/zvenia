@@ -39,7 +39,7 @@ if (detectedCountryCode) {
         const { data: managerVal } = await supabase
             .from("profiles")
             .select("*")
-            .eq("work_country", countryData.id)
+            .eq("work_country", countryData.display_name) // Match by Name (e.g. "Italy") as saved in Admin
             .eq("role", "CountryManager") // Ensure we only get active Managers
             .single(); // Assuming one per country for now, or take the first one
 

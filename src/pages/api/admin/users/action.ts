@@ -4,7 +4,8 @@ import { createClient } from "@supabase/supabase-js";
 import { isAdministrator } from "../../../../lib/admin/roles";
 
 // Service Role Client for Admin Actions (Bypasses RLS)
-const supabaseAdmin = createClient(
+// Helper to create Admin Client on demand to ensure Envs are loaded
+const createSupabaseAdmin = () => createClient(
     import.meta.env.PUBLIC_SUPABASE_URL,
     import.meta.env.SUPABASE_SERVICE_ROLE_KEY,
     { auth: { autoRefreshToken: false, persistSession: false } }
@@ -14,6 +15,9 @@ export const DELETE: APIRoute = async ({ request, cookies }) => {
     // 1. Verify Requesting User is Admin
     // We can't trust client-side claims. We verify the session cookie.
 
+    const supabaseAdmin = createSupabaseAdmin(); // Init here
+
+    // ... (keep verification logic) ...
     // We recreate a standard client to check the cookie (user session)
     const supabaseAuth = createClient(
         import.meta.env.PUBLIC_SUPABASE_URL,
@@ -80,6 +84,8 @@ export const DELETE: APIRoute = async ({ request, cookies }) => {
 
 export const POST: APIRoute = async ({ request, locals }) => {
 
+    const supabaseAdmin = createSupabaseAdmin(); // Init here
+
     const user = locals.user;
     const profile = locals.profile;
 
@@ -91,7 +97,7 @@ export const POST: APIRoute = async ({ request, locals }) => {
         return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 401 });
     }
 
-    if (!isAdministrator(profile.role)) {
+    if (!isAdministrator(profile.role as any)) {
         return new Response(JSON.stringify({ error: "Forbidden: Admins only" }), { status: 403 });
     }
 
@@ -132,4 +138,56 @@ export const POST: APIRoute = async ({ request, locals }) => {
     }
 
     return new Response(JSON.stringify({ success: true, user: newUser.user }), { status: 200 });
+};
+
+export const PUT: APIRoute = async ({ request, locals }) => {
+    // 1. Verify Admin (using locals populated by middleware)
+    const { user, profile } = locals;
+
+    if (!user || !profile || !isAdministrator(profile.role as any)) {
+        return new Response(JSON.stringify({ error: "Forbidden: Admins only" }), { status: 403 });
+    }
+
+    const serviceKey = import.meta.env.SUPABASE_SERVICE_ROLE_KEY;
+    if (!serviceKey) {
+        console.error("[CRITICAL] Missing SUPABASE_SERVICE_ROLE_KEY in API Route");
+        return new Response(JSON.stringify({ error: "Server Configuration Error: Missing Admin Key" }), { status: 500 });
+    }
+
+    const supabaseAdmin = createSupabaseAdmin();
+
+    // 2. Parse Body
+    const body = await request.json();
+    const { id, role, country } = body;
+
+    if (!id) {
+        return new Response(JSON.stringify({ error: "Missing User ID" }), { status: 400 });
+    }
+
+    console.log(`[ADMIN PUT] Attempting update for User ID: ${id}`);
+    console.log(`[ADMIN PUT] New Data -> Role: ${role}, Country: ${country}`);
+
+    // 3. Update via Service Role (Bypass RLS)
+    const { data, error } = await supabaseAdmin
+        .from('profiles')
+        .update({
+            role: role,
+            country: country || null
+        })
+        .eq('id', id)
+        .select();
+
+    if (error) {
+        console.error("[ADMIN PUT] Update Error:", error);
+        return new Response(JSON.stringify({ error: error.message }), { status: 500 });
+    }
+
+    if (!data || data.length === 0) {
+        console.error("[ADMIN PUT] Update succeeded but NO rows were returned. ID mismatch?");
+        return new Response(JSON.stringify({ error: "User not found or update failed silently" }), { status: 404 });
+    }
+
+    console.log("[ADMIN PUT] Success. Updated Row:", data[0]);
+
+    return new Response(JSON.stringify({ success: true, user: data[0] }), { status: 200 });
 };
