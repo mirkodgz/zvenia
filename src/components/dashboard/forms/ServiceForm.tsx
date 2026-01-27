@@ -120,7 +120,7 @@ export default function ServiceForm({ currentUser, initialData }: { currentUser:
             {/* Header */}
             <div className="border-b border-[var(--border-color)] pb-4">
                 <h2 className="text-2xl font-bold text-[var(--text-main)] mb-1">{formData.id ? 'Edit Service' : 'Create New Service'}</h2>
-                <p className="text-sm text-[var(--text-secondary)]">Promote your services to the Zvenia community.</p>
+                <p className="text-sm text-[var(--text-secondary)]">Promote your services to the ZVENIA community.</p>
             </div>
 
             {/* Basic Info */}

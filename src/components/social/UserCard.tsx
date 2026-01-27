@@ -41,7 +41,7 @@ const UserCard: React.FC<UserCardProps> = ({ user }) => {
 
                 {/* Avatar */}
                 <div className="relative mb-4 group-hover:scale-105 transition-transform duration-300">
-                    <div className="w-24 h-24 rounded-full bg-gray-100 overflow-hidden border-2 border-white shadow-sm">
+                    <div className="w-24 h-24 rounded-none bg-gray-100 overflow-hidden border-2 border-white shadow-sm">
                         {user.avatar_url ? (
                             <img
                                 src={user.avatar_url}

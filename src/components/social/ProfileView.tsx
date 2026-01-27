@@ -44,7 +44,7 @@ export default function ProfileView({ profile, isOwnProfile, resolvedNames, priv
             <div className="px-6 pb-6 relative">
                 {/* Avatar */}
                 <div className="absolute -top-20 left-6">
-                    <div className="w-32 h-32 rounded-full border-4 border-white bg-gray-200 flex items-center justify-center overflow-hidden shadow-lg">
+                    <div className="w-32 h-32 rounded-none border-4 border-white bg-gray-200 flex items-center justify-center overflow-hidden shadow-lg">
                         {profile.avatar_url ? (
                             <img src={profile.avatar_url} alt={profile.full_name || "User"} className="w-full h-full object-cover" />
                         ) : (
@@ -77,7 +77,7 @@ export default function ProfileView({ profile, isOwnProfile, resolvedNames, priv
                             {profile.full_name || profile.email}
                         </h1>
                         {(profile.role === "Expert" || profile.role === "CountryManager" || profile.role === "Administrator") && (
-                            <span className="px-3 py-1 bg-blue-100 text-blue-700 rounded-full text-xs font-medium flex items-center gap-1">
+                            <span className="px-3 py-1 bg-blue-100 text-blue-700 rounded-none text-xs font-medium flex items-center gap-1">
                                 <svg className="w-3 h-3" fill="currentColor" viewBox="0 0 20 20">
                                     <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                                 </svg>

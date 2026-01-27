@@ -1,0 +1,37 @@
+--- Investigation Report ---
+
+User: William Garcia (wiagarciagu@hotmail.com)
+Current DB Date: 2025-12-30T00:25:43.630615+00:00
+[FOUND BY NAME] in public/user-export-wordpress-1-697236a535238.csv
+[FOUND] in public/users_complete_2026-01-22.csv
+[FOUND] in public/users_export_2026-01-22.csv
+
+User: Walid Seif (walidseif@yahoo.com)
+Current DB Date: 2025-12-30T00:25:43.237327+00:00
+[FOUND BY NAME] in public/user-export-wordpress-1-697236a535238.csv
+[FOUND] in public/users_complete_2026-01-22.csv
+[FOUND] in public/users_export_2026-01-22.csv
+
+User: Vivian Seemola (vivianseemola@gmail.com)
+Current DB Date: 2025-12-30T00:25:41.639174+00:00
+[FOUND BY NAME] in public/user-export-wordpress-1-697236a535238.csv
+[FOUND] in public/users_complete_2026-01-22.csv
+[FOUND] in public/users_export_2026-01-22.csv
+
+User: Telman Shuriyev (telman.shuriev@mail.ru)
+Current DB Date: 2025-12-30T00:25:30.550451+00:00
+[FOUND BY NAME] in public/user-export-wordpress-1-697236a535238.csv
+[FOUND] in public/users_complete_2026-01-22.csv
+[FOUND] in public/users_export_2026-01-22.csv
+
+User: Abdallah SALHI (salhiabdal@yahoo.fr)
+Current DB Date: 2025-12-30T00:25:08.688392+00:00
+[FOUND BY NAME] in public/user-export-wordpress-1-697236a535238.csv
+[FOUND] in public/users_complete_2026-01-22.csv
+[FOUND] in public/users_export_2026-01-22.csv
+
+User: SADITH PEREZ (sadith.perez@nuamx.com)
+Current DB Date: 2025-12-30T00:25:07.665176+00:00
+[FOUND BY NAME] in public/user-export-wordpress-1-697236a535238.csv
+[FOUND] in public/users_complete_2026-01-22.csv
+[FOUND] in public/users_export_2026-01-22.csv

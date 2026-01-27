@@ -123,7 +123,7 @@ const UserGrid = () => {
     return (
         <div>
             {/* Filters Bar */}
-            <div className="bg-white p-4 rounded-lg shadow-sm border border-gray-200 mb-8 animate-in fade-in slide-in-from-top-4 duration-500">
+            <div className="bg-white p-4 rounded-none shadow-sm border border-gray-200 mb-8 animate-in fade-in slide-in-from-top-4 duration-500">
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     {/* Search */}
                     <div className="relative">
@@ -133,7 +133,7 @@ const UserGrid = () => {
                             placeholder="Search by name..."
                             value={search}
                             onChange={(e) => setSearch(e.target.value)}
-                            className="w-full pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none transition-all"
+                            className="w-full pr-4 py-2 border border-gray-300 rounded-none focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none transition-all"
                             style={{ paddingLeft: '3rem' }}
                         />
                     </div>
@@ -144,7 +144,7 @@ const UserGrid = () => {
                         <select
                             value={role}
                             onChange={(e) => setRole(e.target.value)}
-                            className="w-full pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none appearance-none bg-white cursor-pointer"
+                            className="w-full pr-4 py-2 border border-gray-300 rounded-none focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none appearance-none bg-white cursor-pointer"
                             style={{ paddingLeft: '3rem' }}
                         >
                             <option value="All">All Roles</option>
@@ -160,7 +160,7 @@ const UserGrid = () => {
                         <select
                             value={country}
                             onChange={(e) => setCountry(e.target.value)}
-                            className="w-full pr-4 py-2 border border-gray-300 rounded-lg focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none appearance-none bg-white cursor-pointer"
+                            className="w-full pr-4 py-2 border border-gray-300 rounded-none focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none appearance-none bg-white cursor-pointer"
                             style={{ paddingLeft: '3rem' }}
                         >
                             <option value="All">All Countries</option>
@@ -189,7 +189,7 @@ const UserGrid = () => {
             </div>
             <div ref={loaderRef} className="py-12 text-center w-full">
                 {loading && (
-                    <div className="inline-block animate-spin rounded-full h-8 w-8 border-b-2 border-green-600"></div>
+                    <div className="inline-block animate-spin rounded-none h-8 w-8 border-b-2 border-green-600"></div>
                 )}
                 {!hasMore && users.length > 0 && (
                     <div className="flex items-center justify-center gap-2 text-gray-400 text-sm">

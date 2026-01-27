@@ -123,7 +123,7 @@ export default function CommentSection({ contentId, contentType, currentUserId, 
                 ) : (
                     comments.map(c => (
                         <div key={c.id} className="flex gap-3">
-                            <div className="shrink-0 w-8 h-8 bg-gray-200 rounded-full overflow-hidden">
+                            <div className="shrink-0 w-8 h-8 bg-gray-200 rounded-none overflow-hidden">
                                 {c.profiles?.avatar_url ? (
                                     <img src={c.profiles.avatar_url} alt={c.profiles.username} className="w-full h-full object-cover" />
                                 ) : (
@@ -154,13 +154,13 @@ export default function CommentSection({ contentId, contentType, currentUserId, 
                         value={newComment}
                         onChange={(e) => setNewComment(e.target.value)}
                         placeholder="Write a comment..."
-                        className="flex-1 bg-(--bg-main) border border-(--border-color) rounded-full px-4 py-2 text-sm focus:outline-none focus:border-green-500 transition-colors"
+                        className="flex-1 bg-(--bg-main) border border-(--border-color) rounded-none px-4 py-2 text-sm focus:outline-none focus:border-green-500 transition-colors"
                         disabled={submitting}
                     />
                     <button
                         type="submit"
                         disabled={submitting || !newComment.trim()}
-                        className="bg-green-500 hover:bg-green-600 text-white w-8 h-8 flex items-center justify-center rounded-full disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
+                        className="bg-green-500 hover:bg-green-600 text-white w-8 h-8 flex items-center justify-center rounded-none disabled:opacity-50 disabled:cursor-not-allowed transition-colors"
                     >
                         <svg xmlns="http://www.w3.org/2000/svg" className="h-4 w-4" viewBox="0 0 20 20" fill="currentColor">
                             <path d="M10.894 2.553a1 1 0 00-1.788 0l-7 14a1 1 0 001.169 1.409l5-1.429A1 1 0 009 15.571V11a1 1 0 112 0v4.571a1 1 0 00.725.962l5 1.428a1 1 0 001.17-1.408l-7-14z" />

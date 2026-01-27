@@ -82,9 +82,15 @@ const [postIds, podcastIds, talkIds, presentationIds, serviceIds, eventIds] =
             : supabase.from("podcasts").select("id").limit(20)
         ).then(({ data }) => data?.map((p: any) => p.id) || []),
 
-        topic.id
-            ? getLinkedIds("talks_topics", topic.id, "talks_id")
-            : Promise.resolve([]),
+        // Talks: Direct FK (Simplified)
+        (topic.id
+            ? supabase
+                  .from("talks")
+                  .select("id")
+                  .eq("topic_id", topic.id)
+                  .order("created_at", { ascending: false })
+            : supabase.from("talks").select("id").limit(20)
+        ).then(({ data }) => data?.map((t: any) => t.id) || []),
         topic.id
             ? getLinkedIds("presentations_topics", topic.id, "presentations_id")
             : Promise.resolve([]),
@@ -250,7 +256,7 @@ const formatDate = (dateStr: string | null) => {
                 </div>
 
                 <!-- Search Bar (Subtle & Below Tabs) -->
-                <div class="mb-4 relative group max-w-sm">
+                <div class="mb-4 relative group w-full max-w-[600px] mx-auto">
                     <div
                         class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
                     >
@@ -273,8 +279,7 @@ const formatDate = (dateStr: string | null) => {
                         type="text"
                         id="post-search"
                         placeholder="Search in this topic..."
-                        class="block w-full pl-9 pr-4 py-2 bg-transparent border border-gray-200 rounded-full text-dark placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-primary-500 focus:border-primary-500 transition-all text-xs"
-                        style="border-radius: 9999px;"
+                        class="block w-full pl-9 pr-4 py-2 bg-transparent border border-gray-200 rounded-none text-dark placeholder-gray-400 focus:outline-none focus:ring-1 focus:ring-primary-500 focus:border-primary-500 transition-all text-xs"
                     />
                     <div
                         class="absolute inset-y-0 right-0 pr-3 flex items-center"
