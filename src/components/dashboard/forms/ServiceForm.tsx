@@ -118,23 +118,23 @@ export default function ServiceForm({ currentUser, initialData }: { currentUser:
         <form onSubmit={handleSubmit} className="space-y-8 max-w-4xl mx-auto pb-12">
 
             {/* Header */}
-            <div className="border-b border-[var(--border-color)] pb-4">
-                <h2 className="text-2xl font-bold text-[var(--text-main)] mb-1">{formData.id ? 'Edit Service' : 'Create New Service'}</h2>
-                <p className="text-sm text-[var(--text-secondary)]">Promote your services to the ZVENIA community.</p>
+            <div className="border-b border-(--border-color) pb-4">
+                <h2 className="text-2xl font-bold text-(--text-main) mb-1">{formData.id ? 'Edit Service' : 'Create New Service'}</h2>
+                <p className="text-sm text-(--text-secondary)">Promote your services to the ZVENIA community.</p>
             </div>
 
             {/* Basic Info */}
             <div className="space-y-4">
-                <h3 className="text-lg font-bold text-[var(--text-main)]">Basic Information</h3>
+                <h3 className="text-lg font-bold text-(--text-main)">Basic Information</h3>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                        <label className="block text-sm font-medium text-[var(--text-secondary)] mb-2">Service Title *</label>
-                        <input type="text" name="title" required value={formData.title} onChange={handleChange} className="w-full bg-[var(--bg-body)] border border-[var(--border-color)] rounded-lg px-4 py-3 text-[var(--text-main)] focus:border-primary-500 outline-none" placeholder="e.g. Geological Consulting" />
+                        <label className="block text-sm font-medium text-(--text-secondary) mb-2">Service Title *</label>
+                        <input type="text" name="title" required value={formData.title} onChange={handleChange} className="w-full bg-(--bg-body) border border-(--border-color) rounded-none px-4 py-3 text-(--text-main) focus:border-primary-500 outline-none" placeholder="e.g. Geological Consulting" />
                     </div>
                     <div>
-                        <label className="block text-sm font-medium text-[var(--text-secondary)] mb-2">Topic *</label>
-                        <select name="topic_id" required value={formData.topic_id} onChange={handleChange} className="w-full bg-[var(--bg-body)] border border-[var(--border-color)] rounded-lg px-4 py-3 text-[var(--text-main)] appearance-none">
+                        <label className="block text-sm font-medium text-(--text-secondary) mb-2">Topic *</label>
+                        <select name="topic_id" required value={formData.topic_id} onChange={handleChange} className="w-full bg-(--bg-body) border border-(--border-color) rounded-none px-4 py-3 text-(--text-main) appearance-none">
                             <option value="">Select Topic</option>
                             {topics.map(t => <option key={t.id} value={t.slug}>{t.name}</option>)}
                         </select>
@@ -142,49 +142,49 @@ export default function ServiceForm({ currentUser, initialData }: { currentUser:
                 </div>
 
                 <div>
-                    <label className="block text-sm font-medium text-[var(--text-secondary)] mb-2">Description</label>
-                    <textarea name="description" rows={4} value={formData.description} onChange={handleChange} className="w-full bg-[var(--bg-body)] border border-[var(--border-color)] rounded-lg px-4 py-3 text-[var(--text-main)] outline-none" placeholder="Describe your service..." />
+                    <label className="block text-sm font-medium text-(--text-secondary) mb-2">Description</label>
+                    <textarea name="description" rows={4} value={formData.description} onChange={handleChange} className="w-full bg-(--bg-body) border border-(--border-color) rounded-none px-4 py-3 text-(--text-main) outline-none" placeholder="Describe your service..." />
                 </div>
             </div>
 
             {/* Classification */}
             <div className="space-y-4">
-                <h3 className="text-lg font-bold text-[var(--text-main)]">Classification</h3>
+                <h3 className="text-lg font-bold text-(--text-main)">Classification</h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div>
-                        <label className="block text-sm font-medium text-[var(--text-secondary)] mb-2">Type of Ad *</label>
-                        <select name="type_id" required value={formData.type_id} onChange={handleChange} className="w-full bg-[var(--bg-body)] border border-[var(--border-color)] rounded-lg px-4 py-3 text-[var(--text-main)] appearance-none">
+                        <label className="block text-sm font-medium text-(--text-secondary) mb-2">Type of Ad *</label>
+                        <select name="type_id" required value={formData.type_id} onChange={handleChange} className="w-full bg-(--bg-body) border border-(--border-color) rounded-none px-4 py-3 text-(--text-main) appearance-none">
                             <option value="">Select Type</option>
                             {types.map(t => <option key={t.id} value={t.id}>{t.name}</option>)}
                         </select>
                     </div>
                     <div>
-                        <label className="block text-sm font-medium text-[var(--text-secondary)] mb-2">Campaign Duration</label>
-                        <select name="duration_id" value={formData.duration_id} onChange={handleChange} className="w-full bg-[var(--bg-body)] border border-[var(--border-color)] rounded-lg px-4 py-3 text-[var(--text-main)] appearance-none">
+                        <label className="block text-sm font-medium text-(--text-secondary) mb-2">Campaign Duration</label>
+                        <select name="duration_id" value={formData.duration_id} onChange={handleChange} className="w-full bg-(--bg-body) border border-(--border-color) rounded-none px-4 py-3 text-(--text-main) appearance-none">
                             <option value="">Select Duration</option>
                             {durations.map(d => <option key={d.id} value={d.id}>{d.name}</option>)}
                         </select>
                     </div>
                     <div>
-                        <label className="block text-sm font-medium text-[var(--text-secondary)] mb-2">Target Country</label>
-                        <input type="text" name="target_country" value={formData.target_country} onChange={handleChange} className="w-full bg-[var(--bg-body)] border border-[var(--border-color)] rounded-lg px-4 py-3 text-[var(--text-main)]" placeholder="e.g. Peru" />
+                        <label className="block text-sm font-medium text-(--text-secondary) mb-2">Target Country</label>
+                        <input type="text" name="target_country" value={formData.target_country} onChange={handleChange} className="w-full bg-(--bg-body) border border-(--border-color) rounded-none px-4 py-3 text-(--text-main)" placeholder="e.g. Peru" />
                     </div>
                 </div>
             </div>
 
             {/* Visuals */}
             <div className="space-y-4">
-                <h3 className="text-lg font-bold text-[var(--text-main)]">Visuals</h3>
+                <h3 className="text-lg font-bold text-(--text-main)">Visuals</h3>
                 <div>
-                    <label className="block text-sm font-medium text-[var(--text-secondary)] mb-2">Quick View Image (Card)</label>
+                    <label className="block text-sm font-medium text-(--text-secondary) mb-2">Quick View Image (Card)</label>
                     {formData.quick_view_image_url ? (
-                        <div className="relative w-48 h-32 rounded bg-gray-800 overflow-hidden border border-[var(--border-color)] group">
+                        <div className="relative w-48 h-32 rounded-none bg-gray-800 overflow-hidden border border-(--border-color) group">
                             <img src={formData.quick_view_image_url} className="w-full h-full object-cover" />
                             <button type="button" onClick={() => setFormData(prev => ({ ...prev, quick_view_image_url: '' }))} className="absolute inset-0 bg-black/50 text-red-500 opacity-0 group-hover:opacity-100 flex items-center justify-center font-bold">Remove</button>
                         </div>
                     ) : (
-                        <div className="w-full h-32 border-2 border-dashed border-[var(--border-color)] rounded-lg flex items-center justify-center hover:border-primary-500/50 transition-colors">
-                            <label className="cursor-pointer text-[var(--text-secondary)] hover:text-white">
+                        <div className="w-full h-32 border-2 border-dashed border-(--border-color) rounded-none flex items-center justify-center hover:border-primary-500/50 transition-colors">
+                            <label className="cursor-pointer text-(--text-secondary) hover:text-white">
                                 {uploading ? 'Uploading...' : 'Upload Image'}
                                 <input type="file" className="hidden" accept="image/*" onChange={handleFileUpload} />
                             </label>
@@ -195,23 +195,23 @@ export default function ServiceForm({ currentUser, initialData }: { currentUser:
 
             {/* Organizer Info */}
             <div className="space-y-4">
-                <h3 className="text-lg font-bold text-[var(--text-main)]">Organizer / Company</h3>
+                <h3 className="text-lg font-bold text-(--text-main)">Organizer / Company</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                        <label className="block text-sm font-medium text-[var(--text-secondary)] mb-2">Company Name</label>
-                        <input type="text" name="organizer_company" value={formData.organizer_company} onChange={handleChange} className="w-full bg-[var(--bg-body)] border border-[var(--border-color)] rounded-lg px-4 py-3 text-[var(--text-main)]" />
+                        <label className="block text-sm font-medium text-(--text-secondary) mb-2">Company Name</label>
+                        <input type="text" name="organizer_company" value={formData.organizer_company} onChange={handleChange} className="w-full bg-(--bg-body) border border-(--border-color) rounded-none px-4 py-3 text-(--text-main)" />
                     </div>
                     <div>
-                        <label className="block text-sm font-medium text-[var(--text-secondary)] mb-2">Company Link</label>
-                        <input type="url" name="company_link" value={formData.company_link} onChange={handleChange} className="w-full bg-[var(--bg-body)] border border-[var(--border-color)] rounded-lg px-4 py-3 text-[var(--text-main)]" placeholder="https://" />
+                        <label className="block text-sm font-medium text-(--text-secondary) mb-2">Company Link</label>
+                        <input type="url" name="company_link" value={formData.company_link} onChange={handleChange} className="w-full bg-(--bg-body) border border-(--border-color) rounded-none px-4 py-3 text-(--text-main)" placeholder="https://" />
                     </div>
                 </div>
             </div>
 
             {/* Submit */}
             <div className="pt-6 flex justify-end gap-4">
-                <button type="button" onClick={() => window.history.back()} className="px-6 py-3 rounded-lg border border-[var(--border-color)] text-[var(--text-secondary)] hover:bg-[var(--bg-surface-hover)] transition-colors">Cancel</button>
-                <button type="submit" disabled={isSubmitting || uploading} className="px-6 py-3 rounded-lg bg-primary-600 text-white font-bold hover:bg-primary-700 transition-colors disabled:opacity-50">
+                <button type="button" onClick={() => window.history.back()} className="px-6 py-3 rounded-none border border-(--border-color) text-(--text-secondary) hover:bg-(--bg-surface-hover) transition-colors">Cancel</button>
+                <button type="submit" disabled={isSubmitting || uploading} className="px-6 py-3 rounded-none bg-primary-600 text-white font-bold hover:bg-primary-700 transition-colors disabled:opacity-50">
                     {isSubmitting ? 'Saving...' : (formData.id ? 'Update Service' : 'Create Service')}
                 </button>
             </div>

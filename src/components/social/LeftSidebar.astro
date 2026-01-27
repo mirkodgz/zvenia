@@ -37,7 +37,7 @@ const pathname = Astro.url.pathname;
         <!-- HOME LINK -->
         <a
             href="/"
-            class={`flex items-center gap-3 px-4 py-2 rounded-lg transition-colors ${pathname === "/" ? "bg-white text-[#00c44b] font-medium shadow-sm" : "text-gray-700 hover:bg-white/50"}`}
+            class={`flex items-center gap-3 px-4 py-2 rounded-none transition-colors ${pathname === "/" ? "bg-white text-accent-500 font-medium shadow-sm" : "text-gray-700 hover:bg-white/50"}`}
         >
             <span class="material-icons text-[20px]">home</span>
             <span class="font-medium">Home</span>
@@ -60,11 +60,11 @@ const pathname = Astro.url.pathname;
                 return (
                     <a
                         href={`/mining/${topic.slug}`}
-                        class={`flex items-center gap-3 px-4 py-2 rounded-lg transition-colors group ${isActive ? "bg-white text-[#00c44b] font-medium shadow-sm" : "text-gray-700 hover:bg-white/50"}`}
+                        class={`flex items-center gap-3 px-4 py-2 rounded-none transition-colors group ${isActive ? "bg-white text-accent-500 font-medium shadow-sm" : "text-gray-700 hover:bg-white/50"}`}
                     >
                         {number ? (
                             <span
-                                class={`text-sm font-mono ${isActive ? "text-[#00c44b]" : "text-gray-500 group-hover:text-gray-700"}`}
+                                class={`text-sm font-mono ${isActive ? "text-accent-500" : "text-gray-500 group-hover:text-gray-700"}`}
                             >
                                 {number}
                             </span>
