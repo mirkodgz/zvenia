@@ -37,7 +37,16 @@ export const DELETE: APIRoute = async ({ request, cookies }) => {
         .eq('id', user.id)
         .single();
 
+
+    // Debugging Role Mismatch
+    console.log("[ADMIN DEBUG] User ID:", user.id);
+    console.log("[ADMIN DEBUG] Profile Found:", requesterProfile);
+    console.log("[ADMIN DEBUG] Role in DB:", requesterProfile?.role);
+    console.log("[ADMIN DEBUG] Expected Role:", "Administrator");
+    console.log("[ADMIN DEBUG] isAdministrator check:", requesterProfile ? isAdministrator(requesterProfile.role as any) : "No Profile");
+
     if (!requesterProfile || !isAdministrator(requesterProfile.role as any)) {
+
         return new Response(JSON.stringify({ error: "Forbidden: Admins only" }), { status: 403 });
     }
 
@@ -69,27 +78,21 @@ export const DELETE: APIRoute = async ({ request, cookies }) => {
     return new Response(JSON.stringify({ success: true }), { status: 200 });
 };
 
-export const POST: APIRoute = async ({ request }) => {
-    // 1. Verify Admin (Duplicate logic, could execute middleware but keeping explicit here for safety)
-    const supabaseAuth = createClient(
-        import.meta.env.PUBLIC_SUPABASE_URL,
-        import.meta.env.PUBLIC_SUPABASE_ANON_KEY,
-        {
-            global: { headers: { Cookie: request.headers.get("cookie") || "" } }
-        }
-    );
+export const POST: APIRoute = async ({ request, locals }) => {
 
-    const { data: { user } } = await supabaseAuth.auth.getUser();
-    if (!user) return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 401 });
+    const user = locals.user;
+    const profile = locals.profile;
 
-    const { data: requesterProfile } = await supabaseAdmin
-        .from('profiles')
-        .select('role')
-        .eq('id', user.id)
-        .single();
+    // Debugging Locals
+    console.log("[ADMIN POST DEBUG] Locals User ID:", user?.id);
+    console.log("[ADMIN POST DEBUG] Locals Profile Role:", profile?.role);
 
-    if (!requesterProfile || !isAdministrator(requesterProfile.role as any)) {
-        return new Response(JSON.stringify({ error: "Forbidden" }), { status: 403 });
+    if (!user || !profile) {
+        return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 401 });
+    }
+
+    if (!isAdministrator(profile.role)) {
+        return new Response(JSON.stringify({ error: "Forbidden: Admins only" }), { status: 403 });
     }
 
     // 2. Create User
@@ -99,6 +102,8 @@ export const POST: APIRoute = async ({ request }) => {
     if (!email || !password) {
         return new Response(JSON.stringify({ error: "Email and password required" }), { status: 400 });
     }
+
+
 
     const { data: newUser, error: createError } = await supabaseAdmin.auth.admin.createUser({
         email,
@@ -111,6 +116,7 @@ export const POST: APIRoute = async ({ request }) => {
     });
 
     if (createError) {
+        console.error("[ADMIN CREATE ERROR] Supabase createUser failed:", createError);
         return new Response(JSON.stringify({ error: createError.message }), { status: 500 });
     }
 
