@@ -1,200 +1,278 @@
 ---
-import Layout from '../../layouts/Layout.astro';
-import Header from '../../components/Header.astro';
-import Footer from '../../components/Footer.astro';
-import { supabase } from '../../lib/supabase';
+import SocialLayout from "../../layouts/SocialLayout.astro";
+import LeftSidebar from "../../components/social/LeftSidebar.astro";
+import EpisodeCard from "../../components/social/EpisodeCard"; // Reuse if possible or inline minimal list
+import { supabase } from "../../lib/supabase";
 
 // 1. Get Slug from params
 const { slug } = Astro.params;
 
 if (!slug) {
-    return Astro.redirect('/404');
+    return Astro.redirect("/404");
 }
 
 // 2. Fetch Podcast Data
-const { data: podcast, error } = await supabase
-    .from('podcasts')
-    .select(`
+const { data: podcastData, error } = await supabase
+    .from("podcasts")
+    .select(
+        `
         *,
         author:profiles(*)
-    `)
-    .eq('slug', slug)
+    `,
+    )
+    .eq("slug", slug)
     .single();
+
+const podcast = podcastData as any;
 
 if (error || !podcast) {
     console.error("Podcast not found or error:", error);
-    return Astro.redirect('/404');
+    return Astro.redirect("/404");
 }
 
 // 3. Prepare Data
-// Fallback for cover image (featured_image_url or generic placeholder)
-const coverImage = podcast.cover_image_url || podcast.featured_image_url || '/images/default-podcast-cover.jpg';
-// Episodes (ensure it's an array)
+const coverImage =
+    podcast.cover_image_url ||
+    podcast.featured_image_url ||
+    "/igm-default.webp";
 const episodes = Array.isArray(podcast.episodes) ? podcast.episodes : [];
 
-// Type definition for Episode (based on migration script)
+// Type definition
 type Episode = {
     number: number;
     title: string;
     video_url: string;
-    duration?: string; // Optional if we have it later
+    duration?: string;
 };
 
 const castEpisodes = episodes as Episode[];
-
-// Sort episodes just in case (thought should be ordered)
 castEpisodes.sort((a, b) => a.number - b.number);
 
+// 4. Handle "Active Video" (Deep Link)
+const videoParam = Astro.url.searchParams.get("v");
+
+// Helper to extract ID (shared logic)
+// Helper to extract ID (shared logic)
+function extractVideoID(url: string) {
+    if (!url) return "";
+    const cleanUrl = url.trim();
+    if (cleanUrl.length === 11 && !cleanUrl.includes("/")) return cleanUrl;
+    const regExp =
+        /^.*(youtu.be\/|v\/|u\/\w\/|embed\/|watch\?v=|&v=)([^#&?]*).*/;
+    const match = cleanUrl.match(regExp);
+    return match && match[2].length === 11 ? match[2] : "";
+}
+
+let activeVideoId = "";
+let autoPlay = false;
+
+if (videoParam) {
+    activeVideoId = videoParam;
+    autoPlay = true;
+} else if (castEpisodes.length > 0) {
+    // Optional: Default to first episode if user wants "Play" from Hero without clicking specific ep?
+    // For now, if no param, show Cover.
+}
 ---
 
-<Layout title={`${podcast.title} | Zvenia Podcasts`}>
-    <Header slot="header" />
+<SocialLayout
+    title={`${podcast.title} | Zvenia Podcasts`}
+    description={podcast.description}
+    hideRightSidebar={true}
+>
+    <!-- LEFT SIDEBAR -->
+    <LeftSidebar slot="left-sidebar" />
 
-    <main class="min-h-screen bg-[var(--bg-body)] text-[var(--text-main)] w-full overflow-x-hidden selection:bg-red-500 selection:text-white">
-        
-        {/* --- HERO SECTION --- */}
-        <div class="relative w-full h-[70vh] lg:h-[85vh] flex items-end pb-12 lg:pb-24 bg-black">
-            
-            {/* Background Image */}
-            <div class="absolute inset-0 z-0">
-                <img 
-                    src={coverImage} 
-                    alt={podcast.title}
-                    class="w-full h-full object-cover opacity-80"
-                />
-                
-                {/* Cinema Gradients - Refined for Smoothness */}
-                
-                {/* 1. Global Scrim (Light darken) */}
-                <div class="absolute inset-0 bg-black/20 z-10"></div>
-
-                {/* 2. Top fade (Black) - For header visibility */}
-                <div class="absolute inset-0 bg-gradient-to-b from-black/80 via-transparent to-transparent z-10 h-40"></div>
-                
-                {/* 3. Bottom fade (Black) - The "Floor". increased height and smoother via to avoid lines. */}
-                <div class="absolute inset-0 bg-gradient-to-t from-[#000000] via-black/60 to-transparent z-10 bottom-0"></div>
-                
-                {/* 4. Left fade (Reduces contrast of horizontal lines) */}
-                <div class="absolute inset-0 bg-gradient-to-r from-black/80 via-black/40 to-transparent z-10 w-full lg:w-3/4"></div>
+    <!-- MAIN CONTENT -->
+    <div
+        class="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-6 pb-12 items-start"
+    >
+        <!-- CENTER COLUMN: PLAYER & INFO -->
+        <div class="flex flex-col gap-6 w-full min-w-0">
+            <!-- ... (Player Block unchanged) ... -->
+            <div class="w-full relative group flex justify-center z-10">
+                <div
+                    class="flex flex-col w-full relative bg-black border border-white/10 shadow-2xl"
+                >
+                    {/* Video Area */}
+                    <div class="aspect-video w-full bg-black relative">
+                        {
+                            (() => {
+                                const targetId =
+                                    activeVideoId ||
+                                    (castEpisodes.length > 0
+                                        ? extractVideoID(
+                                              castEpisodes[0].video_url,
+                                          )
+                                        : "");
+                                return targetId ? (
+                                    <iframe
+                                        class="w-full h-full"
+                                        src={`https://www.youtube.com/embed/${targetId}?autoplay=${activeVideoId ? 1 : 0}&rel=0&showinfo=0`}
+                                        title="YouTube video player"
+                                        frameborder="0"
+                                        allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture; web-share"
+                                        allowfullscreen
+                                    />
+                                ) : (
+                                    <div class="w-full h-full flex items-center justify-center text-white/20">
+                                        No Episodes Available
+                                    </div>
+                                );
+                            })()
+                        }
+                    </div>
+                </div>
             </div>
 
-            {/* Content Container */}
-            <div class="relative z-20 w-full max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-                <div class="max-w-3xl">
-                    
-                    {/* Series/Podcast Label */}
-                    <div class="flex items-center gap-2 mb-4">
-                        <span class="text-xs font-bold tracking-widest uppercase text-white bg-red-600 px-2 py-1 rounded shadow-lg">
-                            MINING SERIES
-                        </span>
-                        {podcast.host && (
-                             <span class="text-sm font-medium text-gray-300 tracking-wide">
-                                WITH {podcast.host.toUpperCase()}
-                            </span>
-                        )}
+            {/* PODCAST INFO */}
+            {/* PODCAST INFO (Premium Card) */}
+            <div
+                class="flex flex-col sm:flex-row gap-6 bg-[#0b1c15] border-l-4 border-primary-500 p-6 shadow-2xl relative overflow-hidden group"
+            >
+                {/* Subtle Background Accent */}
+                <div
+                    class="absolute inset-0 bg-linear-to-r from-primary-900/10 to-transparent pointer-events-none"
+                >
+                </div>
+
+                <div class="shrink-0 relative z-10">
+                    <img
+                        src={coverImage}
+                        onerror="this.onerror=null; this.src='/igm-default.webp';"
+                        alt={podcast.title}
+                        class="w-32 aspect-3/4 object-cover border border-white/10 shadow-lg bg-black"
+                    />
+                </div>
+                <div class="flex flex-col justify-center relative z-10 w-full">
+                    <div class="flex items-center gap-3 mb-2">
+                        <span
+                            class="text-[10px] font-bold tracking-[0.2em] uppercase text-white/80"
+                            >PODCAST SERIES</span
+                        >
+                        <div class="h-px w-12 bg-primary-500/30"></div>
                     </div>
 
-                    {/* Title */}
-                    <h1 class="text-4xl sm:text-6xl lg:text-7xl font-extrabold tracking-tight leading-none mb-6 text-white drop-shadow-2xl">
+                    <h1
+                        class="text-2xl sm:text-3xl font-bold text-white mb-2 leading-tight"
+                    >
                         {podcast.title}
                     </h1>
 
-                    {/* Metadata Row */}
-                    <div class="flex items-center gap-4 text-sm sm:text-base font-bold text-gray-300 mb-6">
-                        <span class="text-green-400">Expert Verified</span>
-                        <span>{new Date(podcast.created_at).getFullYear()}</span>
-                        <span class="border border-gray-400/50 px-1 rounded text-xs py-0.5">Technical</span>
-                        <span>{castEpisodes.length} Episodes</span>
-                    </div>
+                    {
+                        podcast.host && (
+                            <div class="flex items-center gap-2 mb-4">
+                                <span class="text-xs font-bold text-primary-200 uppercase tracking-wider">
+                                    HOST:
+                                </span>
+                                <span class="text-sm font-bold text-white uppercase tracking-wide">
+                                    {podcast.host}
+                                </span>
+                            </div>
+                        )
+                    }
 
-                    {/* Description */}
-                    <p class="text-lg sm:text-xl text-gray-200 line-clamp-3 mb-8 drop-shadow-md max-w-2xl leading-relaxed">
-                        {podcast.description || podcast.excerpt || "Join us for an in-depth conversation on the future of mining and geotechnics."}
+                    <p
+                        class="text-sm text-gray-300 leading-relaxed max-w-2xl line-clamp-3"
+                    >
+                        {
+                            podcast.description ||
+                                "Join us for an in-depth conversation on the future of mining."
+                        }
                     </p>
-
-                    {/* Actions */}
-                    <div class="flex flex-wrap items-center gap-4">
-                        <a 
-                            href={castEpisodes[0]?.video_url || "#"} 
-                            target="_blank"
-                            class="bg-white text-black px-8 py-3 rounded font-bold text-lg flex items-center gap-2 hover:bg-gray-200 transition transform hover:scale-105 shadow-xl"
-                        >
-                            <svg class="w-8 h-8 fill-current" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                            Play
-                        </a>
-                        <button class="bg-gray-500/30 backdrop-blur-md text-white px-8 py-3 rounded font-bold text-lg flex items-center gap-2 hover:bg-gray-500/50 transition border border-gray-400/30">
-                            <svg class="w-6 h-6" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path stroke-linecap="round" stroke-linejoin="round" stroke-width="2" d="M13 16h-1v-4h-1m1-4h.01M21 12a9 9 0 11-18 0 9 9 0 0118 0z"></path></svg>
-                            More Info
-                        </button>
-                    </div>
-
                 </div>
             </div>
         </div>
 
-        {/* --- EPISODES LIST --- */}
-        <div class="relative z-20 max-w-7xl mx-auto px-4 sm:px-6 lg:px-8 pb-20 pt-12">
-            
-            <div class="flex items-center justify-between mb-6">
-                <h2 class="text-2xl font-bold text-[var(--text-main)]">Episodes</h2>
-                <div class="text-sm font-bold text-[var(--text-secondary)] uppercase tracking-wider">
-                   Season 1
-                </div>
+        <!-- RIGHT COLUMN: YOUTUBE STYLE SIDEBAR -->
+        <div class="flex flex-col w-full h-full min-w-0">
+            <div class="flex items-center justify-between mb-4 px-1">
+                <h3
+                    class="text-lg font-bold text-gray-900 uppercase tracking-wider flex items-center gap-2"
+                >
+                    Episodes
+                </h3>
             </div>
 
-            <div class="flex flex-col gap-0 border-t border-[var(--border-color)]">
-                {castEpisodes.length === 0 ? (
-                     <div class="py-12 text-center text-[var(--text-secondary)]">
-                        No episodes available yet.
-                     </div>
-                ) : (
-                    castEpisodes.map((ep) => (
-                        <div class="group relative flex items-center gap-4 sm:gap-6 p-4 sm:p-8 border-b border-[var(--border-color)] hover:bg-[var(--bg-surface-hover)] transition-colors cursor-pointer rounded-lg overflow-hidden">
-                            
-                            {/* Number */}
-                            <div class="text-3xl font-bold text-[var(--text-secondary)] w-8 text-center group-hover:text-[var(--text-main)] transition-colors">
-                                {ep.number}
-                            </div>
+            <div
+                class="flex flex-col gap-3 max-h-[calc(100vh-100px)] overflow-y-auto pr-2 hide-scrollbar"
+            >
+                {
+                    castEpisodes.map((ep) => {
+                        const vidId = extractVideoID(ep.video_url);
+                        const currentId =
+                            activeVideoId ||
+                            (castEpisodes.length > 0
+                                ? extractVideoID(castEpisodes[0].video_url)
+                                : "");
+                        const isActive = vidId === currentId;
 
-                            {/* Thumbnail Placeholder */}
-                            <div class="relative shrink-0 w-32 h-20 sm:w-40 sm:h-24 bg-gray-800 rounded-md overflow-hidden shadow-lg group-hover:scale-105 transition-transform duration-300">
-                                <img 
-                                    src={coverImage} 
-                                    alt={ep.title} 
-                                    class="w-full h-full object-cover opacity-60 group-hover:opacity-100 transition-opacity"
-                                />
-                                {/* Play Overlay */}
-                                <div class="absolute inset-0 flex items-center justify-center">
-                                    <div class="bg-white/20 rounded-full p-2 backdrop-blur-sm group-hover:bg-white transition-colors">
-                                         <svg class="w-6 h-6 fill-white group-hover:fill-black" viewBox="0 0 24 24"><path d="M8 5v14l11-7z"/></svg>
-                                    </div>
-                                </div>
-                            </div>
-
-                            {/* Info */}
-                            <div class="flex-1 min-w-0">
-                                <div class="flex items-center justify-between mb-2">
-                                    <h3 class="text-lg font-bold text-[var(--text-main)] truncate pr-4">
-                                        {ep.title}
-                                    </h3>
-                                    {ep.duration && (
-                                        <span class="text-sm text-[var(--text-secondary)] font-medium">
-                                            {ep.duration}
-                                        </span>
+                        return (
+                            <a
+                                href={`/podcast/${podcast.slug}?v=${vidId}`}
+                                class={`group flex gap-3 p-2 transition-all duration-200 border-l-2 ${
+                                    isActive
+                                        ? "bg-primary-50 border-primary-500 border-t-0 border-r-0 border-b-0"
+                                        : "border-transparent hover:border-gray-300 hover:bg-gray-50"
+                                }`}
+                            >
+                                {/* Thumbnail (16:9 Sharp) */}
+                                <div class="relative w-40 aspect-video shrink-0 bg-black overflow-hidden border border-gray-200 group-hover:border-gray-400">
+                                    <img
+                                        src={`https://img.youtube.com/vi/${vidId}/mqdefault.jpg`}
+                                        class="w-full h-full object-cover group-hover:scale-105 transition-transform duration-300"
+                                    />
+                                    {isActive && (
+                                        <div class="absolute inset-0 bg-black/60 flex items-center justify-center border border-primary-500">
+                                            <div class="flex items-center gap-1">
+                                                <div
+                                                    class="w-1 h-4 bg-primary-500 animate-bounce"
+                                                    style="animation-delay: 0s"
+                                                />
+                                                <div
+                                                    class="w-1 h-4 bg-primary-500 animate-bounce"
+                                                    style="animation-delay: 0.2s"
+                                                />
+                                                <div
+                                                    class="w-1 h-4 bg-primary-500 animate-[bounce_1s_infinite]"
+                                                    style="animation-delay: 0.4s"
+                                                />
+                                            </div>
+                                        </div>
                                     )}
                                 </div>
-                                <p class="text-sm text-[var(--text-secondary)] line-clamp-2">
-                                    {podcast.description?.substring(0, 100)}...
-                                </p>
-                            </div>
 
-                            {/* Link Wrapper */}
-                            <a href={ep.video_url} target="_blank" class="absolute inset-0 z-10" aria-label={`Play ${ep.title}`}></a>
-                        </div>
-                    ))
-                )}
+                                {/* Clean Info (Sharp Typography) */}
+                                <div class="flex flex-col min-w-0 py-1">
+                                    <h4
+                                        class={`text-sm font-bold leading-tight line-clamp-2 mb-1 ${isActive ? "text-primary-700" : "text-gray-900 group-hover:text-primary-700"}`}
+                                    >
+                                        {ep.title}
+                                    </h4>
+                                    <span
+                                        class={`text-[10px] font-bold px-1.5 py-0.5 w-fit border tracking-wider ${isActive ? "text-primary-700 border-primary-200 bg-primary-100" : "text-gray-500 border-gray-200 bg-gray-50"}`}
+                                    >
+                                        EP #{ep.number}
+                                    </span>
+                                </div>
+                            </a>
+                        );
+                    })
+                }
             </div>
-            
         </div>
-    </main>
-</Layout>
+    </div>
+</SocialLayout>
+
+<style>
+    /* Hide scrollbar for Chrome, Safari and Opera */
+    .hide-scrollbar::-webkit-scrollbar {
+        display: none;
+    }
+
+    /* Hide scrollbar for IE, Edge and Firefox */
+    .hide-scrollbar {
+        -ms-overflow-style: none; /* IE and Edge */
+        scrollbar-width: none; /* Firefox */
+    }
+</style>

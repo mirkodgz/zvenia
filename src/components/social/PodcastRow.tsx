@@ -27,9 +27,8 @@ const PodcastRow: React.FC<PodcastRowProps> = ({ podcast, currentUser }) => {
     const scrollContainerRef = useRef<HTMLDivElement>(null);
 
     const episodes = Array.isArray(podcast.episodes) ? podcast.episodes : [];
-    const reversedEpisodes = [...episodes].reverse(); // Show newest first? Or preserve order. Assuming API returns newest first or we want reverse. 
-    // Usually episodes are stored 1, 2, 3. We probably want 50, 49, 48.
-    // Let's reverse them for display so "Latest" is first.
+    // User requested original order (Episode 1, 2, 3...)
+    // const reversedEpisodes = [...episodes].reverse(); 
 
     const scroll = (direction: 'left' | 'right') => {
         if (scrollContainerRef.current) {
@@ -44,11 +43,11 @@ const PodcastRow: React.FC<PodcastRowProps> = ({ podcast, currentUser }) => {
     if (episodes.length === 0) return null;
 
     return (
-        <div className="bg-[var(--bg-card)] border border-[var(--border-color)] p-6 mb-6 relative group/row transition-colors">
+        <div className="bg-(--bg-card) border border-(--border-color) p-6 mb-6 relative group/row transition-colors">
 
             {/* Header */}
             <div className="flex justify-between items-center mb-4">
-                <a href={`/podcast/${podcast.slug}`} className="text-xl font-bold text-[var(--text-main)] flex items-center gap-2 hover:text-primary-400 transition-colors cursor-pointer block">
+                <a href={`/podcast/${podcast.slug}`} className="text-xl font-bold text-(--text-main) flex items-center gap-2 hover:text-primary-400 transition-colors cursor-pointer">
                     {podcast.title}
                 </a>
                 {/* Options Menu */}
@@ -58,13 +57,13 @@ const PodcastRow: React.FC<PodcastRowProps> = ({ podcast, currentUser }) => {
             {/* Scroll Controls (Visible on Hover) */}
             <button
                 onClick={() => scroll('left')}
-                className="absolute left-2 top-1/2 z-10 p-2 bg-[var(--bg-surface-hover)] rounded-full text-[var(--text-main)] opacity-0 group-hover/row:opacity-100 transition-opacity hover:bg-primary-600 shadow-md border border-[var(--border-color)] disabled:opacity-0"
+                className="absolute left-2 top-1/2 z-10 p-2 bg-(--bg-surface-hover) rounded-full text-(--text-main) opacity-0 group-hover/row:opacity-100 transition-opacity hover:bg-primary-600 shadow-md border border-(--border-color) disabled:opacity-0"
             >
                 ←
             </button>
             <button
                 onClick={() => scroll('right')}
-                className="absolute right-2 top-1/2 z-10 p-2 bg-[var(--bg-surface-hover)] rounded-full text-[var(--text-main)] opacity-0 group-hover/row:opacity-100 transition-opacity hover:bg-primary-600 shadow-md border border-[var(--border-color)]"
+                className="absolute right-2 top-1/2 z-10 p-2 bg-(--bg-surface-hover) rounded-full text-(--text-main) opacity-0 group-hover/row:opacity-100 transition-opacity hover:bg-primary-600 shadow-md border border-(--border-color)"
             >
                 →
             </button>
@@ -75,13 +74,14 @@ const PodcastRow: React.FC<PodcastRowProps> = ({ podcast, currentUser }) => {
                 className="flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-hide"
                 style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
             >
-                {reversedEpisodes.map((ep, index) => (
+                {episodes.map((ep, index) => (
                     <EpisodeCard
                         key={index}
                         episode={ep}
-                        index={episodes.length - 1 - index} // Real episode number (descending)
+                        index={index} // 0 = Ep 1
                         podcastTitle={podcast.title}
                         coverImage={podcast.cover_image_url || ''}
+                        podcastSlug={podcast.slug}
                     />
                 ))}
             </div>
