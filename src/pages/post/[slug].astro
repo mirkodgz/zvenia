@@ -61,9 +61,62 @@ if (error || !rawPost) {
 const post = rawPost as PostWithRelations;
 
 const currentUser = Astro.locals.user;
+
+// --- Smart Link Preview Logic ---
+let ogImageUrl = "/share-default.png"; // Fallback default
+let ogType: "article" | "video.other" = "article";
+
+/* 
+  Priority Logic:
+  1. YouTube Thumbnail (Highest Quality)
+  2. Featured Image (if exists)
+  3. Default Fallback
+*/
+
+// Cast metadata to any to access dynamic fields
+const metadata = post.metadata as any;
+
+if (metadata?.youtube_url) {
+    ogType = "video.other";
+    try {
+        const url = metadata.youtube_url;
+        let videoId = "";
+        if (url.includes("youtube.com/watch")) {
+            videoId = new URL(url).searchParams.get("v") || "";
+        } else if (url.includes("youtu.be/")) {
+            videoId = url.split("youtu.be/")[1].split("?")[0];
+        }
+        if (videoId) {
+            ogImageUrl = `https://img.youtube.com/vi/${videoId}/hqdefault.jpg`;
+        }
+    } catch (e) {
+        console.error("Error extracting YouTube ID", e);
+    }
+} else if (post.featured_image_url) {
+    // If user uploaded a dedicated cover (for Image, Video, or PDF posts)
+    ogImageUrl = post.featured_image_url;
+} else if (metadata?.video_url) {
+    ogType = "video.other";
+    // Native Video without cover -> Fallback
+    ogImageUrl = "/share-default.png";
+}
+
+// Ensure clean text description for OG
+// Cast post to any to access potentially missing description field if not in generated types, or just use content
+const p = post as any;
+const cleanDescription = (p.description || p.content || "")
+    .replace(/<[^>]*>?/gm, "")
+    .slice(0, 160)
+    .trim();
 ---
 
-<SocialLayout title={`${post.title} | Zvenia Social`} hideRightSidebar={true}>
+<SocialLayout
+    title={`${post.title} | Zvenia Social`}
+    description={cleanDescription}
+    image={ogImageUrl}
+    type={ogType}
+    hideRightSidebar={true}
+>
     <!-- LEFT SIDEBAR: 25 Mining Topics (always visible, global component) -->
     <LeftSidebar slot="left-sidebar" activeTopicSlug={post.topic?.slug} />
 

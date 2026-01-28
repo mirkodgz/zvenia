@@ -7,10 +7,23 @@ interface Props {
     title: string;
     description?: string;
     hideRightSidebar?: boolean;
+    image?: string;
+    type?: "website" | "article" | "video.other";
 }
 
-const { title, description = "Zvenia - Community for Mining Professionals", hideRightSidebar = false } =
-    Astro.props;
+const {
+    title,
+    description = "Zvenia - Community for Mining Professionals",
+    hideRightSidebar = false,
+    image = "/share-default.png",
+    type = "website",
+} = Astro.props;
+
+const canonicalURL = new URL(
+    Astro.url.pathname,
+    Astro.site || "https://zvenia.com",
+);
+const socialImageURL = new URL(image, Astro.site || "https://zvenia.com");
 ---
 
 <!doctype html>
@@ -20,8 +33,26 @@ const { title, description = "Zvenia - Community for Mining Professionals", hide
         <meta name="viewport" content="width=device-width" />
         <link rel="icon" type="image/png" href="/favicon.png" />
         <meta name="generator" content={Astro.generator} />
-        <meta name="description" content={description} />
+
+        <!-- Primary Meta Tags -->
         <title>{title}</title>
+        <meta name="title" content={title} />
+        <meta name="description" content={description} />
+        <link rel="canonical" href={canonicalURL} />
+
+        <!-- Open Graph / Facebook -->
+        <meta property="og:type" content={type} />
+        <meta property="og:url" content={canonicalURL} />
+        <meta property="og:title" content={title} />
+        <meta property="og:description" content={description} />
+        <meta property="og:image" content={socialImageURL} />
+
+        <!-- Twitter -->
+        <meta property="twitter:card" content="summary_large_image" />
+        <meta property="twitter:url" content={canonicalURL} />
+        <meta property="twitter:title" content={title} />
+        <meta property="twitter:description" content={description} />
+        <meta property="twitter:image" content={socialImageURL} />
 
         <!-- Fonts: Outfit -->
         <link rel="preconnect" href="https://fonts.googleapis.com" />
@@ -38,34 +69,34 @@ const { title, description = "Zvenia - Community for Mining Professionals", hide
         />
     </head>
     <body
-        class="bg-[var(--bg-body)] min-h-screen font-sans selection:bg-primary-500 selection:text-white"
+        class="bg-(--bg-body) min-h-screen font-sans selection:bg-primary-500 selection:text-white"
     >
         <!-- Fixed Header -->
         <Header />
 
         <!-- LEFT SIDEBAR (Fixed, starts below header/brand) -->
         <aside
-            class="hidden lg:block fixed left-0 top-[70px] bottom-0 w-[270px] z-[998] bg-[var(--bg-surface)] overflow-y-auto no-scrollbar border-r border-[#e5e7eb]"
+            class="hidden lg:block fixed left-0 top-[70px] bottom-0 w-[270px] z-998 bg-(--bg-surface) overflow-y-auto no-scrollbar border-r border-[#e5e7eb]"
         >
             <slot name="left-sidebar" />
         </aside>
 
         <!-- RIGHT SIDEBAR (Fixed, starts below header) -->
-        {!hideRightSidebar && (
-            <aside
-                class="hidden lg:block fixed right-0 top-[70px] bottom-0 w-[300px] z-[998] bg-[var(--bg-surface)] overflow-y-auto no-scrollbar border-l border-[#e5e7eb] px-4 py-4"
-            >
-                <slot name="right-sidebar" />
-            </aside>
-        )}
+        {
+            !hideRightSidebar && (
+                <aside class="hidden lg:block fixed right-0 top-[70px] bottom-0 w-[300px] z-998 bg-(--bg-surface) overflow-y-auto no-scrollbar border-l border-[#e5e7eb] px-4 py-4">
+                    <slot name="right-sidebar" />
+                </aside>
+            )
+        }
 
         <!-- MAIN CONTENT (Fluid center, pushed by sidebars) -->
         <div
-            class={`w-full min-h-screen bg-[var(--bg-surface)] pt-[70px] lg:pl-[270px] ${hideRightSidebar ? '' : 'lg:pr-[300px]'}`}
+            class={`w-full min-h-screen bg-(--bg-surface) pt-[70px] lg:pl-[270px] ${hideRightSidebar ? "" : "lg:pr-[300px]"}`}
         >
             <!-- Inner Content Container -->
             <main
-                class="w-full min-h-full border-x border-[var(--border-color)] py-6"
+                class="w-full min-h-full border-x border-(--border-color) py-6"
                 style="background-color: #f3f3f3;"
             >
                 <div class="w-full max-w-[98%] mx-auto">
