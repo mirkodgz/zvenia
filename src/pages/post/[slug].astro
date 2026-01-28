@@ -63,7 +63,8 @@ const post = rawPost as PostWithRelations;
 const currentUser = Astro.locals.user;
 
 // --- Smart Link Preview Logic ---
-let ogImageUrl = "/share-default.png"; // Fallback default
+let ogImageUrl =
+    "https://res.cloudinary.com/dun3slcfg/image/upload/v1769642866/share-default.jpg"; // Fallback default
 let ogType: "article" | "video.other" = "article";
 
 /* 
@@ -98,7 +99,8 @@ if (metadata?.youtube_url) {
 } else if (metadata?.video_url) {
     ogType = "video.other";
     // Native Video without cover -> Fallback
-    ogImageUrl = "/share-default.png";
+    ogImageUrl =
+        "https://res.cloudinary.com/dun3slcfg/image/upload/v1769642866/share-default.jpg";
 }
 
 // Ensure clean text description for OG
