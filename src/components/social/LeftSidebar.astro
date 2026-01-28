@@ -7,6 +7,30 @@ interface Props {
 
 const { activeTopicSlug } = Astro.props;
 
+// 1. Dynamic Icon Loading
+const allIcons = import.meta.glob<{ default: ImageMetadata }>(
+    "../../assets/*.webp",
+    { eager: true },
+);
+
+// Helper to match icon
+const getIconForTopic = (topicName: string) => {
+    // "01 General Mining" -> "General Mining"
+    const cleanName = topicName.replace(/^\d+\s+/, "").trim();
+
+    // "General Mining" -> "general-mining"
+    const slugName = cleanName.replace(/\s+/g, "-").toLowerCase();
+
+    // Find matching file
+    const matchPath = Object.keys(allIcons).find((path) => {
+        const fileName = path.split("/").pop()?.split(".")[0].toLowerCase();
+        // Match exact or with "icon-" prefix (legacy)
+        return fileName === slugName || fileName === `icon-${slugName}`;
+    });
+
+    return matchPath ? allIcons[matchPath].default : null;
+};
+
 // Fetch Topics
 const { data: topics, error } = (await supabase
     .from("topics")
@@ -47,7 +71,7 @@ const pathname = Astro.url.pathname;
 
         <!-- DYNAMIC TOPICS -->
         {
-            topics?.map((topic) => {
+            topics?.map((topic, index) => {
                 const isActive =
                     currentSlug === topic.slug ||
                     activeTopicSlug === topic.slug;
@@ -57,12 +81,21 @@ const pathname = Astro.url.pathname;
                 const number = match ? match[1] : null;
                 const name = match ? match[2] : topic.name;
 
+                // Dynamic Icon
+                const customIcon = getIconForTopic(topic.name);
+
                 return (
                     <a
                         href={`/mining/${topic.slug}`}
                         class={`flex items-center gap-3 px-4 py-2 rounded-none transition-colors group ${isActive ? "bg-white text-accent-500 font-medium shadow-sm" : "text-gray-700 hover:bg-white/50"}`}
                     >
-                        {number ? (
+                        {customIcon ? (
+                            <img
+                                src={customIcon.src}
+                                alt={name}
+                                class="w-8 h-8 object-contain"
+                            />
+                        ) : number ? (
                             <span
                                 class={`text-sm font-mono ${isActive ? "text-accent-500" : "text-gray-500 group-hover:text-gray-700"}`}
                             >

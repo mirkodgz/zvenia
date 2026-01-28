@@ -267,11 +267,11 @@ const getCleanContent = (item: any) => {
 
             if (allImages.length === 1) {
                 return (
-                    <div class="w-full h-80 bg-gray-100 overflow-hidden">
+                    <div class="w-full bg-gray-100 overflow-hidden">
                         <img
                             src={allImages[0]}
                             alt={post.title}
-                            class="w-full h-full object-cover"
+                            class="w-full h-auto object-contain"
                             loading="lazy"
                         />
                     </div>
