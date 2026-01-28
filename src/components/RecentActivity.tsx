@@ -8,6 +8,7 @@ interface ActivityItem {
     title: string;
     slug: string;
     created_at: string;
+    published_at?: string;
     profiles: {
         full_name: string | null;
         avatar_url: string | null;
@@ -54,6 +55,7 @@ export default function RecentActivity() {
           title,
           slug,
           created_at,
+          published_at,
           profiles (full_name, avatar_url),
           topics (name)
         `)
@@ -169,7 +171,7 @@ export default function RecentActivity() {
                                         </span>
                                         {/* Time Ago */}
                                         <span className="text-xs text-gray-400 shrink-0 ml-2">
-                                            {formatDistanceToNow(new Date(item.created_at), { addSuffix: true })}
+                                            {new Date(item.published_at || item.created_at).toLocaleDateString()}
                                         </span>
                                     </div>
 

@@ -65,8 +65,51 @@ export default function HeaderNotifications({ currentUserId, sessionAccessToken 
             console.log("🔔 [HeaderNotifications] Data received:", data?.length, "rows");
 
             if (data) {
+                // Enrich with Post Dates
+                const notificationsWithDates = await Promise.all(data.map(async (n: any) => {
+                    let postDate = null;
+                    // Try to extract slug from /post/slug
+                    if (n.link_url && n.link_url.includes('/post/')) {
+                        const urlParts = n.link_url.split('/post/');
+                        if (urlParts.length > 1) {
+                            let slug = urlParts[1];
+                            slug = slug.split('?')[0].split('#')[0]; // Clean params
+                            if (slug.endsWith('/')) slug = slug.slice(0, -1);
+
+                            if (slug) {
+                                // Try slug first
+                                const { data: postData } = await supabase
+                                    .from('posts')
+                                    .select('created_at, published_at')
+                                    .eq('slug', slug)
+                                    .maybeSingle();
+
+                                if (postData) {
+                                    const p = postData as any;
+                                    postDate = p.published_at || p.created_at;
+                                } else {
+                                    // Fallback: Check if it's a UUID (direct ID link)
+                                    const isUuid = /^[0-9a-f]{8}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{4}-[0-9a-f]{12}$/i.test(slug);
+                                    if (isUuid) {
+                                        const { data: postById } = await supabase
+                                            .from('posts')
+                                            .select('created_at, published_at')
+                                            .eq('id', slug)
+                                            .maybeSingle();
+                                        if (postById) {
+                                            const p2 = postById as any;
+                                            postDate = p2.published_at || p2.created_at;
+                                        }
+                                    }
+                                }
+                            }
+                        }
+                    }
+                    return { ...n, post_date: postDate };
+                }));
+
                 // Cast data to our Notification type
-                setNotifications(data as unknown as Notification[]);
+                setNotifications(notificationsWithDates as unknown as Notification[]);
                 setUnreadCount(data.filter((n: any) => !n.is_read).length);
             }
         } catch (err) {
@@ -185,7 +228,7 @@ export default function HeaderNotifications({ currentUserId, sessionAccessToken 
                                                         {notification.title}
                                                     </span>
                                                     <span className="text-[10px] text-gray-400 whitespace-nowrap ml-2">
-                                                        {new Date(notification.created_at).toLocaleDateString()}
+                                                        {new Date((notification as any).post_date || notification.created_at).toLocaleDateString()}
                                                     </span>
                                                 </div>
                                                 <span className="text-xs text-gray-500 line-clamp-2 mt-0.5">
