@@ -1,6 +1,7 @@
 ---
 import HeaderUserDropdown from "./HeaderUserDropdown";
 import HeaderNotifications from "./HeaderNotifications";
+import RecentActivity from "./RecentActivity";
 import { createSupabaseServerClient } from "../lib/supabase";
 
 // Obtener profile si no está en locals (para rutas que no pasan por el middleware completo)
@@ -57,7 +58,7 @@ if (!profile && locals.user) {
     style="background-color: #0d241b;"
   >
     <!-- Block 1: Left Logo (ZVENIA Mining) -->
-    <div class="flex items-center shrink-0">
+    <div class="flex items-center shrink-0 gap-6">
       <a href="/">
         <img
           src="/ZVENIA-Mining-Logo.svg"
@@ -66,6 +67,12 @@ if (!profile && locals.user) {
           style="max-height: 45px; height: auto;"
         />
       </a>
+
+      <button class="text-gray-300 hover:text-white transition-colors block md:hidden">
+        {/* Mobile placeholder if needed, or hide */}
+      </button>
+
+      <RecentActivity client:load />
     </div>
 
     <!-- Block 2: Center Logo (ZVENIA) -->
@@ -85,11 +92,33 @@ if (!profile && locals.user) {
       {
         Astro.locals.user ? (
           <div class="flex items-center gap-4">
+            <!-- CREATE BUTTON -->
+            <a
+              href="/dashboard/create"
+              class="flex items-center justify-center w-10 h-10 bg-[#00c54f] hover:bg-[#00a843] transition-colors text-white shadow-sm"
+              title="Create New Post"
+            >
+              <svg
+                xmlns="http://www.w3.org/2000/svg"
+                class="w-6 h-6"
+                viewBox="0 0 24 24"
+                fill="none"
+                stroke="currentColor"
+                stroke-width="3"
+                stroke-linecap="round"
+                stroke-linejoin="round"
+              >
+                <line x1="12" y1="5" x2="12" y2="19"></line>
+                <line x1="5" y1="12" x2="19" y2="12"></line>
+              </svg>
+            </a>
+            {/*
             <HeaderNotifications
               client:load
               currentUserId={Astro.locals.user?.id}
               sessionAccessToken={(Astro.locals as any).session?.access_token}
             />
+            */}
             {(() => {
               const locals = Astro.locals as any;
               const user = locals.user;

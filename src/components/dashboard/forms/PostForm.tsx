@@ -294,7 +294,7 @@ export default function PostForm({ currentUser, initialData }: PostFormProps) {
                 const { data, error } = await supabase
                     .from('topics')
                     .select('id, name, slug')
-                    .order('slug', { ascending: true });
+                    .order('name', { ascending: true });
 
                 if (error) throw error;
                 setTopics(data || []);

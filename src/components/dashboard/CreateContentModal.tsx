@@ -112,47 +112,60 @@ export default function CreateContentModal({ currentUser, userInitials, activeFe
     return (
         <>
             {/* --- TRIGGER WIDGET (Replaces static HTML) --- */}
-            <div className="bg-[var(--bg-surface)] border border-[var(--border-color)] p-4 mb-6">
-                <div
-                    onClick={() => openModal('post')}
-                    className="flex gap-3 group cursor-pointer"
-                >
-                    <div className="w-12 h-12 bg-[var(--bg-surface-hover)] flex-shrink-0 flex items-center justify-center border border-[var(--border-color)] group-hover:border-primary-500/50 transition-colors text-[var(--text-main)] font-bold">
-                        {userInitials}
-                    </div>
-                    <div className="w-full bg-[var(--bg-body)] border border-[var(--border-color)] px-6 py-3 text-sm text-[var(--text-secondary)] group-hover:border-primary-500/50 group-hover:text-[var(--text-main)] transition-all flex items-center shadow-inner">
-                        Start a post, share a mining update...
-                    </div>
-                </div>
-                <div className="flex justify-between items-center mt-4 pt-3 pl-16">
-                    <div className="flex gap-2 sm:gap-4 overflow-x-auto no-scrollbar">
+            {/* --- SEARCH & TABS WIDGET (Replaces 'Start a post') --- */}
+            <div className="bg-(--bg-surface) border border-(--border-color) p-4 mb-6">
+
+                {/* Tabs (First) */}
+                <div className="max-w-[600px] mx-auto w-full mb-4">
+                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 w-full">
                         {ALL_TABS.map((tab) => (
                             <button
                                 key={tab.id}
                                 onClick={() => navigateToFeed(tab.id)}
-                                className={getButtonClass(tab.id)}
+                                className={`${getButtonClass(tab.id)} w-full justify-center`}
                             >
-                                {tab.icon} {tab.label}
+                                {tab.icon} <span className="ml-2">{tab.label}</span>
                             </button>
                         ))}
                     </div>
+                </div>
+
+                {/* Search Bar (Second) */}
+                <div className="relative group w-full max-w-[600px] mx-auto">
+                    <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
+                        <svg
+                            className="h-4 w-4 text-gray-400 group-focus-within:text-primary-400 transition-colors"
+                            xmlns="http://www.w3.org/2000/svg"
+                            fill="none"
+                            viewBox="0 0 24 24"
+                            stroke="currentColor"
+                        >
+                            <path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z" />
+                        </svg>
+                    </div>
+                    <input
+                        type="text"
+                        placeholder={`Search in ${activeFeed || 'posts'}...`}
+                        className="block w-full pl-10 pr-4 py-2 bg-(--bg-body) border border-(--border-color) rounded-none text-(--text-main) placeholder-gray-400 focus:outline-none focus:border-primary-500 transition-all text-sm"
+                        disabled // Disabled for now
+                    />
                 </div>
             </div>
 
             {/* --- MODAL OVERLAY --- */}
             {isOpen && (
                 <div
-                    className="fixed inset-0 z-[100] flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 animate-in fade-in duration-200"
+                    className="fixed inset-0 z-100 flex items-center justify-center bg-black/80 backdrop-blur-sm p-4 animate-in fade-in duration-200"
                     onClick={handleBackdropClick}
                 >
                     <div
                         ref={modalRef}
-                        className="bg-[var(--bg-surface)] w-full max-w-4xl max-h-[90vh] border border-[var(--border-color)] shadow-2xl overflow-hidden flex flex-col relative animate-in zoom-in-95 duration-200"
+                        className="bg-(--bg-surface) w-full max-w-4xl max-h-[90vh] border border-(--border-color) shadow-2xl overflow-hidden flex flex-col relative animate-in zoom-in-95 duration-200"
                     >
                         {/* Close Button */}
                         <button
                             onClick={() => setIsOpen(false)}
-                            className="absolute top-4 right-4 text-[var(--text-secondary)] hover:text-[var(--text-main)] z-10 p-2 rounded-full hover:bg-[var(--bg-surface-hover)] transition-colors"
+                            className="absolute top-4 right-4 text-(--text-secondary) hover:text-(--text-main) z-10 p-2 rounded-full hover:bg-(--bg-surface-hover) transition-colors"
                         >
                             <svg xmlns="http://www.w3.org/2000/svg" className="h-6 w-6" fill="none" viewBox="0 0 24 24" stroke="currentColor">
                                 <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M6 18L18 6M6 6l12 12" />
@@ -160,12 +173,12 @@ export default function CreateContentModal({ currentUser, userInitials, activeFe
                         </button>
 
                         {/* Modal Header */}
-                        <div className="p-6 border-b border-[var(--border-color)] bg-[var(--bg-surface)]">
-                            <h2 className="text-xl font-bold text-[var(--text-main)]">{editId ? 'Edit Content' : 'Create Content'}</h2>
+                        <div className="p-6 border-b border-(--border-color) bg-(--bg-surface)">
+                            <h2 className="text-xl font-bold text-(--text-main)">{editId ? 'Edit Content' : 'Create Content'}</h2>
                         </div>
 
                         {/* Tabs */}
-                        <div className="border-b border-[var(--border-color)] bg-[var(--bg-surface)] px-6">
+                        <div className="border-b border-(--border-color) bg-(--bg-surface) px-6">
                             <nav className="flex -mb-px space-x-8" aria-label="Tabs">
                                 {tabs.map((tab) => (
                                     <button
@@ -175,7 +188,7 @@ export default function CreateContentModal({ currentUser, userInitials, activeFe
                                             group inline-flex items-center whitespace-nowrap py-4 px-1 border-b-2 font-medium text-sm transition-colors
                                             ${activeTab === tab.id
                                                 ? 'border-primary-500 text-primary-400'
-                                                : 'border-transparent text-[var(--text-secondary)] hover:text-[var(--text-main)] hover:border-[var(--border-color)]'
+                                                : 'border-transparent text-(--text-secondary) hover:text-(--text-main) hover:border-(--border-color)'
                                             }
                                         `}
                                     >
@@ -187,7 +200,7 @@ export default function CreateContentModal({ currentUser, userInitials, activeFe
                         </div>
 
                         {/* Content Area (Scrollable) */}
-                        <div className="overflow-y-auto p-6 md:p-8 custom-scrollbar bg-[var(--bg-body)] flex-1">
+                        <div className="overflow-y-auto p-6 md:p-8 custom-scrollbar bg-(--bg-body) flex-1">
                             {activeTab === 'post' && <PostForm currentUser={currentUser} initialData={{ editId: editId || undefined }} />}
                             {activeTab === 'event' && <EventForm currentUser={currentUser} />}
                             {activeTab === 'podcast' && <PodcastForm currentUser={currentUser} />}

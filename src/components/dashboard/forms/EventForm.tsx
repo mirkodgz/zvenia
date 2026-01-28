@@ -57,7 +57,7 @@ export default function EventForm({ currentUser, initialData }: { currentUser: a
                     { data: formatsData },
                     { data: pricesData }
                 ] = await Promise.all([
-                    supabase.from('topics').select('id, name, slug').order('slug'),
+                    supabase.from('topics').select('id, name, slug').order('name'),
                     supabase.from('event_types').select('*').order('name'),
                     supabase.from('event_languages').select('*').order('name'),
                     supabase.from('event_formats').select('*').order('name'),
@@ -215,17 +215,17 @@ export default function EventForm({ currentUser, initialData }: { currentUser: a
 
             {/* SECTION 1: BASIC INFO */}
             <div className="space-y-4">
-                <h3 className="text-lg font-bold text-[var(--text-main)] border-b border-[var(--border-color)] pb-2">Event Details</h3>
+                <h3 className="text-lg font-bold text-(--text-main) border-b border-(--border-color) pb-2">Event Details</h3>
 
                 {/* Topic Select */}
                 <div>
-                    <label className="block text-sm font-medium text-[var(--text-secondary)] mb-2">Topic *</label>
+                    <label className="block text-sm font-medium text-(--text-secondary) mb-2">Topic *</label>
                     <select
                         name="topic_id"
                         value={formData.topic_id}
                         onChange={handleChange}
                         required
-                        className="w-full bg-[var(--bg-body)] border border-[var(--border-color)] rounded-lg px-4 py-3 text-[var(--text-main)] appearance-none focus:border-primary-500 outline-none"
+                        className="w-full bg-(--bg-body) border border-(--border-color) rounded-lg px-4 py-3 text-(--text-main) appearance-none focus:border-primary-500 outline-none"
                     >
                         <option value="">Select a Topic</option>
                         {topics.map(t => <option key={t.id} value={t.slug}>{t.name}</option>)}
@@ -234,7 +234,7 @@ export default function EventForm({ currentUser, initialData }: { currentUser: a
 
                 {/* Title */}
                 <div>
-                    <label className="block text-sm font-medium text-[var(--text-secondary)] mb-2">Event Title *</label>
+                    <label className="block text-sm font-medium text-(--text-secondary) mb-2">Event Title *</label>
                     <input
                         type="text"
                         name="title"
@@ -242,15 +242,15 @@ export default function EventForm({ currentUser, initialData }: { currentUser: a
                         onChange={handleChange}
                         required
                         placeholder="e.g. International Mining Congress 2026"
-                        className="w-full bg-[var(--bg-body)] border border-[var(--border-color)] rounded-lg px-4 py-3 text-[var(--text-main)] focus:border-primary-500 outline-none"
+                        className="w-full bg-(--bg-body) border border-(--border-color) rounded-lg px-4 py-3 text-(--text-main) focus:border-primary-500 outline-none"
                     />
                 </div>
 
                 {/* Slug */}
                 <div>
-                    <label className="block text-sm font-medium text-[var(--text-secondary)] mb-2">Event URL Slug *</label>
+                    <label className="block text-sm font-medium text-(--text-secondary) mb-2">Event URL Slug *</label>
                     <div className="flex items-center">
-                        <span className="bg-[var(--bg-surface)] border border-r-0 border-[var(--border-color)] rounded-l-lg px-3 py-3 text-gray-500 text-sm">
+                        <span className="bg-(--bg-surface) border border-r-0 border-(--border-color) rounded-l-lg px-3 py-3 text-gray-500 text-sm">
                             /event/
                         </span>
                         <input
@@ -260,33 +260,33 @@ export default function EventForm({ currentUser, initialData }: { currentUser: a
                             onChange={handleChange}
                             required
                             placeholder="event-url-slug"
-                            className="w-full bg-[var(--bg-body)] border border-[var(--border-color)] rounded-r-lg px-4 py-3 text-[var(--text-main)] focus:border-primary-500 outline-none"
+                            className="w-full bg-(--bg-body) border border-(--border-color) rounded-r-lg px-4 py-3 text-(--text-main) focus:border-primary-500 outline-none"
                         />
                     </div>
-                    <p className="text-xs text-[var(--text-secondary)] mt-1">This will be the unique link for your event.</p>
+                    <p className="text-xs text-(--text-secondary) mt-1">This will be the unique link for your event.</p>
                 </div>
 
                 {/* Cover Photo */}
                 <div>
-                    <label className="block text-sm font-medium text-[var(--text-secondary)] mb-2">Event Cover Photo (1050x350 Recommended)</label>
+                    <label className="block text-sm font-medium text-(--text-secondary) mb-2">Event Cover Photo (1050x350 Recommended)</label>
                     {formData.cover_photo_url ? (
-                        <div className="relative w-full h-48 rounded-lg overflow-hidden border border-[var(--border-color)] group">
+                        <div className="relative w-full h-48 rounded-lg overflow-hidden border border-(--border-color) group">
                             <img src={formData.cover_photo_url} alt="Cover" className="w-full h-full object-cover" />
                             <div className="absolute inset-0 bg-black/50 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity">
                                 <button type="button" onClick={() => setFormData(prev => ({ ...prev, cover_photo_url: '' }))} className="bg-red-600 text-white px-3 py-1 rounded-full text-sm">Remove Image</button>
                             </div>
                         </div>
                     ) : (
-                        <div className="border-2 border-dashed border-[var(--border-color)] rounded-lg p-8 text-center hover:border-primary-500/50 transition-colors bg-[var(--bg-body)]">
+                        <div className="border-2 border-dashed border-(--border-color) rounded-lg p-8 text-center hover:border-primary-500/50 transition-colors bg-(--bg-body)">
                             {uploadingField === 'cover_photo_url' ? (
-                                <span className="text-[var(--text-secondary)]">Uploading...</span>
+                                <span className="text-(--text-secondary)">Uploading...</span>
                             ) : (
                                 <>
                                     <input type="file" id="cover-upload" className="hidden" accept="image/*" onChange={(e) => handleFileUpload(e, 'cover_photo_url')} />
                                     <label htmlFor="cover-upload" className="cursor-pointer text-primary-400 hover:text-primary-300">
                                         Click to upload image
                                     </label>
-                                    <p className="text-xs text-[var(--text-secondary)] mt-1">Recommended size: 1050 x 350 px</p>
+                                    <p className="text-xs text-(--text-secondary) mt-1">Recommended size: 1050 x 350 px</p>
                                 </>
                             )}
                         </div>
@@ -296,60 +296,60 @@ export default function EventForm({ currentUser, initialData }: { currentUser: a
 
             {/* SECTION 2: DATE & LOCATION */}
             <div className="space-y-4">
-                <h3 className="text-lg font-bold text-[var(--text-main)] border-b border-[var(--border-color)] pb-2">Date & Location</h3>
+                <h3 className="text-lg font-bold text-(--text-main) border-b border-(--border-color) pb-2">Date & Location</h3>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                        <label className="block text-sm font-medium text-[var(--text-secondary)] mb-2">Start Date *</label>
-                        <input type="date" name="start_date" required value={formData.start_date} onChange={handleChange} className="w-full bg-[var(--bg-body)] border border-[var(--border-color)] rounded-lg px-3 py-2 text-[var(--text-main)] [color-scheme:dark] dark:[color-scheme:dark] light:[color-scheme:light]" />
+                        <label className="block text-sm font-medium text-(--text-secondary) mb-2">Start Date *</label>
+                        <input type="date" name="start_date" required value={formData.start_date} onChange={handleChange} className="w-full bg-(--bg-body) border border-(--border-color) rounded-lg px-3 py-2 text-(--text-main) scheme-dark dark:scheme-dark light:[color-scheme:light]" />
                     </div>
                     <div>
-                        <label className="block text-sm font-medium text-[var(--text-secondary)] mb-2">End Date *</label>
-                        <input type="date" name="end_date" required value={formData.end_date} onChange={handleChange} className="w-full bg-[var(--bg-body)] border border-[var(--border-color)] rounded-lg px-3 py-2 text-[var(--text-main)] [color-scheme:dark] dark:[color-scheme:dark] light:[color-scheme:light]" />
+                        <label className="block text-sm font-medium text-(--text-secondary) mb-2">End Date *</label>
+                        <input type="date" name="end_date" required value={formData.end_date} onChange={handleChange} className="w-full bg-(--bg-body) border border-(--border-color) rounded-lg px-3 py-2 text-(--text-main) scheme-dark dark:scheme-dark light:[color-scheme:light]" />
                     </div>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                        <label className="block text-sm font-medium text-[var(--text-secondary)] mb-2">Start Time</label>
-                        <input type="time" name="start_time" value={formData.start_time} onChange={handleChange} className="w-full bg-[var(--bg-body)] border border-[var(--border-color)] rounded-lg px-3 py-2 text-[var(--text-main)] [color-scheme:dark] dark:[color-scheme:dark] light:[color-scheme:light]" />
+                        <label className="block text-sm font-medium text-(--text-secondary) mb-2">Start Time</label>
+                        <input type="time" name="start_time" value={formData.start_time} onChange={handleChange} className="w-full bg-(--bg-body) border border-(--border-color) rounded-lg px-3 py-2 text-(--text-main) scheme-dark dark:scheme-dark light:[color-scheme:light]" />
                     </div>
                     <div>
-                        <label className="block text-sm font-medium text-[var(--text-secondary)] mb-2">Location / Venue</label>
-                        <input type="text" name="location" value={formData.location} onChange={handleChange} placeholder="e.g. Lima Convention Center" className="w-full bg-[var(--bg-body)] border border-[var(--border-color)] rounded-lg px-3 py-2 text-[var(--text-main)]" />
+                        <label className="block text-sm font-medium text-(--text-secondary) mb-2">Location / Venue</label>
+                        <input type="text" name="location" value={formData.location} onChange={handleChange} placeholder="e.g. Lima Convention Center" className="w-full bg-(--bg-body) border border-(--border-color) rounded-lg px-3 py-2 text-(--text-main)" />
                     </div>
                 </div>
             </div>
 
             {/* SECTION 3: CLASSIFICATION */}
             <div className="space-y-4">
-                <h3 className="text-lg font-bold text-[var(--text-main)] border-b border-[var(--border-color)] pb-2">Classification</h3>
+                <h3 className="text-lg font-bold text-(--text-main) border-b border-(--border-color) pb-2">Classification</h3>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                        <label className="block text-sm font-medium text-[var(--text-secondary)] mb-2">Event Type</label>
-                        <select name="type_id" value={formData.type_id} onChange={handleChange} className="w-full bg-[var(--bg-body)] border border-[var(--border-color)] rounded-lg px-3 py-2 text-[var(--text-main)] appearance-none">
+                        <label className="block text-sm font-medium text-(--text-secondary) mb-2">Event Type</label>
+                        <select name="type_id" value={formData.type_id} onChange={handleChange} className="w-full bg-(--bg-body) border border-(--border-color) rounded-lg px-3 py-2 text-(--text-main) appearance-none">
                             <option value="">Select Type</option>
                             {eventTypes.map(t => <option key={t.id} value={t.id}>{t.name}</option>)}
                         </select>
                     </div>
                     <div>
-                        <label className="block text-sm font-medium text-[var(--text-secondary)] mb-2">Format</label>
-                        <select name="format_id" value={formData.format_id} onChange={handleChange} className="w-full bg-[var(--bg-body)] border border-[var(--border-color)] rounded-lg px-3 py-2 text-[var(--text-main)] appearance-none">
+                        <label className="block text-sm font-medium text-(--text-secondary) mb-2">Format</label>
+                        <select name="format_id" value={formData.format_id} onChange={handleChange} className="w-full bg-(--bg-body) border border-(--border-color) rounded-lg px-3 py-2 text-(--text-main) appearance-none">
                             <option value="">Select Format</option>
                             {eventFormats.map(t => <option key={t.id} value={t.id}>{t.name}</option>)}
                         </select>
                     </div>
                     <div>
-                        <label className="block text-sm font-medium text-[var(--text-secondary)] mb-2">Language</label>
-                        <select name="language_id" value={formData.language_id} onChange={handleChange} className="w-full bg-[var(--bg-body)] border border-[var(--border-color)] rounded-lg px-3 py-2 text-[var(--text-main)] appearance-none">
+                        <label className="block text-sm font-medium text-(--text-secondary) mb-2">Language</label>
+                        <select name="language_id" value={formData.language_id} onChange={handleChange} className="w-full bg-(--bg-body) border border-(--border-color) rounded-lg px-3 py-2 text-(--text-main) appearance-none">
                             <option value="">Select Language</option>
                             {eventLanguages.map(t => <option key={t.id} value={t.id}>{t.name}</option>)}
                         </select>
                     </div>
                     <div>
-                        <label className="block text-sm font-medium text-[var(--text-secondary)] mb-2">Price Category</label>
-                        <select name="price_id" value={formData.price_id} onChange={handleChange} className="w-full bg-[var(--bg-body)] border border-[var(--border-color)] rounded-lg px-3 py-2 text-[var(--text-main)] appearance-none">
+                        <label className="block text-sm font-medium text-(--text-secondary) mb-2">Price Category</label>
+                        <select name="price_id" value={formData.price_id} onChange={handleChange} className="w-full bg-(--bg-body) border border-(--border-color) rounded-lg px-3 py-2 text-(--text-main) appearance-none">
                             <option value="">Select Price</option>
                             {eventPrices.map(t => <option key={t.id} value={t.id}>{t.name}</option>)}
                         </select>
@@ -359,13 +359,13 @@ export default function EventForm({ currentUser, initialData }: { currentUser: a
 
             {/* SECTION 4: ORGANIZER, LINKS & PDF */}
             <div className="space-y-4">
-                <h3 className="text-lg font-bold text-[var(--text-main)] border-b border-[var(--border-color)] pb-2">Resources & Organizer</h3>
+                <h3 className="text-lg font-bold text-(--text-main) border-b border-(--border-color) pb-2">Resources & Organizer</h3>
 
                 {/* PDF Schedule Upload */}
                 <div>
-                    <label className="block text-sm font-medium text-[var(--text-secondary)] mb-2">Event Program / Schedule (PDF) (Optional)</label>
+                    <label className="block text-sm font-medium text-(--text-secondary) mb-2">Event Program / Schedule (PDF) (Optional)</label>
                     {formData.schedule_pdf_url ? (
-                        <div className="flex items-center justify-between p-3 bg-[var(--bg-surface)] border border-[var(--border-color)] rounded-lg">
+                        <div className="flex items-center justify-between p-3 bg-(--bg-surface) border border-(--border-color) rounded-lg">
                             <div className="flex items-center gap-2 text-primary-400">
                                 <span>📄</span>
                                 <a href={formData.schedule_pdf_url} target="_blank" className="text-sm hover:underline">View Uploaded Program</a>
@@ -373,13 +373,13 @@ export default function EventForm({ currentUser, initialData }: { currentUser: a
                             <button type="button" onClick={() => setFormData(prev => ({ ...prev, schedule_pdf_url: '' }))} className="text-red-500 hover:text-red-400 text-sm">Remove</button>
                         </div>
                     ) : (
-                        <div className="border border-dashed border-[var(--border-color)] rounded-lg p-4 text-center hover:border-primary-500/50 transition-colors bg-[var(--bg-body)]">
+                        <div className="border border-dashed border-(--border-color) rounded-lg p-4 text-center hover:border-primary-500/50 transition-colors bg-(--bg-body)">
                             {uploadingField === 'schedule_pdf_url' ? (
-                                <span className="text-[var(--text-secondary)]">Uploading PDF...</span>
+                                <span className="text-(--text-secondary)">Uploading PDF...</span>
                             ) : (
                                 <>
                                     <input type="file" id="pdf-upload" className="hidden" accept="application/pdf" onChange={(e) => handleFileUpload(e, 'schedule_pdf_url')} />
-                                    <label htmlFor="pdf-upload" className="cursor-pointer text-sm text-[var(--text-secondary)] hover:text-[var(--text-main)] flex items-center justify-center gap-2">
+                                    <label htmlFor="pdf-upload" className="cursor-pointer text-sm text-(--text-secondary) hover:text-(--text-main) flex items-center justify-center gap-2">
                                         <span>📎</span> Upload Program PDF
                                     </label>
                                 </>
@@ -390,42 +390,42 @@ export default function EventForm({ currentUser, initialData }: { currentUser: a
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                        <label className="block text-sm font-medium text-[var(--text-secondary)] mb-2">Organizer Name</label>
-                        <input type="text" name="organizer" value={formData.organizer} onChange={handleChange} placeholder="Company or Group Name" className="w-full bg-[var(--bg-body)] border border-[var(--border-color)] rounded-lg px-3 py-2 text-[var(--text-main)]" />
+                        <label className="block text-sm font-medium text-(--text-secondary) mb-2">Organizer Name</label>
+                        <input type="text" name="organizer" value={formData.organizer} onChange={handleChange} placeholder="Company or Group Name" className="w-full bg-(--bg-body) border border-(--border-color) rounded-lg px-3 py-2 text-(--text-main)" />
                     </div>
                     <div>
-                        <label className="block text-sm font-medium text-[var(--text-secondary)] mb-2">Organizer Email</label>
-                        <input type="email" name="organizer_email" value={formData.organizer_email} onChange={handleChange} placeholder="contact@organizer.com" className="w-full bg-[var(--bg-body)] border border-[var(--border-color)] rounded-lg px-3 py-2 text-[var(--text-main)]" />
+                        <label className="block text-sm font-medium text-(--text-secondary) mb-2">Organizer Email</label>
+                        <input type="email" name="organizer_email" value={formData.organizer_email} onChange={handleChange} placeholder="contact@organizer.com" className="w-full bg-(--bg-body) border border-(--border-color) rounded-lg px-3 py-2 text-(--text-main)" />
                     </div>
                     <div>
-                        <label className="block text-sm font-medium text-[var(--text-secondary)] mb-2">Organizer Phone</label>
-                        <input type="tel" name="organizer_phone" value={formData.organizer_phone} onChange={handleChange} placeholder="+1 234 567 890" className="w-full bg-[var(--bg-body)] border border-[var(--border-color)] rounded-lg px-3 py-2 text-[var(--text-main)]" />
+                        <label className="block text-sm font-medium text-(--text-secondary) mb-2">Organizer Phone</label>
+                        <input type="tel" name="organizer_phone" value={formData.organizer_phone} onChange={handleChange} placeholder="+1 234 567 890" className="w-full bg-(--bg-body) border border-(--border-color) rounded-lg px-3 py-2 text-(--text-main)" />
                     </div>
                     <div>
-                        <label className="block text-sm font-medium text-[var(--text-secondary)] mb-2">Official Event Link</label>
-                        <input type="url" name="official_link" value={formData.official_link} onChange={handleChange} placeholder="https://..." className="w-full bg-[var(--bg-body)] border border-[var(--border-color)] rounded-lg px-3 py-2 text-[var(--text-main)]" />
+                        <label className="block text-sm font-medium text-(--text-secondary) mb-2">Official Event Link</label>
+                        <input type="url" name="official_link" value={formData.official_link} onChange={handleChange} placeholder="https://..." className="w-full bg-(--bg-body) border border-(--border-color) rounded-lg px-3 py-2 text-(--text-main)" />
                     </div>
                 </div>
             </div>
 
             {/* SECTION 5: DESCRIPTION */}
             <div>
-                <label className="block text-sm font-medium text-[var(--text-secondary)] mb-2">Full Description</label>
+                <label className="block text-sm font-medium text-(--text-secondary) mb-2">Full Description</label>
                 <textarea
                     name="description"
                     rows={6}
                     value={formData.description}
                     onChange={handleChange}
-                    className="w-full bg-[var(--bg-body)] border border-[var(--border-color)] rounded-lg px-4 py-3 text-[var(--text-main)] focus:border-primary-500 outline-none font-mono text-sm"
+                    className="w-full bg-(--bg-body) border border-(--border-color) rounded-lg px-4 py-3 text-(--text-main) focus:border-primary-500 outline-none font-mono text-sm"
                     placeholder="Detailed information about the event..."
                 />
             </div>
 
-            <div className="pt-6 border-t border-[var(--border-color)] flex justify-end">
+            <div className="pt-6 border-t border-(--border-color) flex justify-end">
                 <button
                     type="button"
                     onClick={() => window.location.href = '/'}
-                    className="mr-3 inline-flex justify-center rounded-md border border-[var(--border-color)] bg-transparent py-3 px-8 text-sm font-medium text-[var(--text-secondary)] shadow-sm hover:bg-[var(--bg-surface-hover)] hover:text-[var(--text-main)] focus:outline-none transition-all"
+                    className="mr-3 inline-flex justify-center rounded-md border border-(--border-color) bg-transparent py-3 px-8 text-sm font-medium text-(--text-secondary) shadow-sm hover:bg-(--bg-surface-hover) hover:text-(--text-main) focus:outline-none transition-all"
                 >
                     Cancel
                 </button>

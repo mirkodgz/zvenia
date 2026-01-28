@@ -212,7 +212,7 @@ const formatDate = (dateStr: string | null) => {
             <!-- First Block: Header + Tabs -->
             <div class="mb-6">
                 <!-- Topic Header -->
-                <div class="mb-4">
+                <div class="mb-4 max-w-[600px] mx-auto">
                     <h1 class="text-3xl font-bold text-dark mb-2">
                         {topic.name}
                     </h1>
@@ -225,34 +225,33 @@ const formatDate = (dateStr: string | null) => {
                 </div>
 
                 <!-- Functional Tabs -->
-                <div
-                    class="flex gap-4 overflow-x-auto no-scrollbar pb-1 mb-4"
-                    id="topic-tabs"
-                >
-                    <button
-                        class="tab-btn btn-tab btn-tab-active shrink-0"
-                        data-target="posts"
-                    >
-                        Posts ({postIds.length})
-                    </button>
-                    <button
-                        class="tab-btn btn-tab shrink-0"
-                        data-target="events"
-                    >
-                        Events ({eventIds.length})
-                    </button>
-                    <button
-                        class="tab-btn btn-tab shrink-0"
-                        data-target="podcasts"
-                    >
-                        Podcasts ({podcastIds.length})
-                    </button>
-                    <button
-                        class="tab-btn btn-tab shrink-0"
-                        data-target="services"
-                    >
-                        Services ({serviceIds.length})
-                    </button>
+                <div class="max-w-[600px] mx-auto w-full mb-4" id="topic-tabs">
+                    <div class="grid grid-cols-2 sm:grid-cols-4 gap-2 w-full">
+                        <button
+                            class="tab-btn btn-tab btn-tab-active shrink-0 w-full justify-center"
+                            data-target="posts"
+                        >
+                            Posts ({postIds.length})
+                        </button>
+                        <button
+                            class="tab-btn btn-tab shrink-0 w-full justify-center"
+                            data-target="events"
+                        >
+                            Events ({eventIds.length})
+                        </button>
+                        <button
+                            class="tab-btn btn-tab shrink-0 w-full justify-center"
+                            data-target="podcasts"
+                        >
+                            Podcasts ({podcastIds.length})
+                        </button>
+                        <button
+                            class="tab-btn btn-tab shrink-0 w-full justify-center"
+                            data-target="services"
+                        >
+                            Services ({serviceIds.length})
+                        </button>
+                    </div>
                 </div>
 
                 <!-- Search Bar (Subtle & Below Tabs) -->

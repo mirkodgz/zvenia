@@ -8,11 +8,19 @@ const filePath = path.resolve(process.cwd(), file);
 
 if (fs.existsSync(filePath)) {
     const content = fs.readFileSync(filePath, 'utf-8');
+    interface WPExportRecord {
+        display_name: string;
+        user_login: string;
+        user_email: string;
+        user_registered: string;
+        [key: string]: string;
+    }
+
     const records = parse(content, {
         columns: true,
         skip_empty_lines: true,
         relax_column_count: true
-    });
+    }) as WPExportRecord[];
 
     const targetUsers = [
         'William Garcia',

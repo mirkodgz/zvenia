@@ -258,7 +258,7 @@ export default function UsersTable() {
                                 className="bg-white border border-primary-500 rounded px-2 py-1 text-gray-900 outline-none text-sm"
                                 onClick={(e) => e.stopPropagation()}
                             >
-                                {ROLES.map(r => <option key={r} value={r}>{r}</option>)}
+                                {roles.map(r => <option key={r} value={r}>{r}</option>)}
                             </select>
                         );
                     }

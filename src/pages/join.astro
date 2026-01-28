@@ -3,6 +3,20 @@ import Layout from "../layouts/Layout.astro";
 import ThemeToggle from "../components/ThemeToggle.astro";
 import MiningBackground from "../components/MiningBackground.astro";
 import { createClient } from "@supabase/supabase-js";
+import { createSupabaseServerClient } from "../lib/supabase";
+
+// Check Auth first
+const supabaseServer = createSupabaseServerClient({
+  req: Astro.request,
+  cookies: Astro.cookies,
+});
+const {
+  data: { user },
+} = await supabaseServer.auth.getUser();
+
+if (user) {
+  return Astro.redirect("/");
+}
 
 // Fetch countries for dynamic dropdown
 const supabase = createClient(

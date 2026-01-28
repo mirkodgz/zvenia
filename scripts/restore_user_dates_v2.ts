@@ -20,12 +20,18 @@ async function restoreDatesV2() {
     const filePath = path.resolve(process.cwd(), CSV_FILE);
     const fileContent = fs.readFileSync(filePath, 'utf-8');
 
+    interface WPExportRecord {
+        user_email: string;
+        user_registered: string;
+        [key: string]: string;
+    }
+
     // Parse CSV
     const records = parse(fileContent, {
         columns: true,
         skip_empty_lines: true,
         trim: true // Trim whitespace from values automatically
-    });
+    }) as WPExportRecord[];
 
     console.log(`Found ${records.length} records in CSV.`);
 
