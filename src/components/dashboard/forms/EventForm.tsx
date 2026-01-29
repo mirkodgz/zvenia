@@ -452,7 +452,7 @@ export default function EventForm({ currentUser, initialData }: { currentUser: a
                     disabled={isSubmitting}
                     className="inline-flex justify-center rounded-md border border-transparent bg-primary-600 py-3 px-8 text-sm font-bold text-white shadow-sm hover:bg-primary-500 focus:outline-none transition-all transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
-                    {isSubmitting ? 'Saving...' : (isEditMode ? '💾 Update Event' : '🚀 Publish Event')}
+                    {isSubmitting ? 'Saving...' : (isEditMode ? 'Update Event' : 'Publish Event')}
                 </button>
             </div>
         </form >

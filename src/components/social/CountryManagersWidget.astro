@@ -5,7 +5,7 @@ const { country, supabase } = Astro.locals;
 // Default to a known country if not detected (e.g., for testing or fallback) or handle gracefully
 const detectedCountryCode = country || null;
 
-let countryManager = null;
+let countryManagers: ManagerProfile[] = [];
 let countryName = "your country";
 
 // Define types explicitly to avoid 'never' or 'any' implicit issues
@@ -35,19 +35,18 @@ if (detectedCountryCode) {
     if (countryData) {
         countryName = countryData.display_name;
 
-        // 2. Get Country Manager profile
-        const { data: managerVal } = await supabase
+        // 2. Get Country Manager profiles (ALL of them)
+        const { data: managersVal } = await supabase
             .from("profiles")
             .select("*")
-            .eq("country", countryData.display_name) // Match by Country (Origin) as requested
-            .eq("role", "CountryManager") // Ensure we only get active Managers
-            .single(); // Assuming one per country for now, or take the first one
+            .eq("country", countryData.display_name)
+            .eq("role", "CountryManager");
 
         // Cast to our explicit type or null
-        const manager = managerVal as unknown as ManagerProfile | null;
+        const managers = managersVal as unknown as ManagerProfile[] | null;
 
-        if (manager) {
-            countryManager = manager;
+        if (managers && managers.length > 0) {
+            countryManagers = managers;
         }
     }
 } else {
@@ -63,66 +62,73 @@ if (detectedCountryCode) {
         Country Manager
     </h3>
     {
-        countryManager ? (
-            <div class="relative group">
-                {/* External Link Icon (Absolute Top-Right of the card content) */}
-                <a
-                    href={`/profile/${countryManager.profile_slug}`}
-                    class="absolute top-0 right-0 p-1 text-gray-400 hover:text-primary-500 transition-colors"
-                    title="View Profile"
-                >
-                    <svg
-                        xmlns="http://www.w3.org/2000/svg"
-                        class="w-5 h-5"
-                        fill="none"
-                        viewBox="0 0 24 24"
-                        stroke="currentColor"
+        countryManagers.length > 0 ? (
+            <div id="managers-container" class="relative min-h-[80px]">
+                {countryManagers.map((manager, index) => (
+                    <div
+                        class={`manager-card transition-opacity duration-500 ease-in-out ${index === 0 ? "opacity-100 relative" : "opacity-0 absolute top-0 left-0 w-full pointer-events-none"}`}
+                        data-index={index}
                     >
-                        <path
-                            stroke-linecap="round"
-                            stroke-linejoin="round"
-                            stroke-width="2"
-                            d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
-                        />
-                    </svg>
-                </a>
+                        <div class="relative group">
+                            {/* External Link Icon */}
+                            <a
+                                href={`/profile/${manager.profile_slug}`}
+                                class="absolute top-0 right-0 p-1 text-gray-400 hover:text-primary-500 transition-colors z-10"
+                                title="View Profile"
+                            >
+                                <svg
+                                    xmlns="http://www.w3.org/2000/svg"
+                                    class="w-5 h-5"
+                                    fill="none"
+                                    viewBox="0 0 24 24"
+                                    stroke="currentColor"
+                                >
+                                    <path
+                                        stroke-linecap="round"
+                                        stroke-linejoin="round"
+                                        stroke-width="2"
+                                        d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                                    />
+                                </svg>
+                            </a>
 
-                <div class="flex items-center gap-4">
-                    <a
-                        href={`/profile/${countryManager.profile_slug}`}
-                        class="shrink-0"
-                    >
-                        {countryManager.avatar_url ? (
-                            <img
-                                src={countryManager.avatar_url}
-                                alt={countryManager.full_name}
-                                class="w-14 h-14 rounded-none object-cover ring-2 ring-transparent group-hover:ring-accent-500 transition-all"
-                            />
-                        ) : (
-                            <img
-                                src="/igm-default.webp"
-                                alt={countryManager.full_name}
-                                class="w-14 h-14 rounded-none object-cover ring-2 ring-transparent group-hover:ring-accent-500 transition-all opacity-80"
-                            />
-                        )}
-                    </a>
+                            <div class="flex items-center gap-4">
+                                <a
+                                    href={`/profile/${manager.profile_slug}`}
+                                    class="shrink-0"
+                                >
+                                    {manager.avatar_url ? (
+                                        <img
+                                            src={manager.avatar_url}
+                                            alt={manager.full_name}
+                                            class="w-14 h-14 rounded-none object-cover ring-2 ring-transparent group-hover:ring-accent-500 transition-all"
+                                        />
+                                    ) : (
+                                        <img
+                                            src="/igm-default.webp"
+                                            alt={manager.full_name}
+                                            class="w-14 h-14 rounded-none object-cover ring-2 ring-transparent group-hover:ring-accent-500 transition-all opacity-80"
+                                        />
+                                    )}
+                                </a>
 
-                    <div class="flex-1 min-w-0 pr-6">
-                        {" "}
-                        {/* pr-6 to avoid overlapping with icon */}
-                        <a
-                            href={`/profile/${countryManager.profile_slug}`}
-                            class="block"
-                        >
-                            <h4 class="font-bold text-[15px] text-(--text-main) group-hover:text-accent-500 transition-colors leading-tight truncate">
-                                {countryManager.full_name}
-                            </h4>
-                        </a>
-                        <p class="text-sm text-(--text-secondary) mt-0.5">
-                            {countryName}
-                        </p>
+                                <div class="flex-1 min-w-0 pr-6">
+                                    <a
+                                        href={`/profile/${manager.profile_slug}`}
+                                        class="block"
+                                    >
+                                        <h4 class="font-bold text-[15px] text-(--text-main) group-hover:text-accent-500 transition-colors leading-tight truncate">
+                                            {manager.full_name}
+                                        </h4>
+                                    </a>
+                                    <p class="text-sm text-(--text-secondary) mt-0.5">
+                                        {countryName}
+                                    </p>
+                                </div>
+                            </div>
+                        </div>
                     </div>
-                </div>
+                ))}
             </div>
         ) : (
             <div class="flex flex-col items-center justify-center text-center py-4 px-2 bg-gray-50 rounded-lg border border-dashed border-gray-300">
@@ -157,4 +163,43 @@ if (detectedCountryCode) {
             </div>
         )
     }
+
+    <script>
+        document.addEventListener("DOMContentLoaded", () => {
+            const cards = document.querySelectorAll(".manager-card");
+            if (cards.length > 1) {
+                let currentIndex = 0;
+
+                setInterval(() => {
+                    const currentCard = cards[currentIndex];
+                    const nextIndex = (currentIndex + 1) % cards.length;
+                    const nextCard = cards[nextIndex];
+
+                    // Fade out current
+                    currentCard.classList.remove("opacity-100", "relative");
+                    currentCard.classList.add(
+                        "opacity-0",
+                        "absolute",
+                        "top-0",
+                        "left-0",
+                        "w-full",
+                        "pointer-events-none",
+                    );
+
+                    // Fade in next
+                    nextCard.classList.remove(
+                        "opacity-0",
+                        "absolute",
+                        "top-0",
+                        "left-0",
+                        "w-full",
+                        "pointer-events-none",
+                    );
+                    nextCard.classList.add("opacity-100", "relative");
+
+                    currentIndex = nextIndex;
+                }, 5000);
+            }
+        });
+    </script>
 </div>
