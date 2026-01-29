@@ -116,7 +116,7 @@ export default function ServiceForm({ currentUser, initialData }: { currentUser:
     if (isLoadingOptions) return <div className="p-8 text-center text-gray-500">Loading options...</div>;
 
     return (
-        <form onSubmit={handleSubmit} className="space-y-8 max-w-4xl mx-auto pb-12">
+        <form onSubmit={handleSubmit} className="space-y-6 w-full mx-auto pb-12">
 
             {/* Header */}
             <div className="border-b border-(--border-color) pb-4">
@@ -130,11 +130,11 @@ export default function ServiceForm({ currentUser, initialData }: { currentUser:
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                        <label className="block text-sm font-medium text-(--text-secondary) mb-2">Service Title *</label>
+                        <label className="block text-[15px] font-bold text-black mb-2">Service Title *</label>
                         <input type="text" name="title" required value={formData.title} onChange={handleChange} className="w-full bg-(--bg-body) border border-(--border-color) rounded-none px-4 py-3 text-(--text-main) focus:border-primary-500 outline-none" placeholder="e.g. Geological Consulting" />
                     </div>
                     <div>
-                        <label className="block text-sm font-medium text-(--text-secondary) mb-2">Topic *</label>
+                        <label className="block text-[15px] font-bold text-black mb-2">Topic *</label>
                         <select name="topic_id" required value={formData.topic_id} onChange={handleChange} className="w-full bg-(--bg-body) border border-(--border-color) rounded-none px-4 py-3 text-(--text-main) appearance-none">
                             <option value="">Select Topic</option>
                             {topics.map(t => <option key={t.id} value={t.slug}>{t.name}</option>)}
@@ -143,7 +143,7 @@ export default function ServiceForm({ currentUser, initialData }: { currentUser:
                 </div>
 
                 <div>
-                    <label className="block text-sm font-medium text-(--text-secondary) mb-2">Description</label>
+                    <label className="block text-[15px] font-bold text-black mb-2">Description</label>
                     <textarea name="description" rows={4} value={formData.description} onChange={handleChange} className="w-full bg-(--bg-body) border border-(--border-color) rounded-none px-4 py-3 text-(--text-main) outline-none" placeholder="Describe your service..." />
                 </div>
             </div>
@@ -153,21 +153,21 @@ export default function ServiceForm({ currentUser, initialData }: { currentUser:
                 <h3 className="text-lg font-bold text-(--text-main)">Classification</h3>
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                     <div>
-                        <label className="block text-sm font-medium text-(--text-secondary) mb-2">Type of Ad *</label>
+                        <label className="block text-[15px] font-bold text-black mb-2">Type of Ad *</label>
                         <select name="type_id" required value={formData.type_id} onChange={handleChange} className="w-full bg-(--bg-body) border border-(--border-color) rounded-none px-4 py-3 text-(--text-main) appearance-none">
                             <option value="">Select Type</option>
                             {types.map(t => <option key={t.id} value={t.id}>{t.name}</option>)}
                         </select>
                     </div>
                     <div>
-                        <label className="block text-sm font-medium text-(--text-secondary) mb-2">Campaign Duration</label>
+                        <label className="block text-[15px] font-bold text-black mb-2">Campaign Duration</label>
                         <select name="duration_id" value={formData.duration_id} onChange={handleChange} className="w-full bg-(--bg-body) border border-(--border-color) rounded-none px-4 py-3 text-(--text-main) appearance-none">
                             <option value="">Select Duration</option>
                             {durations.map(d => <option key={d.id} value={d.id}>{d.name}</option>)}
                         </select>
                     </div>
                     <div>
-                        <label className="block text-sm font-medium text-(--text-secondary) mb-2">Target Country</label>
+                        <label className="block text-[15px] font-bold text-black mb-2">Target Country</label>
                         <input type="text" name="target_country" value={formData.target_country} onChange={handleChange} className="w-full bg-(--bg-body) border border-(--border-color) rounded-none px-4 py-3 text-(--text-main)" placeholder="e.g. Peru" />
                     </div>
                 </div>
@@ -177,7 +177,7 @@ export default function ServiceForm({ currentUser, initialData }: { currentUser:
             <div className="space-y-4">
                 <h3 className="text-lg font-bold text-(--text-main)">Visuals</h3>
                 <div>
-                    <label className="block text-sm font-medium text-(--text-secondary) mb-2">Quick View Image (Card)</label>
+                    <label className="block text-[15px] font-bold text-black mb-2">Quick View Image (Card)</label>
                     {formData.quick_view_image_url ? (
                         <div className="relative w-48 h-32 rounded-none bg-gray-800 overflow-hidden border border-(--border-color) group">
                             <img src={formData.quick_view_image_url} className="w-full h-full object-cover" />
@@ -199,11 +199,11 @@ export default function ServiceForm({ currentUser, initialData }: { currentUser:
                 <h3 className="text-lg font-bold text-(--text-main)">Organizer / Company</h3>
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                        <label className="block text-sm font-medium text-(--text-secondary) mb-2">Company Name</label>
+                        <label className="block text-[15px] font-bold text-black mb-2">Company Name</label>
                         <input type="text" name="organizer_company" value={formData.organizer_company} onChange={handleChange} className="w-full bg-(--bg-body) border border-(--border-color) rounded-none px-4 py-3 text-(--text-main)" />
                     </div>
                     <div>
-                        <label className="block text-sm font-medium text-(--text-secondary) mb-2">Company Link</label>
+                        <label className="block text-[15px] font-bold text-black mb-2">Company Link</label>
                         <input type="url" name="company_link" value={formData.company_link} onChange={handleChange} className="w-full bg-(--bg-body) border border-(--border-color) rounded-none px-4 py-3 text-(--text-main)" placeholder="https://" />
                     </div>
                 </div>
@@ -229,7 +229,7 @@ export default function ServiceForm({ currentUser, initialData }: { currentUser:
             {/* Submit */}
             <div className="pt-6 flex justify-end gap-4">
                 <button type="button" onClick={() => window.history.back()} className="px-6 py-3 rounded-none border border-(--border-color) text-(--text-secondary) hover:bg-(--bg-surface-hover) transition-colors">Cancel</button>
-                <button type="submit" disabled={isSubmitting || uploading} className="px-6 py-3 rounded-none bg-primary-600 text-white font-bold hover:bg-primary-700 transition-colors disabled:opacity-50">
+                <button type="submit" disabled={isSubmitting || uploading} className="px-6 py-3 rounded-none bg-[#00c44b] text-white font-bold hover:bg-[#00c44b]/90 transition-colors disabled:opacity-50">
                     {isSubmitting ? 'Saving...' : (formData.id ? 'Update Service' : 'Create Service')}
                 </button>
             </div>

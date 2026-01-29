@@ -39,7 +39,7 @@ export default function PostForm({ currentUser, initialData }: PostFormProps) {
         metadata: initialData?.metadata || { gallery: [] }
     });
 
-    const [activeMediaType, setActiveMediaType] = useState<'image' | 'video' | 'pdf' | 'youtube'>('image');
+    const [activeMediaType, setActiveMediaType] = useState<'image' | 'video' | 'pdf' | 'youtube' | null>(null);
 
     const [isUploading, setIsUploading] = useState(false);
 
@@ -274,7 +274,8 @@ export default function PostForm({ currentUser, initialData }: PostFormProps) {
                     if (youtubeUrl) setActiveMediaType('youtube');
                     else if (videoUrl) setActiveMediaType('video');
                     else if (docUrl) setActiveMediaType('pdf');
-                    else setActiveMediaType('image'); // Default to image
+                    else if (post.featured_image_url || (post.metadata?.gallery && post.metadata.gallery.length > 0)) setActiveMediaType('image');
+                    else setActiveMediaType(null); // Default to null if no media
 
                 } catch (e) {
                     console.error("Error fetching post for edit", e);
@@ -309,9 +310,9 @@ export default function PostForm({ currentUser, initialData }: PostFormProps) {
     }, []);
 
     return (
-        <form onSubmit={handleSubmit} className="space-y-6 max-w-3xl mx-auto">
+        <form onSubmit={handleSubmit} className="space-y-6 w-full mx-auto">
             <div>
-                <label htmlFor="topic_id" className="block text-sm font-medium text-(--text-secondary) mb-2">Topic / Category</label>
+                <label htmlFor="topic_id" className="block text-[15px] font-bold text-black mb-2">Topic / Category</label>
                 <select
                     id="topic_id"
                     name="topic_id"
@@ -330,7 +331,7 @@ export default function PostForm({ currentUser, initialData }: PostFormProps) {
             </div>
 
             <div>
-                <label htmlFor="title" className="block text-sm font-medium text-(--text-secondary) mb-2">Title</label>
+                <label htmlFor="title" className="block text-[15px] font-bold text-black mb-2">Title</label>
                 <input
                     type="text"
                     name="title"
@@ -344,7 +345,7 @@ export default function PostForm({ currentUser, initialData }: PostFormProps) {
             </div>
 
             <div>
-                <label htmlFor="slug" className="block text-sm font-medium text-(--text-secondary) mb-2">Slug (URL)</label>
+                <label htmlFor="slug" className="block text-[15px] font-bold text-black mb-2">Slug (URL)</label>
                 <div className="flex rounded-md shadow-sm">
                     <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-(--border-color) bg-(--bg-surface-hover) text-(--text-secondary) sm:text-sm">
                         zvenia.com/post/
@@ -362,7 +363,7 @@ export default function PostForm({ currentUser, initialData }: PostFormProps) {
             </div>
 
             <div>
-                <label className="block text-sm font-bold text-(--text-main) mb-3">What would you like to share? ( Optional )</label>
+                <label className="block text-[15px] font-bold text-black mb-3">What would you like to share? ( Optional )</label>
 
                 {/* Media Type Selector */}
                 <div className="flex flex-wrap gap-4 mb-4">
@@ -392,115 +393,117 @@ export default function PostForm({ currentUser, initialData }: PostFormProps) {
                 </div>
 
                 {/* Upload Area / Input Area */}
-                <div className="border-2 border-dashed border-(--border-color) rounded-lg p-6 text-center hover:border-primary-500/50 transition-colors bg-(--bg-body) min-h-[200px] flex flex-col justify-center">
-                    {activeMediaType === 'youtube' ? (
-                        <div className="w-full max-w-md mx-auto">
-                            <label className="block text-left text-sm text-(--text-secondary) mb-1">YouTube Video URL</label>
-                            <input
-                                type="url"
-                                placeholder="https://www.youtube.com/watch?v=..."
-                                className="w-full bg-(--bg-surface) border border-(--border-color) rounded px-3 py-2 text-(--text-main) focus:border-primary-500"
-                                value={formData.metadata?.youtube_url || ''}
-                                onChange={(e) => setFormData(prev => ({
-                                    ...prev,
-                                    metadata: { ...prev.metadata, youtube_url: e.target.value }
-                                }))}
-                            />
-                        </div>
-                    ) : (
-                        // File Upload Logic (Image, Video, PDF)
-                        isUploading ? (
-                            <div className="text-(--text-secondary) flex flex-col items-center">
-                                <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-500 mb-2"></div>
-                                <span>Uploading...</span>
+                {activeMediaType && (
+                    <div className="border-2 border-dashed border-(--border-color) rounded-lg p-6 text-center hover:border-primary-500/50 transition-colors bg-(--bg-body) min-h-[200px] flex flex-col justify-center">
+                        {activeMediaType === 'youtube' ? (
+                            <div className="w-full max-w-md mx-auto">
+                                <label className="block text-left text-[15px] font-bold text-black mb-1">YouTube Video URL</label>
+                                <input
+                                    type="url"
+                                    placeholder="https://www.youtube.com/watch?v=..."
+                                    className="w-full bg-(--bg-surface) border border-(--border-color) rounded px-3 py-2 text-(--text-main) focus:border-primary-500"
+                                    value={formData.metadata?.youtube_url || ''}
+                                    onChange={(e) => setFormData(prev => ({
+                                        ...prev,
+                                        metadata: { ...prev.metadata, youtube_url: e.target.value }
+                                    }))}
+                                />
                             </div>
                         ) : (
-                            <>
-                                {/* PREVIEWS */}
-                                {/* 1. Video Preview */}
-                                {formData.metadata?.video_url && activeMediaType === 'video' && (
-                                    <div className="relative w-full max-w-md mx-auto bg-black rounded-lg overflow-hidden border border-(--border-color)">
-                                        <video src={formData.metadata.video_url} controls className="w-full h-auto max-h-[300px]" />
-                                        <button
-                                            type="button"
-                                            onClick={() => setFormData(prev => ({ ...prev, metadata: { ...prev.metadata, video_url: '' } }))}
-                                            className="absolute top-2 right-2 bg-red-600 text-white p-1 rounded-full shadow-md z-10"
-                                        >✕</button>
-                                    </div>
-                                )}
-
-                                {/* 2. PDF Preview */}
-                                {formData.document_url && activeMediaType === 'pdf' && (
-                                    <div className="relative p-4 bg-(--bg-surface) rounded-lg border border-(--border-color) flex items-center justify-between max-w-md mx-auto w-full">
-                                        <div className="flex items-center truncate">
-                                            <div className="text-2xl mr-3">📄</div>
-                                            <a href={formData.document_url} target="_blank" className="text-sm text-primary-400 hover:underline truncate">{formData.document_url.split('/').pop()}</a>
+                            // File Upload Logic (Image, Video, PDF)
+                            isUploading ? (
+                                <div className="text-(--text-secondary) flex flex-col items-center">
+                                    <div className="animate-spin rounded-full h-8 w-8 border-b-2 border-primary-500 mb-2"></div>
+                                    <span>Uploading...</span>
+                                </div>
+                            ) : (
+                                <>
+                                    {/* PREVIEWS */}
+                                    {/* 1. Video Preview */}
+                                    {formData.metadata?.video_url && activeMediaType === 'video' && (
+                                        <div className="relative w-full max-w-md mx-auto bg-black rounded-lg overflow-hidden border border-(--border-color)">
+                                            <video src={formData.metadata.video_url} controls className="w-full h-auto max-h-[300px]" />
+                                            <button
+                                                type="button"
+                                                onClick={() => setFormData(prev => ({ ...prev, metadata: { ...prev.metadata, video_url: '' } }))}
+                                                className="absolute top-2 right-2 bg-red-600 text-white p-1 rounded-full shadow-md z-10"
+                                            >✕</button>
                                         </div>
-                                        <button type="button" onClick={() => setFormData(prev => ({ ...prev, document_url: '' }))} className="text-red-500 ml-2">✕</button>
-                                    </div>
-                                )}
+                                    )}
 
-                                {/* 3. Image Gallery Preview */}
-                                {activeMediaType === 'image' && (formData.featured_image_url || (formData.metadata?.gallery?.length > 0)) && (
-                                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 w-full">
-                                        {formData.featured_image_url && (
-                                            <div className="relative group aspect-square rounded-lg overflow-hidden border-2 border-primary-500/50">
-                                                <img src={formData.featured_image_url} alt="Main" className="w-full h-full object-cover" />
-                                                <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
-                                                    <span className="text-xs font-bold text-white">Main</span>
+                                    {/* 2. PDF Preview */}
+                                    {formData.document_url && activeMediaType === 'pdf' && (
+                                        <div className="relative p-4 bg-(--bg-surface) rounded-lg border border-(--border-color) flex items-center justify-between max-w-md mx-auto w-full">
+                                            <div className="flex items-center truncate">
+                                                <div className="text-2xl mr-3">📄</div>
+                                                <a href={formData.document_url} target="_blank" className="text-sm text-primary-400 hover:underline truncate">{formData.document_url.split('/').pop()}</a>
+                                            </div>
+                                            <button type="button" onClick={() => setFormData(prev => ({ ...prev, document_url: '' }))} className="text-red-500 ml-2">✕</button>
+                                        </div>
+                                    )}
+
+                                    {/* 3. Image Gallery Preview */}
+                                    {activeMediaType === 'image' && (formData.featured_image_url || (formData.metadata?.gallery?.length > 0)) && (
+                                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 w-full">
+                                            {formData.featured_image_url && (
+                                                <div className="relative group aspect-square rounded-lg overflow-hidden border-2 border-primary-500/50">
+                                                    <img src={formData.featured_image_url} alt="Main" className="w-full h-full object-cover" />
+                                                    <div className="absolute inset-0 bg-black/50 opacity-0 group-hover:opacity-100 transition-opacity flex items-center justify-center">
+                                                        <span className="text-xs font-bold text-white">Main</span>
+                                                    </div>
+                                                    <button type="button" onClick={() => setFormData(prev => ({ ...prev, featured_image_url: '' }))} className="absolute top-1 right-1 bg-red-600 text-white rounded-full p-1 opacity-100">✕</button>
                                                 </div>
-                                                <button type="button" onClick={() => setFormData(prev => ({ ...prev, featured_image_url: '' }))} className="absolute top-1 right-1 bg-red-600 text-white rounded-full p-1 opacity-100">✕</button>
-                                            </div>
-                                        )}
-                                        {formData.metadata?.gallery?.map((img: string, idx: number) => (
-                                            <div key={idx} className="relative group aspect-square rounded-lg overflow-hidden border border-(--border-color)">
-                                                <img src={img} alt="Gallery" className="w-full h-full object-cover" />
-                                                <button type="button" onClick={() => setFormData(prev => {
-                                                    const newG = [...prev.metadata.gallery];
-                                                    newG.splice(idx, 1);
-                                                    return { ...prev, metadata: { ...prev.metadata, gallery: newG } };
-                                                })} className="absolute top-1 right-1 bg-red-600 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity">✕</button>
-                                            </div>
-                                        ))}
-                                    </div>
-                                )}
-
-                                {/* Upload Button (Show if slot available) */}
-                                {(!formData.metadata?.video_url && !formData.document_url && activeMediaType !== 'image') || (activeMediaType === 'image') ? (
-                                    <div className={`mt-4 ${activeMediaType === 'image' && formData.featured_image_url ? 'inline-block w-24 h-24 align-top ml-2' : ''}`}>
-                                        <input
-                                            type="file"
-                                            className="hidden"
-                                            id="file-upload"
-                                            accept={activeMediaType === 'video' ? 'video/mp4,video/webm,video/ogg' : activeMediaType === 'pdf' ? 'application/pdf' : 'image/*'}
-                                            onChange={handleFileUpload}
-                                            // Disable if video/pdf already exists (only 1 allowed)
-                                            disabled={activeMediaType === 'video' && !!formData.metadata?.video_url || activeMediaType === 'pdf' && !!formData.document_url}
-                                            multiple={activeMediaType === 'image'}
-                                        />
-                                        <label
-                                            htmlFor="file-upload"
-                                            className={`cursor-pointer flex flex-col items-center justify-center transition-colors ${activeMediaType === 'image' && (formData.featured_image_url)
-                                                ? 'w-full h-full border-2 border-dashed border-(--border-color) rounded-lg hover:bg-(--bg-surface-hover)'
-                                                : 'inline-block px-4 py-2 bg-(--bg-surface-hover) hover:bg-(--bg-surface) rounded text-sm font-bold text-(--text-main)'
-                                                }`}
-                                        >
-                                            {activeMediaType === 'image' && formData.featured_image_url ? (
-                                                <span className="text-2xl text-(--text-secondary)">+</span>
-                                            ) : (
-                                                <span>{activeMediaType === 'image' && !formData.featured_image_url ? 'Select Images' : activeMediaType === 'video' ? 'Select Video' : 'Select PDF'}</span>
                                             )}
-                                        </label>
-                                    </div>
-                                ) : null}
-                            </>
-                        )
-                    )}
-                </div>
+                                            {formData.metadata?.gallery?.map((img: string, idx: number) => (
+                                                <div key={idx} className="relative group aspect-square rounded-lg overflow-hidden border border-(--border-color)">
+                                                    <img src={img} alt="Gallery" className="w-full h-full object-cover" />
+                                                    <button type="button" onClick={() => setFormData(prev => {
+                                                        const newG = [...prev.metadata.gallery];
+                                                        newG.splice(idx, 1);
+                                                        return { ...prev, metadata: { ...prev.metadata, gallery: newG } };
+                                                    })} className="absolute top-1 right-1 bg-red-600 text-white rounded-full p-1 opacity-0 group-hover:opacity-100 transition-opacity">✕</button>
+                                                </div>
+                                            ))}
+                                        </div>
+                                    )}
+
+                                    {/* Upload Button (Show if slot available) */}
+                                    {(!formData.metadata?.video_url && !formData.document_url && activeMediaType !== 'image') || (activeMediaType === 'image') ? (
+                                        <div className={`mt-4 ${activeMediaType === 'image' && formData.featured_image_url ? 'inline-block w-24 h-24 align-top ml-2' : ''}`}>
+                                            <input
+                                                type="file"
+                                                className="hidden"
+                                                id="file-upload"
+                                                accept={activeMediaType === 'video' ? 'video/mp4,video/webm,video/ogg' : activeMediaType === 'pdf' ? 'application/pdf' : 'image/*'}
+                                                onChange={handleFileUpload}
+                                                // Disable if video/pdf already exists (only 1 allowed)
+                                                disabled={activeMediaType === 'video' && !!formData.metadata?.video_url || activeMediaType === 'pdf' && !!formData.document_url}
+                                                multiple={activeMediaType === 'image'}
+                                            />
+                                            <label
+                                                htmlFor="file-upload"
+                                                className={`cursor-pointer flex flex-col items-center justify-center transition-colors ${activeMediaType === 'image' && (formData.featured_image_url)
+                                                    ? 'w-full h-full border-2 border-dashed border-(--border-color) rounded-lg hover:bg-(--bg-surface-hover)'
+                                                    : 'inline-block px-4 py-2 bg-(--bg-surface-hover) hover:bg-(--bg-surface) rounded text-sm font-bold text-(--text-main)'
+                                                    }`}
+                                            >
+                                                {activeMediaType === 'image' && formData.featured_image_url ? (
+                                                    <span className="text-2xl text-(--text-secondary)">+</span>
+                                                ) : (
+                                                    <span>{activeMediaType === 'image' && !formData.featured_image_url ? 'Select Images' : activeMediaType === 'video' ? 'Select Video' : 'Select PDF'}</span>
+                                                )}
+                                            </label>
+                                        </div>
+                                    ) : null}
+                                </>
+                            )
+                        )}
+                    </div>
+                )}
             </div>
 
             <div>
-                <label htmlFor="source" className="block text-sm font-medium text-(--text-secondary) mb-2">Source / Reference (URL or Text)</label>
+                <label htmlFor="source" className="block text-[15px] font-bold text-black mb-2">Source / Reference (URL or Text)</label>
                 <input
                     type="text"
                     name="source"
@@ -530,7 +533,7 @@ export default function PostForm({ currentUser, initialData }: PostFormProps) {
             )}
 
             <div>
-                <label htmlFor="content" className="block text-sm font-medium text-(--text-secondary) mb-2">Content</label>
+                <label htmlFor="content" className="block text-[15px] font-bold text-black mb-2">Content</label>
                 <textarea
                     name="content"
                     id="content"
@@ -558,7 +561,7 @@ export default function PostForm({ currentUser, initialData }: PostFormProps) {
                 <button
                     type="submit"
                     disabled={isSubmitting}
-                    className={`inline-flex justify-center rounded-md border border-transparent bg-primary-600 py-3 px-8 text-sm font-medium text-white shadow-sm hover:bg-primary-500 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-gray-900 transition-all transform hover:scale-105 ${isSubmitting ? 'opacity-50 cursor-not-allowed' : ''}`}
+                    className="inline-flex justify-center rounded-md border border-transparent bg-[#00c44b] py-3 px-8 text-sm font-bold text-white shadow-sm hover:bg-[#00c44b]/90 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-gray-900 transition-all transform hover:scale-105 disabled:opacity-50"
                 >
                     {isSubmitting ? 'Saving...' : (formData.id ? 'Update Post' : 'Publish Post')}
                 </button>

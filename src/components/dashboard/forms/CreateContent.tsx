@@ -54,7 +54,7 @@ export default function CreateContent({ currentUser }: CreateContentProps) {
     ];
 
     return (
-        <div className="flex flex-col h-full bg-white rounded-lg shadow-sm border border-gray-200">
+        <div className="flex flex-col h-full bg-[#f4f2ee] rounded-lg shadow-sm border border-gray-200">
             {/* Tabs Header - Clean Light Style */}
             <div className="border-b border-gray-200">
                 <nav className="flex -mb-px" aria-label="Tabs">
@@ -63,12 +63,12 @@ export default function CreateContent({ currentUser }: CreateContentProps) {
                             key={tab.id}
                             onClick={() => setActiveTab(tab.id as ContentType)}
                             className={`
-                w-1/4 py-4 px-1 text-center border-b-2 text-sm font-medium transition-colors duration-200 flex items-center justify-center gap-2
-                ${activeTab === tab.id
-                                    ? 'border-primary-600 text-primary-600'
-                                    : 'border-transparent text-gray-500 hover:text-gray-700 hover:border-gray-300'
+                                w-1/4 py-4 px-1 text-center border-b-2 text-[15px] font-medium transition-colors duration-200 flex items-center justify-center gap-2 cursor-pointer
+                                ${activeTab === tab.id
+                                    ? 'bg-[#00c44b] text-white border-transparent'
+                                    : 'border-transparent text-black hover:text-gray-700 hover:border-gray-300'
                                 }
-              `}
+                              `}
                         >
                             <span className="shrink-0">{tab.icon}</span>
                             {tab.label}

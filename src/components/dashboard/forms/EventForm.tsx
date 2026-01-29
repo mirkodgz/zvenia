@@ -212,7 +212,7 @@ export default function EventForm({ currentUser, initialData }: { currentUser: a
     const isEditMode = !!formData.id;
 
     return (
-        <form onSubmit={handleSubmit} className="space-y-8 max-w-4xl mx-auto pb-12">
+        <form onSubmit={handleSubmit} className="space-y-6 w-full mx-auto pb-12">
 
             {/* SECTION 1: BASIC INFO */}
             <div className="space-y-4">
@@ -220,7 +220,7 @@ export default function EventForm({ currentUser, initialData }: { currentUser: a
 
                 {/* Topic Select */}
                 <div>
-                    <label className="block text-sm font-medium text-(--text-secondary) mb-2">Topic *</label>
+                    <label className="block text-[15px] font-bold text-black mb-2">Topic *</label>
                     <select
                         name="topic_id"
                         value={formData.topic_id}
@@ -235,7 +235,7 @@ export default function EventForm({ currentUser, initialData }: { currentUser: a
 
                 {/* Title */}
                 <div>
-                    <label className="block text-sm font-medium text-(--text-secondary) mb-2">Event Title *</label>
+                    <label className="block text-[15px] font-bold text-black mb-2">Event Title *</label>
                     <input
                         type="text"
                         name="title"
@@ -249,7 +249,7 @@ export default function EventForm({ currentUser, initialData }: { currentUser: a
 
                 {/* Slug */}
                 <div>
-                    <label className="block text-sm font-medium text-(--text-secondary) mb-2">Event URL Slug *</label>
+                    <label className="block text-[15px] font-bold text-black mb-2">Event URL Slug *</label>
                     <div className="flex items-center">
                         <span className="bg-(--bg-surface) border border-r-0 border-(--border-color) rounded-l-lg px-3 py-3 text-gray-500 text-sm">
                             /event/
@@ -269,7 +269,7 @@ export default function EventForm({ currentUser, initialData }: { currentUser: a
 
                 {/* Cover Photo */}
                 <div>
-                    <label className="block text-sm font-medium text-(--text-secondary) mb-2">Event Cover Photo (1050x350 Recommended)</label>
+                    <label className="block text-[15px] font-bold text-black mb-2">Event Cover Photo (1050x350 Recommended)</label>
                     {formData.cover_photo_url ? (
                         <div className="relative w-full h-48 rounded-lg overflow-hidden border border-(--border-color) group">
                             <img src={formData.cover_photo_url} alt="Cover" className="w-full h-full object-cover" />
@@ -301,22 +301,22 @@ export default function EventForm({ currentUser, initialData }: { currentUser: a
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                        <label className="block text-sm font-medium text-(--text-secondary) mb-2">Start Date *</label>
+                        <label className="block text-[15px] font-bold text-black mb-2">Start Date *</label>
                         <input type="date" name="start_date" required value={formData.start_date} onChange={handleChange} className="w-full bg-(--bg-body) border border-(--border-color) rounded-lg px-3 py-2 text-(--text-main) scheme-dark dark:scheme-dark light:[color-scheme:light]" />
                     </div>
                     <div>
-                        <label className="block text-sm font-medium text-(--text-secondary) mb-2">End Date *</label>
+                        <label className="block text-[15px] font-bold text-black mb-2">End Date *</label>
                         <input type="date" name="end_date" required value={formData.end_date} onChange={handleChange} className="w-full bg-(--bg-body) border border-(--border-color) rounded-lg px-3 py-2 text-(--text-main) scheme-dark dark:scheme-dark light:[color-scheme:light]" />
                     </div>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                        <label className="block text-sm font-medium text-(--text-secondary) mb-2">Start Time</label>
+                        <label className="block text-[15px] font-bold text-black mb-2">Start Time</label>
                         <input type="time" name="start_time" value={formData.start_time} onChange={handleChange} className="w-full bg-(--bg-body) border border-(--border-color) rounded-lg px-3 py-2 text-(--text-main) scheme-dark dark:scheme-dark light:[color-scheme:light]" />
                     </div>
                     <div>
-                        <label className="block text-sm font-medium text-(--text-secondary) mb-2">Location / Venue</label>
+                        <label className="block text-[15px] font-bold text-black mb-2">Location / Venue</label>
                         <input type="text" name="location" value={formData.location} onChange={handleChange} placeholder="e.g. Lima Convention Center" className="w-full bg-(--bg-body) border border-(--border-color) rounded-lg px-3 py-2 text-(--text-main)" />
                     </div>
                 </div>
@@ -328,28 +328,28 @@ export default function EventForm({ currentUser, initialData }: { currentUser: a
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                        <label className="block text-sm font-medium text-(--text-secondary) mb-2">Event Type</label>
+                        <label className="block text-[15px] font-bold text-black mb-2">Event Type</label>
                         <select name="type_id" value={formData.type_id} onChange={handleChange} className="w-full bg-(--bg-body) border border-(--border-color) rounded-lg px-3 py-2 text-(--text-main) appearance-none">
                             <option value="">Select Type</option>
                             {eventTypes.map(t => <option key={t.id} value={t.id}>{t.name}</option>)}
                         </select>
                     </div>
                     <div>
-                        <label className="block text-sm font-medium text-(--text-secondary) mb-2">Format</label>
+                        <label className="block text-[15px] font-bold text-black mb-2">Format</label>
                         <select name="format_id" value={formData.format_id} onChange={handleChange} className="w-full bg-(--bg-body) border border-(--border-color) rounded-lg px-3 py-2 text-(--text-main) appearance-none">
                             <option value="">Select Format</option>
                             {eventFormats.map(t => <option key={t.id} value={t.id}>{t.name}</option>)}
                         </select>
                     </div>
                     <div>
-                        <label className="block text-sm font-medium text-(--text-secondary) mb-2">Language</label>
+                        <label className="block text-[15px] font-bold text-black mb-2">Language</label>
                         <select name="language_id" value={formData.language_id} onChange={handleChange} className="w-full bg-(--bg-body) border border-(--border-color) rounded-lg px-3 py-2 text-(--text-main) appearance-none">
                             <option value="">Select Language</option>
                             {eventLanguages.map(t => <option key={t.id} value={t.id}>{t.name}</option>)}
                         </select>
                     </div>
                     <div>
-                        <label className="block text-sm font-medium text-(--text-secondary) mb-2">Price Category</label>
+                        <label className="block text-[15px] font-bold text-black mb-2">Price Category</label>
                         <select name="price_id" value={formData.price_id} onChange={handleChange} className="w-full bg-(--bg-body) border border-(--border-color) rounded-lg px-3 py-2 text-(--text-main) appearance-none">
                             <option value="">Select Price</option>
                             {eventPrices.map(t => <option key={t.id} value={t.id}>{t.name}</option>)}
@@ -364,7 +364,7 @@ export default function EventForm({ currentUser, initialData }: { currentUser: a
 
                 {/* PDF Schedule Upload */}
                 <div>
-                    <label className="block text-sm font-medium text-(--text-secondary) mb-2">Event Program / Schedule (PDF) (Optional)</label>
+                    <label className="block text-[15px] font-bold text-black mb-2">Event Program / Schedule (PDF) (Optional)</label>
                     {formData.schedule_pdf_url ? (
                         <div className="flex items-center justify-between p-3 bg-(--bg-surface) border border-(--border-color) rounded-lg">
                             <div className="flex items-center gap-2 text-primary-400">
@@ -391,19 +391,19 @@ export default function EventForm({ currentUser, initialData }: { currentUser: a
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                        <label className="block text-sm font-medium text-(--text-secondary) mb-2">Organizer Name</label>
+                        <label className="block text-[15px] font-bold text-black mb-2">Organizer Name</label>
                         <input type="text" name="organizer" value={formData.organizer} onChange={handleChange} placeholder="Company or Group Name" className="w-full bg-(--bg-body) border border-(--border-color) rounded-lg px-3 py-2 text-(--text-main)" />
                     </div>
                     <div>
-                        <label className="block text-sm font-medium text-(--text-secondary) mb-2">Organizer Email</label>
+                        <label className="block text-[15px] font-bold text-black mb-2">Organizer Email</label>
                         <input type="email" name="organizer_email" value={formData.organizer_email} onChange={handleChange} placeholder="contact@organizer.com" className="w-full bg-(--bg-body) border border-(--border-color) rounded-lg px-3 py-2 text-(--text-main)" />
                     </div>
                     <div>
-                        <label className="block text-sm font-medium text-(--text-secondary) mb-2">Organizer Phone</label>
+                        <label className="block text-[15px] font-bold text-black mb-2">Organizer Phone</label>
                         <input type="tel" name="organizer_phone" value={formData.organizer_phone} onChange={handleChange} placeholder="+1 234 567 890" className="w-full bg-(--bg-body) border border-(--border-color) rounded-lg px-3 py-2 text-(--text-main)" />
                     </div>
                     <div>
-                        <label className="block text-sm font-medium text-(--text-secondary) mb-2">Official Event Link</label>
+                        <label className="block text-[15px] font-bold text-black mb-2">Official Event Link</label>
                         <input type="url" name="official_link" value={formData.official_link} onChange={handleChange} placeholder="https://..." className="w-full bg-(--bg-body) border border-(--border-color) rounded-lg px-3 py-2 text-(--text-main)" />
                     </div>
                 </div>
@@ -428,7 +428,7 @@ export default function EventForm({ currentUser, initialData }: { currentUser: a
 
             {/* SECTION 5: DESCRIPTION */}
             <div>
-                <label className="block text-sm font-medium text-(--text-secondary) mb-2">Full Description</label>
+                <label className="block text-[15px] font-bold text-black mb-2">Full Description</label>
                 <textarea
                     name="description"
                     rows={6}
@@ -450,7 +450,7 @@ export default function EventForm({ currentUser, initialData }: { currentUser: a
                 <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="inline-flex justify-center rounded-md border border-transparent bg-primary-600 py-3 px-8 text-sm font-bold text-white shadow-sm hover:bg-primary-500 focus:outline-none transition-all transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="inline-flex justify-center rounded-md border border-transparent bg-[#00c44b] py-3 px-8 text-sm font-bold text-white shadow-sm hover:bg-[#00c44b]/90 focus:outline-none transition-all transform hover:scale-105 disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                     {isSubmitting ? 'Saving...' : (isEditMode ? 'Update Event' : 'Publish Event')}
                 </button>

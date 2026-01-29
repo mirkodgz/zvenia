@@ -11,7 +11,9 @@ interface Props {
     description?: string;
     hideRightSidebar?: boolean;
     image?: string;
+    image?: string;
     type?: "website" | "article" | "video.other";
+    bgColor?: string;
 }
 
 const {
@@ -20,6 +22,7 @@ const {
     hideRightSidebar = false,
     image = "https://res.cloudinary.com/dun3slcfg/image/upload/v1769642866/share-default.jpg",
     type = "website",
+    bgColor = "#f3f3f3",
 } = Astro.props;
 
 const canonicalURL = new URL(
@@ -101,7 +104,7 @@ const user = Astro.locals.user;
             <!-- Inner Content Container -->
             <main
                 class="w-full min-h-full border-x border-(--border-color) py-6"
-                style="background-color: #f3f3f3;"
+                style={`background-color: ${bgColor};`}
             >
                 <div class="w-full max-w-[98%] mx-auto">
                     <slot />

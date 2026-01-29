@@ -134,7 +134,7 @@ export default function PodcastForm({ currentUser, initialData }: { currentUser:
     const isEditMode = !!formData.id;
 
     return (
-        <form onSubmit={handleSubmit} className="space-y-8 max-w-4xl mx-auto pb-12">
+        <form onSubmit={handleSubmit} className="space-y-6 w-full mx-auto pb-12">
 
             {/* 1. Main Info */}
             <div className="space-y-4">
@@ -142,7 +142,7 @@ export default function PodcastForm({ currentUser, initialData }: { currentUser:
 
                 {/* Topic */}
                 <div>
-                    <label className="block text-sm font-medium text-(--text-secondary) mb-2">Topic *</label>
+                    <label className="block text-[15px] font-bold text-black mb-2">Topic *</label>
                     <select
                         name="topic_id"
                         value={formData.topic_id}
@@ -157,7 +157,7 @@ export default function PodcastForm({ currentUser, initialData }: { currentUser:
 
                 {/* Title */}
                 <div>
-                    <label className="block text-sm font-medium text-(--text-secondary) mb-2">Podcast Name / Title *</label>
+                    <label className="block text-[15px] font-bold text-black mb-2">Podcast Name / Title *</label>
                     <input
                         type="text"
                         name="title"
@@ -171,7 +171,7 @@ export default function PodcastForm({ currentUser, initialData }: { currentUser:
 
                 {/* Host */}
                 <div>
-                    <label className="block text-sm font-medium text-(--text-secondary) mb-2">Host Name</label>
+                    <label className="block text-[15px] font-bold text-black mb-2">Host Name</label>
                     <input
                         type="text"
                         name="host"
@@ -184,7 +184,7 @@ export default function PodcastForm({ currentUser, initialData }: { currentUser:
 
                 {/* Cover Image */}
                 <div>
-                    <label className="block text-sm font-medium text-(--text-secondary) mb-2">Cover Art</label>
+                    <label className="block text-[15px] font-bold text-black mb-2">Cover Art</label>
                     {formData.cover_image_url ? (
                         <div className="relative w-48 h-48 rounded-lg overflow-hidden border border-(--border-color) group">
                             <img src={formData.cover_image_url} alt="Cover" className="w-full h-full object-cover" />
@@ -202,7 +202,7 @@ export default function PodcastForm({ currentUser, initialData }: { currentUser:
 
                 {/* Description */}
                 <div>
-                    <label className="block text-sm font-medium text-(--text-secondary) mb-2">Description</label>
+                    <label className="block text-[15px] font-bold text-black mb-2">Description</label>
                     <textarea
                         name="description"
                         rows={4}
@@ -236,7 +236,7 @@ export default function PodcastForm({ currentUser, initialData }: { currentUser:
                                 #{index + 1}
                             </div>
                             <div className="md:col-span-5">
-                                <label className="block text-xs text-(--text-secondary) mb-1">Episode Title</label>
+                                <label className="block text-[15px] font-bold text-black mb-1">Episode Title</label>
                                 <input
                                     type="text"
                                     value={ep.title}
@@ -246,7 +246,7 @@ export default function PodcastForm({ currentUser, initialData }: { currentUser:
                                 />
                             </div>
                             <div className="md:col-span-5">
-                                <label className="block text-xs text-(--text-secondary) mb-1">YouTube / Video URL</label>
+                                <label className="block text-[15px] font-bold text-black mb-1">YouTube / Video URL</label>
                                 <input
                                     type="url"
                                     value={ep.video_url}
@@ -294,7 +294,7 @@ export default function PodcastForm({ currentUser, initialData }: { currentUser:
                 <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="inline-flex justify-center rounded-md border border-transparent bg-primary-600 py-3 px-8 text-sm font-bold text-white shadow-sm hover:bg-primary-500 focus:outline-none transition-all transform hover:scale-105 disabled:opacity-50"
+                    className="inline-flex justify-center rounded-md border border-transparent bg-[#00c44b] py-3 px-8 text-sm font-bold text-white shadow-sm hover:bg-[#00c44b]/90 focus:outline-none transition-all transform hover:scale-105 disabled:opacity-50"
                 >
                     {isSubmitting ? 'Saving...' : (isEditMode ? 'Update Podcast' : 'Publish Podcast')}
                 </button>
