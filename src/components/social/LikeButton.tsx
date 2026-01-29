@@ -133,7 +133,7 @@ export default function LikeButton({ contentId, contentType, initialCount, curre
                 e.stopPropagation();
                 handleToggleLike();
             }}
-            className={`flex items-center gap-1.5 transition-colors group text-xs font-medium ${liked ? 'text-green-500' : 'hover:text-green-500'}`}
+            className={`flex items-center gap-1.5 transition-colors group text-[15px] font-medium ${liked ? 'text-green-500' : 'hover:text-green-500'}`}
         >
             <svg
                 xmlns="http://www.w3.org/2000/svg"

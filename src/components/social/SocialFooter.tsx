@@ -30,7 +30,7 @@ export default function SocialFooter({
             {/* Action Bar */}
             <div className="px-4 py-3 bg-(--bg-surface-hover) border-t border-(--border-color) flex justify-between items-center text-(--text-secondary)">
                 {/* Left: Interactions */}
-                <div className="flex gap-6 text-xs font-medium">
+                <div className="flex gap-6 text-[15px] font-medium">
                     <LikeButton
                         contentId={postId}
                         contentType="post"

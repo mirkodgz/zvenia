@@ -39,7 +39,7 @@ const formatDate = (dateStr: string) => {
 
 <article
     data-is-guest={String(!currentUser)}
-    class="flex flex-col bg-white border border-gray-200 scroll-snap-align-start w-full transition-all duration-300 hover:shadow-md h-auto rounded-none mb-12"
+    class="flex flex-col bg-white border border-gray-200 scroll-snap-align-start w-full transition-all duration-300 shadow-sm hover:shadow-md h-auto rounded-[6px] overflow-hidden mb-12"
 >
     <!-- 1. Header: Author & Meta -->
     <div class="px-4 pt-4 flex justify-between items-start relative z-10">
@@ -52,7 +52,7 @@ const formatDate = (dateStr: string) => {
                     src={post.author?.avatar_url ||
                         "https://via.placeholder.com/40?text=U"}
                     alt={post.author?.full_name || "User"}
-                    class="w-10 h-10 rounded-full object-cover border border-gray-100"
+                    class="w-[46px] h-[46px] rounded-[7px] object-cover border border-gray-100"
                 />
             </a>
             <div class="flex flex-col">
@@ -75,7 +75,7 @@ const formatDate = (dateStr: string) => {
                         </svg>
                     </a>
                 </div>
-                <span class="text-xs text-gray-500 leading-tight">
+                <span class="text-[13px] text-gray-500 leading-tight">
                     {post.author?.profession || "Member"}
                     {post.author?.company ? `at ${post.author.company}` : ""}
                 </span>
@@ -129,7 +129,7 @@ const formatDate = (dateStr: string) => {
                 </h1>
             ) : (
                 <a href={`/post/${post.slug || post.id}`} class="block group">
-                    <h4 class="text-base font-bold text-[#0a66c2] mb-1 group-hover:underline cursor-pointer transition-colors">
+                    <h4 class="text-[15px] font-bold text-[#0a66c2] mb-1 group-hover:underline cursor-pointer transition-colors">
                         {post.title}
                     </h4>
                 </a>
