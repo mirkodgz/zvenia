@@ -61,7 +61,7 @@ export default function AuthModal() {
                 </p>
 
                 <a
-                    href="/join"
+                    href="/register"
                     className="inline-block bg-[#10C35B] hover:bg-[#0da04b] text-[#00331d] font-bold py-3 px-8 rounded-lg transition-all transform hover:scale-[1.02] text-2xl mb-6 shadow-lg shadow-green-500/20"
                 >
                     Register for Free

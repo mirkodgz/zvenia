@@ -113,7 +113,7 @@ div {
 
 /* Global Tab Styles */
 .btn-tab {
-  @apply flex items-center justify-center gap-2 py-2 px-4 text-sm font-medium bg-transparent text-(--text-secondary) border border-(--border-color) transition-colors uppercase tracking-wide cursor-pointer hover:border-gray-400;
+  @apply flex items-center justify-center gap-2 py-2 px-4 text-sm font-medium bg-white text-(--text-secondary) border border-(--border-color) transition-colors uppercase tracking-wide cursor-pointer hover:border-gray-400;
 }
 
 .btn-tab-active {

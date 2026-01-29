@@ -2,39 +2,45 @@
 import "../styles/global.css";
 
 interface Props {
-	title: string;
+    title: string;
     description?: string;
 }
 
-const { title, description = "Zvenia - Community for Mining Professionals" } = Astro.props;
+const { title, description = "ZVENIA - Community for Mining Professionals" } =
+    Astro.props;
 ---
 
 <!doctype html>
 <html lang="en">
-	<head>
-		<meta charset="UTF-8" />
-		<meta name="viewport" content="width=device-width" />
-		<link rel="icon" type="image/png" href="/favicon.png" />
-		<meta name="generator" content={Astro.generator} />
+    <head>
+        <meta charset="UTF-8" />
+        <meta name="viewport" content="width=device-width" />
+        <link rel="icon" type="image/png" href="/favicon.png" />
+        <meta name="generator" content={Astro.generator} />
         <meta name="description" content={description} />
-		<title>{title}</title>
+        <title>{title}</title>
 
         <!-- Fonts: Outfit -->
-        <link rel="preconnect" href="https://fonts.googleapis.com">
-        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
-        <link href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap" rel="stylesheet">
-    
+        <link rel="preconnect" href="https://fonts.googleapis.com" />
+        <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin />
+        <link
+            href="https://fonts.googleapis.com/css2?family=Inter:wght@300;400;500;600;700&display=swap"
+            rel="stylesheet"
+        />
+
         <script is:inline>
             // Theme Initialization
-            const theme = localStorage.getItem('theme') || 'dark';
-            document.documentElement.setAttribute('data-theme', theme);
+            const theme = localStorage.getItem("theme") || "dark";
+            document.documentElement.setAttribute("data-theme", theme);
         </script>
-	</head>
-	<body class="bg-[var(--bg-body)] text-[var(--text-main)] min-h-screen flex flex-col font-sans selection:bg-primary-500 selection:text-white">
-		<slot name="header" />
+    </head>
+    <body
+        class="bg-[var(--bg-body)] text-[var(--text-main)] min-h-screen flex flex-col font-sans selection:bg-primary-500 selection:text-white"
+    >
+        <slot name="header" />
         <main class="flex-grow w-full">
-    		<slot />
+            <slot />
         </main>
         <slot name="footer" />
-	</body>
+    </body>
 </html>

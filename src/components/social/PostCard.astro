@@ -29,17 +29,17 @@ const getCleanContent = (post: any) => {
 };
 
 const formatDate = (dateStr: string) => {
-    return new Date(dateStr).toLocaleDateString("en-US", {
-        month: "short",
-        day: "numeric",
-        year: "numeric",
-    });
+    const d = new Date(dateStr);
+    const day = String(d.getDate()).padStart(2, "0");
+    const month = String(d.getMonth() + 1).padStart(2, "0");
+    const year = d.getFullYear();
+    return `${day}/${month}/${year}`;
 };
 ---
 
 <article
     data-is-guest={String(!currentUser)}
-    class="flex flex-col bg-white border border-gray-200 scroll-snap-align-start w-full transition-all duration-300 hover:shadow-md h-auto rounded-none pb-2 mb-4"
+    class="flex flex-col bg-white border border-gray-200 scroll-snap-align-start w-full transition-all duration-300 hover:shadow-md h-auto rounded-none mb-12"
 >
     <!-- 1. Header: Author & Meta -->
     <div class="px-4 pt-4 flex justify-between items-start relative z-10">
@@ -56,23 +56,34 @@ const formatDate = (dateStr: string) => {
                 />
             </a>
             <div class="flex flex-col">
-                <a
-                    href={`/profile/${post.author?.profile_slug || post.author_id}`}
-                    class="font-bold text-dark text-sm leading-tight hover:underline"
-                >
-                    {post.author?.full_name || "Unknown User"}
-                </a>
+                <div class="flex items-center gap-1">
+                    <a
+                        href={`/profile/${post.author?.profile_slug || post.author_id}`}
+                        class="font-bold text-dark leading-tight hover:underline flex items-center gap-1"
+                        style="font-size: 15px;"
+                    >
+                        {post.author?.full_name || "Unknown User"}
+                        <svg
+                            xmlns="http://www.w3.org/2000/svg"
+                            viewBox="0 -960 960 960"
+                            class="w-6 h-6 text-[#0a66c2]"
+                            fill="currentColor"
+                        >
+                            <path
+                                d="m347-72-75-124-141-32 13-144-96-108 96-108-13-144 141-32 75-124 133 57 133-57 75 124 141 32-13 144 96 108-96 108 13 144-141 32-75 124-133-57-133 57Zm29-91 104-44 104 44 58-97 110-25-10-111 74-84-74-84 10-111-110-25-58-97-104 44-104-44-58 97-110 24 10 112-74 84 75 84-11 112 110 25 58 96Zm104-317Zm-51 144 238-237-51-51-187 186-85-84-51 51 136 135Z"
+                            ></path>
+                        </svg>
+                    </a>
+                </div>
                 <span class="text-xs text-gray-500 leading-tight">
                     {post.author?.profession || "Member"}
                     {post.author?.company ? `at ${post.author.company}` : ""}
                 </span>
-                <span class="text-[11px] text-gray-400 leading-tight mt-0.5">
+                <span
+                    class="leading-tight mt-0.5"
+                    style="font-size: 12px; font-family: 'Inter', sans-serif; color: #00000099; font-weight: 400;"
+                >
                     {formatDate(post.created_at)}
-                    &bull;
-                    <span
-                        class="material-icons text-[10px] align-middle text-gray-400"
-                        >public</span
-                    >
                 </span>
             </div>
         </div>

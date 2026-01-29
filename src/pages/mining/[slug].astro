@@ -202,7 +202,7 @@ const formatDate = (dateStr: string | null) => {
 };
 ---
 
-<SocialLayout title={`${topic.name} - Mining Topic | Zvenia`}>
+<SocialLayout title={`${topic.name} - Mining Topic | ZVENIA`}>
     <LeftSidebar slot="left-sidebar" activeTopicSlug={topic.slug} />
     <RightSidebar slot="right-sidebar" />
 
@@ -886,17 +886,9 @@ const formatDate = (dateStr: string | null) => {
                 if (targetContent) {
                     // Update buttons
                     buttons.forEach((b) => {
-                        b.classList.remove(
-                            "btn-tab-active",
-                            "bg-[#091235]",
-                            "text-white",
-                        );
+                        b.classList.remove("btn-tab-active");
                         if (b.getAttribute("data-target") === savedTab) {
-                            b.classList.add(
-                                "btn-tab-active",
-                                "bg-[#091235]",
-                                "text-white",
-                            );
+                            b.classList.add("btn-tab-active");
                         }
                     });
                     // Update Content
@@ -918,17 +910,9 @@ const formatDate = (dateStr: string | null) => {
                     // Toggle Buttons
                     const allButtons = document.querySelectorAll(".tab-btn");
                     allButtons.forEach((b) =>
-                        b.classList.remove(
-                            "btn-tab-active",
-                            "bg-[#091235]",
-                            "text-white",
-                        ),
+                        b.classList.remove("btn-tab-active"),
                     );
-                    newBtn.classList.add(
-                        "btn-tab-active",
-                        "bg-[#091235]",
-                        "text-white",
-                    );
+                    newBtn.classList.add("btn-tab-active");
 
                     // Toggle Content
                     contents.forEach((c) => c.classList.add("hidden"));

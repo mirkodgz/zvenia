@@ -30,7 +30,7 @@ if (error || !talk) {
 
 const metadata = (talk.metadata as any) || {};
 const guestName = metadata["guest-z-talk"] || "Invitado Especial";
-const company = metadata["guest-company"] || "Zvenia Mining";
+const company = metadata["guest-company"] || "ZVENIA Mining";
 // Handle video URLs by converting to jpg extension for thumbnail, similar to card
 let imageUrl = talk.featured_image_url;
 if (imageUrl && imageUrl.includes(".mp4")) {

@@ -16,7 +16,7 @@ interface Props {
 
 const {
     title,
-    description = "Zvenia - Community for Mining Professionals",
+    description = "ZVENIA - Community for Mining Professionals",
     hideRightSidebar = false,
     image = "https://res.cloudinary.com/dun3slcfg/image/upload/v1769642866/share-default.jpg",
     type = "website",
@@ -88,7 +88,7 @@ const user = Astro.locals.user;
         <!-- RIGHT SIDEBAR (Fixed, starts below header) -->
         {
             !hideRightSidebar && (
-                <aside class="hidden lg:block fixed right-0 top-[70px] bottom-0 w-[300px] z-998 bg-(--bg-surface) overflow-y-auto no-scrollbar border-l border-[#e5e7eb] px-4 py-4">
+                <aside class="hidden lg:block fixed right-0 top-[70px] bottom-0 w-[300px] z-998 bg-white overflow-y-auto no-scrollbar border-l border-[#e5e7eb] px-4 py-4">
                     <slot name="right-sidebar" />
                 </aside>
             )

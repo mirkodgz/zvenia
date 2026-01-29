@@ -98,7 +98,7 @@ export default function RecentActivity() {
             {/* Trigger Button */}
             <button
                 onClick={toggleDropdown}
-                className={`transition-colors p-2 rounded-none ${isOpen ? "text-white bg-white/10" : "text-gray-300 hover:text-white"
+                className={`cursor-pointer transition-colors p-2 rounded-none ${isOpen ? "text-white bg-white/10" : "text-gray-300 hover:text-white"
                     }`}
                 aria-label="Recent Activity"
             >

@@ -1,8 +1,8 @@
 ---
-import Layout from "../layouts/Layout.astro";
+import SocialLayout from "../layouts/SocialLayout.astro";
+import LeftSidebar from "../components/social/LeftSidebar.astro";
 import ThemeToggle from "../components/ThemeToggle.astro";
-import MiningBackground from "../components/MiningBackground.astro";
-import { createClient } from "@supabase/supabase-js";
+
 import { createSupabaseServerClient } from "../lib/supabase";
 
 // Check Auth first
@@ -17,94 +17,25 @@ const {
 if (user) {
   return Astro.redirect("/");
 }
-
-// Fetch countries for dynamic dropdown
-const supabase = createClient(
-  import.meta.env.PUBLIC_SUPABASE_URL,
-  import.meta.env.PUBLIC_SUPABASE_ANON_KEY,
-);
-
-const { data: countries } = await supabase
-  .from("countries")
-  .select("code, name")
-  .order("name");
 ---
 
-<Layout title="Zvenia - Únete a la Comunidad">
+<SocialLayout title="ZVENIA - Únete a la Comunidad" hideRightSidebar={true}>
+  <LeftSidebar slot="left-sidebar" />
   <div
-    class="min-h-screen bg-(--bg-body) flex flex-col justify-center lg:grid lg:grid-cols-2 relative overflow-hidden"
+    class="min-h-[calc(100vh-140px)] flex flex-col justify-center items-center relative overflow-hidden"
   >
     <ThemeToggle />
 
-    <!-- Animated Mining Background (Global) -->
-    <MiningBackground />
-
     <!-- LEFT COLUMN: Branding & Value Prop (Centered content) -->
 
     <!-- LEFT COLUMN: Branding & Value Prop (Centered content) -->
-    <div
-      class="hidden lg:flex flex-col justify-center items-end px-16 relative z-10"
-    >
-      <div class="max-w-md text-right">
-        <!-- Zvenia Logo / Title -->
-        <h1
-          class="text-6xl font-extrabold tracking-tighter text-primary-500 mb-6 drop-shadow-sm"
-        >
-          zvenia
-        </h1>
-
-        <h2 class="text-3xl font-medium text-(--text-main) leading-tight mb-8">
-          Connect with mining professionals and shape the future of the
-          industry.
-        </h2>
-
-        <!-- Abstract Mining Visualization (CSS Animation) -->
-        <div class="relative w-64 h-64 ml-auto opacity-80">
-          <div
-            class="absolute inset-0 border-2 border-primary-500/30 rounded-full animate-[spin_10s_linear_infinite]"
-          >
-          </div>
-          <div
-            class="absolute inset-4 border-2 border-dashed border-primary-400/30 rounded-full animate-[spin_15s_linear_infinite_reverse]"
-          >
-          </div>
-          <div
-            class="absolute inset-16 bg-primary-500/10 rounded-full blur-xl animate-pulse"
-          >
-          </div>
-          <!-- Central Icon -->
-          <div class="absolute inset-0 flex items-center justify-center">
-            <svg
-              class="w-16 h-16 text-primary-500"
-              fill="none"
-              viewBox="0 0 24 24"
-              stroke="currentColor"
-            >
-              <path
-                stroke-linecap="round"
-                stroke-linejoin="round"
-                stroke-width="1.5"
-                d="M19.428 15.428a2 2 0 00-1.022-.547l-2.387-.477a6 6 0 00-3.86.517l-.318.158a6 6 0 01-3.86.517L6.05 15.21a2 2 0 00-1.806.547M8 4h8l-1 1v5.172a2 2 0 00.586 1.414l5 5c1.26 1.26.367 3.414-1.415 3.414H4.828c-1.782 0-2.674-2.154-1.414-3.414l5-5A2 2 0 009 10.172V5L8 4z"
-              ></path>
-            </svg>
-          </div>
-        </div>
-      </div>
-    </div>
 
     <!-- RIGHT COLUMN: Join Form (Centered) -->
     <div
-      class="flex flex-col justify-center items-center lg:items-start px-4 sm:px-6 lg:px-16 relative z-10 py-12 lg:py-0"
+      class="w-full flex flex-col justify-center items-center px-4 sm:px-6 relative z-10 py-12 lg:py-0"
     >
-      <!-- Logo mobile only -->
-      <h1
-        class="lg:hidden text-5xl font-extrabold tracking-tighter text-primary-500 mb-8 drop-shadow-sm"
-      >
-        zvenia
-      </h1>
-
       <div
-        class="w-full max-w-md bg-(--bg-card) p-8 rounded-xl border border-(--border-color) shadow-2xl backdrop-blur-sm"
+        class="w-full max-w-lg bg-(--bg-card) p-8 rounded-xl border border-(--border-color) shadow-2xl backdrop-blur-sm"
       >
         <div class="mb-6 border-b border-(--border-color) pb-4">
           <h2 class="text-2xl font-bold tracking-tight text-(--text-main)">
@@ -151,42 +82,56 @@ const { data: countries } = await supabase
             />
           </div>
 
-          <div>
-            <select
-              id="profession"
-              name="profession"
-              class="block w-full rounded-lg border-0 bg-(--bg-surface-hover) py-2.5 px-3 text-(--text-main) ring-1 ring-inset ring-(--border-color) focus:ring-2 focus:ring-primary-500 text-base transition-all [&>option]:bg-(--bg-card)"
-            >
-              <option value="" disabled selected>Select Profession</option>
-              <option>Mining Engineer</option>
-              <option>Geologist</option>
-              <option>Service Provider</option>
-              <option>Student</option>
-              <option>Other</option>
-            </select>
-          </div>
-
-          <div>
-            <select
-              id="country"
-              name="country"
-              class="block w-full rounded-lg border-0 bg-(--bg-surface-hover) py-2.5 px-3 text-(--text-main) ring-1 ring-inset ring-(--border-color) focus:ring-2 focus:ring-primary-500 text-base transition-all [&>option]:bg-(--bg-card)"
-            >
-              <option value="" disabled selected>Select Country</option>
-              {countries?.map((c) => <option value={c.code}>{c.name}</option>)}
-            </select>
-          </div>
-
-          <div>
+          <div class="relative">
             <input
               id="password"
               name="password"
               type="password"
               autocomplete="new-password"
               required
-              class="block w-full rounded-lg border-0 bg-(--bg-surface-hover) py-2.5 px-3 text-(--text-main) ring-1 ring-inset ring-(--border-color) placeholder:text-(--text-secondary) focus:ring-2 focus:ring-primary-500 text-base transition-all"
+              class="block w-full rounded-lg border-0 bg-(--bg-surface-hover) py-2.5 px-3 text-(--text-main) ring-1 ring-inset ring-(--border-color) placeholder:text-(--text-secondary) focus:ring-2 focus:ring-primary-500 text-base transition-all pr-10"
               placeholder="Password (Min. 8 chars)"
             />
+            <button
+              type="button"
+              id="toggle-password"
+              class="absolute inset-y-0 right-0 flex items-center pr-3 text-gray-400 hover:text-gray-600 focus:outline-none cursor-pointer"
+            >
+              <svg
+                id="eye-icon"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-5 h-5"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M2.036 12.322a1.012 1.012 0 010-.639C3.423 7.51 7.36 4.5 12 4.5c4.638 0 8.573 3.007 9.963 7.178.07.207.07.431 0 .639C20.577 16.49 16.64 19.5 12 19.5c-4.638 0-8.573-3.007-9.963-7.178z"
+                ></path>
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M15 12a3 3 0 11-6 0 3 3 0 016 0z"></path>
+              </svg>
+              <svg
+                id="eye-slash-icon"
+                xmlns="http://www.w3.org/2000/svg"
+                fill="none"
+                viewBox="0 0 24 24"
+                stroke-width="1.5"
+                stroke="currentColor"
+                class="w-5 h-5 hidden"
+              >
+                <path
+                  stroke-linecap="round"
+                  stroke-linejoin="round"
+                  d="M3.98 8.223A10.477 10.477 0 001.934 12C3.226 16.338 7.244 19.5 12 19.5c.993 0 1.953-.138 2.863-.395M6.228 6.228A10.45 10.45 0 0112 4.5c4.756 0 8.773 3.162 10.065 7.498a10.523 10.523 0 01-4.293 5.774M6.228 6.228L3 3m3.228 3.228l3.65 3.65m7.894 7.894L21 21m-3.228-3.228l-3.65-3.65m0 0a3 3 0 10-4.243-4.243m4.242 4.242L9.88 9.88"
+                ></path>
+              </svg>
+            </button>
           </div>
 
           <p class="text-xs text-(--text-secondary) text-center px-2">
@@ -240,7 +185,7 @@ const { data: countries } = await supabase
       </div>
     </div>
   </div>
-</Layout>
+</SocialLayout>
 
 <script>
   import { supabase } from "../lib/supabase";
@@ -260,6 +205,23 @@ const { data: countries } = await supabase
         console.error("Google login error:", error.message);
         alert("Error logging in with Google: " + error.message);
       }
+    });
+  }
+
+  // Password Toggle Logic
+  const togglePasswordBtn = document.getElementById("toggle-password");
+  const passwordInput = document.getElementById("password");
+  const eyeIcon = document.getElementById("eye-icon");
+  const eyeSlashIcon = document.getElementById("eye-slash-icon");
+
+  if (togglePasswordBtn && passwordInput && eyeIcon && eyeSlashIcon) {
+    togglePasswordBtn.addEventListener("click", () => {
+      const type =
+        passwordInput.getAttribute("type") === "password" ? "text" : "password";
+      passwordInput.setAttribute("type", type);
+
+      eyeIcon.classList.toggle("hidden");
+      eyeSlashIcon.classList.toggle("hidden");
     });
   }
 </script>
