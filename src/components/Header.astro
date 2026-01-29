@@ -72,7 +72,7 @@ if (!profile && locals.user) {
         {/* Mobile placeholder if needed, or hide */}
       </button>
 
-      <RecentActivity client:load />
+      {Astro.locals.user && <RecentActivity client:load />}
     </div>
 
     <!-- Block 2: Center Logo (ZVENIA) -->

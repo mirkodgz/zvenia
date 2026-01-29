@@ -248,10 +248,24 @@ const formatDate = (dateStr: string | null) => {
                 )
             }
 
-            {feedType === "post" && "Popular Posts"}
-            {feedType === "event" && "Upcoming Events"}
-            {feedType === "podcast" && "Recent Podcasts"}
-            {feedType === "service" && "Professional Services"}
+            {
+                feedType === "post" &&
+                    (filter === "saved" ? "Saved Posts" : "Popular Posts")
+            }
+            {
+                feedType === "event" &&
+                    (filter === "saved" ? "Saved Events" : "Upcoming Events")
+            }
+            {
+                feedType === "podcast" &&
+                    (filter === "saved" ? "Saved Podcasts" : "Recent Podcasts")
+            }
+            {
+                feedType === "service" &&
+                    (filter === "saved"
+                        ? "Saved Services"
+                        : "Professional Services")
+            }
         </h3>
         <span class="text-xs text-gray-500"
             >Sorted by: <span class="font-bold text-(--text-main)">Newest</span

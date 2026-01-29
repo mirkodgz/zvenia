@@ -3,6 +3,8 @@ import "../styles/global.css";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
 import Lightbox from "../components/social/Lightbox.astro";
+import AuthModal from "../components/common/AuthModal";
+import PreviewBar from "../components/common/PreviewBar.astro";
 
 interface Props {
     title: string;
@@ -25,9 +27,10 @@ const canonicalURL = new URL(
     Astro.site || "https://zvenia.com",
 );
 const socialImageURL = new URL(image, Astro.site || "https://zvenia.com");
+
+const user = Astro.locals.user;
 ---
 
-<!doctype html>
 <html lang="en">
     <head>
         <meta charset="UTF-8" />
@@ -110,6 +113,9 @@ const socialImageURL = new URL(image, Astro.site || "https://zvenia.com");
         </div>
 
         <Lightbox />
+        <AuthModal client:load />
+
+        {!user && <PreviewBar hideRightSidebar={hideRightSidebar} />}
     </body>
 </html>
 

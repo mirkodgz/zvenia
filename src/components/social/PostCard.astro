@@ -38,6 +38,7 @@ const formatDate = (dateStr: string) => {
 ---
 
 <article
+    data-is-guest={String(!currentUser)}
     class="flex flex-col bg-white border border-gray-200 scroll-snap-align-start w-full transition-all duration-300 hover:shadow-md h-auto rounded-none pb-2 mb-4"
 >
     <!-- 1. Header: Author & Meta -->
@@ -380,7 +381,19 @@ const formatDate = (dateStr: string) => {
         readMoreBtns.forEach((btn) => {
             if (btn.hasAttribute("data-bound")) return;
             btn.setAttribute("data-bound", "true");
+
+            // Get guest status from parent article (we need to ensure attribute exists)
+            const article = btn.closest("article");
+            const isGuest = article?.dataset.isGuest === "true";
+
             btn.addEventListener("click", (e) => {
+                if (isGuest) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    window.dispatchEvent(new CustomEvent("open-auth-modal"));
+                    return;
+                }
+
                 const button = e.target as HTMLButtonElement;
                 const container = button.closest("div");
                 const text = container?.querySelector(".post-content");
@@ -409,6 +422,8 @@ const formatDate = (dateStr: string) => {
             const readMoreBtn = container?.querySelector(
                 ".read-more-btn-detail",
             ) as HTMLButtonElement;
+            const article = postContent.closest("article");
+            const isGuest = article?.dataset.isGuest === "true";
 
             if (!readMoreBtn || readMoreBtn.hasAttribute("data-bound")) return;
             readMoreBtn.setAttribute("data-bound", "true");
@@ -434,7 +449,16 @@ const formatDate = (dateStr: string) => {
                 readMoreBtn.classList.add("opacity-100");
 
                 let isExpanded = false;
-                readMoreBtn.addEventListener("click", () => {
+                readMoreBtn.addEventListener("click", (e) => {
+                    if (isGuest) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        window.dispatchEvent(
+                            new CustomEvent("open-auth-modal"),
+                        );
+                        return;
+                    }
+
                     isExpanded = !isExpanded;
                     if (isExpanded) {
                         postContent.style.maxHeight = "none";
