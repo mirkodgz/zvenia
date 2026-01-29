@@ -163,8 +163,8 @@ if (detectedCountryCode) {
         Astro.url.searchParams.get("debug_geo") === "true" && (
             <div class="mt-2 p-2 bg-black/90 text-green-400 text-xs font-mono rounded overflow-hidden">
                 <p>
-                    <strong>Available Locals:</strong>{" "}
-                    {JSON.stringify(Astro.locals)}
+                    <strong>Locals.country:</strong>{" "}
+                    {Astro.locals.country || "undefined"}
                 </p>
                 <p>
                     <strong>GEO Header:</strong> {detectedCountryCode || "NONE"}
