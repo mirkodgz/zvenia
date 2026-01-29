@@ -67,7 +67,7 @@ const formatDate = (dateStr: string) => {
                     {post.author?.company ? `at ${post.author.company}` : ""}
                 </span>
                 <span class="text-[11px] text-gray-400 leading-tight mt-0.5">
-                    {formatDate(post.created_at)}
+                    {formatDate(post.published_at || post.created_at)}
                     &bull;
                     <span
                         class="material-icons text-[10px] align-middle text-gray-400"
