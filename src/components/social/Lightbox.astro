@@ -1,0 +1,191 @@
+---
+// Lightbox Component
+// Controlled via "open-lightbox" window event
+// Event Detail: { images: string[], initialIndex: number }
+---
+
+<div
+    id="global-lightbox"
+    class="fixed inset-0 z-9999 bg-black/95 hidden opacity-0 transition-opacity duration-300 items-center justify-center p-4 backdrop-blur-sm"
+>
+    <!-- Close Button -->
+    <button
+        id="lb-close"
+        class="absolute top-4 right-4 text-white/70 hover:text-white transition-colors z-10001 p-2 hover:bg-white/10 rounded-full"
+    >
+        <svg
+            class="w-8 h-8"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+        >
+            <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M6 18L18 6M6 6l12 12"></path>
+        </svg>
+    </button>
+
+    <!-- Prev Button -->
+    <button
+        id="lb-prev"
+        class="absolute left-4 top-1/2 -translate-y-1/2 text-white/70 hover:text-white transition-colors z-10001 p-3 hover:bg-white/10 rounded-full hidden"
+    >
+        <svg
+            class="w-10 h-10"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+        >
+            <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M15 19l-7-7 7-7"></path>
+        </svg>
+    </button>
+
+    <!-- Next Button -->
+    <button
+        id="lb-next"
+        class="absolute right-4 top-1/2 -translate-y-1/2 text-white/70 hover:text-white transition-colors z-10001 p-3 hover:bg-white/10 rounded-full hidden"
+    >
+        <svg
+            class="w-10 h-10"
+            fill="none"
+            viewBox="0 0 24 24"
+            stroke="currentColor"
+        >
+            <path
+                stroke-linecap="round"
+                stroke-linejoin="round"
+                stroke-width="2"
+                d="M9 5l7 7-7 7"></path>
+        </svg>
+    </button>
+
+    <!-- Main Image -->
+    <div
+        class="relative w-full h-full max-w-7xl max-h-[90vh] flex items-center justify-center"
+    >
+        <img
+            id="lb-img"
+            src=""
+            class="max-w-full max-h-full object-contain shadow-2xl scale-95 transition-transform duration-300"
+            alt="Fullscreen view"
+        />
+    </div>
+
+    <!-- Counter -->
+    <div
+        id="lb-counter"
+        class="absolute bottom-6 left-1/2 -translate-x-1/2 text-white/80 text-sm font-medium bg-black/50 px-3 py-1 rounded-full backdrop-blur-sm"
+    >
+        1 / 1
+    </div>
+</div>
+
+<script>
+    const lightbox = document.getElementById("global-lightbox");
+    const img = document.getElementById("lb-img") as HTMLImageElement;
+    const closeBtn = document.getElementById("lb-close");
+    const prevBtn = document.getElementById("lb-prev");
+    const nextBtn = document.getElementById("lb-next");
+    const counter = document.getElementById("lb-counter");
+
+    let images: string[] = [];
+    let currentIndex = 0;
+
+    const updateView = () => {
+        if (!img) return;
+
+        // Load new image
+        img.style.transform = "scale(0.95)";
+        img.style.opacity = "0.8";
+
+        setTimeout(() => {
+            img.src = images[currentIndex];
+            img.onload = () => {
+                img.style.transform = "scale(1)";
+                img.style.opacity = "1";
+            };
+        }, 150);
+
+        // Update Nav
+        if (images.length > 1) {
+            prevBtn?.classList.remove("hidden");
+            nextBtn?.classList.remove("hidden");
+            counter?.classList.remove("hidden");
+            if (counter)
+                counter.innerText = `${currentIndex + 1} / ${images.length}`;
+        } else {
+            prevBtn?.classList.add("hidden");
+            nextBtn?.classList.add("hidden");
+            counter?.classList.add("hidden");
+        }
+    };
+
+    const openLightbox = (e: any) => {
+        images = e.detail.images || [];
+        currentIndex = e.detail.initialIndex || 0;
+
+        if (images.length === 0) return;
+
+        updateView();
+
+        lightbox?.classList.remove("hidden");
+        lightbox?.classList.add("flex"); // Add flex for centering
+        // Force reflow
+        void lightbox?.offsetWidth;
+        lightbox?.classList.remove("opacity-0");
+        document.body.style.overflow = "hidden"; // Prevent background scroll
+    };
+
+    const closeLightbox = () => {
+        lightbox?.classList.add("opacity-0");
+        setTimeout(() => {
+            lightbox?.classList.add("hidden");
+            lightbox?.classList.remove("flex"); // Remove flex to avoid conflicts
+            document.body.style.overflow = "";
+            if (img) img.src = ""; // Clear memory
+        }, 300);
+    };
+
+    const nextImage = (e?: Event) => {
+        e?.stopPropagation();
+        currentIndex = (currentIndex + 1) % images.length;
+        updateView();
+    };
+
+    const prevImage = (e?: Event) => {
+        e?.stopPropagation();
+        currentIndex = (currentIndex - 1 + images.length) % images.length;
+        updateView();
+    };
+
+    // Listeners
+    window.addEventListener("open-lightbox", openLightbox);
+    closeBtn?.addEventListener("click", closeLightbox);
+    prevBtn?.addEventListener("click", prevImage);
+    nextBtn?.addEventListener("click", nextImage);
+
+    // Close on background click
+    lightbox?.addEventListener("click", (e) => {
+        if (
+            e.target === lightbox ||
+            e.target === lightbox?.querySelector("div")
+        ) {
+            closeLightbox();
+        }
+    });
+
+    // Keyboard support
+    document.addEventListener("keydown", (e) => {
+        if (lightbox?.classList.contains("hidden")) return;
+
+        if (e.key === "Escape") closeLightbox();
+        if (e.key === "ArrowRight") nextImage();
+        if (e.key === "ArrowLeft") prevImage();
+    });
+</script>

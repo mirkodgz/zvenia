@@ -112,23 +112,30 @@ export default function CreateContentModal({ currentUser, userInitials, activeFe
     return (
         <>
             {/* --- TRIGGER WIDGET (Replaces static HTML) --- */}
-            {/* --- SEARCH & TABS WIDGET (Replaces 'Start a post') --- */}
-            <div className="bg-(--bg-surface) border border-(--border-color) p-4 mb-6">
-
-                {/* Tabs (First) */}
-                <div className="max-w-[600px] mx-auto w-full mb-4">
-                    <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 w-full">
-                        {ALL_TABS.map((tab) => (
-                            <button
-                                key={tab.id}
-                                onClick={() => navigateToFeed(tab.id)}
-                                className={`${getButtonClass(tab.id)} w-full justify-center`}
-                            >
-                                {tab.icon} <span className="ml-2">{tab.label}</span>
-                            </button>
-                        ))}
+            {/* --- FIXED TABS CONTAINER (Hard Fix) --- */}
+            <div className="fixed top-[70px] left-0 right-0 z-99 pointer-events-none lg:pl-[270px] lg:pr-[300px]">
+                <div className="pointer-events-auto bg-[#f3f3f3] pt-2 pb-2 mx-auto max-w-4xl px-4">
+                    <div className="max-w-[600px] mx-auto w-full">
+                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 w-full">
+                            {ALL_TABS.map((tab) => (
+                                <button
+                                    key={tab.id}
+                                    onClick={() => navigateToFeed(tab.id)}
+                                    className={`${getButtonClass(tab.id)} w-full justify-center shrink-0 flex items-center gap-2 px-1`}
+                                >
+                                    {tab.icon} <span className="ml-1 uppercase font-bold text-xs whitespace-nowrap pt-0.5">{tab.label}</span>
+                                </button>
+                            ))}
+                        </div>
                     </div>
                 </div>
+            </div>
+
+            {/* SPACER to prevents content overlap */}
+            <div className="h-16 mb-4"></div>
+
+            {/* --- SEARCH WIDGET (Replaces 'Start a post') --- */}
+            <div className="bg-(--bg-surface) border border-(--border-color) p-4 mb-6">
 
                 {/* Search Bar (Second) */}
                 <div className="relative group w-full max-w-[600px] mx-auto">

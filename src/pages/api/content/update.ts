@@ -48,7 +48,8 @@ export const POST: APIRoute = async ({ request, cookies }) => {
         organizer_phone,
         // Podcast Specific
         host,
-        episodes // JSONB Array
+        episodes, // JSONB Array
+        is_popular // New Field
     } = body;
 
     if (!id) {
@@ -165,7 +166,8 @@ export const POST: APIRoute = async ({ request, cookies }) => {
             featured_image_url: featured_image_url || null,
             document_url: document_url || null,
             source: source || null,
-            metadata: metadata || {}
+            metadata: metadata || {},
+            is_popular: is_popular // Update Popular Status
         };
     }
 

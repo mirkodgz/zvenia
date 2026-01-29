@@ -55,10 +55,7 @@ const EpisodeCard: React.FC<EpisodeCardProps> = ({ episode, podcastTitle, coverI
                     </div>
                 </div>
 
-                {/* Ep Number Badge (Bottom Left) - Standard for ALL */}
-                <div className="absolute bottom-2 left-2 bg-primary-500/90 backdrop-blur text-[9px] font-bold text-white px-1.5 py-0.5 border border-white/10">
-                    EPISODE #{index + 1}
-                </div>
+
             </div>
 
             {/* Content (Glassy Effect) */}

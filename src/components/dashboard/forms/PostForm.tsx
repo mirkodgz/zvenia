@@ -266,8 +266,9 @@ export default function PostForm({ currentUser, initialData }: PostFormProps) {
                         document_url: docUrl || '',
                         source: post.source || '',
                         topic_id: topicSlug,
-                        metadata: post.metadata || { gallery: [] }
-                    });
+                        metadata: post.metadata || { gallery: [] },
+                        is_popular: post.is_popular || false // Load Popular Status
+                    } as any);
 
                     // Auto-detect Active Media Type
                     if (youtubeUrl) setActiveMediaType('youtube');
@@ -510,6 +511,23 @@ export default function PostForm({ currentUser, initialData }: PostFormProps) {
                     placeholder="https://example.com or 'Company Internal Report'"
                 />
             </div>
+
+            {/* Admin Only: Popular Post Toggle */}
+            {(currentUser?.role === 'Administrator' || currentUser?.role === 'CountryManager') && (
+                <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-4 flex items-center gap-3">
+                    <input
+                        type="checkbox"
+                        id="is_popular"
+                        className="w-5 h-5 text-yellow-500 border-gray-300 rounded focus:ring-yellow-500"
+                        checked={(formData as any).is_popular || false}
+                        onChange={(e) => setFormData(prev => ({ ...prev, is_popular: e.target.checked } as any))}
+                    />
+                    <div>
+                        <label htmlFor="is_popular" className="font-bold text-gray-800 block">Mark as Popular Post</label>
+                        <p className="text-xs text-gray-600">Popular posts appear on the Home Page feed.</p>
+                    </div>
+                </div>
+            )}
 
             <div>
                 <label htmlFor="content" className="block text-sm font-medium text-(--text-secondary) mb-2">Content</label>

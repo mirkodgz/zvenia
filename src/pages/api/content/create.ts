@@ -50,7 +50,7 @@ export const POST: APIRoute = async ({ request, cookies }) => {
 
     // 4. Handle 'post' type
     if (type === 'post') {
-        const { title, slug, excerpt, content, featured_image_url, document_url, topic_id, source, metadata } = data;
+        const { title, slug, excerpt, content, featured_image_url, document_url, topic_id, source, metadata, is_popular } = data;
 
         // Validation
         if (!title || !slug) {
@@ -97,7 +97,8 @@ export const POST: APIRoute = async ({ request, cookies }) => {
                 source,
                 author_id: user.id,
                 topic_id: (topicData as any).id, // Fix: Save topic_id directly
-                metadata: metadata || {}
+                metadata: metadata || {},
+                is_popular: is_popular || false // Default false
             } as any)
             .select()
             .single();

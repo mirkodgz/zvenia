@@ -27,8 +27,7 @@ const PodcastRow: React.FC<PodcastRowProps> = ({ podcast, currentUser }) => {
     const scrollContainerRef = useRef<HTMLDivElement>(null);
 
     const episodes = Array.isArray(podcast.episodes) ? podcast.episodes : [];
-    // User requested original order (Episode 1, 2, 3...)
-    // const reversedEpisodes = [...episodes].reverse(); 
+    const reversedEpisodes = [...episodes].reverse();
 
     const scroll = (direction: 'left' | 'right') => {
         if (scrollContainerRef.current) {
@@ -74,11 +73,16 @@ const PodcastRow: React.FC<PodcastRowProps> = ({ podcast, currentUser }) => {
                 className="flex gap-4 overflow-x-auto pb-4 snap-x snap-mandatory scrollbar-hide"
                 style={{ scrollbarWidth: 'none', msOverflowStyle: 'none' }}
             >
-                {episodes.map((ep, index) => (
+                {reversedEpisodes.map((ep, index) => (
                     <EpisodeCard
                         key={index}
                         episode={ep}
-                        index={index} // 0 = Ep 1
+                        // If we want "Episode #3", and this is the first item (index 0) of 3...
+                        // We need the original index.
+                        // Assuming original order was Oldest -> Newest (0, 1, 2)
+                        // This item was index 2.
+                        // So we calculate: (Total - 1) - CurrentIndex
+                        index={episodes.length - 1 - index}
                         podcastTitle={podcast.title}
                         coverImage={podcast.cover_image_url || ''}
                         podcastSlug={podcast.slug}

@@ -28,7 +28,7 @@ const TalkCard: React.FC<TalkCardProps> = ({ talk }) => {
     return (
         <a
             href={`/z-talks/${talk.slug}`}
-            className="group block w-full bg-white rounded-lg border border-gray-200 shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden"
+            className="group block w-full bg-white border border-gray-200 shadow-sm hover:shadow-md transition-all duration-300 overflow-hidden"
         >
             {/* Main Image Area - Full Opacity */}
             <div className="relative aspect-video w-full bg-gray-900 overflow-hidden">

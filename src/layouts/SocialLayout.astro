@@ -2,6 +2,7 @@
 import "../styles/global.css";
 import Header from "../components/Header.astro";
 import Footer from "../components/Footer.astro";
+import Lightbox from "../components/social/Lightbox.astro";
 
 interface Props {
     title: string;
@@ -107,6 +108,8 @@ const socialImageURL = new URL(image, Astro.site || "https://zvenia.com");
             <!-- Footer might need to be inside main or hidden if we want infinite scroll feel, putting it here for now -->
             <Footer />
         </div>
+
+        <Lightbox />
     </body>
 </html>
 

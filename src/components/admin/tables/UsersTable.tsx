@@ -339,13 +339,13 @@ export default function UsersTable() {
                             <div className="flex gap-2">
                                 <button
                                     onClick={() => saveEdit(user.id)}
-                                    className="text-green-600 hover:text-green-700 text-sm"
+                                    className="text-green-600 hover:text-green-700 text-sm cursor-pointer"
                                 >
                                     Save
                                 </button>
                                 <button
                                     onClick={cancelEdit}
-                                    className="text-gray-500 hover:text-gray-600 text-sm"
+                                    className="text-gray-500 hover:text-gray-600 text-sm cursor-pointer"
                                 >
                                     Cancel
                                 </button>
@@ -365,13 +365,13 @@ export default function UsersTable() {
                             )}
                             <button
                                 onClick={() => startEdit(user)}
-                                className="text-primary-600 hover:text-primary-700 text-sm"
+                                className="text-primary-600 hover:text-primary-700 text-sm cursor-pointer"
                             >
                                 Edit
                             </button>
                             <button
                                 onClick={() => handleDelete(user.id)}
-                                className="text-red-600 hover:text-red-700 text-sm"
+                                className="text-red-600 hover:text-red-700 text-sm cursor-pointer"
                             >
                                 Delete
                             </button>

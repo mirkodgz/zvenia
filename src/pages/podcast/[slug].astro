@@ -3,6 +3,7 @@ import SocialLayout from "../../layouts/SocialLayout.astro";
 import LeftSidebar from "../../components/social/LeftSidebar.astro";
 import EpisodeCard from "../../components/social/EpisodeCard"; // Reuse if possible or inline minimal list
 import { supabase } from "../../lib/supabase";
+import { ArrowLeft } from "lucide-react";
 
 // 1. Get Slug from params
 const { slug } = Astro.params;
@@ -89,6 +90,18 @@ if (videoParam) {
     >
         <!-- CENTER COLUMN: PLAYER & INFO -->
         <div class="flex flex-col gap-6 w-full min-w-0">
+            {/* Back Button (Aligned with Content) */}
+            <div>
+                <a
+                    href="/mining/general-mining"
+                    class="inline-flex items-center text-(--text-secondary) hover:text-(--text-main) transition-colors"
+                    onclick="history.back(); return false;"
+                >
+                    <ArrowLeft className="w-4 h-4 mr-2" />
+                    Back to podcasts
+                </a>
+            </div>
+
             <!-- ... (Player Block unchanged) ... -->
             <div class="w-full relative group flex justify-center z-10">
                 <div

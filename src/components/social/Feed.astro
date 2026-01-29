@@ -18,11 +18,13 @@ let data: any[] = [];
 let error = null;
 
 if (feedType === "post") {
+    // HOME PAGE: FILTER BY POPULAR POSTS
     const { data: posts, error: err } = await supabase
         .from("posts")
         .select(
             `*, author:profiles(full_name, avatar_url, profession, company, profile_slug), topic:topics(name, slug)`,
         )
+        .eq("is_popular", true) // <--- MAIN CHANGE: Show only popular posts
         .order("created_at", { ascending: false })
         .limit(20);
     data = posts || [];
@@ -86,7 +88,13 @@ const formatDate = (dateStr: string | null) => {
     }
 
     <!-- Feed Label -->
-    <div class="flex justify-between items-center px-4 mb-4">
+    <div
+        class={feedType === "podcast"
+            ? "flex justify-between items-center mb-4 w-full mx-auto"
+            : feedType === "post"
+              ? "flex justify-between items-center mb-4 max-w-[600px] mx-auto px-2"
+              : "flex justify-between items-center px-4 mb-4"}
+    >
         <h3
             class="text-(--text-main) font-bold text-lg capitalize flex items-center gap-2"
         >
@@ -297,8 +305,10 @@ const formatDate = (dateStr: string | null) => {
     <!-- FEED RENDERER -->
     <div
         class={feedType === "event" || feedType === "service"
-            ? "grid grid-cols-1 md:grid-cols-2 gap-4 px-2"
-            : "space-y-4 px-2 max-w-[600px] mx-auto"}
+            ? "grid grid-cols-1 md:grid-cols-2 gap-4 max-w-4xl mx-auto"
+            : feedType === "podcast"
+              ? "space-y-4 max-w-4xl mx-auto"
+              : "space-y-4 px-2 max-w-[600px] mx-auto"}
     >
         {/* POSTS */}
         {

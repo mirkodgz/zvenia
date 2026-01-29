@@ -9,7 +9,8 @@
   --color-primary-200: #9dd3b5;
   --color-primary-300: #77c29a;
   --color-primary-400: #51b17f;
-  --color-primary-500: #0d241b; /* Main Primary Color */
+  --color-primary-500: #0d241b;
+  /* Main Primary Color */
   --color-primary-600: #0a1d16;
   --color-primary-700: #081611;
   --color-primary-800: #060f0c;
@@ -22,7 +23,8 @@
   --color-accent-200: #80fcb6;
   --color-accent-300: #4dfb99;
   --color-accent-400: #1afa7c;
-  --color-accent-500: #00c44b; /* Main Secondary Color */
+  --color-accent-500: #00c44b;
+  /* Main Secondary Color */
   --color-accent-600: #009d3c;
   --color-accent-700: #00762d;
   --color-accent-800: #004f1e;
@@ -47,7 +49,7 @@
   --text-secondary: #4b5563;
   --border-color: #e5e7eb;
   --neutral: #202124;
-  
+
   /* Shadcn UI Variables */
   --background: #ffffff;
   --foreground: #111827;
@@ -69,12 +71,15 @@
   --input: #e5e7eb;
   --ring: #0d241b;
   --radius: 0.5rem;
-  
+
   /* Radius Variables (from WordPress/Bricks Builder migration) */
-  --radius-s: 0.125rem; /* 2px - small radius */
-  --radius-m: 0.25rem; /* 4px - medium radius */
-  --radius-l: 0.5rem; /* 8px - large radius */
-  
+  --radius-s: 0.125rem;
+  /* 2px - small radius */
+  --radius-m: 0.25rem;
+  /* 4px - medium radius */
+  --radius-l: 0.5rem;
+  /* 8px - large radius */
+
   /* Base Colors (from WordPress/Bricks Builder migration) */
   --base-light: #e0e0e0;
 }
@@ -108,11 +113,11 @@ div {
 
 /* Global Tab Styles */
 .btn-tab {
-  @apply flex items-center justify-center gap-2 py-2 px-4 text-sm font-medium bg-transparent text-[var(--text-secondary)] border border-[var(--border-color)] transition-colors uppercase tracking-wide cursor-pointer hover:border-gray-400;
+  @apply flex items-center justify-center gap-2 py-2 px-4 text-sm font-medium bg-transparent text-(--text-secondary) border border-(--border-color) transition-colors uppercase tracking-wide cursor-pointer hover:border-gray-400;
 }
 
 .btn-tab-active {
-  @apply bg-[#00c44b] text-white border-[#00c44b] font-bold;
+  @apply bg-accent-500 text-white border-accent-500 font-bold;
 }
 
 /* Post Terms Link (from WordPress/Bricks Builder migration) */
@@ -153,8 +158,10 @@ body {
 /* Custom Scrollbar - Primary Color */
 /* Webkit browsers (Chrome, Safari, Edge) */
 ::-webkit-scrollbar {
-  width: auto; /* Default width */
-  height: auto; /* Default height */
+  width: auto;
+  /* Default width */
+  height: auto;
+  /* Default height */
 }
 
 ::-webkit-scrollbar-track {
@@ -163,19 +170,36 @@ body {
 }
 
 ::-webkit-scrollbar-thumb {
-  background: #0d241b; /* Primary dark green */
+  background: #0d241b;
+  /* Primary dark green */
   border-radius: 5px;
   border: 2px solid #f3f3f3;
 }
 
 ::-webkit-scrollbar-thumb:hover {
-  background: #0a1d16; /* Primary-600 for hover */
+  background: #0a1d16;
+  /* Primary-600 for hover */
 }
 
 /* Firefox */
 * {
-  scrollbar-width: auto; /* Default width */
+  scrollbar-width: auto;
+  /* Default width */
   scrollbar-color: #0d241b #f3f3f3;
 }
 
 /* Mining Background Animation Removed */
+
+/* Utilities */
+/* Hide scrollbar for Chrome, Safari and Opera */
+.no-scrollbar::-webkit-scrollbar {
+  display: none;
+}
+
+/* Hide scrollbar for IE, Edge and Firefox */
+.no-scrollbar {
+  -ms-overflow-style: none;
+  /* IE and Edge */
+  scrollbar-width: none;
+  /* Firefox */
+}
