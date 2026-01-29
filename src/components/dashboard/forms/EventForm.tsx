@@ -38,7 +38,8 @@ export default function EventForm({ currentUser, initialData }: { currentUser: a
         organizer: initialData?.organizer || initialData?.metadata?.organizer || '',
         organizer_phone: initialData?.organizer_phone || initialData?.metadata?.organizer_phone || '',
         organizer_email: initialData?.organizer_email || initialData?.metadata?.organizer_email || '',
-        official_link: initialData?.external_link || ''
+        official_link: initialData?.external_link || '',
+        is_popular: initialData?.is_popular || false
     });
 
     const [uploadingField, setUploadingField] = useState<string | null>(null);
@@ -407,6 +408,23 @@ export default function EventForm({ currentUser, initialData }: { currentUser: a
                     </div>
                 </div>
             </div>
+
+            {/* Admin Only: Popular Event Toggle */}
+            {(currentUser?.role === 'Administrator' || currentUser?.role === 'CountryManager') && (
+                <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-4 flex items-center gap-3">
+                    <input
+                        type="checkbox"
+                        id="is_popular"
+                        className="w-5 h-5 text-yellow-500 border-gray-300 rounded focus:ring-yellow-500"
+                        checked={(formData as any).is_popular}
+                        onChange={(e) => setFormData(prev => ({ ...prev, is_popular: e.target.checked }))}
+                    />
+                    <div>
+                        <label htmlFor="is_popular" className="font-bold text-gray-800 block">Mark as Popular Event</label>
+                        <p className="text-xs text-gray-600">Popular events appear on the Home Page feed.</p>
+                    </div>
+                </div>
+            )}
 
             {/* SECTION 5: DESCRIPTION */}
             <div>

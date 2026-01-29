@@ -39,13 +39,13 @@ const ServiceRow: React.FC<ServiceRowProps> = ({ title, services, currentUser })
     if (services.length === 0) return null;
 
     return (
-        <div className="bg-[var(--bg-card)] rounded-xl border border-[var(--border-color)] p-6 mb-6 relative group/row transition-colors">
+        <div className="bg-(--bg-card) rounded-xl border border-(--border-color) p-6 mb-6 relative group/row transition-colors">
 
             {/* Header */}
             <div className="flex justify-between items-center mb-4">
-                <h3 className="text-xl font-bold text-[var(--text-main)] flex items-center gap-2">
+                <h3 className="text-xl font-bold text-(--text-main) flex items-center gap-2">
                     {title}
-                    <span className="text-xs font-normal text-[var(--text-secondary)] bg-[var(--bg-surface)] px-2 py-0.5 rounded-full border border-[var(--border-color)]">
+                    <span className="text-xs font-normal text-(--text-secondary) bg-(--bg-surface) px-2 py-0.5 rounded-full border border-(--border-color)">
                         {services.length}
                     </span>
                 </h3>
@@ -54,13 +54,13 @@ const ServiceRow: React.FC<ServiceRowProps> = ({ title, services, currentUser })
             {/* Scroll Controls */}
             <button
                 onClick={() => scroll('left')}
-                className="absolute left-2 top-1/2 z-10 p-2 bg-[var(--bg-surface)] rounded-full text-[var(--text-main)] opacity-0 group-hover/row:opacity-100 transition-opacity hover:bg-primary-600 border border-[var(--border-color)] shadow-md disabled:opacity-0"
+                className="absolute left-2 top-1/2 z-10 p-2 bg-(--bg-surface) rounded-full text-(--text-main) opacity-0 group-hover/row:opacity-100 transition-opacity hover:bg-primary-600 border border-(--border-color) shadow-md disabled:opacity-0"
             >
                 ←
             </button>
             <button
                 onClick={() => scroll('right')}
-                className="absolute right-2 top-1/2 z-10 p-2 bg-[var(--bg-surface)] rounded-full text-[var(--text-main)] opacity-0 group-hover/row:opacity-100 transition-opacity hover:bg-primary-600 border border-[var(--border-color)] shadow-md"
+                className="absolute right-2 top-1/2 z-10 p-2 bg-(--bg-surface) rounded-full text-(--text-main) opacity-0 group-hover/row:opacity-100 transition-opacity hover:bg-primary-600 border border-(--border-color) shadow-md"
             >
                 →
             </button>

@@ -21,6 +21,7 @@ export default function ServiceForm({ currentUser, initialData }: { currentUser:
         company_link: initialData?.company_link || '',
         contact_email: initialData?.contact_email || '',
         quick_view_image_url: initialData?.quick_view_image_url || initialData?.featured_image_url || '',
+        is_popular: initialData?.is_popular || false
     });
 
     const [uploading, setUploading] = useState(false);
@@ -207,6 +208,23 @@ export default function ServiceForm({ currentUser, initialData }: { currentUser:
                     </div>
                 </div>
             </div>
+
+            {/* Admin Only: Popular Service Toggle */}
+            {(currentUser?.role === 'Administrator' || currentUser?.role === 'CountryManager') && (
+                <div className="bg-yellow-50 border border-yellow-200 rounded-none p-4 mb-4 flex items-center gap-3">
+                    <input
+                        type="checkbox"
+                        id="is_popular"
+                        className="w-5 h-5 text-yellow-500 border-gray-300 rounded focus:ring-yellow-500"
+                        checked={(formData as any).is_popular}
+                        onChange={(e) => setFormData(prev => ({ ...prev, is_popular: e.target.checked }))}
+                    />
+                    <div>
+                        <label htmlFor="is_popular" className="font-bold text-gray-800 block">Mark as Popular Service</label>
+                        <p className="text-xs text-gray-600">Popular services appear on the Home Page feed.</p>
+                    </div>
+                </div>
+            )}
 
             {/* Submit */}
             <div className="pt-6 flex justify-end gap-4">

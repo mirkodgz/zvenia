@@ -311,7 +311,7 @@ export default function ProfileEditForm({ currentUser, initialProfile }: Profile
         <form onSubmit={handleSubmit} className="space-y-8 max-w-4xl mx-auto pb-12">
             {/* Header */}
             <div className="border-b border-gray-200 pb-4">
-                <h2 className="text-2xl font-bold text-[#202124] mb-1">Edit Your Profile</h2>
+                <h2 className="text-2xl font-bold text-dark mb-1">Edit Your Profile</h2>
                 <p className="text-sm text-gray-600">Update your personal and professional information.</p>
             </div>
 
@@ -329,13 +329,13 @@ export default function ProfileEditForm({ currentUser, initialProfile }: Profile
 
             {/* Section 1: Basic Information */}
             <div className="space-y-4">
-                <h3 className="text-lg font-semibold text-[#202124] border-b border-gray-200 pb-2">
+                <h3 className="text-lg font-semibold text-dark border-b border-gray-200 pb-2">
                     Basic Information
                 </h3>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                        <label className="block text-sm font-medium text-[#202124] mb-2">
+                        <label className="block text-sm font-medium text-dark mb-2">
                             First Name *
                         </label>
                         <input
@@ -344,12 +344,12 @@ export default function ProfileEditForm({ currentUser, initialProfile }: Profile
                             required
                             value={formData.first_name}
                             onChange={handleChange}
-                            className="w-full bg-white border border-gray-300 rounded-lg px-4 py-3 text-[#202124] focus:border-[#00c44b] focus:ring-1 focus:ring-[#00c44b] outline-none"
+                            className="w-full bg-white border border-gray-300 rounded-lg px-4 py-3 text-dark focus:border-accent-500 focus:ring-1 focus:ring-accent-500 outline-none"
                         />
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium text-[#202124] mb-2">
+                        <label className="block text-sm font-medium text-dark mb-2">
                             Last Name *
                         </label>
                         <input
@@ -358,14 +358,14 @@ export default function ProfileEditForm({ currentUser, initialProfile }: Profile
                             required
                             value={formData.last_name}
                             onChange={handleChange}
-                            className="w-full bg-white border border-gray-300 rounded-lg px-4 py-3 text-[#202124] focus:border-[#00c44b] focus:ring-1 focus:ring-[#00c44b] outline-none"
+                            className="w-full bg-white border border-gray-300 rounded-lg px-4 py-3 text-dark focus:border-accent-500 focus:ring-1 focus:ring-accent-500 outline-none"
                         />
                     </div>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                        <label className="block text-sm font-medium text-[#202124] mb-2">
+                        <label className="block text-sm font-medium text-dark mb-2">
                             Full Name
                         </label>
                         <input
@@ -373,13 +373,13 @@ export default function ProfileEditForm({ currentUser, initialProfile }: Profile
                             name="full_name"
                             value={formData.full_name}
                             onChange={handleChange}
-                            className="w-full bg-white border border-gray-300 rounded-lg px-4 py-3 text-[#202124] focus:border-[#00c44b] focus:ring-1 focus:ring-[#00c44b] outline-none"
+                            className="w-full bg-white border border-gray-300 rounded-lg px-4 py-3 text-dark focus:border-accent-500 focus:ring-1 focus:ring-accent-500 outline-none"
                             placeholder="Auto-generated from first and last name"
                         />
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium text-[#202124] mb-2">
+                        <label className="block text-sm font-medium text-dark mb-2">
                             Username
                         </label>
                         <input
@@ -387,13 +387,13 @@ export default function ProfileEditForm({ currentUser, initialProfile }: Profile
                             name="username"
                             value={formData.username}
                             onChange={handleChange}
-                            className="w-full bg-white border border-gray-300 rounded-lg px-4 py-3 text-[#202124] focus:border-[#00c44b] focus:ring-1 focus:ring-[#00c44b] outline-none"
+                            className="w-full bg-white border border-gray-300 rounded-lg px-4 py-3 text-dark focus:border-accent-500 focus:ring-1 focus:ring-accent-500 outline-none"
                         />
                     </div>
                 </div>
 
                 <div>
-                    <label className="block text-sm font-medium text-[#202124] mb-2">
+                    <label className="block text-sm font-medium text-dark mb-2">
                         Headline
                     </label>
                     <input
@@ -401,13 +401,13 @@ export default function ProfileEditForm({ currentUser, initialProfile }: Profile
                         name="headline_user"
                         value={formData.headline_user}
                         onChange={handleChange}
-                        className="w-full bg-white border border-gray-300 rounded-lg px-4 py-3 text-[#202124] focus:border-[#00c44b] focus:ring-1 focus:ring-[#00c44b] outline-none"
+                        className="w-full bg-white border border-gray-300 rounded-lg px-4 py-3 text-dark focus:border-accent-500 focus:ring-1 focus:ring-accent-500 outline-none"
                         placeholder="e.g. Senior Mining Engineer"
                     />
                 </div>
 
                 <div>
-                    <label className="block text-sm font-medium text-[#202124] mb-2">
+                    <label className="block text-sm font-medium text-dark mb-2">
                         Email
                     </label>
                     <input
@@ -422,13 +422,13 @@ export default function ProfileEditForm({ currentUser, initialProfile }: Profile
 
             {/* Section 2: Contact Information */}
             <div className="space-y-4">
-                <h3 className="text-lg font-semibold text-[#202124] border-b border-gray-200 pb-2">
+                <h3 className="text-lg font-semibold text-dark border-b border-gray-200 pb-2">
                     Contact Information
                 </h3>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                        <label className="block text-sm font-medium text-[#202124] mb-2">
+                        <label className="block text-sm font-medium text-dark mb-2">
                             Phone Number
                         </label>
                         <input
@@ -436,19 +436,19 @@ export default function ProfileEditForm({ currentUser, initialProfile }: Profile
                             name="phone_number"
                             value={formData.phone_number}
                             onChange={handleChange}
-                            className="w-full bg-white border border-gray-300 rounded-lg px-4 py-3 text-[#202124] focus:border-[#00c44b] focus:ring-1 focus:ring-[#00c44b] outline-none"
+                            className="w-full bg-white border border-gray-300 rounded-lg px-4 py-3 text-dark focus:border-accent-500 focus:ring-1 focus:ring-accent-500 outline-none"
                         />
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium text-[#202124] mb-2">
+                        <label className="block text-sm font-medium text-dark mb-2">
                             Nationality
                         </label>
                         <select
                             name="country"
                             value={formData.country}
                             onChange={handleChange}
-                            className="w-full bg-white border border-gray-300 rounded-lg px-4 py-3 text-[#202124] focus:border-[#00c44b] focus:ring-1 focus:ring-[#00c44b] outline-none"
+                            className="w-full bg-white border border-gray-300 rounded-lg px-4 py-3 text-dark focus:border-accent-500 focus:ring-1 focus:ring-accent-500 outline-none"
                         >
                             <option value="">Select Nationality</option>
                             {countries.map(country => (
@@ -461,7 +461,7 @@ export default function ProfileEditForm({ currentUser, initialProfile }: Profile
                 </div>
 
                 <div>
-                    <label className="block text-sm font-medium text-[#202124] mb-2">
+                    <label className="block text-sm font-medium text-dark mb-2">
                         Current Location
                     </label>
                     <input
@@ -469,7 +469,7 @@ export default function ProfileEditForm({ currentUser, initialProfile }: Profile
                         name="current_location"
                         value={formData.current_location}
                         onChange={handleChange}
-                        className="w-full bg-white border border-gray-300 rounded-lg px-4 py-3 text-[#202124] focus:border-[#00c44b] focus:ring-1 focus:ring-[#00c44b] outline-none"
+                        className="w-full bg-white border border-gray-300 rounded-lg px-4 py-3 text-dark focus:border-accent-500 focus:ring-1 focus:ring-accent-500 outline-none"
                         placeholder="e.g. Santiago, Chile"
                     />
                 </div>
@@ -477,13 +477,13 @@ export default function ProfileEditForm({ currentUser, initialProfile }: Profile
 
             {/* Section 3: Professional Information */}
             <div className="space-y-4">
-                <h3 className="text-lg font-semibold text-[#202124] border-b border-gray-200 pb-2">
+                <h3 className="text-lg font-semibold text-dark border-b border-gray-200 pb-2">
                     Professional Information
                 </h3>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                        <label className="block text-sm font-medium text-[#202124] mb-2">
+                        <label className="block text-sm font-medium text-dark mb-2">
                             Profession
                         </label>
                         <input
@@ -491,20 +491,20 @@ export default function ProfileEditForm({ currentUser, initialProfile }: Profile
                             name="profession"
                             value={formData.profession}
                             onChange={handleChange}
-                            className="w-full bg-white border border-gray-300 rounded-lg px-4 py-3 text-[#202124] focus:border-[#00c44b] focus:ring-1 focus:ring-[#00c44b] outline-none"
+                            className="w-full bg-white border border-gray-300 rounded-lg px-4 py-3 text-dark focus:border-accent-500 focus:ring-1 focus:ring-accent-500 outline-none"
                             placeholder="e.g. Mining Engineer"
                         />
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium text-[#202124] mb-2">
+                        <label className="block text-sm font-medium text-dark mb-2">
                             Work Country
                         </label>
                         <select
                             name="work_country"
                             value={formData.work_country}
                             onChange={handleChange}
-                            className="w-full bg-white border border-gray-300 rounded-lg px-4 py-3 text-[#202124] focus:border-[#00c44b] focus:ring-1 focus:ring-[#00c44b] outline-none"
+                            className="w-full bg-white border border-gray-300 rounded-lg px-4 py-3 text-dark focus:border-accent-500 focus:ring-1 focus:ring-accent-500 outline-none"
                         >
                             <option value="">Select Work Country</option>
                             {countries.map(country => (
@@ -518,7 +518,7 @@ export default function ProfileEditForm({ currentUser, initialProfile }: Profile
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                        <label className="block text-sm font-medium text-[#202124] mb-2">
+                        <label className="block text-sm font-medium text-dark mb-2">
                             Current Company
                         </label>
                         <input
@@ -526,12 +526,12 @@ export default function ProfileEditForm({ currentUser, initialProfile }: Profile
                             name="company"
                             value={formData.company}
                             onChange={handleChange}
-                            className="w-full bg-white border border-gray-300 rounded-lg px-4 py-3 text-[#202124] focus:border-[#00c44b] focus:ring-1 focus:ring-[#00c44b] outline-none"
+                            className="w-full bg-white border border-gray-300 rounded-lg px-4 py-3 text-dark focus:border-accent-500 focus:ring-1 focus:ring-accent-500 outline-none"
                         />
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium text-[#202124] mb-2">
+                        <label className="block text-sm font-medium text-dark mb-2">
                             Current Position
                         </label>
                         <input
@@ -539,13 +539,13 @@ export default function ProfileEditForm({ currentUser, initialProfile }: Profile
                             name="position"
                             value={formData.position}
                             onChange={handleChange}
-                            className="w-full bg-white border border-gray-300 rounded-lg px-4 py-3 text-[#202124] focus:border-[#00c44b] focus:ring-1 focus:ring-[#00c44b] outline-none"
+                            className="w-full bg-white border border-gray-300 rounded-lg px-4 py-3 text-dark focus:border-accent-500 focus:ring-1 focus:ring-accent-500 outline-none"
                         />
                     </div>
                 </div>
 
                 <div>
-                    <label className="block text-sm font-medium text-[#202124] mb-2">
+                    <label className="block text-sm font-medium text-dark mb-2">
                         LinkedIn URL
                     </label>
                     <input
@@ -563,9 +563,9 @@ export default function ProfileEditForm({ currentUser, initialProfile }: Profile
                                 });
                             }
                         }}
-                        className={`w-full bg-white border rounded-lg px-4 py-3 text-[#202124] focus:ring-1 outline-none ${fieldErrors.linkedin_url
+                        className={`w-full bg-white border rounded-lg px-4 py-3 text-dark focus:ring-1 outline-none ${fieldErrors.linkedin_url
                             ? 'border-red-500 focus:border-red-500 focus:ring-red-500'
-                            : 'border-gray-300 focus:border-[#00c44b] focus:ring-[#00c44b]'
+                            : 'border-gray-300 focus:border-accent-500 focus:ring-accent-500'
                             }`}
                         placeholder="https://linkedin.com/in/yourprofile or www.linkedin.com/in/yourprofile"
                     />
@@ -585,20 +585,20 @@ export default function ProfileEditForm({ currentUser, initialProfile }: Profile
 
             {/* Section 4: Language & Expertise */}
             <div className="space-y-4">
-                <h3 className="text-lg font-semibold text-[#202124] border-b border-gray-200 pb-2">
+                <h3 className="text-lg font-semibold text-dark border-b border-gray-200 pb-2">
                     Language & Expertise
                 </h3>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                        <label className="block text-sm font-medium text-[#202124] mb-2">
+                        <label className="block text-sm font-medium text-dark mb-2">
                             Main Language
                         </label>
                         <select
                             name="main_language"
                             value={formData.main_language}
                             onChange={handleChange}
-                            className="w-full bg-white border border-gray-300 rounded-lg px-4 py-3 text-[#202124] focus:border-[#00c44b] focus:ring-1 focus:ring-[#00c44b] outline-none"
+                            className="w-full bg-white border border-gray-300 rounded-lg px-4 py-3 text-dark focus:border-accent-500 focus:ring-1 focus:ring-accent-500 outline-none"
                         >
                             <option value="">Select Main Language</option>
                             {availableLanguages.map(lang => (
@@ -608,7 +608,7 @@ export default function ProfileEditForm({ currentUser, initialProfile }: Profile
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium text-[#202124] mb-2">
+                        <label className="block text-sm font-medium text-dark mb-2">
                             Other Languages
                         </label>
                         <div className="flex flex-wrap gap-2">
@@ -621,9 +621,9 @@ export default function ProfileEditForm({ currentUser, initialProfile }: Profile
                                         type="checkbox"
                                         checked={othersLanguages.includes(lang)}
                                         onChange={() => toggleLanguage(lang)}
-                                        className="w-4 h-4 text-[#00c44b] border-gray-300 rounded focus:ring-[#00c44b]"
+                                        className="w-4 h-4 text-accent-500 border-gray-300 rounded focus:ring-accent-500"
                                     />
-                                    <span className="text-sm text-[#202124]">{lang}</span>
+                                    <span className="text-sm text-dark">{lang}</span>
                                 </label>
                             ))}
                         </div>
@@ -632,14 +632,14 @@ export default function ProfileEditForm({ currentUser, initialProfile }: Profile
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div>
-                        <label className="block text-sm font-medium text-[#202124] mb-2">
+                        <label className="block text-sm font-medium text-dark mb-2">
                             Main Area of Expertise
                         </label>
                         <select
                             name="main_area_of_expertise"
                             value={formData.main_area_of_expertise}
                             onChange={handleChange}
-                            className="w-full bg-white border border-gray-300 rounded-lg px-4 py-3 text-[#202124] focus:border-[#00c44b] focus:ring-1 focus:ring-[#00c44b] outline-none"
+                            className="w-full bg-white border border-gray-300 rounded-lg px-4 py-3 text-dark focus:border-accent-500 focus:ring-1 focus:ring-accent-500 outline-none"
                         >
                             <option value="">Select Main Area</option>
                             {topics.map(topic => (
@@ -651,7 +651,7 @@ export default function ProfileEditForm({ currentUser, initialProfile }: Profile
                     </div>
 
                     <div>
-                        <label className="block text-sm font-medium text-[#202124] mb-2">
+                        <label className="block text-sm font-medium text-dark mb-2">
                             Other Areas of Expertise
                         </label>
                         <div className="max-h-40 overflow-y-auto border border-gray-300 rounded-lg p-3">
@@ -665,9 +665,9 @@ export default function ProfileEditForm({ currentUser, initialProfile }: Profile
                                             type="checkbox"
                                             checked={othersAreas.includes(topic.slug)}
                                             onChange={() => toggleArea(topic.slug)}
-                                            className="w-4 h-4 text-[#00c44b] border-gray-300 rounded focus:ring-[#00c44b]"
+                                            className="w-4 h-4 text-accent-500 border-gray-300 rounded focus:ring-accent-500"
                                         />
-                                        <span className="text-sm text-[#202124]">{topic.name}</span>
+                                        <span className="text-sm text-dark">{topic.name}</span>
                                     </label>
                                 ))}
                             </div>
@@ -678,7 +678,7 @@ export default function ProfileEditForm({ currentUser, initialProfile }: Profile
 
             {/* Section 5: Profile Picture */}
             <div className="space-y-4">
-                <h3 className="text-lg font-semibold text-[#202124] border-b border-gray-200 pb-2">
+                <h3 className="text-lg font-semibold text-dark border-b border-gray-200 pb-2">
                     Profile Picture
                 </h3>
 
@@ -696,7 +696,7 @@ export default function ProfileEditForm({ currentUser, initialProfile }: Profile
                     )}
 
                     <div className="flex-1">
-                        <label className="block text-sm font-medium text-[#202124] mb-2">
+                        <label className="block text-sm font-medium text-dark mb-2">
                             Change Photo
                         </label>
                         <input
@@ -704,7 +704,7 @@ export default function ProfileEditForm({ currentUser, initialProfile }: Profile
                             accept="image/jpeg,image/png,image/webp"
                             onChange={handleAvatarUpload}
                             disabled={isUploading}
-                            className="block w-full text-sm text-[#202124] file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-[#00c44b] file:text-white hover:file:bg-[#00a03d] cursor-pointer disabled:opacity-50"
+                            className="block w-full text-sm text-dark file:mr-4 file:py-2 file:px-4 file:rounded-lg file:border-0 file:text-sm file:font-semibold file:bg-accent-500 file:text-white hover:file:bg-accent-600 cursor-pointer disabled:opacity-50"
                         />
                         <p className="text-xs text-gray-500 mt-1">
                             JPG, PNG or WEBP. Max size 5MB.
@@ -718,7 +718,7 @@ export default function ProfileEditForm({ currentUser, initialProfile }: Profile
 
             {/* Section 6: Privacy Settings */}
             <div className="space-y-4">
-                <h3 className="text-lg font-semibold text-[#202124] border-b border-gray-200 pb-2">
+                <h3 className="text-lg font-semibold text-dark border-b border-gray-200 pb-2">
                     Privacy Settings
                 </h3>
                 <p className="text-sm text-gray-600 mb-4">
@@ -727,17 +727,17 @@ export default function ProfileEditForm({ currentUser, initialProfile }: Profile
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4">
                     <div className="space-y-3">
-                        <h4 className="text-sm font-medium text-[#202124] mb-2">Contact Information</h4>
+                        <h4 className="text-sm font-medium text-dark mb-2">Contact Information</h4>
                         <label className="flex items-center gap-3 cursor-pointer">
                             <input
                                 type="checkbox"
                                 checked={privacySettings.phone_number}
                                 onChange={() => togglePrivacy('phone_number')}
-                                className="w-4 h-4 text-[#00c44b] border-gray-300 rounded focus:ring-[#00c44b]"
+                                className="w-4 h-4 text-accent-500 border-gray-300 rounded focus:ring-accent-500"
                             />
-                            <span className="text-sm text-[#202124]">Show phone number</span>
+                            <span className="text-sm text-dark">Show phone number</span>
                         </label>
-                        <label className="flex items-center gap-3 cursor-pointer opacity-50 cursor-not-allowed">
+                        <label className="flex items-center gap-3 opacity-50 cursor-not-allowed">
                             <input
                                 type="checkbox"
                                 checked={false}
@@ -751,109 +751,109 @@ export default function ProfileEditForm({ currentUser, initialProfile }: Profile
                                 type="checkbox"
                                 checked={privacySettings.country}
                                 onChange={() => togglePrivacy('country')}
-                                className="w-4 h-4 text-[#00c44b] border-gray-300 rounded focus:ring-[#00c44b]"
+                                className="w-4 h-4 text-accent-500 border-gray-300 rounded focus:ring-accent-500"
                             />
-                            <span className="text-sm text-[#202124]">Show nationality</span>
+                            <span className="text-sm text-dark">Show nationality</span>
                         </label>
                         <label className="flex items-center gap-3 cursor-pointer">
                             <input
                                 type="checkbox"
                                 checked={privacySettings.current_location}
                                 onChange={() => togglePrivacy('current_location')}
-                                className="w-4 h-4 text-[#00c44b] border-gray-300 rounded focus:ring-[#00c44b]"
+                                className="w-4 h-4 text-accent-500 border-gray-300 rounded focus:ring-accent-500"
                             />
-                            <span className="text-sm text-[#202124]">Show current location</span>
+                            <span className="text-sm text-dark">Show current location</span>
                         </label>
                     </div>
 
                     <div className="space-y-3">
-                        <h4 className="text-sm font-medium text-[#202124] mb-2">Professional Information</h4>
+                        <h4 className="text-sm font-medium text-dark mb-2">Professional Information</h4>
                         <label className="flex items-center gap-3 cursor-pointer">
                             <input
                                 type="checkbox"
                                 checked={privacySettings.company}
                                 onChange={() => togglePrivacy('company')}
-                                className="w-4 h-4 text-[#00c44b] border-gray-300 rounded focus:ring-[#00c44b]"
+                                className="w-4 h-4 text-accent-500 border-gray-300 rounded focus:ring-accent-500"
                             />
-                            <span className="text-sm text-[#202124]">Show company</span>
+                            <span className="text-sm text-dark">Show company</span>
                         </label>
                         <label className="flex items-center gap-3 cursor-pointer">
                             <input
                                 type="checkbox"
                                 checked={privacySettings.position}
                                 onChange={() => togglePrivacy('position')}
-                                className="w-4 h-4 text-[#00c44b] border-gray-300 rounded focus:ring-[#00c44b]"
+                                className="w-4 h-4 text-accent-500 border-gray-300 rounded focus:ring-accent-500"
                             />
-                            <span className="text-sm text-[#202124]">Show position</span>
+                            <span className="text-sm text-dark">Show position</span>
                         </label>
                         <label className="flex items-center gap-3 cursor-pointer">
                             <input
                                 type="checkbox"
                                 checked={privacySettings.linkedin_url}
                                 onChange={() => togglePrivacy('linkedin_url')}
-                                className="w-4 h-4 text-[#00c44b] border-gray-300 rounded focus:ring-[#00c44b]"
+                                className="w-4 h-4 text-accent-500 border-gray-300 rounded focus:ring-accent-500"
                             />
-                            <span className="text-sm text-[#202124]">Show LinkedIn URL</span>
+                            <span className="text-sm text-dark">Show LinkedIn URL</span>
                         </label>
                         <label className="flex items-center gap-3 cursor-pointer">
                             <input
                                 type="checkbox"
                                 checked={privacySettings.profession}
                                 onChange={() => togglePrivacy('profession')}
-                                className="w-4 h-4 text-[#00c44b] border-gray-300 rounded focus:ring-[#00c44b]"
+                                className="w-4 h-4 text-accent-500 border-gray-300 rounded focus:ring-accent-500"
                             />
-                            <span className="text-sm text-[#202124]">Show profession</span>
+                            <span className="text-sm text-dark">Show profession</span>
                         </label>
                         <label className="flex items-center gap-3 cursor-pointer">
                             <input
                                 type="checkbox"
                                 checked={privacySettings.work_country}
                                 onChange={() => togglePrivacy('work_country')}
-                                className="w-4 h-4 text-[#00c44b] border-gray-300 rounded focus:ring-[#00c44b]"
+                                className="w-4 h-4 text-accent-500 border-gray-300 rounded focus:ring-accent-500"
                             />
-                            <span className="text-sm text-[#202124]">Show work country</span>
+                            <span className="text-sm text-dark">Show work country</span>
                         </label>
                     </div>
                 </div>
 
                 <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mt-4">
                     <div className="space-y-3">
-                        <h4 className="text-sm font-medium text-[#202124] mb-2">Language & Expertise</h4>
+                        <h4 className="text-sm font-medium text-dark mb-2">Language & Expertise</h4>
                         <label className="flex items-center gap-3 cursor-pointer">
                             <input
                                 type="checkbox"
                                 checked={privacySettings.main_language}
                                 onChange={() => togglePrivacy('main_language')}
-                                className="w-4 h-4 text-[#00c44b] border-gray-300 rounded focus:ring-[#00c44b]"
+                                className="w-4 h-4 text-accent-500 border-gray-300 rounded focus:ring-accent-500"
                             />
-                            <span className="text-sm text-[#202124]">Show main language</span>
+                            <span className="text-sm text-dark">Show main language</span>
                         </label>
                         <label className="flex items-center gap-3 cursor-pointer">
                             <input
                                 type="checkbox"
                                 checked={privacySettings.others_languages}
                                 onChange={() => togglePrivacy('others_languages')}
-                                className="w-4 h-4 text-[#00c44b] border-gray-300 rounded focus:ring-[#00c44b]"
+                                className="w-4 h-4 text-accent-500 border-gray-300 rounded focus:ring-accent-500"
                             />
-                            <span className="text-sm text-[#202124]">Show other languages</span>
+                            <span className="text-sm text-dark">Show other languages</span>
                         </label>
                         <label className="flex items-center gap-3 cursor-pointer">
                             <input
                                 type="checkbox"
                                 checked={privacySettings.main_area_of_expertise}
                                 onChange={() => togglePrivacy('main_area_of_expertise')}
-                                className="w-4 h-4 text-[#00c44b] border-gray-300 rounded focus:ring-[#00c44b]"
+                                className="w-4 h-4 text-accent-500 border-gray-300 rounded focus:ring-accent-500"
                             />
-                            <span className="text-sm text-[#202124]">Show main area of expertise</span>
+                            <span className="text-sm text-dark">Show main area of expertise</span>
                         </label>
                         <label className="flex items-center gap-3 cursor-pointer">
                             <input
                                 type="checkbox"
                                 checked={privacySettings.others_areas_of_expertise}
                                 onChange={() => togglePrivacy('others_areas_of_expertise')}
-                                className="w-4 h-4 text-[#00c44b] border-gray-300 rounded focus:ring-[#00c44b]"
+                                className="w-4 h-4 text-accent-500 border-gray-300 rounded focus:ring-accent-500"
                             />
-                            <span className="text-sm text-[#202124]">Show other areas of expertise</span>
+                            <span className="text-sm text-dark">Show other areas of expertise</span>
                         </label>
                     </div>
                 </div>
@@ -902,13 +902,13 @@ export default function ProfileEditForm({ currentUser, initialProfile }: Profile
                 <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="px-6 py-3 bg-[#00c44b] text-white font-semibold rounded-lg hover:bg-[#00a03d] transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
+                    className="px-6 py-3 bg-accent-500 text-white font-semibold rounded-lg hover:bg-accent-600 transition-colors disabled:opacity-50 disabled:cursor-not-allowed"
                 >
                     {isSubmitting ? 'Saving...' : 'Save Changes'}
                 </button>
                 <a
                     href="/dashboard/profile"
-                    className="px-6 py-3 bg-gray-200 text-[#202124] font-semibold rounded-lg hover:bg-gray-300 transition-colors"
+                    className="px-6 py-3 bg-gray-200 text-dark font-semibold rounded-lg hover:bg-gray-300 transition-colors"
                 >
                     Cancel
                 </a>

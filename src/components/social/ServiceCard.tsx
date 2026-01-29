@@ -15,11 +15,13 @@ interface ServiceCardProps {
         content?: string; // fallback
         author_id?: string;
         price?: string | number; // Added Price
+        is_popular?: boolean;
     };
     currentUser: any;
+    initialIsSaved?: boolean;
 }
 
-const ServiceCard: React.FC<ServiceCardProps> = ({ service, currentUser }) => {
+const ServiceCard: React.FC<ServiceCardProps> = ({ service, currentUser, initialIsSaved = false }) => {
     // Prefer quick view image, fall back to featured
     const image = service.quick_view_image_url || service.featured_image_url || 'https://via.placeholder.com/300x200?text=Service';
     // Link to internal detail page
@@ -33,20 +35,28 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service, currentUser }) => {
         .trim();
 
     return (
-        <div className="flex-shrink-0 w-full group relative block bg-[var(--bg-card)] overflow-hidden border border-[var(--border-color)] hover:border-primary-500/50 transition-all scroll-snap-align-start h-full flex flex-col">
+        <div className="shrink-0 w-full group relative flex flex-col bg-(--bg-card) overflow-hidden border border-(--border-color) hover:border-primary-500/50 transition-all scroll-snap-align-start h-full">
 
             {/* Options Menu (Absolute Top Right) */}
             <div className="absolute top-2 right-2 z-20">
-                <ServiceOptions serviceId={service.id} authorId={service.author_id} currentUserId={currentUser?.id} slug={service.slug} />
+                <ServiceOptions
+                    serviceId={service.id}
+                    authorId={service.author_id}
+                    currentUserId={currentUser?.id}
+                    currentUserRole={currentUser?.role}
+                    slug={service.slug}
+                    isPopular={service.is_popular}
+                    initialIsSaved={initialIsSaved}
+                />
             </div>
 
             {/* Clickable Area Wrapper */}
             <a
                 href={linkUrl}
-                className="block h-full w-full flex flex-col"
+                className="flex flex-col h-full w-full"
             >
                 {/* Thumbnail */}
-                <div className="relative h-40 w-full overflow-hidden bg-[var(--bg-surface)]">
+                <div className="relative h-40 w-full overflow-hidden bg-(--bg-surface)">
                     <img
                         src={image}
                         alt={service.title}
@@ -65,25 +75,25 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service, currentUser }) => {
                 </div>
 
                 {/* Content */}
-                <div className="p-4 flex flex-col flex-grow">
-                    <h4 className="text-[var(--text-main)] font-bold text-sm leading-tight line-clamp-2 group-hover:text-primary-400 transition-colors mb-2">
+                <div className="p-4 flex flex-col grow">
+                    <h4 className="text-(--text-main) font-bold text-sm leading-tight line-clamp-2 group-hover:text-primary-400 transition-colors mb-2">
                         {service.title}
                     </h4>
 
                     {/* Description Preview */}
                     {description && (
-                        <p className="text-xs text-[var(--text-secondary)] line-clamp-2 mb-2">
+                        <p className="text-xs text-(--text-secondary) line-clamp-2 mb-2">
                             {description}
                         </p>
                     )}
 
                     {!service.price && (
-                        <p className="text-xs text-[var(--text-secondary)] mb-2">Contact for pricing</p>
+                        <p className="text-xs text-(--text-secondary) mb-2">Contact for pricing</p>
                     )}
 
                     {service.organizer_company && (
                         <div className="mt-auto pt-2 flex items-center gap-2">
-                            <span className="text-[10px] uppercase font-bold text-[var(--text-secondary)] bg-[var(--bg-surface)] border border-[var(--border-color)] px-2 py-0.5 truncate max-w-full">
+                            <span className="text-[10px] uppercase font-bold text-(--text-secondary) bg-(--bg-surface) border border-(--border-color) px-2 py-0.5 truncate max-w-full">
                                 {service.organizer_company}
                             </span>
                         </div>

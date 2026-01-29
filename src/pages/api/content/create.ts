@@ -131,7 +131,8 @@ export const POST: APIRoute = async ({ request, cookies }) => {
             price_id,
             official_link,
             start_time,
-            schedule_pdf_url
+            schedule_pdf_url,
+            is_popular
         } = data;
 
         // Validation
@@ -187,7 +188,8 @@ export const POST: APIRoute = async ({ request, cookies }) => {
                 external_link: official_link,
                 start_time,
                 author_id: user.id,
-                topic_id: (topicData as any).id // Fix: Save topic_id
+                topic_id: (topicData as any).id, // Fix: Save topic_id
+                is_popular: is_popular || false
             } as any)
             .select()
             .single();
@@ -208,7 +210,8 @@ export const POST: APIRoute = async ({ request, cookies }) => {
             topic_id,
             host,
             featured_image_url,
-            episodes // JSONB Array
+            episodes, // JSONB Array
+            is_popular
         } = data;
 
         if (!title || !topic_id) {
@@ -251,7 +254,8 @@ export const POST: APIRoute = async ({ request, cookies }) => {
                 cover_image_url: featured_image_url,
                 episodes: episodes || [],
                 topic_id: (topicData as any).id, // Direct Relation
-                author_id: user.id
+                author_id: user.id,
+                is_popular: is_popular || false
             } as any)
             .select()
             .single();
@@ -276,7 +280,8 @@ export const POST: APIRoute = async ({ request, cookies }) => {
             organizer_company,
             company_link,
             contact_email,
-            featured_image_url
+            featured_image_url,
+            is_popular
         } = data;
 
         if (!title || !topic_id) {
@@ -324,7 +329,8 @@ export const POST: APIRoute = async ({ request, cookies }) => {
                 contact_email,
                 featured_image_url,
                 quick_view_image_url: featured_image_url, // Sync for now
-                author_id: user.id
+                author_id: user.id,
+                is_popular: is_popular || false
             } as any)
             .select()
             .single();

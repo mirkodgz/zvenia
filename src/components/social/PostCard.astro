@@ -7,97 +7,76 @@ interface Props {
     post: any;
     currentUser: any;
     isDetail?: boolean;
+    initialIsSaved?: boolean;
 }
 
-const { post, currentUser, isDetail = false } = Astro.props;
+const {
+    post,
+    currentUser,
+    isDetail = false,
+    initialIsSaved = false,
+} = Astro.props;
+// ... existing log
 console.log(
     `[PostCard Debug] ID: ${post.id}, PDF: "${post.document_url}", IMG: "${post.featured_image_url}"`,
 );
-
-const formatDate = (dateStr: string | null) => {
-    if (!dateStr) return "";
-    const date = new Date(dateStr);
-    const day = String(date.getDate()).padStart(2, "0");
-    const month = String(date.getMonth() + 1).padStart(2, "0");
-    const year = date.getFullYear();
-    return `${day}/${month}/${year}`;
+// Helper to clean content
+const getCleanContent = (post: any) => {
+    const raw = post.content || "";
+    // Remove HTML tags for preview if needed, or just return raw if we trust it
+    // simple strip tags:
+    return raw.replace(/<[^>]*>?/gm, "");
 };
 
-// Determine Profile URL (New Design vs Old)
-const profileUrl = post.author?.profile_slug
-    ? `/profile/${post.author.profile_slug}`
-    : `/in/${post.author_id}`;
-
-// Helper to clean content logic (same as Topic page)
-const getCleanContent = (item: any) => {
-    const raw = item.content || item.excerpt || item.description || "";
-    if (!raw) return "";
-    return raw
-        .replace(/<br\s*\/?>/gi, "\n")
-        .replace(/<\/p>/gi, "\n\n")
-        .replace(/<\/div>/gi, "\n")
-        .replace(/<li>/gi, "• ")
-        .replace(/<\/li>/gi, "\n")
-        .replace(/<[^>]*>?/gm, "") // Strip remaining tags
-        .replace(/&nbsp;/g, " ")
-        .trim();
+const formatDate = (dateStr: string) => {
+    return new Date(dateStr).toLocaleDateString("en-US", {
+        month: "short",
+        day: "numeric",
+        year: "numeric",
+    });
 };
 ---
 
 <article
-    class="bg-white overflow-hidden transition-colors animate-fade-in w-full mb-16 rounded-sm"
-    style="border: 0.1px none #22232633; box-shadow: 1px 2px 2px 2px #22232633;"
+    class="flex flex-col bg-white border border-gray-200 scroll-snap-align-start w-full transition-all duration-300 hover:shadow-md h-auto rounded-none pb-2 mb-4"
 >
-    <!-- 1. Header: Author, Date, Options -->
-    <div
-        class="p-4 flex gap-3 items-start justify-between border-(--border-color)"
-    >
-        <div class="flex gap-3 items-center flex-1">
-            <!-- Avatar -->
-            <a href={profileUrl} class="block shrink-0">
-                <div
-                    class="w-12 h-12 rounded-none bg-linear-to-br from-gray-300 to-gray-400 border-2 border-gray-200 flex items-center justify-center text-sm font-bold text-gray-700 overflow-hidden hover:opacity-90 transition-opacity shadow-sm"
-                >
-                    {
-                        post.author?.avatar_url ? (
-                            <img
-                                src={post.author.avatar_url}
-                                class="w-full h-full object-cover"
-                                alt={post.author?.full_name || "Author"}
-                            />
-                        ) : (
-                            <span class="text-base">
-                                {post.author?.full_name?.[0] ||
-                                    post.author_name?.[0] ||
-                                    "U"}
-                            </span>
-                        )
-                    }
-                </div>
+    <!-- 1. Header: Author & Meta -->
+    <div class="px-4 pt-4 flex justify-between items-start relative z-10">
+        <div class="flex gap-3">
+            <a
+                href={`/profile/${post.author?.profile_slug || post.author_id}`}
+                class="shrink-0"
+            >
+                <img
+                    src={post.author?.avatar_url ||
+                        "https://via.placeholder.com/40?text=U"}
+                    alt={post.author?.full_name || "User"}
+                    class="w-10 h-10 rounded-full object-cover border border-gray-100"
+                />
             </a>
-
-            <!-- Meta -->
-            <div class="flex-1 min-w-0">
-                <div class="flex items-center gap-2 flex-wrap">
-                    <a href={profileUrl} class="block group min-w-0">
-                        <h3
-                            class="text-base font-bold text-dark group-hover:text-primary-500 cursor-pointer transition-colors truncate"
-                        >
-                            {
-                                post.author?.full_name ||
-                                    post.author_name ||
-                                    "Unknown Author"
-                            }
-                        </h3>
-                    </a>
-                </div>
-                <p class="text-xs text-[#0009] mt-0.5" style="font-size: 12px;">
-                    {formatDate(post.published_at || post.created_at)}
-                </p>
+            <div class="flex flex-col">
+                <a
+                    href={`/profile/${post.author?.profile_slug || post.author_id}`}
+                    class="font-bold text-dark text-sm leading-tight hover:underline"
+                >
+                    {post.author?.full_name || "Unknown User"}
+                </a>
+                <span class="text-xs text-gray-500 leading-tight">
+                    {post.author?.profession || "Member"}
+                    {post.author?.company ? `at ${post.author.company}` : ""}
+                </span>
+                <span class="text-[11px] text-gray-400 leading-tight mt-0.5">
+                    {formatDate(post.created_at)}
+                    &bull;
+                    <span
+                        class="material-icons text-[10px] align-middle text-gray-400"
+                        >public</span
+                    >
+                </span>
             </div>
         </div>
 
-        <!-- Menu (Edit/Delete) -->
+        <!-- Menu (Edit/Delete/Save) -->
         <PostOptions
             client:visible
             postId={post.id}
@@ -106,6 +85,8 @@ const getCleanContent = (item: any) => {
             currentUserRole={currentUser?.role}
             slug={post.slug}
             isPopular={post.is_popular}
+            initialIsSaved={initialIsSaved}
+            type="post"
         />
     </div>
 

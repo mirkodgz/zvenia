@@ -16,14 +16,16 @@ interface Podcast {
     cover_image_url: string | null;
     episodes: PodcastEpisode[] | null;
     author_id: string;
+    is_popular?: boolean;
 }
 
 interface PodcastRowProps {
     podcast: Podcast;
     currentUser: any;
+    initialIsSaved?: boolean;
 }
 
-const PodcastRow: React.FC<PodcastRowProps> = ({ podcast, currentUser }) => {
+const PodcastRow: React.FC<PodcastRowProps> = ({ podcast, currentUser, initialIsSaved = false }) => {
     const scrollContainerRef = useRef<HTMLDivElement>(null);
 
     const episodes = Array.isArray(podcast.episodes) ? podcast.episodes : [];
@@ -50,21 +52,35 @@ const PodcastRow: React.FC<PodcastRowProps> = ({ podcast, currentUser }) => {
                     {podcast.title}
                 </a>
                 {/* Options Menu */}
-                <PodcastOptions podcastId={podcast.id} authorId={podcast.author_id} currentUserId={currentUser?.id} slug={podcast.slug} />
+                <PodcastOptions
+                    podcastId={podcast.id}
+                    authorId={podcast.author_id}
+                    currentUserId={currentUser?.id}
+                    currentUserRole={currentUser?.role}
+                    slug={podcast.slug}
+                    isPopular={podcast.is_popular}
+                    initialIsSaved={initialIsSaved}
+                />
             </div>
 
             {/* Scroll Controls (Visible on Hover) */}
             <button
                 onClick={() => scroll('left')}
-                className="absolute left-2 top-1/2 z-10 p-2 bg-(--bg-surface-hover) rounded-full text-(--text-main) opacity-0 group-hover/row:opacity-100 transition-opacity hover:bg-primary-600 shadow-md border border-(--border-color) disabled:opacity-0"
+                className="absolute left-2 top-1/2 -translate-y-1/2 z-20 p-2 bg-white/10 backdrop-blur-md rounded-full text-white opacity-0 group-hover/row:opacity-100 transition-all duration-300 hover:bg-primary-600 shadow-xl border border-white/20 hover:scale-110"
+                aria-label="Scroll Left"
             >
-                ←
+                <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M15 19l-7-7 7-7" />
+                </svg>
             </button>
             <button
                 onClick={() => scroll('right')}
-                className="absolute right-2 top-1/2 z-10 p-2 bg-(--bg-surface-hover) rounded-full text-(--text-main) opacity-0 group-hover/row:opacity-100 transition-opacity hover:bg-primary-600 shadow-md border border-(--border-color)"
+                className="absolute right-2 top-1/2 -translate-y-1/2 z-20 p-2 bg-white/10 backdrop-blur-md rounded-full text-white opacity-0 group-hover/row:opacity-100 transition-all duration-300 hover:bg-primary-600 shadow-xl border border-white/20 hover:scale-110"
+                aria-label="Scroll Right"
             >
-                →
+                <svg xmlns="http://www.w3.org/2000/svg" className="w-5 h-5" fill="none" viewBox="0 0 24 24" stroke="currentColor" strokeWidth={2.5}>
+                    <path strokeLinecap="round" strokeLinejoin="round" d="M9 5l7 7-7 7" />
+                </svg>
             </button>
 
             {/* Horizontal Scroll Container */}

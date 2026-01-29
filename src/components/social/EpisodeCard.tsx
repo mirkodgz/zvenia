@@ -46,12 +46,10 @@ const EpisodeCard: React.FC<EpisodeCardProps> = ({ episode, podcastTitle, coverI
                     {podcastTitle.split(' ').slice(0, 2).join(' ')}
                 </div>
 
-                {/* Play Button (Glassy & Animated) - Keeping circular for icon convention or making it square? User said "nothing rounded". Let's make it sharp. */}
-                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-all duration-300 scale-50 group-hover:scale-100">
-                    <div className="w-14 h-14 bg-white/20 backdrop-blur-md border border-white/30 flex items-center justify-center shadow-2xl">
-                        <div className="w-10 h-10 bg-primary-600 flex items-center justify-center shadow-inner">
-                            <svg className="w-5 h-5 text-white ml-1" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
-                        </div>
+                {/* Play Button (RED Youtube Style - Square) */}
+                <div className="absolute inset-0 flex items-center justify-center opacity-0 group-hover:opacity-100 transition-opacity duration-200">
+                    <div className="w-14 h-10 bg-black/90 flex items-center justify-center border border-white/20 hover:bg-primary-600 transition-colors shadow-2xl rounded-none">
+                        <svg className="w-6 h-6 text-white ml-0.5" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
                     </div>
                 </div>
 

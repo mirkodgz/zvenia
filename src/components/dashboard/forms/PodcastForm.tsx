@@ -18,6 +18,7 @@ export default function PodcastForm({ currentUser, initialData }: { currentUser:
         topic_id: initialData?.topic_slug || initialData?.topic_id || '', // Handle both slug (create) and potentially ID if passed differently
         host: initialData?.host || '',
         cover_image_url: initialData?.cover_image_url || initialData?.featured_image_url || '',
+        is_popular: initialData?.is_popular || false
     });
 
     // Episodes State (Dynamic Array)
@@ -263,6 +264,23 @@ export default function PodcastForm({ currentUser, initialData }: { currentUser:
                     ))}
                 </div>
             </div>
+
+            {/* Admin Only: Popular Podcast Toggle */}
+            {(currentUser?.role === 'Administrator' || currentUser?.role === 'CountryManager') && (
+                <div className="bg-yellow-50 border border-yellow-200 rounded-lg p-4 mb-4 flex items-center gap-3">
+                    <input
+                        type="checkbox"
+                        id="is_popular"
+                        className="w-5 h-5 text-yellow-500 border-gray-300 rounded focus:ring-yellow-500"
+                        checked={(formData as any).is_popular}
+                        onChange={(e) => setFormData(prev => ({ ...prev, is_popular: e.target.checked }))}
+                    />
+                    <div>
+                        <label htmlFor="is_popular" className="font-bold text-gray-800 block">Mark as Popular Podcast</label>
+                        <p className="text-xs text-gray-600">Popular podcasts appear on the Home Page feed.</p>
+                    </div>
+                </div>
+            )}
 
             {/* Actions */}
             <div className="pt-6 border-t border-(--border-color) flex justify-end">

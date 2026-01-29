@@ -13,43 +13,42 @@ interface Event {
     external_link: string | null;
     excerpt?: string;
     author_id: string; // Added author_id
+    is_popular?: boolean;
 }
 
 interface EventCardProps {
     event: Event;
     currentUser: any; // Added currentUser
+    initialIsSaved?: boolean;
 }
 
-const EventCard: React.FC<EventCardProps> = ({ event, currentUser }) => {
-    // Format Date Range: "Jun 24 - Jun 26, 2026"
-    // Format Date Range
-    const formatDateRange = (start: string, end: string | null) => {
-        if (!start) return '';
-        const s = new Date(start);
-        const startYear = s.getFullYear();
-        const options: Intl.DateTimeFormatOptions = { month: 'short', day: 'numeric' };
+const EventCard: React.FC<EventCardProps> = ({ event, currentUser, initialIsSaved = false }) => {
+    const startDate = new Date(event.start_date);
+    const endDate = event.end_date ? new Date(event.end_date) : null;
 
-        const startStr = s.toLocaleDateString('en-US', options);
-
-        if (!end) return `${startStr}, ${startYear}`;
-
-        const e = new Date(end);
-        const endYear = e.getFullYear();
-        const endStr = e.toLocaleDateString('en-US', options);
-
-        if (startYear !== endYear) {
-            // Cross-year event: Nov 22, 2025 - Apr 16, 2026
-            return `${startStr}, ${startYear} - ${endStr}, ${endYear}`;
-        }
-
-        // Same year: Nov 22 - Apr 16, 2026
-        return `${startStr} - ${endStr}, ${endYear}`;
+    const formatDate = (date: Date) => {
+        return date.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' });
     };
 
-    const dateDisplay = formatDateRange(event.start_date, event.end_date);
+    let dateDisplay = formatDate(startDate);
+    if (endDate) {
+        const startYear = startDate.getFullYear();
+        const endYear = endDate.getFullYear();
+
+        if (startDate.toDateString() === endDate.toDateString()) {
+            // Same day, just show one
+            dateDisplay = formatDate(startDate);
+        } else if (startYear === endYear) {
+            // Same year
+            dateDisplay = `${startDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric' })} - ${endDate.toLocaleDateString('en-US', { month: 'short', day: 'numeric', year: 'numeric' })}`;
+        } else {
+            // Different years
+            dateDisplay = `${formatDate(startDate)} - ${formatDate(endDate)}`;
+        }
+    }
 
     return (
-        <div className="bg-white border border-(--border-color) overflow-hidden hover:border-primary-500/50 transition-all group flex flex-col h-full relative shadow-sm hover:shadow-md">
+        <div className="shrink-0 w-full group relative flex flex-col bg-(--bg-card) overflow-hidden border border-(--border-color) hover:border-primary-500/50 transition-all scroll-snap-align-start h-full">
 
             {/* Options Menu (Absolute Top Right) */}
             <div className="absolute top-3 right-3 z-30">
@@ -59,6 +58,8 @@ const EventCard: React.FC<EventCardProps> = ({ event, currentUser }) => {
                     currentUserId={currentUser?.id}
                     currentUserRole={currentUser?.role}
                     slug={event.slug}
+                    isPopular={event.is_popular}
+                    initialIsSaved={initialIsSaved}
                 />
             </div>
 

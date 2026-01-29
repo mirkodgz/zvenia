@@ -59,7 +59,8 @@ export default function CreateContentModal({ currentUser, userInitials, activeFe
     };
 
     const navigateToFeed = (feedType: string) => {
-        window.location.href = `/?feed=${feedType}`;
+        const currentPath = window.location.pathname;
+        window.location.href = `${currentPath}?feed=${feedType}`;
     };
 
     const role = (currentUser as any)?.role || 'Basic';

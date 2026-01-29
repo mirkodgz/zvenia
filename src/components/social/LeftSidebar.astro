@@ -67,6 +67,15 @@ const pathname = Astro.url.pathname;
             <span class="font-medium">Home</span>
         </a>
 
+        <!-- MY ZVENIA LINK -->
+        <a
+            href="/my-zvenia"
+            class={`flex items-center gap-3 px-4 py-2 rounded-none transition-colors ${pathname === "/my-zvenia" ? "bg-white text-accent-500 font-medium shadow-sm" : "text-gray-700 hover:bg-[#00c54f]/20"}`}
+        >
+            <span class="material-icons text-[20px]">layers</span>
+            <span class="font-medium">MY ZVENIA</span>
+        </a>
+
         <hr class="my-2 border-[#cbcbcb]" />
 
         <!-- DYNAMIC TOPICS -->

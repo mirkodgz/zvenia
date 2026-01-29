@@ -127,7 +127,8 @@ export const POST: APIRoute = async ({ request, cookies }) => {
             organizer,           // Flattened columns
             organizer_email,
             organizer_phone,
-            metadata: metadata || {}
+            metadata: metadata || {},
+            is_popular
         };
     } else if (isPodcast) {
         // Podcast
@@ -138,6 +139,7 @@ export const POST: APIRoute = async ({ request, cookies }) => {
             host,
             cover_image_url: featured_image_url,
             episodes: body.episodes || [], // JSONB
+            is_popular
             // topic_id is updated separately or we can put it here if the column exists directly. 
             // Since we handle topic specifically below, we'll leave it there to be consistent, 
             // or just rely on the separate block. Let's rely on the separate block for topic.
@@ -154,7 +156,8 @@ export const POST: APIRoute = async ({ request, cookies }) => {
             type_id: body.type_id || null,
             duration_id: body.duration_id || null,
             featured_image_url,
-            quick_view_image_url: featured_image_url // sync
+            quick_view_image_url: featured_image_url, // sync
+            is_popular
         };
     } else {
         // Post

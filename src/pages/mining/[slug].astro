@@ -208,7 +208,7 @@ const formatDate = (dateStr: string | null) => {
 
     <!-- MAIN CONTENT: Clean standard layout -->
     <!-- MAIN CONTENT: Clean standard layout -->
-    <div class="max-w-4xl mx-auto space-y-6">
+    <div class="w-full mx-auto space-y-6">
         <!-- Topic Content (Center) -->
         <main class="w-full">
             <!-- FIXED TABS CONTAINER (Hard Fix) -->
@@ -684,7 +684,10 @@ const formatDate = (dateStr: string | null) => {
         </script>
 
         <!-- EVENTS SECTION -->
-        <div id="tab-events" class="tab-content hidden space-y-4">
+        <div
+            id="tab-events"
+            class="tab-content hidden space-y-4 max-w-4xl mx-auto"
+        >
             <!-- Event Header (Matching Home) -->
             <div class="flex justify-between items-center px-0 mb-4">
                 <h3
@@ -807,7 +810,10 @@ const formatDate = (dateStr: string | null) => {
         </div>
 
         <!-- SERVICES SECTION -->
-        <div id="tab-services" class="tab-content hidden space-y-4">
+        <div
+            id="tab-services"
+            class="tab-content hidden space-y-4 max-w-4xl mx-auto"
+        >
             {
                 serviceItems.length === 0 ? (
                     <div

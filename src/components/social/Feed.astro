@@ -1,5 +1,5 @@
 ---
-import { supabase } from "../../lib/supabase";
+import { createSupabaseServerClient } from "../../lib/supabase";
 import CreateContentModal from "../dashboard/CreateContentModal";
 import PostCard from "./PostCard.astro";
 import PodcastRow from "./PodcastRow";
@@ -8,53 +8,105 @@ import ServiceCard from "./ServiceCard";
 
 // ... (existing imports)
 
-// ...
+const { filter = "popular" } = Astro.props; // 'popular' | 'saved'
 
 // 1. Get Feed Type from URL
 const feedType = Astro.url.searchParams.get("feed") || "post";
 
-// 2. Polymorphic Fetching
+// 2. Fetch User Saved Items (if logged in)
+const currentUser = Astro.locals.user;
+let savedItemIds = new Set<string>();
+
+const supabase = createSupabaseServerClient({
+    req: Astro.request,
+    cookies: Astro.cookies,
+});
+
+if (currentUser) {
+    const { data: savedItems, error: savedError } = await supabase
+        .from("saved_items")
+        .select("item_id")
+        .eq("user_id", currentUser.id)
+        .eq("item_type", feedType);
+
+    if (savedItems) {
+        (savedItems as any[]).forEach((item) => savedItemIds.add(item.item_id));
+    }
+}
+
+// 3. Polymorphic Fetching
 let data: any[] = [];
 let error = null;
 
-if (feedType === "post") {
-    // HOME PAGE: FILTER BY POPULAR POSTS
-    const { data: posts, error: err } = await supabase
-        .from("posts")
-        .select(
-            `*, author:profiles(full_name, avatar_url, profession, company, profile_slug), topic:topics(name, slug)`,
-        )
-        .eq("is_popular", true) // <--- MAIN CHANGE: Show only popular posts
-        .order("created_at", { ascending: false })
-        .limit(20);
-    data = posts || [];
-    error = err;
-} else if (feedType === "event") {
-    const now = new Date().toISOString();
-    const { data: events, error: err } = await supabase
-        .from("events")
-        .select("*")
-        .or(`end_date.gte.${now},start_date.gte.${now}`) // Future events
-        .order("created_at", { ascending: false })
-        .limit(50);
-    data = events || [];
-    error = err;
-} else if (feedType === "podcast") {
-    const { data: podcasts, error: err } = await supabase
-        .from("podcasts")
-        .select("*")
-        .order("created_at", { ascending: false })
-        .limit(20);
-    data = podcasts || [];
-    error = err;
-} else if (feedType === "service") {
-    const { data: services, error: err } = await supabase
-        .from("services")
-        .select("*")
-        .order("created_at", { ascending: false })
-        .limit(20);
-    data = services || [];
-    error = err;
+// If filtering by saved items and user has none, we can skip fetching
+if (filter === "saved" && savedItemIds.size === 0) {
+    data = [];
+} else {
+    if (feedType === "post") {
+        let query = supabase
+            .from("posts")
+            .select(
+                `*, author:profiles(full_name, avatar_url, profession, company, profile_slug), topic:topics(name, slug)`,
+            );
+
+        if (filter === "saved") {
+            query = query.in("id", Array.from(savedItemIds));
+        } else {
+            // Default: Popular
+            query = query.eq("is_popular", true);
+        }
+
+        const { data: posts, error: err } = await query
+            .order("created_at", { ascending: false })
+            .limit(20);
+        data = posts || [];
+        error = err;
+    } else if (feedType === "event") {
+        const now = new Date().toISOString();
+        let query = supabase.from("events").select("*");
+
+        if (filter === "saved") {
+            query = query.in("id", Array.from(savedItemIds));
+        } else {
+            query = query
+                .eq("is_popular", true)
+                .or(`end_date.gte.${now},start_date.gte.${now}`);
+        }
+
+        const { data: events, error: err } = await query
+            .order("created_at", { ascending: false })
+            .limit(50);
+        data = events || [];
+        error = err;
+    } else if (feedType === "podcast") {
+        let query = supabase.from("podcasts").select("*");
+
+        if (filter === "saved") {
+            query = query.in("id", Array.from(savedItemIds));
+        } else {
+            query = query.eq("is_popular", true);
+        }
+
+        const { data: podcasts, error: err } = await query
+            .order("created_at", { ascending: false })
+            .limit(20);
+        data = podcasts || [];
+        error = err;
+    } else if (feedType === "service") {
+        let query = supabase.from("services").select("*");
+
+        if (filter === "saved") {
+            query = query.in("id", Array.from(savedItemIds));
+        } else {
+            query = query.eq("is_popular", true);
+        }
+
+        const { data: services, error: err } = await query
+            .order("created_at", { ascending: false })
+            .limit(20);
+        data = services || [];
+        error = err;
+    }
 }
 
 if (error) {
@@ -196,7 +248,7 @@ const formatDate = (dateStr: string | null) => {
                 )
             }
 
-            {feedType === "post" && "Latest Posts"}
+            {feedType === "post" && "Popular Posts"}
             {feedType === "event" && "Upcoming Events"}
             {feedType === "podcast" && "Recent Podcasts"}
             {feedType === "service" && "Professional Services"}
@@ -307,14 +359,18 @@ const formatDate = (dateStr: string | null) => {
         class={feedType === "event" || feedType === "service"
             ? "grid grid-cols-1 md:grid-cols-2 gap-4 max-w-4xl mx-auto"
             : feedType === "podcast"
-              ? "space-y-4 max-w-4xl mx-auto"
+              ? "space-y-4 w-full"
               : "space-y-4 px-2 max-w-[600px] mx-auto"}
     >
         {/* POSTS */}
         {
             feedType === "post" &&
                 data.map((item) => (
-                    <PostCard post={item} currentUser={Astro.locals.user} />
+                    <PostCard
+                        post={item}
+                        currentUser={Astro.locals.user}
+                        initialIsSaved={savedItemIds.has(item.id)}
+                    />
                 ))
         }
 
@@ -326,6 +382,7 @@ const formatDate = (dateStr: string | null) => {
                         client:load
                         event={item}
                         currentUser={Astro.locals.user}
+                        initialIsSaved={savedItemIds.has(item.id)}
                     />
                 ))
         }
@@ -338,6 +395,7 @@ const formatDate = (dateStr: string | null) => {
                         client:load
                         podcast={item}
                         currentUser={Astro.locals.user}
+                        initialIsSaved={savedItemIds.has(item.id)}
                     />
                 ))
         }
@@ -350,6 +408,7 @@ const formatDate = (dateStr: string | null) => {
                         client:load
                         service={item}
                         currentUser={Astro.locals.user}
+                        initialIsSaved={savedItemIds.has(item.id)}
                     />
                 ))
         }

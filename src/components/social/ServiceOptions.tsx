@@ -2,16 +2,25 @@ import React, { useState, useRef, useEffect } from 'react';
 
 interface ServiceOptionsProps {
     serviceId: string;
-    authorId?: string; // Optional as services might not always have granular authors in the same way, or passed differently
+    authorId?: string;
     currentUserId: string | undefined;
+    currentUserRole?: string;
     slug?: string;
+    isPopular?: boolean;
+    initialIsSaved?: boolean;
 }
 
-export default function ServiceOptions({ serviceId, authorId, currentUserId, slug }: ServiceOptionsProps) {
+export default function ServiceOptions({ serviceId, authorId, currentUserId, currentUserRole, slug, isPopular, initialIsSaved = false }: ServiceOptionsProps) {
     const [isOpen, setIsOpen] = useState(false);
     const [copied, setCopied] = useState(false);
+    const [popularState, setPopularState] = useState(isPopular || false);
+    const [savedState, setSavedState] = useState(initialIsSaved);
+    const [justUpdated, setJustUpdated] = useState(false);
     const menuRef = useRef<HTMLDivElement>(null);
-    const isAuthor = authorId ? currentUserId === authorId : false; // Safe check
+    const isAuthor = authorId ? currentUserId === authorId : false;
+    const isAdmin = currentUserRole === 'Administrator';
+    const canEdit = isAuthor || isAdmin;
+
     const linkSlug = slug || serviceId;
 
     // Close on click outside
@@ -26,33 +35,62 @@ export default function ServiceOptions({ serviceId, authorId, currentUserId, slu
     }, []);
 
     const handleCopyLink = () => {
-        // Services usually anchor to a section or have a detail page? 
-        // User said "copy link for everyone", similar to post/podcast. 
-        // Assuming /service/[slug] exists or we link to the anchor on the main page?
-        // Let's assume /service/[slug] is desired or use the anchor link logic if it's Single Page.
-        // But the user requested "like posts/podcasts/events".
-        // ServiceCard has: href={service.company_link || `#service-${service.slug}`}
-        // If it's an external link, we might want to copy THAT.
-        // If it's an internal anchor, the "link" might be just the current page + anchor.
-        // However, standardizing on a detail page /service/[slug] is safer IF it exists.
-        // Checking `ServiceCard` again: `href={service.company_link || `#service-${service.slug}`}`
-        // This suggests services might NOT have a dedicated detail page yet.
-        // But the request implies sharing.
-        // Let's stick to the URL structure: `${window.location.origin}/service/${linkSlug}` for now, 
-        // OR copy the `company_link` if it exists?
-        // "Copy Link" usually means "Link to THIS content on THIS platform".
-        // If I make a link `/service/slug`, I should ensure that page works. 
-        // But wait, the user just wants the feature. I'll provide the link `/service/${linkSlug}`. 
-        // If that page doesn't exist, I might need to create it later or user will ask. 
-        // Given the "Other Services" pattern, maybe they are just Cards linking out.
-        // But let's build the tool first.
-
         const url = `${window.location.origin}/service/${linkSlug}`;
         navigator.clipboard.writeText(url).then(() => {
             setCopied(true);
             setTimeout(() => setCopied(false), 2000);
             setIsOpen(false);
         });
+    };
+
+    const handleToggleSave = async () => {
+        if (!currentUserId) {
+            alert("Please log in to save items.");
+            return;
+        }
+
+        const newState = !savedState;
+        setSavedState(newState); // Optimistic
+
+        try {
+            const res = await fetch('/api/content/toggle-save', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ item_id: serviceId, item_type: 'service' })
+            });
+
+            if (!res.ok) {
+                setSavedState(!newState); // Revert
+                console.error("Failed to toggle save");
+            }
+        } catch (err) {
+            console.error(err);
+            setSavedState(!newState);
+        }
+    };
+
+    const handleTogglePopular = async () => {
+        const newState = !popularState;
+        setPopularState(newState);
+        setJustUpdated(true);
+
+        try {
+            const res = await fetch('/api/admin/toggle-popular', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ id: serviceId, type: 'service', isPopular: newState })
+            });
+
+            if (!res.ok) {
+                setPopularState(!newState);
+                console.error("Failed to update popular status");
+            } else {
+                setTimeout(() => setJustUpdated(false), 2000);
+            }
+        } catch (err) {
+            console.error(err);
+            setPopularState(!newState);
+        }
     };
 
     const handleDelete = async () => {
@@ -87,7 +125,7 @@ export default function ServiceOptions({ serviceId, authorId, currentUserId, slu
                     e.stopPropagation();
                     setIsOpen(!isOpen);
                 }}
-                className="text-[var(--text-secondary)] hover:text-[var(--text-main)] p-1 rounded-full hover:bg-[var(--bg-card)] transition-colors bg-[var(--bg-surface)] backdrop-blur-sm shadow-sm border border-[var(--border-color)]"
+                className="text-(--text-secondary) hover:text-(--text-main) p-1 rounded-full hover:bg-(--bg-card) transition-colors bg-(--bg-surface) backdrop-blur-sm shadow-sm border border-(--border-color)"
                 title="Options"
             >
                 <svg xmlns="http://www.w3.org/2000/svg" className="h-5 w-5" viewBox="0 0 20 20" fill="currentColor">
@@ -96,7 +134,7 @@ export default function ServiceOptions({ serviceId, authorId, currentUserId, slu
             </button>
 
             {isOpen && (
-                <div className="absolute right-0 mt-2 w-48 bg-[var(--bg-card)] rounded-md shadow-lg py-1 border border-[var(--border-color)] overflow-hidden animate-fade-in">
+                <div className="absolute right-0 mt-2 w-48 bg-(--bg-card) rounded-md shadow-lg py-1 border border-(--border-color) overflow-hidden animate-fade-in">
 
                     {/* Copy Link - Everyone */}
                     <button
@@ -105,7 +143,7 @@ export default function ServiceOptions({ serviceId, authorId, currentUserId, slu
                             e.stopPropagation();
                             handleCopyLink();
                         }}
-                        className="block px-4 py-2 text-sm text-[var(--text-secondary)] hover:bg-[var(--bg-surface-hover)] hover:text-[var(--text-main)] w-full text-left flex items-center gap-2 group transition-colors"
+                        className="px-4 py-2 text-sm text-(--text-secondary) hover:bg-(--bg-surface-hover) hover:text-(--text-main) w-full text-left flex items-center gap-2 group transition-colors"
                     >
                         {copied ? (
                             <>
@@ -120,17 +158,38 @@ export default function ServiceOptions({ serviceId, authorId, currentUserId, slu
                         )}
                     </button>
 
+                    {/* Save Button - All Users */}
+                    <button
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            handleToggleSave();
+                        }}
+                        className="w-full text-left px-4 py-2 text-sm text-(--text-secondary) hover:bg-(--bg-surface-hover) hover:text-(--text-main) flex items-center gap-2"
+                    >
+                        {savedState ? (
+                            <>
+                                <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 text-primary-500 fill-primary-500 shrink-0" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
+                                <span className="text-primary-500 font-medium">Saved</span>
+                            </>
+                        ) : (
+                            <>
+                                <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
+                                <span>Save</span>
+                            </>
+                        )}
+                    </button>
+
                     {/* Edit/Delete - Author Only */}
-                    {isAuthor && (
+                    {canEdit && (
                         <>
-                            <div className="h-px bg-[var(--border-color)] my-1"></div>
+                            <div className="h-px bg-(--border-color) my-1"></div>
                             <button
                                 onClick={(e) => {
                                     e.stopPropagation();
                                     setIsOpen(false);
                                     window.location.href = `/dashboard/services/edit/${serviceId}`;
                                 }}
-                                className="block px-4 py-2 text-sm text-[var(--text-secondary)] hover:bg-[var(--bg-surface-hover)] hover:text-[var(--text-main)] w-full text-left flex items-center gap-2"
+                                className="px-4 py-2 text-sm text-(--text-secondary) hover:bg-(--bg-surface-hover) hover:text-(--text-main) w-full text-left flex items-center gap-2"
                             >
                                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M15.232 5.232l3.536 3.536m-2.036-5.036a2.5 2.5 0 113.536 3.536L6.5 21.036H3v-3.572L16.732 3.732z"></path></svg>
                                 Edit Service
@@ -141,12 +200,40 @@ export default function ServiceOptions({ serviceId, authorId, currentUserId, slu
                                     e.stopPropagation();
                                     handleDelete();
                                 }}
-                                className="block px-4 py-2 text-sm text-red-400 hover:bg-red-500/10 hover:text-red-300 w-full text-left flex items-center gap-2"
+                                className="px-4 py-2 text-sm text-red-400 hover:bg-red-500/10 hover:text-red-300 w-full text-left flex items-center gap-2"
                             >
                                 <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M19 7l-.867 12.142A2 2 0 0116.138 21H7.862a2 2 0 01-1.995-1.858L5 7m5 4v6m4-6v6m1-10V4a1 1 0 00-1-1h-4a1 1 0 00-1 1v3M4 7h16"></path></svg>
                                 Delete Service
                             </button>
                         </>
+                    )}
+
+                    {/* Popular Toggle (Admin Only) */}
+                    {isAdmin && (
+                        <button
+                            onClick={(e) => {
+                                e.stopPropagation();
+                                handleTogglePopular();
+                            }}
+                            className="px-4 py-2 text-sm text-yellow-600 hover:bg-yellow-50 w-full text-left flex items-center gap-2 border-t border-(--border-color)"
+                        >
+                            {justUpdated ? (
+                                <>
+                                    <svg className="w-4 h-4 text-green-500 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M5 13l4 4L19 7"></path></svg>
+                                    <span className="text-green-500 font-bold">Updated!</span>
+                                </>
+                            ) : popularState ? (
+                                <>
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 text-yellow-500 fill-yellow-500" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                                    <span>Unmark Popular</span>
+                                </>
+                            ) : (
+                                <>
+                                    <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 text-yellow-600" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><polygon points="12 2 15.09 8.26 22 9.27 17 14.14 18.18 21.02 12 17.77 5.82 21.02 7 14.14 2 9.27 8.91 8.26 12 2"></polygon></svg>
+                                    <span>Mark as Popular</span>
+                                </>
+                            )}
+                        </button>
                     )}
                 </div>
             )}

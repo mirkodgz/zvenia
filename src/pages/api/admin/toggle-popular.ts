@@ -30,19 +30,47 @@ export const POST: APIRoute = async ({ request, cookies }) => {
         return new Response(JSON.stringify({ error: "Invalid JSON" }), { status: 400 });
     }
 
-    const { postId, isPopular } = body;
+    const { id, type, isPopular } = body;
 
-    // 4. Update Post (Service Role to bypass policies if necessary, but standard update should work for admin if checks exist)
-    // Using Service Role to be safe as "Popular" state might be protected content field.
+    // 4. Determine Table
+    let table = 'posts';
+    let idField = 'id';
+
+    switch (type) {
+        case 'post':
+            table = 'posts';
+            break;
+        case 'event':
+            table = 'events';
+            break;
+        case 'podcast':
+            table = 'podcasts';
+            break;
+        case 'service':
+            table = 'services';
+            break;
+        default:
+            // Fallback for backward compatibility if old payload (postId) is used, though we should update callers.
+            if (body.postId) {
+                table = 'posts';
+                // id is covered below if we map it
+            } else {
+                return new Response(JSON.stringify({ error: "Invalid type" }), { status: 400 });
+            }
+    }
+
+    const targetId = id || body.postId;
+
+    // 5. Update Record
     const serviceSupabase = getServiceSupabase();
 
     const { error } = await (serviceSupabase
-        .from('posts') as any)
+        .from(table) as any)
         .update({ is_popular: isPopular })
-        .eq('id', postId);
+        .eq('id', targetId);
 
     if (error) {
-        console.error("Error toggling popular:", error);
+        console.error(`Error toggling popular for ${table}:${targetId}`, error);
         return new Response(JSON.stringify({ error: error.message }), { status: 500 });
     }
 

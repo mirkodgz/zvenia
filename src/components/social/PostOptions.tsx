@@ -7,14 +7,25 @@ interface PostOptionsProps {
     currentUserId: string | undefined;
     currentUserRole?: string;
     slug?: string;
-    isPopular?: boolean; // New Prop
+    isPopular?: boolean;
+    initialIsSaved?: boolean;
+    type?: 'post' | 'event' | 'podcast' | 'service'; // To reuse logic if needed, default 'post'
 }
 
-export default function PostOptions({ postId, authorId, currentUserId, currentUserRole, slug, isPopular }: PostOptionsProps) {
-    // console.log(`[PostOptions Debug] Post: ${postId}, User: ${currentUserId}, Role: ${currentUserRole}`);
+export default function PostOptions({
+    postId,
+    authorId,
+    currentUserId,
+    currentUserRole,
+    slug,
+    isPopular,
+    initialIsSaved = false,
+    type = 'post'
+}: PostOptionsProps) {
     const [isOpen, setIsOpen] = useState(false);
     const [copied, setCopied] = useState(false);
     const [popularState, setPopularState] = useState(isPopular || false);
+    const [savedState, setSavedState] = useState(initialIsSaved);
     const [justUpdated, setJustUpdated] = useState(false);
     const menuRef = useRef<HTMLDivElement>(null);
 
@@ -44,6 +55,32 @@ export default function PostOptions({ postId, authorId, currentUserId, currentUs
         });
     };
 
+    const handleToggleSave = async () => {
+        if (!currentUserId) {
+            alert("Please log in to save items.");
+            return;
+        }
+
+        const newState = !savedState;
+        setSavedState(newState); // Optimistic
+
+        try {
+            const res = await fetch('/api/content/toggle-save', {
+                method: 'POST',
+                headers: { 'Content-Type': 'application/json' },
+                body: JSON.stringify({ item_id: postId, item_type: type })
+            });
+
+            if (!res.ok) {
+                setSavedState(!newState); // Revert
+                console.error("Failed to toggle save");
+            }
+        } catch (err) {
+            console.error(err);
+            setSavedState(!newState);
+        }
+    };
+
     const handleTogglePopular = async () => {
         const newState = !popularState;
         setPopularState(newState); // Optimistic Update
@@ -53,22 +90,15 @@ export default function PostOptions({ postId, authorId, currentUserId, currentUs
             const res = await fetch('/api/admin/toggle-popular', {
                 method: 'POST',
                 headers: { 'Content-Type': 'application/json' },
-                body: JSON.stringify({ postId, isPopular: newState })
+                body: JSON.stringify({ id: postId, type: type, isPopular: newState })
             });
 
             if (!res.ok) {
                 setPopularState(!newState); // Revert on failure
-                // alert("Failed to update status"); // Silent fail or console log
                 console.error("Failed to update popular status");
             } else {
                 setTimeout(() => {
                     setJustUpdated(false);
-                    // Reload if we are on the home page or specific topic to reflect filtering?
-                    // User asked for "Easy ... similar to copying link", implying NO RELOAD needed immediately.
-                    // But if it was on Home feed (Popular only), unmarking it SHOULD remove it.
-                    // Let's just keep the visual state updated for now. 
-                    // If user refreshes, it will be gone.
-                    // If they are on a Topic page, it just changes status.
                 }, 2000);
             }
         } catch (err) {
@@ -137,6 +167,27 @@ export default function PostOptions({ postId, authorId, currentUserId, currentUs
                             <>
                                 <svg className="w-4 h-4 shrink-0" fill="none" stroke="currentColor" viewBox="0 0 24 24"><path strokeLinecap="round" strokeLinejoin="round" strokeWidth="2" d="M13.828 10.172a4 4 0 00-5.656 0l-4 4a4 4 0 105.656 5.656l1.102-1.101m-.758-4.899a4 4 0 005.656 0l4-4a4 4 0 00-5.656-5.656l-1.1 1.1"></path></svg>
                                 Copy Link
+                            </>
+                        )}
+                    </button>
+
+                    {/* Save Button - All Users */}
+                    <button
+                        onClick={(e) => {
+                            e.stopPropagation();
+                            handleToggleSave();
+                        }}
+                        className="w-full text-left px-4 py-2 text-sm text-(--text-secondary) hover:bg-(--bg-surface-hover) hover:text-(--text-main) flex items-center gap-2"
+                    >
+                        {savedState ? (
+                            <>
+                                <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 text-primary-500 fill-primary-500 shrink-0" viewBox="0 0 24 24" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
+                                <span className="text-primary-500 font-medium">Saved</span>
+                            </>
+                        ) : (
+                            <>
+                                <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4 shrink-0" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"></path></svg>
+                                <span>Save</span>
                             </>
                         )}
                     </button>
