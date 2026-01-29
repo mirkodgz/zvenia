@@ -102,7 +102,7 @@ export const onRequest = defineMiddleware(async (context, next) => {
 
         // Si no está autenticado, redirigir a login
         if (!user) {
-            return context.redirect('/admin/login');
+            return context.redirect('/login');
         }
 
         // Obtener perfil para verificar rol
@@ -114,7 +114,7 @@ export const onRequest = defineMiddleware(async (context, next) => {
 
         if (!profile) {
             console.error('Error fetching user profile for admin access');
-            return context.redirect('/admin/login');
+            return context.redirect('/login');
         }
 
         const userRole = (profile.role || 'Basic') as UserRole;

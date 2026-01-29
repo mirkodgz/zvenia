@@ -12,7 +12,7 @@ const profile = (Astro.locals as any).profile;
 
 // Verificar que profile existe, si no redirigir
 if (!profile) {
-    return Astro.redirect('/admin/login');
+    return Astro.redirect('/login');
 }
 
 const getLinkClass = (page: string) => {

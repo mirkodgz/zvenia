@@ -6,5 +6,5 @@ export const GET: APIRoute = async ({ request, cookies, redirect }) => {
 
     await supabase.auth.signOut();
 
-    return redirect('/admin/login');
+    return redirect('/login');
 };
