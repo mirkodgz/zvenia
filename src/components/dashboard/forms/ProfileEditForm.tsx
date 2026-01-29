@@ -21,7 +21,7 @@ export default function ProfileEditForm({ currentUser, initialProfile }: Profile
         headline_user: initialProfile?.headline_user || '',
         username: initialProfile?.username || '',
         phone_number: initialProfile?.phone_number || '',
-        nationality: initialProfile?.nationality || '',
+        country: initialProfile?.country || initialProfile?.nationality || '', // Use country, fallback to nationality
         current_location: initialProfile?.current_location || '',
         profession: initialProfile?.profession || '',
         company: initialProfile?.company || '',
@@ -45,7 +45,7 @@ export default function ProfileEditForm({ currentUser, initialProfile }: Profile
     const defaultPrivacy = {
         phone_number: false,      // Oculto por defecto
         email: false,              // Siempre oculto (no editable)
-        nationality: true,         // Visible por defecto
+        country: true,             // Visible por defecto (Old nationality)
         current_location: true,   // Visible por defecto
         company: true,            // Visible por defecto
         position: true,           // Visible por defecto
@@ -276,7 +276,7 @@ export default function ProfileEditForm({ currentUser, initialProfile }: Profile
             if (!response.ok) {
                 // Si el error viene del servidor, intentar identificar el campo
                 const serverError = result.error || 'Failed to update profile';
-                
+
                 // Intentar extraer el campo del error si es posible
                 if (serverError.toLowerCase().includes('linkedin')) {
                     setFieldErrors({ linkedin_url: serverError });
@@ -286,7 +286,7 @@ export default function ProfileEditForm({ currentUser, initialProfile }: Profile
                         (linkedinField as HTMLElement).focus();
                     }
                 }
-                
+
                 throw new Error(serverError);
             }
 
@@ -445,8 +445,8 @@ export default function ProfileEditForm({ currentUser, initialProfile }: Profile
                             Nationality
                         </label>
                         <select
-                            name="nationality"
-                            value={formData.nationality}
+                            name="country"
+                            value={formData.country}
                             onChange={handleChange}
                             className="w-full bg-white border border-gray-300 rounded-lg px-4 py-3 text-[#202124] focus:border-[#00c44b] focus:ring-1 focus:ring-[#00c44b] outline-none"
                         >
@@ -563,11 +563,10 @@ export default function ProfileEditForm({ currentUser, initialProfile }: Profile
                                 });
                             }
                         }}
-                        className={`w-full bg-white border rounded-lg px-4 py-3 text-[#202124] focus:ring-1 outline-none ${
-                            fieldErrors.linkedin_url 
-                                ? 'border-red-500 focus:border-red-500 focus:ring-red-500' 
-                                : 'border-gray-300 focus:border-[#00c44b] focus:ring-[#00c44b]'
-                        }`}
+                        className={`w-full bg-white border rounded-lg px-4 py-3 text-[#202124] focus:ring-1 outline-none ${fieldErrors.linkedin_url
+                            ? 'border-red-500 focus:border-red-500 focus:ring-red-500'
+                            : 'border-gray-300 focus:border-[#00c44b] focus:ring-[#00c44b]'
+                            }`}
                         placeholder="https://linkedin.com/in/yourprofile or www.linkedin.com/in/yourprofile"
                     />
                     {fieldErrors.linkedin_url && (
@@ -750,8 +749,8 @@ export default function ProfileEditForm({ currentUser, initialProfile }: Profile
                         <label className="flex items-center gap-3 cursor-pointer">
                             <input
                                 type="checkbox"
-                                checked={privacySettings.nationality}
-                                onChange={() => togglePrivacy('nationality')}
+                                checked={privacySettings.country}
+                                onChange={() => togglePrivacy('country')}
                                 className="w-4 h-4 text-[#00c44b] border-gray-300 rounded focus:ring-[#00c44b]"
                             />
                             <span className="text-sm text-[#202124]">Show nationality</span>

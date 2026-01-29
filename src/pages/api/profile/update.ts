@@ -25,7 +25,8 @@ export const POST: APIRoute = async ({ request, cookies }) => {
         headline_user,
         username,
         phone_number,
-        nationality,
+        country, // Receive country
+        nationality, // Keep for backward compatibility if needed, but prefer country
         current_location,
         profession,
         company,
@@ -44,7 +45,7 @@ export const POST: APIRoute = async ({ request, cookies }) => {
     // Actualizar first_name y last_name si están disponibles (las columnas deberían existir)
     if (first_name !== undefined) updateData.first_name = first_name || null;
     if (last_name !== undefined) updateData.last_name = last_name || null;
-    
+
     // Generar full_name desde first_name y last_name si están disponibles
     if (first_name !== undefined || last_name !== undefined) {
         const firstName = first_name || '';
@@ -54,16 +55,20 @@ export const POST: APIRoute = async ({ request, cookies }) => {
             updateData.full_name = generatedFullName;
         }
     }
-    
+
     // Si full_name viene explícitamente, usarlo (tiene prioridad)
     if (full_name !== undefined && full_name) {
         updateData.full_name = full_name;
     }
-    
+
     if (headline_user !== undefined) updateData.headline_user = headline_user || null;
     if (username !== undefined) updateData.username = username || null;
     if (phone_number !== undefined) updateData.phone_number = phone_number || null;
-    if (nationality !== undefined) updateData.nationality = nationality || null;
+
+    // Handle Country (Legacy Nationality)
+    if (country !== undefined) updateData.country = country || null;
+    else if (nationality !== undefined) updateData.country = nationality || null; // Fallback for old payloads
+
     if (current_location !== undefined) updateData.current_location = current_location || null;
     if (profession !== undefined) updateData.profession = profession || null;
     if (company !== undefined) updateData.company = company || null;
