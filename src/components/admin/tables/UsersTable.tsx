@@ -26,6 +26,7 @@ interface Profile {
     phone_number: string | null;
     nationality: string | null;
     profession: string | null;
+    country: string | null; // Added country
     work_country: string | null;
     current_location: string | null;
     headline_user: string | null;
@@ -42,14 +43,17 @@ const ROLES_FALLBACK = ['Administrator', 'CountryManager', 'Ads', 'Events', 'Exp
 
 export default function UsersTable() {
     const [users, setUsers] = useState<Profile[]>([]);
-    const [roles, setRoles] = useState<string[]>([]); // Dynamic Roles State
+    const [roles, setRoles] = useState<string[]>([]);
+    const [countries, setCountries] = useState<{ id: number; name: string }[]>([]);
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
+    const [totalUsers, setTotalUsers] = useState(0); // Added totalUsers
+    const [pagination, setPagination] = useState({ pageIndex: 0, pageSize: 20 }); // Lifted pagination state
     const [sorting, setSorting] = useState<SortingState>([]);
     const [editingId, setEditingId] = useState<string | null>(null);
-    const [editForm, setEditForm] = useState<{ role: string; work_country: string }>({
+    const [editForm, setEditForm] = useState<{ role: string; country: string }>({
         role: 'Basic',
-        work_country: ''
+        country: ''
     });
 
     const supabase = createBrowserClient(
@@ -57,10 +61,32 @@ export default function UsersTable() {
         import.meta.env.PUBLIC_SUPABASE_ANON_KEY!
     );
 
+    // Initial load
     useEffect(() => {
-        fetchUsers();
-        fetchRoles(); // Fetch roles on mount
+        fetchRoles();
+        fetchCountries();
     }, []);
+
+    // Debounced Search and Pagination Effect
+    useEffect(() => {
+        const timer = setTimeout(() => {
+            fetchUsers();
+        }, 500);
+
+        return () => clearTimeout(timer);
+    }, [searchTerm, pagination.pageIndex, pagination.pageSize]);
+
+    const fetchCountries = async () => {
+        try {
+            const response = await fetch('/api/countries');
+            if (response.ok) {
+                const data = await response.json();
+                setCountries(data);
+            }
+        } catch (error) {
+            console.error("Error fetching countries:", error);
+        }
+    };
 
     const fetchRoles = async () => {
         const { data, error } = await supabase
@@ -72,41 +98,31 @@ export default function UsersTable() {
             setRoles(data.map(r => r.role_name));
         } else {
             console.error("Error fetching roles:", error);
-            // Fallback just in case
-            setRoles(['Administrator', 'CountryManager', 'Ads', 'Events', 'Expert', 'Basic']);
+            setRoles(ROLES_FALLBACK);
         }
     };
 
     const fetchUsers = async () => {
         setLoading(true);
         try {
-            const page = 0; // Currently simplified to single page fetch or we can implement pagination state
-            // Ideally we use table state for pagination, but let's stick to the simpler logic first or reset it
-            // Logic: The original code fetched ALL users in a loop. With the API, we can fetch paginated or increase limit.
-            // For now, let's fetch a large chunk or implement server-side pagination properly.
-            // Let's implement server-side pagination integration.
+            // Use current state values
+            const queryParams = new URLSearchParams({
+                page: pagination.pageIndex.toString(),
+                pageSize: pagination.pageSize.toString(),
+                search: searchTerm // Pass search term to API
+            });
 
-            const limit = 50; // Fetch 50 per page for UI
-            const pageIndex = table.getState().pagination.pageIndex;
-
-            // NOTE: Search is handled client side in current UI but server side in new API
-            // For now, let's fetch 'all' (up to limit) or refactor UI to be server-side driven.
-            // To match previous loop behavior (fetching all), we might want to increase limit or just rely on API pagination.
-            // Let's fetch 100 recent users for initial load speed fix.
-
-            const response = await fetch(`/api/admin/users/list?page=${pageIndex}&pageSize=1000`);
+            const response = await fetch(`/api/admin/users/list?${queryParams}`, {
+                headers: { 'Content-Type': 'application/json' },
+                credentials: 'include'
+            });
             const result = await response.json();
-
-            if (!response.ok) {
-                throw new Error(result.error || 'Failed to fetch users');
-            }
+            if (!response.ok) throw new Error(result.error || 'Failed to fetch users');
 
             setUsers(result.users);
-            // Note: Total count handling needs UI update if we want exact server count
-
+            setTotalUsers(result.total); // Update total count
         } catch (err: any) {
             console.error('Error fetching users:', err);
-            // alert('Error fetching users: ' + err.message); // Silent fail preferred on load
         } finally {
             setLoading(false);
         }
@@ -114,21 +130,13 @@ export default function UsersTable() {
 
     const handleDelete = async (id: string) => {
         if (!confirm('Are you sure you want to delete this user? This action cannot be undone.')) return;
-
-        // Use API endpoint for full deletion (Auth + Profile)
         try {
-            const response = await fetch(`/api/admin/users/action?id=${id}`, {
-                method: 'DELETE',
-            });
-
+            const response = await fetch(`/api/admin/users/action?id=${id}`, { method: 'DELETE' });
             if (!response.ok) {
                 const data = await response.json();
                 throw new Error(data.error || 'Failed to delete');
             }
-
-            // Update UI on success
             setUsers(users.filter(u => u.id !== id));
-
         } catch (err: any) {
             console.error('Error deleting user:', err);
             alert('Error deleting user: ' + err.message);
@@ -139,48 +147,36 @@ export default function UsersTable() {
         setEditingId(user.id);
         setEditForm({
             role: user.role || 'Basic',
-            work_country: user.work_country || ''
+            country: user.country || ''
         });
     };
 
     const cancelEdit = () => {
         setEditingId(null);
-        setEditForm({ role: 'Basic', work_country: '' });
+        setEditForm({ role: 'Basic', country: '' });
     };
 
     const saveEdit = async (id: string) => {
         try {
             const response = await fetch('/api/admin/users/action', {
                 method: 'PUT',
-                headers: {
-                    'Content-Type': 'application/json',
-                },
+                headers: { 'Content-Type': 'application/json' },
                 body: JSON.stringify({
                     id: id,
                     role: editForm.role,
-                    country: editForm.work_country || null // Note: API expects 'country', component uses 'work_country'
+                    country: editForm.country || null
                 }),
             });
-
             const result = await response.json();
-
-            // DEBUG: Log result
-            console.log("Admin Update Result:", result);
-
-            if (!response.ok) {
-                throw new Error(result.error || 'Failed to update user');
-            }
+            if (!response.ok) throw new Error(result.error || 'Failed to update user');
 
             alert("Success! User updated.");
-
-            // Update UI on success
             setUsers(users.map(u =>
                 u.id === id
-                    ? { ...u, role: editForm.role, work_country: editForm.work_country || null }
+                    ? { ...u, role: editForm.role, country: editForm.country || null }
                     : u
             ));
             setEditingId(null);
-
         } catch (err: any) {
             console.error('Error updating user:', err);
             alert('Error updating user: ' + err.message);
@@ -189,18 +185,12 @@ export default function UsersTable() {
 
     const getRoleBadgeColor = (role: string | null) => {
         switch (role) {
-            case 'Administrator':
-                return 'border-red-500/30 bg-red-500/10 text-red-400';
-            case 'CountryManager':
-                return 'border-blue-500/30 bg-blue-500/10 text-blue-400';
-            case 'Expert':
-                return 'border-purple-500/30 bg-purple-500/10 text-purple-400';
-            case 'Ads':
-                return 'border-yellow-500/30 bg-yellow-500/10 text-yellow-400';
-            case 'Events':
-                return 'border-green-500/30 bg-green-500/10 text-green-400';
-            default:
-                return 'border-gray-500/30 bg-gray-500/10 text-gray-400';
+            case 'Administrator': return 'border-red-500/30 bg-red-500/10 text-red-400';
+            case 'CountryManager': return 'border-blue-500/30 bg-blue-500/10 text-blue-400';
+            case 'Expert': return 'border-purple-500/30 bg-purple-500/10 text-purple-400';
+            case 'Ads': return 'border-yellow-500/30 bg-yellow-500/10 text-yellow-400';
+            case 'Events': return 'border-green-500/30 bg-green-500/10 text-green-400';
+            default: return 'border-gray-500/30 bg-gray-500/10 text-gray-400';
         }
     };
 
@@ -288,25 +278,30 @@ export default function UsersTable() {
                 ),
             },
             {
-                accessorKey: 'work_country',
+                accessorKey: 'country',
                 header: 'Country',
                 cell: ({ row }) => {
                     const user = row.original;
                     if (editingId === user.id) {
                         return (
-                            <input
-                                type="text"
-                                value={editForm.work_country}
-                                onChange={(e) => setEditForm({ ...editForm, work_country: e.target.value })}
-                                placeholder="Country..."
-                                className="bg-white border border-primary-500 rounded px-2 py-1 text-gray-900 outline-none text-sm w-32"
+                            <select
+                                value={editForm.country}
+                                onChange={(e) => setEditForm({ ...editForm, country: e.target.value })}
+                                className="bg-white border border-primary-500 rounded px-2 py-1 text-gray-900 outline-none text-sm w-48"
                                 onClick={(e) => e.stopPropagation()}
-                            />
+                            >
+                                <option value="">Select Country...</option>
+                                {countries.map((c) => (
+                                    <option key={c.id} value={c.name}>
+                                        {c.name}
+                                    </option>
+                                ))}
+                            </select>
                         );
                     }
                     return (
                         <span className="text-gray-600 text-sm">
-                            {user.work_country || user.nationality || '-'}
+                            {user.country || user.nationality || '-'}
                         </span>
                     );
                 },
@@ -386,39 +381,19 @@ export default function UsersTable() {
     const table = useReactTable({
         data: users,
         columns,
+        pageCount: Math.ceil(totalUsers / (pagination.pageSize || 20)) || -1,
+        state: {
+            sorting,
+            pagination, // Controlled pagination
+        },
+        manualPagination: true,
+        manualFiltering: true,
+        onSortingChange: setSorting,
+        onPaginationChange: setPagination,
         getCoreRowModel: getCoreRowModel(),
         getFilteredRowModel: getFilteredRowModel(),
         getPaginationRowModel: getPaginationRowModel(),
         getSortedRowModel: getSortedRowModel(),
-        state: {
-            sorting,
-            globalFilter: searchTerm,
-        },
-        onSortingChange: setSorting,
-        onGlobalFilterChange: setSearchTerm,
-        globalFilterFn: (row, columnId, filterValue) => {
-            const search = filterValue.toLowerCase();
-            const user = row.original;
-            return (
-                user.email?.toLowerCase().includes(search) ||
-                user.full_name?.toLowerCase().includes(search) ||
-                user.first_name?.toLowerCase().includes(search) ||
-                user.last_name?.toLowerCase().includes(search) ||
-                user.company?.toLowerCase().includes(search) ||
-                user.position?.toLowerCase().includes(search) ||
-                user.profession?.toLowerCase().includes(search) ||
-                user.work_country?.toLowerCase().includes(search) ||
-                user.nationality?.toLowerCase().includes(search) ||
-                user.role?.toLowerCase().includes(search) ||
-                user.username?.toLowerCase().includes(search) ||
-                false
-            );
-        },
-        initialState: {
-            pagination: {
-                pageSize: 20,
-            },
-        },
     });
 
     return (
@@ -427,7 +402,7 @@ export default function UsersTable() {
                 <div>
                     <h2 className="text-xl font-bold text-gray-900">User Management</h2>
                     <p className="text-sm text-gray-600 mt-1">
-                        Total: {users.length} users
+                        Total: {totalUsers} users
                     </p>
                 </div>
                 <div className="flex gap-2">
@@ -436,7 +411,7 @@ export default function UsersTable() {
                         placeholder="Search users..."
                         value={searchTerm}
                         onChange={(e) => setSearchTerm(e.target.value)}
-                        className="bg-gray-50 border border-gray-200 rounded px-3 py-1 text-gray-900 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500 w-64"
+                        className="bg-gray-5 border border-gray-200 rounded px-3 py-1 text-gray-900 text-sm focus:border-primary-500 focus:outline-none focus:ring-1 focus:ring-primary-500 w-64"
                     />
                     <button
                         onClick={fetchUsers}
@@ -505,9 +480,9 @@ export default function UsersTable() {
                     Mostrando {table.getState().pagination.pageIndex * table.getState().pagination.pageSize + 1} a{' '}
                     {Math.min(
                         (table.getState().pagination.pageIndex + 1) * table.getState().pagination.pageSize,
-                        table.getFilteredRowModel().rows.length
+                        totalUsers
                     )}{' '}
-                    of {table.getFilteredRowModel().rows.length} users
+                    of {totalUsers} users
                 </div>
                 <div className="flex gap-2">
                     <button
@@ -529,4 +504,3 @@ export default function UsersTable() {
         </div>
     );
 }
-

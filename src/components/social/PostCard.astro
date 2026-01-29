@@ -83,12 +83,10 @@ const formatDate = (dateStr: string) => {
                     class="leading-tight mt-0.5"
                     style="font-size: 12px; font-family: 'Inter', sans-serif; color: #00000099; font-weight: 400;"
                 >
-                    {formatDate(post.created_at)}
+                    {formatDate(post.published_at || post.created_at)}
                 </span>
             </div>
         </div>
-
-        <!-- Menu (Edit/Delete/Save) -->
         <PostOptions
             client:visible
             postId={post.id}
@@ -344,123 +342,62 @@ const formatDate = (dateStr: string) => {
         currentUserId={currentUser?.id}
         sessionAccessToken={Astro.locals.session?.access_token}
     />
-</article>
-<script>
-    // Self-contained logic for this component instances
-    document.addEventListener("astro:page-load", () => {
-        // Re-attach listeners on navigation
-        attachListeners();
-    });
 
-    // Initial load
-    document.addEventListener("DOMContentLoaded", attachListeners);
-
-    // Expose for dynamic content (pagination)
-    (window as any).attachListeners = attachListeners;
-
-    function attachListeners() {
-        // --- LIGHTBOX LOGIC ---
-        const lbImages = document.querySelectorAll("img[data-lightbox-image]");
-        lbImages.forEach((img) => {
-            if (img.hasAttribute("data-lightbox-bound")) return;
-            img.setAttribute("data-lightbox-bound", "true");
-
-            img.addEventListener("click", (e) => {
-                e.stopPropagation();
-                const target = e.target as HTMLImageElement;
-                const imagesStr = target.dataset.images || "[]";
-                const indexStr = target.dataset.index || "0";
-
-                try {
-                    const images = JSON.parse(imagesStr);
-                    const initialIndex = parseInt(indexStr);
-
-                    // Dispatch Custom Event to Global Lightbox
-                    window.dispatchEvent(
-                        new CustomEvent("open-lightbox", {
-                            detail: { images, initialIndex },
-                        }),
-                    );
-                } catch (err) {
-                    console.error("Lightbox Error", err);
-                }
-            });
+    <script>
+        // Self-contained logic for this component instances
+        document.addEventListener("astro:page-load", () => {
+            // Re-attach listeners on navigation
+            attachListeners();
         });
 
-        // Read More Logic for List View
-        const readMoreBtns = document.querySelectorAll(".read-more-btn");
-        readMoreBtns.forEach((btn) => {
-            if (btn.hasAttribute("data-bound")) return;
-            btn.setAttribute("data-bound", "true");
+        // Initial load
+        document.addEventListener("DOMContentLoaded", attachListeners);
 
-            // Get guest status from parent article (we need to ensure attribute exists)
-            const article = btn.closest("article");
-            const isGuest = article?.dataset.isGuest === "true";
+        // Expose for dynamic content (pagination)
+        (window as any).attachListeners = attachListeners;
 
-            btn.addEventListener("click", (e) => {
-                if (isGuest) {
-                    e.preventDefault();
-                    e.stopPropagation();
-                    window.dispatchEvent(new CustomEvent("open-auth-modal"));
-                    return;
-                }
-
-                const button = e.target as HTMLButtonElement;
-                const container = button.closest("div");
-                const text = container?.querySelector(".post-content");
-                if (text) {
-                    text.classList.toggle("line-clamp-3");
-                    button.textContent = text.classList.contains("line-clamp-3")
-                        ? "...read more"
-                        : "Show less";
-                    // Maintain style
-                    button.style.fontSize = "15px";
-                    button.style.fontWeight = "400";
-                    button.style.color = "#0a66c2";
-                    button.style.textAlign = "right";
-                    button.style.width = "100%";
-                }
-            });
-        });
-
-        // Read More/Less Logic for Single Post (Detail View)
-        const detailPosts = document.querySelectorAll(
-            ".post-content[data-is-detail='true']",
-        );
-        detailPosts.forEach((contentEl) => {
-            const postContent = contentEl as HTMLElement;
-            const container = postContent.closest("div");
-            const readMoreBtn = container?.querySelector(
-                ".read-more-btn-detail",
-            ) as HTMLButtonElement;
-            const article = postContent.closest("article");
-            const isGuest = article?.dataset.isGuest === "true";
-
-            if (!readMoreBtn || readMoreBtn.hasAttribute("data-bound")) return;
-            readMoreBtn.setAttribute("data-bound", "true");
-
-            // Check if content is long enough to need truncation
-            const originalHeight = postContent.scrollHeight;
-            const lineHeight = parseInt(
-                window.getComputedStyle(postContent).lineHeight,
+        function attachListeners() {
+            // --- LIGHTBOX LOGIC ---
+            const lbImages = document.querySelectorAll(
+                "img[data-lightbox-image]",
             );
-            const maxLines = 10; // Show first 10 lines, then "read more"
-            const maxHeight = lineHeight * maxLines;
+            lbImages.forEach((img) => {
+                if (img.hasAttribute("data-lightbox-bound")) return;
+                img.setAttribute("data-lightbox-bound", "true");
 
-            if (originalHeight > maxHeight) {
-                // Initially truncate
-                postContent.style.maxHeight = `${maxHeight}px`;
-                postContent.style.overflow = "hidden";
-                readMoreBtn.style.display = "block";
-                readMoreBtn.textContent = "...read more";
-                readMoreBtn.classList.remove(
-                    "opacity-0",
-                    "pointer-events-none",
-                );
-                readMoreBtn.classList.add("opacity-100");
+                img.addEventListener("click", (e) => {
+                    e.stopPropagation();
+                    const target = e.target as HTMLImageElement;
+                    const imagesStr = target.dataset.images || "[]";
+                    const indexStr = target.dataset.index || "0";
 
-                let isExpanded = false;
-                readMoreBtn.addEventListener("click", (e) => {
+                    try {
+                        const images = JSON.parse(imagesStr);
+                        const initialIndex = parseInt(indexStr);
+
+                        // Dispatch Custom Event to Global Lightbox
+                        window.dispatchEvent(
+                            new CustomEvent("open-lightbox", {
+                                detail: { images, initialIndex },
+                            }),
+                        );
+                    } catch (err) {
+                        console.error("Lightbox Error", err);
+                    }
+                });
+            });
+
+            // Read More Logic for List View
+            const readMoreBtns = document.querySelectorAll(".read-more-btn");
+            readMoreBtns.forEach((btn) => {
+                if (btn.hasAttribute("data-bound")) return;
+                btn.setAttribute("data-bound", "true");
+
+                // Get guest status from parent article (we need to ensure attribute exists)
+                const article = btn.closest("article");
+                const isGuest = article?.dataset.isGuest === "true";
+
+                btn.addEventListener("click", (e) => {
                     if (isGuest) {
                         e.preventDefault();
                         e.stopPropagation();
@@ -470,56 +407,131 @@ const formatDate = (dateStr: string) => {
                         return;
                     }
 
-                    isExpanded = !isExpanded;
-                    if (isExpanded) {
-                        postContent.style.maxHeight = "none";
-                        readMoreBtn.textContent = "Show less";
-                    } else {
-                        postContent.style.maxHeight = `${maxHeight}px`;
-                        readMoreBtn.textContent = "...read more";
-                        // Scroll to top of content when collapsing
-                        postContent.scrollIntoView({
-                            behavior: "smooth",
-                            block: "start",
-                        });
+                    const button = e.target as HTMLButtonElement;
+                    const container = button.closest("div");
+                    const text = container?.querySelector(".post-content");
+                    if (text) {
+                        text.classList.toggle("line-clamp-3");
+                        button.textContent = text.classList.contains(
+                            "line-clamp-3",
+                        )
+                            ? "...read more"
+                            : "Show less";
+                        // Maintain style
+                        button.style.fontSize = "15px";
+                        button.style.fontWeight = "400";
+                        button.style.color = "#0a66c2";
+                        button.style.textAlign = "right";
+                        button.style.width = "100%";
                     }
-                    // Maintain style
-                    readMoreBtn.style.fontSize = "15px";
-                    readMoreBtn.style.fontWeight = "400";
-                    readMoreBtn.style.color = "#0a66c2";
-                    readMoreBtn.style.textAlign = "right";
-                    readMoreBtn.style.width = "100%";
                 });
-            }
-        });
-
-        // Carousel Logic
-        const carousels = document.querySelectorAll(".carousel-container");
-        carousels.forEach((container) => {
-            if (container.hasAttribute("data-bound")) return;
-            container.setAttribute("data-bound", "true");
-
-            const track = container.querySelector(
-                ".carousel-track",
-            ) as HTMLElement;
-            const prevBtn = container.querySelector(
-                ".nav-prev",
-            ) as HTMLButtonElement;
-            const nextBtn = container.querySelector(
-                ".nav-next",
-            ) as HTMLButtonElement;
-
-            if (!track || !prevBtn || !nextBtn) return;
-
-            const scrollAmount = () => track.clientWidth;
-
-            prevBtn.addEventListener("click", () => {
-                track.scrollBy({ left: -scrollAmount(), behavior: "smooth" });
             });
 
-            nextBtn.addEventListener("click", () => {
-                track.scrollBy({ left: scrollAmount(), behavior: "smooth" });
+            // Read More/Less Logic for Single Post (Detail View)
+            const detailPosts = document.querySelectorAll(
+                ".post-content[data-is-detail='true']",
+            );
+            detailPosts.forEach((contentEl) => {
+                const postContent = contentEl as HTMLElement;
+                const container = postContent.closest("div");
+                const readMoreBtn = container?.querySelector(
+                    ".read-more-btn-detail",
+                ) as HTMLButtonElement;
+                const article = postContent.closest("article");
+                const isGuest = article?.dataset.isGuest === "true";
+
+                if (!readMoreBtn || readMoreBtn.hasAttribute("data-bound"))
+                    return;
+                readMoreBtn.setAttribute("data-bound", "true");
+
+                // Check if content is long enough to need truncation
+                const originalHeight = postContent.scrollHeight;
+                const lineHeight = parseInt(
+                    window.getComputedStyle(postContent).lineHeight,
+                );
+                const maxLines = 10; // Show first 10 lines, then "read more"
+                const maxHeight = lineHeight * maxLines;
+
+                if (originalHeight > maxHeight) {
+                    // Initially truncate
+                    postContent.style.maxHeight = `${maxHeight}px`;
+                    postContent.style.overflow = "hidden";
+                    readMoreBtn.style.display = "block";
+                    readMoreBtn.textContent = "...read more";
+                    readMoreBtn.classList.remove(
+                        "opacity-0",
+                        "pointer-events-none",
+                    );
+                    readMoreBtn.classList.add("opacity-100");
+
+                    let isExpanded = false;
+                    readMoreBtn.addEventListener("click", (e) => {
+                        if (isGuest) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            window.dispatchEvent(
+                                new CustomEvent("open-auth-modal"),
+                            );
+                            return;
+                        }
+
+                        isExpanded = !isExpanded;
+                        if (isExpanded) {
+                            postContent.style.maxHeight = "none";
+                            readMoreBtn.textContent = "Show less";
+                        } else {
+                            postContent.style.maxHeight = `${maxHeight}px`;
+                            readMoreBtn.textContent = "...read more";
+                            // Scroll to top of content when collapsing
+                            postContent.scrollIntoView({
+                                behavior: "smooth",
+                                block: "start",
+                            });
+                        }
+                        // Maintain style
+                        readMoreBtn.style.fontSize = "15px";
+                        readMoreBtn.style.fontWeight = "400";
+                        readMoreBtn.style.color = "#0a66c2";
+                        readMoreBtn.style.textAlign = "right";
+                        readMoreBtn.style.width = "100%";
+                    });
+                }
             });
-        });
-    }
-</script>
+
+            // Carousel Logic
+            const carousels = document.querySelectorAll(".carousel-container");
+            carousels.forEach((container) => {
+                if (container.hasAttribute("data-bound")) return;
+                container.setAttribute("data-bound", "true");
+
+                const track = container.querySelector(
+                    ".carousel-track",
+                ) as HTMLElement;
+                const prevBtn = container.querySelector(
+                    ".nav-prev",
+                ) as HTMLButtonElement;
+                const nextBtn = container.querySelector(
+                    ".nav-next",
+                ) as HTMLButtonElement;
+
+                if (!track || !prevBtn || !nextBtn) return;
+
+                const scrollAmount = () => track.clientWidth;
+
+                prevBtn.addEventListener("click", () => {
+                    track.scrollBy({
+                        left: -scrollAmount(),
+                        behavior: "smooth",
+                    });
+                });
+
+                nextBtn.addEventListener("click", () => {
+                    track.scrollBy({
+                        left: scrollAmount(),
+                        behavior: "smooth",
+                    });
+                });
+            });
+        }
+    </script>
+</article>

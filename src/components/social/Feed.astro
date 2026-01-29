@@ -57,7 +57,7 @@ if (filter === "saved" && savedItemIds.size === 0) {
         }
 
         const { data: posts, error: err } = await query
-            .order("created_at", { ascending: false })
+            .order("published_at", { ascending: false })
             .limit(20);
         data = posts || [];
         error = err;
