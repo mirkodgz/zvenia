@@ -41,8 +41,10 @@ interface Profile {
 const ROLES_FALLBACK = ['Administrator', 'CountryManager', 'Ads', 'Events', 'Expert', 'Basic'];
 
 export default function UsersTable() {
+    // ... (imports remain)
     const [users, setUsers] = useState<Profile[]>([]);
     const [roles, setRoles] = useState<string[]>([]); // Dynamic Roles State
+    const [countries, setCountries] = useState<{ id: number; name: string }[]>([]); // Countries State
     const [loading, setLoading] = useState(true);
     const [searchTerm, setSearchTerm] = useState('');
     const [sorting, setSorting] = useState<SortingState>([]);
@@ -60,7 +62,23 @@ export default function UsersTable() {
     useEffect(() => {
         fetchUsers();
         fetchRoles(); // Fetch roles on mount
+        fetchCountries();
     }, []);
+
+    const fetchCountries = async () => {
+        try {
+            const response = await fetch('/api/countries');
+            if (response.ok) {
+                const data = await response.json();
+                setCountries(data);
+            }
+        } catch (error) {
+            console.error("Error fetching countries:", error);
+        }
+    };
+    // ...
+    // In columns definition:
+
 
     const fetchRoles = async () => {
         const { data, error } = await supabase
@@ -94,7 +112,12 @@ export default function UsersTable() {
             // To match previous loop behavior (fetching all), we might want to increase limit or just rely on API pagination.
             // Let's fetch 100 recent users for initial load speed fix.
 
-            const response = await fetch(`/api/admin/users/list?page=${pageIndex}&pageSize=1000`);
+            const response = await fetch(`/api/admin/users/list?page=${pageIndex}&pageSize=1000`, {
+                headers: {
+                    'Content-Type': 'application/json'
+                },
+                credentials: 'include' // Important: Send cookies for server-side auth check
+            });
             const result = await response.json();
 
             if (!response.ok) {
@@ -294,14 +317,19 @@ export default function UsersTable() {
                     const user = row.original;
                     if (editingId === user.id) {
                         return (
-                            <input
-                                type="text"
+                            <select
                                 value={editForm.work_country}
                                 onChange={(e) => setEditForm({ ...editForm, work_country: e.target.value })}
-                                placeholder="Country..."
-                                className="bg-white border border-primary-500 rounded px-2 py-1 text-gray-900 outline-none text-sm w-32"
+                                className="bg-white border border-primary-500 rounded px-2 py-1 text-gray-900 outline-none text-sm w-48"
                                 onClick={(e) => e.stopPropagation()}
-                            />
+                            >
+                                <option value="">Select Country...</option>
+                                {countries.map((c) => (
+                                    <option key={c.id} value={c.name}>
+                                        {c.name}
+                                    </option>
+                                ))}
+                            </select>
                         );
                     }
                     return (

@@ -11,23 +11,24 @@ const createSupabaseAdmin = () => createClient(
 
 export const GET: APIRoute = async ({ request, locals, cookies }) => {
     // 1. Verify Requesting User is Admin
-    // We check session or locals. Locals is preferred if middleware is running.
-
-    // Fallback: Check headers cookie if locals not populated (though middleware should handle it)
     const supabaseAdmin = createSupabaseAdmin();
 
-    const supabaseAuth = createClient(
-        import.meta.env.PUBLIC_SUPABASE_URL,
-        import.meta.env.PUBLIC_SUPABASE_ANON_KEY,
-        {
-            global: { headers: { Cookie: request.headers.get("cookie") || "" } }
+    let user = locals.user;
+
+    // Fallback: If middleware didn't populate locals (unlikely in this setup but safe)
+    if (!user) {
+        const supabaseAuth = createClient(
+            import.meta.env.PUBLIC_SUPABASE_URL,
+            import.meta.env.PUBLIC_SUPABASE_ANON_KEY,
+            {
+                global: { headers: { Cookie: request.headers.get("cookie") || "" } }
+            }
+        );
+        const { data, error } = await supabaseAuth.auth.getUser();
+        if (error || !data.user) {
+            return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 401 });
         }
-    );
-
-    const { data: { user }, error: authError } = await supabaseAuth.auth.getUser();
-
-    if (authError || !user) {
-        return new Response(JSON.stringify({ error: "Unauthorized" }), { status: 401 });
+        user = data.user;
     }
 
     // Check Profile Role
