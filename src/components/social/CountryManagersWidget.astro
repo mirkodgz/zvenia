@@ -157,32 +157,4 @@ if (detectedCountryCode) {
             </div>
         )
     }
-
-    {/* DEBUG OVERLAY (Only visible with ?debug_geo=true) */}
-    {
-        Astro.url.searchParams.get("debug_geo") === "true" && (
-            <div class="mt-2 p-2 bg-black/90 text-green-400 text-xs font-mono rounded overflow-hidden">
-                <p>
-                    <strong>Locals.country:</strong>{" "}
-                    {Astro.locals.country || "undefined"}
-                </p>
-                <p>
-                    <strong>GEO Header:</strong> {detectedCountryCode || "NONE"}
-                </p>
-                <p>
-                    <strong>Resolved Name:</strong> {countryName || "N/A"}
-                </p>
-                <p>
-                    <strong>Manager Found:</strong>{" "}
-                    {countryManager ? "YES" : "NO"}
-                </p>
-                {countryManager && (
-                    <p>
-                        <strong>Manager Name:</strong>{" "}
-                        {countryManager.full_name}
-                    </p>
-                )}
-            </div>
-        )
-    }
 </div>
