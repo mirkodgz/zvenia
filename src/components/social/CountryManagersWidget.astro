@@ -1,12 +1,27 @@
 ---
 // import { supabase } from "@/lib/supabase"; // Don't use browser client on server
 
-const { country, supabase } = Astro.locals;
+const { country, supabase, user } = Astro.locals;
 // Default to a known country if not detected (e.g., for testing or fallback) or handle gracefully
-const detectedCountryCode = country || null;
+let detectedCountryCode = country || null;
+let detectedCountryName = null;
+
+// Fallback: If no IP country, check logged-in user's profile country
+if (!detectedCountryCode && user) {
+    // We need to fetch the profile again to be sure (or trust middleware)
+    // Middleware puts it in user.country if available via casting in middleware.ts
+    const userCountry = (user as any).country;
+    if (userCountry) {
+        if (userCountry.length === 2) {
+            detectedCountryCode = userCountry; // It's a code like 'IT'
+        } else {
+            detectedCountryName = userCountry; // It's a name like 'Italy'
+        }
+    }
+}
 
 let countryManagers: ManagerProfile[] = [];
-let countryName = "your country";
+let countryName = detectedCountryName || "your country";
 
 // Define types explicitly to avoid 'never' or 'any' implicit issues
 interface CountryData {
@@ -34,24 +49,24 @@ if (detectedCountryCode) {
 
     if (countryData) {
         countryName = countryData.display_name;
-
-        // 2. Get Country Manager profiles (ALL of them)
-        const { data: managersVal } = await supabase
-            .from("profiles")
-            .select("*")
-            .eq("country", countryData.display_name)
-            .eq("role", "CountryManager");
-
-        // Cast to our explicit type or null
-        const managers = managersVal as unknown as ManagerProfile[] | null;
-
-        if (managers && managers.length > 0) {
-            countryManagers = managers;
-        }
+        detectedCountryName = countryData.display_name;
     }
-} else {
-    // Optional: Fetch a default/highlighted manager if no country detected?
-    // For now we'll stick to the "Become a Manager" CTA which is safer.
+}
+
+// 2. If we have a country name (from IP->Code->Name OR directly from Profile), get managers
+if (detectedCountryName) {
+    const { data: managersVal } = await supabase
+        .from("profiles")
+        .select("*")
+        .eq("country", detectedCountryName)
+        .eq("role", "CountryManager");
+
+    // Cast to our explicit type or null
+    const managers = managersVal as unknown as ManagerProfile[] | null;
+
+    if (managers && managers.length > 0) {
+        countryManagers = managers;
+    }
 }
 ---
 

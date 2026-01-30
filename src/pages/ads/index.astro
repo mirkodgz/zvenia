@@ -1,0 +1,52 @@
+---
+import SocialLayout from "../../layouts/SocialLayout.astro";
+import LeftSidebar from "../../components/social/LeftSidebar.astro";
+import RightSidebar from "../../components/social/RightSidebar.astro";
+import ADSManagerWrapper from "../../components/dashboard/ADSManagerWrapper";
+import { createSupabaseServerClient } from "../../lib/supabase";
+
+const supabase = createSupabaseServerClient({
+    req: Astro.request,
+    cookies: Astro.cookies,
+});
+
+const {
+    data: { user },
+} = await supabase.auth.getUser();
+
+if (!user) {
+    return Astro.redirect("/login");
+}
+
+// Fetch Profile for Role Check
+const { data: profile } = await supabase
+    .from("profiles")
+    .select("*")
+    .eq("id", user.id)
+    .single();
+
+const role = profile ? (profile as any).role : "Basic";
+const isAuthorized = role === "Administrator" || role === "CountryManager";
+
+if (!isAuthorized) {
+    return Astro.redirect("/dashboard");
+}
+
+const currentUser = { ...user, ...(profile || {}) };
+---
+
+<SocialLayout title="ADS Manager | ZVENIA">
+    <LeftSidebar slot="left-sidebar" />
+
+    <div class="max-w-7xl mx-auto p-4 sm:p-6 min-h-screen">
+        <div class="flex flex-col gap-8">
+            <ADSManagerWrapper currentUser={currentUser} client:load />
+        </div>
+    </div>
+
+    <RightSidebar slot="right-sidebar" />
+</SocialLayout>
+
+<script>
+    // Just ensuring global styles are fine
+</script>

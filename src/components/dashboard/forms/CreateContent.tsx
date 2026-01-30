@@ -63,9 +63,9 @@ export default function CreateContent({ currentUser }: CreateContentProps) {
                             key={tab.id}
                             onClick={() => setActiveTab(tab.id as ContentType)}
                             className={`
-                                w-1/4 py-4 px-1 text-center border-b-2 text-[15px] font-medium transition-colors duration-200 flex items-center justify-center gap-2 cursor-pointer
+                                w-1/4 py-3 md:py-4 px-1 text-center border-b-2 text-xs md:text-[15px] font-medium transition-colors duration-200 flex flex-col md:flex-row items-center justify-center gap-1 md:gap-2 cursor-pointer
                                 ${activeTab === tab.id
-                                    ? 'bg-[#00c44b] text-white border-transparent'
+                                    ? 'bg-accent-500 text-white border-transparent'
                                     : 'border-transparent text-black hover:text-gray-700 hover:border-gray-300'
                                 }
                               `}
@@ -78,7 +78,7 @@ export default function CreateContent({ currentUser }: CreateContentProps) {
             </div>
 
             {/* Form Container - Clean White */}
-            <div className="p-6 md:p-8 min-h-[500px]">
+            <div className="p-4 md:p-8 min-h-[500px]">
                 {activeTab === 'post' && <PostForm currentUser={currentUser} />}
                 {activeTab === 'event' && <EventForm currentUser={currentUser} />}
                 {activeTab === 'podcast' && <PodcastForm currentUser={currentUser} />}

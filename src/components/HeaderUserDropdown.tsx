@@ -9,6 +9,7 @@ import {
   LayoutDashboardIcon,
   Globe,
   Mic,
+  Megaphone,
 } from 'lucide-react';
 
 import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar';
@@ -267,6 +268,13 @@ export default function HeaderUserDropdown({ user, profile }: HeaderUserDropdown
             >
               <Mic className="text-dark size-5 mr-3" />
               <span className="text-dark font-semibold">Z-TALKS</span>
+            </DropdownMenuItem>
+            <DropdownMenuItem
+              className="px-4 py-2.5 text-base cursor-pointer"
+              onClick={() => (window.location.href = '/ads')}
+            >
+              <Megaphone className="text-dark size-5 mr-3" />
+              <span className="text-dark font-semibold">ADS</span>
             </DropdownMenuItem>
             <DropdownMenuItem
               className="px-4 py-2.5 text-base cursor-pointer"
