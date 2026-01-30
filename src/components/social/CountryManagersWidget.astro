@@ -70,82 +70,73 @@ if (detectedCountryName) {
 }
 ---
 
-<div class="bg-white border border-(--border-color) p-4 shadow-sm">
-    <h3
-        class="font-bold text-lg mb-4 text-(--text-main) flex items-center gap-2"
-    >
-        Country Manager
-    </h3>
-    {
-        countryManagers.length > 0 ? (
-            <div id="managers-container" class="relative min-h-[80px]">
-                {countryManagers.map((manager, index) => (
-                    <div
-                        class={`manager-card transition-opacity duration-500 ease-in-out ${index === 0 ? "opacity-100 relative" : "opacity-0 absolute top-0 left-0 w-full pointer-events-none"}`}
-                        data-index={index}
+{
+    countryManagers.length > 0 ? (
+        <div id="managers-container" class="relative min-h-[140px]">
+            {countryManagers.map((manager, index) => (
+                <div
+                    class={`manager-card transition-opacity duration-500 ease-in-out ${index === 0 ? "opacity-100 relative" : "opacity-0 absolute top-0 left-0 w-full pointer-events-none"}`}
+                    data-index={index}
+                >
+                    <a
+                        href={`/profile/${manager.profile_slug}`}
+                        class="block group"
                     >
-                        <div class="relative group">
-                            {/* External Link Icon */}
-                            <a
-                                href={`/profile/${manager.profile_slug}`}
-                                class="absolute top-0 right-0 p-1 text-gray-400 hover:text-primary-500 transition-colors z-10"
-                                title="View Profile"
-                            >
-                                <svg
-                                    xmlns="http://www.w3.org/2000/svg"
-                                    class="w-5 h-5"
-                                    fill="none"
-                                    viewBox="0 0 24 24"
-                                    stroke="currentColor"
-                                >
-                                    <path
-                                        stroke-linecap="round"
-                                        stroke-linejoin="round"
-                                        stroke-width="2"
-                                        d="M10 6H6a2 2 0 00-2 2v10a2 2 0 002 2h10a2 2 0 002-2v-4M14 4h6m0 0v6m0-6L10 14"
+                        <div class="flex border border-gray-300 rounded-sm hover:border-accent-500 transition-colors bg-white shadow-sm overflow-hidden relative min-h-[125px]">
+                            {/* Left: Photo (Absolute coverage of left side) */}
+                            {/* w-36 (approx 144px) fixed width, self-stretch height */}
+                            <div class="w-36 shrink-0 relative border-r border-gray-100">
+                                {manager.avatar_url ? (
+                                    <img
+                                        src={manager.avatar_url}
+                                        alt={manager.full_name}
+                                        class="absolute inset-0 w-full h-full object-cover"
                                     />
-                                </svg>
-                            </a>
+                                ) : (
+                                    <div class="absolute inset-0 w-full h-full bg-gray-200 flex items-center justify-center text-gray-400">
+                                        <svg
+                                            xmlns="http://www.w3.org/2000/svg"
+                                            class="h-10 w-10"
+                                            viewBox="0 0 20 20"
+                                            fill="currentColor"
+                                        >
+                                            <path
+                                                fill-rule="evenodd"
+                                                d="M10 9a3 3 0 100-6 3 3 0 000 6zm-7 9a7 7 0 1114 0H3z"
+                                                clip-rule="evenodd"
+                                            />
+                                        </svg>
+                                    </div>
+                                )}
+                            </div>
 
-                            <div class="flex items-center gap-4">
-                                <a
-                                    href={`/profile/${manager.profile_slug}`}
-                                    class="shrink-0"
-                                >
-                                    {manager.avatar_url ? (
-                                        <img
-                                            src={manager.avatar_url}
-                                            alt={manager.full_name}
-                                            class="w-14 h-14 rounded-none object-cover ring-2 ring-transparent group-hover:ring-accent-500 transition-all"
-                                        />
-                                    ) : (
-                                        <img
-                                            src="/igm-default.webp"
-                                            alt={manager.full_name}
-                                            class="w-14 h-14 rounded-none object-cover ring-2 ring-transparent group-hover:ring-accent-500 transition-all opacity-80"
-                                        />
-                                    )}
-                                </a>
+                            {/* Right: Info (Padding goes here) */}
+                            <div class="flex flex-col flex-1 justify-center min-w-0 p-3 bg-white">
+                                <h4 class="font-bold text-xs text-[#002B49] uppercase leading-tight mb-1 group-hover:text-accent-500 transition-colors">
+                                    {manager.full_name}
+                                </h4>
 
-                                <div class="flex-1 min-w-0 pr-6">
-                                    <a
-                                        href={`/profile/${manager.profile_slug}`}
-                                        class="block"
-                                    >
-                                        <h4 class="font-bold text-[15px] text-(--text-main) group-hover:text-accent-500 transition-colors leading-tight truncate">
-                                            {manager.full_name}
-                                        </h4>
-                                    </a>
-                                    <p class="text-sm text-(--text-secondary) mt-0.5">
-                                        {countryName}
-                                    </p>
-                                </div>
+                                <span class="text-[10px] leading-tight text-slate-700 font-medium block">
+                                    ZVENIA Mining
+                                </span>
+                                <span class="text-[10px] leading-tight text-slate-600 block mb-2">
+                                    Country Manager
+                                </span>
+
+                                <span class="font-bold text-xs text-[#002B49] block">
+                                    {countryName}
+                                </span>
                             </div>
                         </div>
-                    </div>
-                ))}
-            </div>
-        ) : (
+                    </a>
+                </div>
+            ))}
+        </div>
+    ) : (
+        <div>
+            <h3 class="font-bold text-lg mb-4 text-(--text-main) flex items-center gap-2">
+                Country Manager
+            </h3>
             <div class="flex flex-col items-center justify-center text-center py-4 px-2 bg-gray-50 rounded-lg border border-dashed border-gray-300">
                 <div class="w-10 h-10 bg-gray-200 rounded-none flex items-center justify-center mb-3 text-gray-400">
                     <svg
@@ -176,45 +167,45 @@ if (detectedCountryName) {
                     Apply Now
                 </a>
             </div>
-        )
-    }
+        </div>
+    )
+}
 
-    <script>
-        document.addEventListener("DOMContentLoaded", () => {
-            const cards = document.querySelectorAll(".manager-card");
-            if (cards.length > 1) {
-                let currentIndex = 0;
+<script>
+    document.addEventListener("DOMContentLoaded", () => {
+        const cards = document.querySelectorAll(".manager-card");
+        if (cards.length > 1) {
+            let currentIndex = 0;
 
-                setInterval(() => {
-                    const currentCard = cards[currentIndex];
-                    const nextIndex = (currentIndex + 1) % cards.length;
-                    const nextCard = cards[nextIndex];
+            setInterval(() => {
+                const currentCard = cards[currentIndex];
+                const nextIndex = (currentIndex + 1) % cards.length;
+                const nextCard = cards[nextIndex];
 
-                    // Fade out current
-                    currentCard.classList.remove("opacity-100", "relative");
-                    currentCard.classList.add(
-                        "opacity-0",
-                        "absolute",
-                        "top-0",
-                        "left-0",
-                        "w-full",
-                        "pointer-events-none",
-                    );
+                // Fade out current
+                currentCard.classList.remove("opacity-100", "relative");
+                currentCard.classList.add(
+                    "opacity-0",
+                    "absolute",
+                    "top-0",
+                    "left-0",
+                    "w-full",
+                    "pointer-events-none",
+                );
 
-                    // Fade in next
-                    nextCard.classList.remove(
-                        "opacity-0",
-                        "absolute",
-                        "top-0",
-                        "left-0",
-                        "w-full",
-                        "pointer-events-none",
-                    );
-                    nextCard.classList.add("opacity-100", "relative");
+                // Fade in next
+                nextCard.classList.remove(
+                    "opacity-0",
+                    "absolute",
+                    "top-0",
+                    "left-0",
+                    "w-full",
+                    "pointer-events-none",
+                );
+                nextCard.classList.add("opacity-100", "relative");
 
-                    currentIndex = nextIndex;
-                }, 5000);
-            }
-        });
-    </script>
-</div>
+                currentIndex = nextIndex;
+            }, 5000);
+        }
+    });
+</script>
