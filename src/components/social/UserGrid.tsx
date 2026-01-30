@@ -123,10 +123,10 @@ const UserGrid = () => {
     return (
         <div>
             {/* Filters Bar */}
-            <div className="bg-white p-4 rounded-none shadow-sm border border-gray-200 mb-8 animate-in fade-in slide-in-from-top-4 duration-500">
-                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+            <div className="bg-white p-3 md:p-4 rounded-none shadow-sm border border-gray-200 mb-4 md:mb-8 animate-in fade-in slide-in-from-top-4 duration-500">
+                <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
                     {/* Search */}
-                    <div className="relative">
+                    <div className="relative col-span-2 md:col-span-1">
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5 pointer-events-none" />
                         <input
                             type="text"
@@ -139,7 +139,7 @@ const UserGrid = () => {
                     </div>
 
                     {/* Role Filter */}
-                    <div className="relative">
+                    <div className="relative col-span-1">
                         <Filter className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5 pointer-events-none" />
                         <select
                             value={role}
@@ -155,7 +155,7 @@ const UserGrid = () => {
                     </div>
 
                     {/* Country Filter */}
-                    <div className="relative">
+                    <div className="relative col-span-1">
                         <Globe className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5 pointer-events-none" />
                         <select
                             value={country}
@@ -180,7 +180,7 @@ const UserGrid = () => {
             </div>
 
             {/* Grid */}
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-2 lg:grid-cols-4 gap-3 md:gap-6">
                 {users.map((user) => (
                     <div key={user.id} className="animate-in fade-in zoom-in-95 duration-300">
                         <UserCard user={user} />

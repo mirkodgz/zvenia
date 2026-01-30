@@ -35,13 +35,13 @@ const UserCard: React.FC<UserCardProps> = ({ user }) => {
     return (
         <a href={profileLink} className="block group">
             <div
-                className="bg-white rounded-lg p-6 flex flex-col items-center text-center transition-all duration-300 hover:shadow-md h-full"
+                className="bg-white rounded-lg p-3 md:p-6 flex flex-col items-center text-center transition-all duration-300 hover:shadow-md h-full"
                 style={{ border: '1px solid rgba(13, 36, 27, 0.2)' }}
             >
 
                 {/* Avatar */}
-                <div className="relative mb-4 group-hover:scale-105 transition-transform duration-300">
-                    <div className="w-24 h-24 rounded-none bg-gray-100 overflow-hidden border-2 border-white shadow-sm">
+                <div className="relative mb-2 md:mb-4 group-hover:scale-105 transition-transform duration-300">
+                    <div className="w-16 h-16 md:w-24 md:h-24 rounded-none bg-gray-100 overflow-hidden border-2 border-white shadow-sm">
                         {user.avatar_url ? (
                             <img
                                 src={user.avatar_url}
@@ -59,24 +59,24 @@ const UserCard: React.FC<UserCardProps> = ({ user }) => {
                 </div>
 
                 {/* Info */}
-                <p className="text-xs text-green-600 font-medium mb-1 line-clamp-1">
+                <p className="text-[10px] md:text-xs text-green-600 font-medium mb-0.5 md:mb-1 line-clamp-1">
                     {memberSince}
                 </p>
 
-                <div className="flex items-center justify-center gap-1.5 mb-1 group-hover:text-primary-600 transition-colors">
-                    <h3 className="text-dark font-bold text-lg line-clamp-1">
+                <div className="flex items-center justify-center gap-1 mb-0.5 md:mb-1 group-hover:text-primary-600 transition-colors w-full px-1">
+                    <h3 className="text-dark font-bold text-sm md:text-lg line-clamp-1 break-all">
                         {displayName}
                     </h3>
                     {isVerified && (
                         <div title="Verified User" className="shrink-0">
-                            <svg className="w-5 h-5 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
+                            <svg className="w-3 h-3 md:w-5 md:h-5 text-blue-500" fill="currentColor" viewBox="0 0 20 20">
                                 <path fillRule="evenodd" d="M10 18a8 8 0 100-16 8 8 0 000 16zm3.707-9.293a1 1 0 00-1.414-1.414L9 10.586 7.707 9.293a1 1 0 00-1.414 1.414l2 2a1 1 0 001.414 0l4-4z" clipRule="evenodd" />
                             </svg>
                         </div>
                     )}
                 </div>
 
-                <p className="text-gray-500 text-sm mb-3 h-5">
+                <p className="text-gray-500 text-[11px] md:text-sm mb-2 md:mb-3 h-4 md:h-5 line-clamp-1">
                     {user.profession || "N/A"}
                 </p>
 

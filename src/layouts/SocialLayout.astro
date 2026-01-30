@@ -87,9 +87,21 @@ const user = Astro.locals.user;
         <!-- LEFT SIDEBAR (Fixed, starts below header/brand) -->
         {
             !hideLeftSidebar && (
-                <aside class="hidden lg:block fixed left-0 top-[70px] bottom-0 w-[270px] z-998 bg-(--bg-surface) overflow-y-auto no-scrollbar border-r border-[#e5e7eb]">
-                    <slot name="left-sidebar" />
-                </aside>
+                <>
+                    {/* Mobile Backdrop */}
+                    <div
+                        id="sidebar-backdrop"
+                        class="fixed inset-0 bg-black/50 z-997 hidden lg:hidden backdrop-blur-sm transition-opacity"
+                    />
+
+                    {/* Sidebar */}
+                    <aside
+                        id="left-sidebar"
+                        class="hidden lg:block fixed left-0 top-[70px] bottom-0 w-[270px] z-998 bg-(--bg-surface) overflow-y-auto no-scrollbar border-r border-[#e5e7eb] transition-transform duration-300"
+                    >
+                        <slot name="left-sidebar" />
+                    </aside>
+                </>
             )
         }
 
@@ -153,3 +165,39 @@ const user = Astro.locals.user;
         }
     }
 </style>
+
+<script>
+    const toggleBtn = document.getElementById("mobile-sidebar-toggle");
+    const sidebar = document.getElementById("left-sidebar");
+    const backdrop = document.getElementById("sidebar-backdrop");
+
+    function closeSidebar() {
+        if (sidebar) sidebar.classList.add("hidden");
+        if (backdrop) backdrop.classList.add("hidden");
+        document.body.style.overflow = ""; // Restore scrolling
+    }
+
+    function openSidebar() {
+        if (sidebar) sidebar.classList.remove("hidden");
+        if (backdrop) backdrop.classList.remove("hidden");
+        document.body.style.overflow = "hidden"; // Prevent background scrolling
+    }
+
+    if (toggleBtn) {
+        toggleBtn.addEventListener("click", (e) => {
+            e.stopPropagation();
+            if (sidebar?.classList.contains("hidden")) {
+                openSidebar();
+            } else {
+                closeSidebar();
+            }
+        });
+    }
+
+    if (backdrop) {
+        backdrop.addEventListener("click", closeSidebar);
+    }
+
+    // Close on route change (for frameworks without full page reload, though Astro is MPA usually)
+    document.addEventListener("astro:after-swap", closeSidebar);
+</script>

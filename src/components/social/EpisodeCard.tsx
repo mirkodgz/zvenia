@@ -42,7 +42,8 @@ const EpisodeCard: React.FC<EpisodeCardProps> = ({ episode, podcastTitle, coverI
                 <div className="absolute inset-0 bg-linear-to-t from-black/80 via-black/20 to-transparent opacity-80 group-hover:opacity-60 transition-opacity"></div>
 
                 {/* Badge (Podcast Name or Host) */}
-                <div className="absolute top-2 left-2 bg-black/60 backdrop-blur-md text-[10px] font-bold text-white px-2 py-1 uppercase tracking-wider border border-white/10">
+                {/* Badge (Podcast Name or Host) */}
+                <div className="absolute top-2 left-2 bg-[#0D241B] text-[10px] font-semibold text-white px-2 py-0.5 uppercase border border-white/10 shadow-sm leading-none scale-90 origin-top-left z-10 rounded-[2px]">
                     {podcastTitle.split(' ').slice(0, 2).join(' ')}
                 </div>
 

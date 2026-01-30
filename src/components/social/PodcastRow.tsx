@@ -44,7 +44,7 @@ const PodcastRow: React.FC<PodcastRowProps> = ({ podcast, currentUser, initialIs
     if (episodes.length === 0) return null;
 
     return (
-        <div className="bg-(--bg-card) border border-(--border-color) p-6 mb-6 relative group/row transition-colors">
+        <div className="bg-(--bg-card) border border-(--border-color) p-3 md:p-6 mb-4 md:mb-6 relative group/row transition-colors">
 
             {/* Header */}
             <div className="flex justify-between items-center mb-4">

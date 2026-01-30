@@ -80,18 +80,19 @@ if (videoParam) {
     title={`${podcast.title} | ZVENIA Podcasts`}
     description={podcast.description}
     hideRightSidebar={true}
+    fullWidthContent={true}
 >
     <!-- LEFT SIDEBAR -->
     <LeftSidebar slot="left-sidebar" />
 
     <!-- MAIN CONTENT -->
     <div
-        class="grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-6 pb-12 items-start"
+        class="w-full lg:max-w-[98%] mx-auto grid grid-cols-1 lg:grid-cols-[1fr_340px] gap-0 lg:gap-6 pb-4 lg:pb-12 items-start lg:pt-6"
     >
         <!-- CENTER COLUMN: PLAYER & INFO -->
         <div class="flex flex-col gap-6 w-full min-w-0">
             {/* Back Button (Aligned with Content) */}
-            <div>
+            <div class="px-4 py-2 lg:px-0">
                 <a
                     href="/mining/general-mining"
                     class="inline-flex items-center text-(--text-secondary) hover:text-(--text-main) transition-colors"
@@ -138,10 +139,90 @@ if (videoParam) {
                 </div>
             </div>
 
+            {/* MOBILE INFO (Clean YouTube Style - Light Background) */}
+            <div class="lg:hidden px-4 -mt-2 mb-4">
+                <h1 class="text-xl font-bold text-gray-900 mb-2 leading-tight">
+                    {podcast.title}
+                </h1>
+
+                <div class="flex items-center justify-between mb-4">
+                    {
+                        podcast.host && (
+                            <div class="flex items-center gap-3">
+                                <span class="w-10 h-10 rounded-full bg-primary-100 flex items-center justify-center text-primary-700 font-bold text-sm border border-primary-200">
+                                    {podcast.host.charAt(0)}
+                                </span>
+                                <div class="flex flex-col">
+                                    <span class="text-[10px] text-gray-500 font-bold uppercase tracking-wider">
+                                        HOST
+                                    </span>
+                                    <span class="text-sm text-gray-900 font-bold">
+                                        {podcast.host}
+                                    </span>
+                                </div>
+                            </div>
+                        )
+                    }
+                    {/* Share/Action Buttons */}
+                    <div class="flex gap-2">
+                        <button
+                            class="p-2 rounded-full bg-gray-100 hover:bg-gray-200 text-gray-600 transition-colors border border-gray-200"
+                            title="Share"
+                        >
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                class="w-5 h-5"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                                stroke-width="2"
+                                ><path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    d="M8.684 13.342C8.886 12.938 9 12.482 9 12c0-.482-.114-.938-.316-1.342m0 2.684a3 3 0 110-2.684m0 2.684l6.632 3.316m-6.632-6l6.632-3.316m0 0a3 3 0 105.367-2.684 3 3 0 00-5.367 2.684zm0 9.316a3 3 0 105.368 2.684 3 3 0 00-5.368-2.684z"
+                                ></path></svg
+                            >
+                        </button>
+                    </div>
+                </div>
+
+                <div class="bg-gray-100 rounded-xl p-3">
+                    <details class="group">
+                        <summary
+                            class="list-none cursor-pointer text-sm font-bold text-gray-900 flex items-center gap-1 select-none"
+                        >
+                            Description
+                            <svg
+                                xmlns="http://www.w3.org/2000/svg"
+                                class="w-4 h-4 text-gray-500 transition-transform group-open:rotate-180"
+                                fill="none"
+                                viewBox="0 0 24 24"
+                                stroke="currentColor"
+                                ><path
+                                    stroke-linecap="round"
+                                    stroke-linejoin="round"
+                                    stroke-width="2"
+                                    d="M19 9l-7 7-7-7"></path></svg
+                            >
+                        </summary>
+                        <div class="pt-2">
+                            <p
+                                class="text-sm text-gray-700 leading-relaxed whitespace-pre-line"
+                            >
+                                {
+                                    podcast.description ||
+                                        "Join us for an in-depth conversation on the future of mining."
+                                }
+                            </p>
+                        </div>
+                    </details>
+                </div>
+            </div>
+
             {/* PODCAST INFO */}
-            {/* PODCAST INFO (Premium Card) */}
+            {/* PODCAST INFO (Premium Card - Desktop Only) */}
             <div
-                class="flex flex-col sm:flex-row gap-6 bg-[#0b1c15] border-l-4 border-primary-500 p-6 shadow-2xl relative overflow-hidden group"
+                class="hidden lg:flex flex-col sm:flex-row gap-6 bg-[#0b1c15] border-l-4 border-primary-500 p-6 shadow-2xl relative overflow-hidden group"
             >
                 {/* Subtle Background Accent */}
                 <div
@@ -198,7 +279,7 @@ if (videoParam) {
         </div>
 
         <!-- RIGHT COLUMN: YOUTUBE STYLE SIDEBAR -->
-        <div class="flex flex-col w-full h-full min-w-0">
+        <div class="flex flex-col w-full h-full min-w-0 px-4 lg:px-0">
             <div class="flex items-center justify-between mb-4 px-1">
                 <h3
                     class="text-lg font-bold text-gray-900 uppercase tracking-wider flex items-center gap-2"
@@ -208,7 +289,7 @@ if (videoParam) {
             </div>
 
             <div
-                class="flex flex-col gap-3 max-h-[calc(100vh-100px)] overflow-y-auto pr-2 hide-scrollbar"
+                class="flex flex-col gap-3 max-h-none lg:max-h-[calc(100vh-100px)] overflow-visible lg:overflow-y-auto pr-0 lg:pr-2 hide-scrollbar px-4 lg:px-0 pb-12 lg:pb-0"
             >
                 {
                     castEpisodes.map((ep) => {

@@ -14,15 +14,15 @@ const { hideBorder = false } = Astro.props;
 const locals = Astro.locals as any;
 
 const supabase = createSupabaseServerClient({
-    req: Astro.request,
-    cookies: Astro.cookies,
+  req: Astro.request,
+  cookies: Astro.cookies,
 });
 
 // Fetch topics for Mobile Menu
-const { data: topics } = await supabase
-    .from("topics")
-    .select("name, slug")
-    .order("name") as { data: any[] | null };
+const { data: topics } = (await supabase
+  .from("topics")
+  .select("name, slug")
+  .order("name")) as { data: any[] | null };
 
 let profile: { role?: string; profile_slug?: string } | null = locals.profile;
 
@@ -74,8 +74,32 @@ if (!profile && locals.user) {
     class="flex h-full items-center justify-between w-full px-4 sm:px-6 lg:px-8"
     style="background-color: #0d241b;"
   >
-    <!-- Block 1: Left Logo (ZVENIA Mining) -->
-    <div class="flex items-center shrink-0 gap-6">
+    {/* --- MOBILE LEFT: Grid Toggle + Notifications --- */}
+    <div class="flex md:hidden items-center gap-4 shrink-0">
+      {/* Grid Toggle (Opens Sidebar) */}
+      <button
+        type="button"
+        id="mobile-sidebar-toggle"
+        class="text-white hover:text-[#00c54f] transition-colors"
+        aria-label="Open Menu"
+      >
+        <span class="material-icons text-[28px]">apps</span>
+      </button>
+
+      {/* Notifications */}
+      <a
+        href="/notifications"
+        class="text-white hover:text-[#00c54f] transition-colors relative"
+      >
+        <span class="material-icons text-[24px]">notifications_none</span>
+        <span
+          class="absolute top-0 right-0 block h-2 w-2 rounded-full bg-red-600 ring-2 ring-primary-500"
+        ></span>
+      </a>
+    </div>
+
+    {/* --- DESKTOP LEFT: Logo --- */}
+    <div class="hidden md:flex items-center shrink-0 gap-6">
       <a href="/">
         <img
           src="/ZVENIA-Mining-Logo.svg"
@@ -84,32 +108,81 @@ if (!profile && locals.user) {
           style="max-height: 45px; height: auto;"
         />
       </a>
-
-      <button class="text-gray-300 hover:text-white transition-colors block md:hidden">
-        {/* Mobile placeholder if needed, or hide */}
-      </button>
-
       {Astro.locals.user && <RecentActivity client:load />}
     </div>
 
-    <!-- Block 2: Center Logo (ZVENIA) -->
-    <div class="flex items-center justify-center flex-1">
-      <a href="/">
+    {/* --- CENTER: Logo (Mobile Only actually? Or shared?) --- */}
+    {
+      /* The user wants Center Logo. Existing code had responsive logic. Let's keep one center logo. */
+    }
+    <div class="flex flex-1 justify-center items-center">
+      {
+        /* Desktop Center Logo is usually hidden if Left Logo exists, but current code shows both?
+                 Let's look at current: Block 1 is Left Logo. Block 2 is Center Logo.
+                 For Mobile: We want strictly Center Logo.
+             */
+      }
+      <a href="/" class="block">
         <img
           src="/zvenia-Logo.svg"
           alt="ZVENIA"
-          class="w-auto"
-          style="height: 40px;"
+          class="h-[32px] md:h-[40px] w-auto"
         />
       </a>
     </div>
 
-    <!-- Block 3: Right Actions (User Menu / Login) -->
-    <div class="flex items-center justify-end shrink-0 gap-x-6">
+    {/* --- MOBILE RIGHT: Plus + Profile --- */}
+    <div class="flex md:hidden items-center gap-3 shrink-0">
+      {/* New Post Button */}
+      <a
+        href="/dashboard/create"
+        class="flex items-center justify-center w-8 h-8 bg-[#00c54f] hover:bg-[#00a843] rounded-sm text-white shadow-sm"
+      >
+        <span class="material-icons text-[20px] font-bold">add</span>
+      </a>
+
+      {/* Profile Avatar / Menu */}
+      {
+        (() => {
+          const locals = Astro.locals as any;
+          const user = locals.user;
+          // Ensure role logic matches desktop
+          const userRole =
+            profile?.role ||
+            (user?.role && user?.role !== "authenticated"
+              ? user?.role
+              : null) ||
+            null;
+
+          return (
+            <div class="scale-90 origin-right">
+              <HeaderUserDropdown
+                client:load
+                user={{
+                  email: user?.email || "",
+                  first_name: user?.first_name || null,
+                  last_name: user?.last_name || null,
+                  full_name: user?.full_name || null,
+                  avatar_url: user?.avatar_url || null,
+                  role: userRole,
+                }}
+                profile={
+                  profile
+                    ? { role: profile.role, profile_slug: profile.profile_slug }
+                    : null
+                }
+              />
+            </div>
+          );
+        })()
+      }
+    </div>
+
+    {/* --- DESKTOP RIGHT: Actions --- */}
+    <div class="hidden md:flex items-center justify-end shrink-0 gap-x-6">
       {
         Astro.locals.user ? (
           <div class="flex items-center gap-4">
-            <!-- CREATE BUTTON -->
             <a
               href="/dashboard/create"
               class="flex items-center justify-center w-10 h-10 bg-[#00c54f] hover:bg-[#00a843] transition-colors text-white shadow-sm"
@@ -125,22 +198,13 @@ if (!profile && locals.user) {
                 stroke-linecap="round"
                 stroke-linejoin="round"
               >
-                <line x1="12" y1="5" x2="12" y2="19"></line>
-                <line x1="5" y1="12" x2="19" y2="12"></line>
+                <line x1="12" y1="5" x2="12" y2="19" />
+                <line x1="5" y1="12" x2="19" y2="12" />
               </svg>
             </a>
-            {/*
-            <HeaderNotifications
-              client:load
-              currentUserId={Astro.locals.user?.id}
-              sessionAccessToken={(Astro.locals as any).session?.access_token}
-            />
-            */}
             {(() => {
               const locals = Astro.locals as any;
               const user = locals.user;
-
-              // Asegurar que el rol venga del profile, no del user
               const userRole =
                 profile?.role ||
                 (user?.role && user?.role !== "authenticated"
@@ -157,7 +221,7 @@ if (!profile && locals.user) {
                     last_name: user?.last_name || null,
                     full_name: user?.full_name || null,
                     avatar_url: user?.avatar_url || null,
-                    role: userRole, // Usar el rol del profile primero
+                    role: userRole,
                   }}
                   profile={
                     profile
@@ -181,7 +245,7 @@ if (!profile && locals.user) {
             </a>
             <a
               href="/register"
-              class="rounded-md bg-white px-3.5 py-2.5 text-sm font-semibold text-black shadow-sm focus-visible:outline-2 focus-visible:outline-offset-2 focus-visible:outline-primary-600 transition-colors"
+              class="rounded-md bg-white px-3.5 py-2.5 text-sm font-semibold text-black shadow-sm transition-colors"
             >
               Register
             </a>
@@ -189,118 +253,10 @@ if (!profile && locals.user) {
         )
       }
     </div>
-
-    <!-- Mobile Menu Button -->
-    <div class="md:hidden">
-      <button
-        type="button"
-        class="text-gray-300 hover:text-white p-2"
-        aria-label="Menu"
-        id="mobile-menu-btn"
-      >
-        <svg
-          class="w-6 h-6"
-          fill="none"
-          stroke="currentColor"
-          viewBox="0 0 24 24"
-        >
-          <path
-            stroke-linecap="round"
-            stroke-linejoin="round"
-            stroke-width="2"
-            d="M4 6h16M4 12h16M4 18h16"></path>
-        </svg>
-      </button>
-    </div>
-  </div>
-
-  <!-- Mobile Menu (Hidden by default) -->
-  <div
-    class="hidden md:hidden bg-primary-500 border-t border-white/10 fixed left-0 right-0 top-[70px] bottom-0 overflow-y-auto"
-    id="mobile-menu"
-  >
-    <nav class="flex flex-col px-6 py-6 space-y-8 pb-32">
-        <!-- AUTH MENU -->
-        {Astro.locals.user ? (
-            <div class="space-y-4">
-                 <p class="text-xs font-bold text-gray-500 uppercase tracking-wider">Menu</p>
-                 <a href="/" class="flex items-center gap-3 text-white text-lg font-medium">
-                      <span class="material-icons text-gray-400">home</span> Home
-                 </a>
-                 <a href="/my-zvenia" class="flex items-center gap-3 text-white text-lg font-medium">
-                      <span class="material-icons text-gray-400">layers</span> My Zvenia
-                 </a>
-            </div>
-        ) : (
-             <div class="space-y-4">
-                 <p class="text-xs font-bold text-gray-500 uppercase tracking-wider">Menu</p>
-                 <a href="/" class="flex items-center gap-3 text-white text-lg font-medium">
-                      <span class="material-icons text-gray-400">home</span> Home
-                 </a>
-            </div>
-        )}
-
-        <!-- TOPICS ACCORDION -->
-        <div class="space-y-4">
-             <details class="group">
-                 <summary class="flex items-center justify-between text-white text-lg font-medium list-none cursor-pointer">
-                     <span class="flex items-center gap-3">
-                         <span class="material-icons text-gray-400">category</span> Modules
-                     </span>
-                     <span class="material-icons transition-transform group-open:rotate-180 text-gray-500">expand_more</span>
-                 </summary>
-                 <div class="mt-4 ml-2 space-y-2 border-l-2 border-white/5 pl-4">
-                     {topics?.map(topic => {
-                         const cleanName = topic.name.replace(/^\d+\s+/, "");
-                         return (
-                             <a href={`/mining/${topic.slug}`} class="block text-gray-300 hover:text-[#00c54f] py-2 text-base">
-                                 {cleanName}
-                             </a>
-                         );
-                     })}
-                 </div>
-             </details>
-        </div>
-
-        <!-- RESOURCES ACCORDION -->
-        <div class="space-y-4">
-             <details class="group">
-                 <summary class="flex items-center justify-between text-white text-lg font-medium list-none cursor-pointer">
-                     <span class="flex items-center gap-3">
-                         <span class="material-icons text-gray-400">grid_view</span> Resources
-                     </span>
-                     <span class="material-icons transition-transform group-open:rotate-180 text-gray-500">expand_more</span>
-                 </summary>
-                 <div class="mt-4 ml-2 space-y-2 border-l-2 border-white/5 pl-4">
-                      <a href="/posts" class="block text-gray-300 hover:text-[#00c54f] py-2 text-base">Posts</a>
-                      <a href="/podcasts" class="block text-gray-300 hover:text-[#00c54f] py-2 text-base">Podcasts</a>
-                      <a href="/events" class="block text-gray-300 hover:text-[#00c54f] py-2 text-base">Events</a>
-                      <a href="/services" class="block text-gray-300 hover:text-[#00c54f] py-2 text-base">Services</a>
-                 </div>
-             </details>
-        </div>
-
-        <!-- GUEST BUTTONS -->
-        {!Astro.locals.user && (
-            <div class="pt-6 border-t border-white/10 space-y-4">
-                <a href="/login" class="block w-full text-center py-3 text-white border border-white/20 rounded-md font-bold hover:bg-white/5 transition-colors">
-                    Log In
-                </a>
-                <a href="/register" class="block w-full text-center py-3 bg-[#00c54f] text-black rounded-md font-bold hover:bg-[#00a843] transition-colors">
-                    Join for Free
-                </a>
-            </div>
-        )}
-    </nav>
   </div>
 </header>
-<script>
-  const btn = document.getElementById("mobile-menu-btn");
-  const menu = document.getElementById("mobile-menu");
-
-  if (btn && menu) {
-    btn.addEventListener("click", () => {
-      menu.classList.toggle("hidden");
-    });
-  }
-</script>
+{
+  /* Left Sidebar Script is handled in SocialLayout, but we emit event if needed.
+    Since we used ID 'mobile-sidebar-toggle', SocialLayout can listen to it.
+*/
+}
