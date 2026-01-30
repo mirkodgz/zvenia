@@ -1,0 +1,315 @@
+---
+const banner1Bg =
+    "https://res.cloudinary.com/dun3slcfg/images/v1691593423/cloud-files/Imagen7-ZVENIA/Imagen7-ZVENIA.jpg";
+const banner2Bg =
+    "https://res.cloudinary.com/dun3slcfg/images/v1691593425/cloud-files/Imagen19-ZVENIA-3/Imagen19-ZVENIA-3.jpg";
+const banner3Bg =
+    "https://res.cloudinary.com/dun3slcfg/image/upload/v1769731054/Image5-ZPROMOTER-1024x486.jpg"; // Converted to JPG for rendering
+// Note: Using a pattern or solid color if PDF image fails for Banner 3 in CSS
+---
+
+<div class="flex flex-col w-full">
+    <!-- BANNER 1: HERO -->
+    <section
+        class="relative w-full h-[500px] flex items-center overflow-hidden mb-[5px]"
+    >
+        <!-- Background Image -->
+        <div class="absolute inset-0 z-0">
+            <img
+                src={banner1Bg}
+                alt="Tunnel Background"
+                class="w-full h-full object-cover"
+            />
+            <!-- Dark Gradient Overlay -->
+            <div
+                class="absolute inset-0 bg-linear-to-r from-black/80 via-black/40 to-transparent"
+            >
+            </div>
+        </div>
+
+        <!-- Content -->
+        <div
+            class="relative z-10 container mx-auto px-8 md:px-16 flex flex-col justify-center h-full max-w-7xl"
+        >
+            <h2
+                class="text-[#1CF292] font-bold text-3xl md:text-5xl mb-2 tracking-wide uppercase"
+            >
+                Z-POSTS
+            </h2>
+            <h3 class="text-[#1CF292] font-bold text-2xl md:text-4xl mb-6">
+                Unlock Mining Insights from Global Experts
+            </h3>
+            <div class="border-l-4 border-[#00c54f] pl-6 max-w-2xl">
+                <p
+                    class="text-white text-lg md:text-xl font-light leading-relaxed"
+                >
+                    Stay ahead with cutting-edge technical articles, case
+                    studies, and best practices shared by industry leaders
+                    worldwide.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- BANNER 2: LIGHTBULB (Slider) -->
+    <section
+        class="relative w-full h-[500px] flex items-center overflow-hidden group slider-section mb-[5px]"
+        id="slider-1"
+    >
+        <!-- Background Image -->
+        <div class="absolute inset-0 z-0">
+            <img
+                src={banner2Bg}
+                alt="Innovation Lightbulb"
+                class="w-full h-full object-cover"
+            />
+            <div class="absolute inset-0 bg-black/60"></div>
+        </div>
+
+        <!-- Slider Content Wrapper -->
+        <div
+            class="relative z-10 container mx-auto px-8 md:px-16 flex flex-col justify-center h-full max-w-7xl"
+        >
+            <!-- Slides Container -->
+            <div class="slides-container relative h-[250px] w-full max-w-3xl">
+                <!-- Slide 1 -->
+                <div
+                    class="slide absolute inset-0 transition-opacity duration-500 opacity-100"
+                    data-index="0"
+                >
+                    <h3
+                        class="text-transparent bg-clip-text bg-linear-to-r from-gray-200 to-gray-400 font-bold text-3xl md:text-4xl mb-6 border-b border-gray-600/50 pb-4 inline-block"
+                    >
+                        Cutting-Edge Content from Global Experts
+                    </h3>
+                    <p class="text-white/90 text-lg leading-relaxed">
+                        Z-POSTS is a content-rich hub where our international
+                        community of experts share their hard-earned knowledge
+                        and field-tested best practices.
+                        <br /><br />
+                        Here, you’ll find:
+                    </p>
+                </div>
+                <!-- Slide 2 -->
+                <div
+                    class="slide absolute inset-0 transition-opacity duration-500 opacity-0 pointer-events-none"
+                    data-index="1"
+                >
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <span class="text-[#00c54f] mr-2">•</span>
+                            <span class="text-white/90 text-lg"
+                                >Insightful technical articles covering the
+                                latest advancements, trends, and case studies in
+                                mining</span
+                            >
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-[#00c54f] mr-2">•</span>
+                            <span class="text-white/90 text-lg"
+                                >Practical how-to guides and operational tips to
+                                enhance your day-to-day performance</span
+                            >
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-[#00c54f] mr-2">•</span>
+                            <span class="text-white/90 text-lg"
+                                >Thought-provoking perspectives that challenge
+                                conventional industry wisdom</span
+                            >
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Dots -->
+            <div class="flex gap-3 mt-8">
+                <button
+                    class="slider-dot w-3 h-3 rounded-full bg-[#00c54f] transition-all"
+                    data-target="0"
+                    aria-label="Slide 1"></button>
+                <button
+                    class="slider-dot w-3 h-3 rounded-full bg-gray-600 hover:bg-gray-400 transition-all"
+                    data-target="1"
+                    aria-label="Slide 2"></button>
+            </div>
+        </div>
+
+        <!-- Next/Prev Buttons (Optional, hidden by default, visible on hover) -->
+        <button
+            class="prev-slide absolute left-4 top-1/2 -translate-y-1/2 text-white/50 hover:text-white opacity-0 group-hover:opacity-100 transition-opacity"
+        >
+            <span class="material-icons text-5xl">chevron_left</span>
+        </button>
+        <button
+            class="next-slide absolute right-4 top-1/2 -translate-y-1/2 text-white/50 hover:text-white opacity-0 group-hover:opacity-100 transition-opacity"
+        >
+            <span class="material-icons text-5xl">chevron_right</span>
+        </button>
+    </section>
+
+    <!-- BANNER 3: DIGITAL LANDSCAPE (Slider) -->
+    <section
+        class="relative w-full h-[500px] flex items-center overflow-hidden group slider-section"
+        id="slider-2"
+    >
+        <!-- Background Image -->
+        <div class="absolute inset-0 z-0 bg-[#1a1a1a]">
+            <!-- Using a reliable pattern/image ensuring it renders -->
+            <img
+                src={banner3Bg}
+                alt="Digital Landscape"
+                class="w-full h-full object-cover"
+            />
+            <!-- Gradient Overlay removed by user request -->
+        </div>
+
+        <!-- Slider Content Wrapper -->
+        <div
+            class="relative z-10 container mx-auto px-8 md:px-16 flex flex-col justify-center h-full max-w-7xl"
+        >
+            <!-- Slides Container -->
+            <div class="slides-container relative h-[250px] w-full max-w-3xl">
+                <!-- Slide 1 -->
+                <div
+                    class="slide absolute inset-0 transition-opacity duration-500 opacity-100"
+                    data-index="0"
+                >
+                    <h3 class="text-white font-bold text-3xl md:text-4xl mb-6">
+                        Powering Your Professional Growth
+                    </h3>
+                    <p class="text-gray-300 text-lg leading-relaxed">
+                        As a ZVENIA Mining member, you’ll have exclusive access
+                        to this invaluable library of content.
+                        <br /><br />
+                        By staying up-to-date with the latest developments through
+                        Z-POSTS, you can:
+                    </p>
+                </div>
+                <!-- Slide 2 -->
+                <div
+                    class="slide absolute inset-0 transition-opacity duration-500 opacity-0 pointer-events-none"
+                    data-index="1"
+                >
+                    <ul class="space-y-4">
+                        <li class="flex items-start">
+                            <span class="text-[#00c54f] mr-2">•</span>
+                            <span class="text-gray-300 text-lg"
+                                >Strengthen your technical skills and expand
+                                your methodological toolbox</span
+                            >
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-[#00c54f] mr-2">•</span>
+                            <span class="text-gray-300 text-lg"
+                                >Solve complex problems more efficiently by
+                                learning from the experiences of other
+                                professionals</span
+                            >
+                        </li>
+                        <li class="flex items-start">
+                            <span class="text-[#00c54f] mr-2">•</span>
+                            <span class="text-gray-300 text-lg"
+                                >Position yourself as a thought leader and
+                                subject matter expert within your organization
+                                and industry</span
+                            >
+                        </li>
+                    </ul>
+                </div>
+            </div>
+
+            <!-- Dots -->
+            <div class="flex gap-3 mt-8">
+                <button
+                    class="slider-dot w-3 h-3 rounded-full bg-[#00c54f] transition-all"
+                    data-target="0"
+                    aria-label="Slide 1"></button>
+                <button
+                    class="slider-dot w-3 h-3 rounded-full bg-gray-600 hover:bg-gray-400 transition-all"
+                    data-target="1"
+                    aria-label="Slide 2"></button>
+            </div>
+        </div>
+
+        <!-- Next/Prev Buttons -->
+        <button
+            class="prev-slide absolute left-4 top-1/2 -translate-y-1/2 text-white/50 hover:text-white opacity-0 group-hover:opacity-100 transition-opacity"
+        >
+            <span class="material-icons text-5xl">chevron_left</span>
+        </button>
+        <button
+            class="next-slide absolute right-4 top-1/2 -translate-y-1/2 text-white/50 hover:text-white opacity-0 group-hover:opacity-100 transition-opacity"
+        >
+            <span class="material-icons text-5xl">chevron_right</span>
+        </button>
+    </section>
+</div>
+
+<script>
+    function initSlider(sectionId: string) {
+        const section = document.getElementById(sectionId);
+        if (!section) return;
+
+        const slides = section.querySelectorAll(".slide");
+        const dots = section.querySelectorAll(".slider-dot");
+        const prevBtn = section.querySelector(".prev-slide");
+        const nextBtn = section.querySelector(".next-slide");
+        let currentIndex = 0;
+
+        function updateSlide(index: number) {
+            slides.forEach((slide, i) => {
+                const el = slide as HTMLElement;
+                if (i === index) {
+                    el.classList.remove("opacity-0", "pointer-events-none");
+                    el.classList.add("opacity-100");
+                } else {
+                    el.classList.add("opacity-0", "pointer-events-none");
+                    el.classList.remove("opacity-100");
+                }
+            });
+
+            dots.forEach((dot, i) => {
+                if (i === index) {
+                    dot.classList.add("bg-[#00c54f]");
+                    dot.classList.remove("bg-gray-600");
+                } else {
+                    dot.classList.add("bg-gray-600");
+                    dot.classList.remove("bg-[#00c54f]");
+                }
+            });
+
+            currentIndex = index;
+        }
+
+        // Dot Click
+        dots.forEach((dot, index) => {
+            dot.addEventListener("click", () => {
+                updateSlide(index);
+            });
+        });
+
+        // Prev/Next Click
+        prevBtn?.addEventListener("click", () => {
+            const newIndex =
+                currentIndex === 0 ? slides.length - 1 : currentIndex - 1;
+            updateSlide(newIndex);
+        });
+
+        nextBtn?.addEventListener("click", () => {
+            const newIndex =
+                currentIndex === slides.length - 1 ? 0 : currentIndex + 1;
+            updateSlide(newIndex);
+        });
+    }
+
+    // Initialize logic
+    document.addEventListener("astro:page-load", () => {
+        initSlider("slider-1");
+        initSlider("slider-2");
+    });
+
+    // Fallback for initial load
+    initSlider("slider-1");
+    initSlider("slider-2");
+</script>

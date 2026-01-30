@@ -1,0 +1,19 @@
+---
+import SocialLayout from "../layouts/SocialLayout.astro";
+import LeftSidebar from "../components/social/LeftSidebar.astro";
+import EventBanners from "../components/social/EventBanners.astro";
+
+// Use hideRightSidebar={true} to give full width to the center content area
+---
+
+<SocialLayout
+    title="ZVENIA Mining - Z-EVENTS"
+    hideRightSidebar={true}
+    fullWidthContent={true}
+>
+    <!-- LEFT Sidebar (Fixed) -->
+    <LeftSidebar slot="left-sidebar" />
+
+    <!-- CONTENT (Full Width) -->
+    <EventBanners />
+</SocialLayout>

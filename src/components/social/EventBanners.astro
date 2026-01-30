@@ -1,0 +1,277 @@
+---
+const banner1Bg =
+    "https://res.cloudinary.com/dun3slcfg/image/upload/v1769734885/ZPROMOTER-Image2.jpg"; // Converted PDF to JPG
+const banner3Bg =
+    "https://res.cloudinary.com/dun3slcfg/images/v1691593421/cloud-files/Imagen11-ZVENIA/Imagen11-ZVENIA.jpg";
+const eventPrototypeImg =
+    "https://res.cloudinary.com/dun3slcfg/images/f_auto,q_auto/v1725006151/cloud-files/Prototipo-Z-EVENTS-Single-PNG-1000width_618565b53/Prototipo-Z-EVENTS-Single-PNG-1000width_618565b53.png?_i=AA";
+---
+
+<div class="flex flex-col w-full pb-16">
+    <!-- SECTION 1: HERO BANNER -->
+    <section
+        class="relative w-full h-[500px] flex items-center overflow-hidden mb-[5px]"
+    >
+        <!-- Background Image -->
+        <div class="absolute inset-0 z-0">
+            <img
+                src={banner1Bg}
+                alt="Events Hero"
+                class="w-full h-full object-cover"
+            />
+            <!-- Dark Gradient Overlay -->
+            <div
+                class="absolute inset-0 bg-linear-to-r from-black/80 via-black/40 to-transparent"
+            >
+            </div>
+        </div>
+
+        <!-- Content -->
+        <div
+            class="relative z-10 container mx-auto px-8 md:px-16 flex flex-col justify-center h-full max-w-7xl"
+        >
+            <h2
+                class="text-[#1CF292] font-bold text-3xl md:text-5xl mb-2 tracking-wide uppercase"
+            >
+                Z-EVENTS
+            </h2>
+            <h3 class="text-[#1CF292] font-bold text-2xl md:text-4xl mb-6">
+                Connect at Premier Mining Industry Events
+            </h3>
+            <div class="border-l-4 border-[#1CF292] pl-6 max-w-2xl">
+                <p
+                    class="text-white text-lg md:text-xl font-light leading-relaxed"
+                >
+                    Discover and promote conferences, seminars, and webinars
+                    that shape the future of mining.
+                </p>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 2: INFO CARDS (Dark Green Background) -->
+    <section class="w-full bg-[#031d10] py-20 px-4 mb-[5px]">
+        <div class="container mx-auto max-w-7xl">
+            <!-- Header -->
+            <div class="text-center mb-16">
+                <h2 class="text-white text-3xl md:text-4xl font-bold mb-4">
+                    Amplify Your Event's Reach in the Mining Community
+                </h2>
+                <p class="text-white text-lg max-w-4xl mx-auto font-light">
+                    The ZVENIA platform integrates Z-EVENTS for each of the 25
+                    thematic areas of ZVENIA Mining
+                </p>
+            </div>
+
+            <!-- Cards Grid -->
+            <div
+                class="grid grid-cols-1 md:grid-cols-2 gap-8 max-w-6xl mx-auto"
+            >
+                <!-- Card 1: Mining Professionals -->
+                <div
+                    class="border border-[#1CF292] rounded-xl p-10 flex flex-col items-start bg-transparent h-full"
+                >
+                    <div class="text-[#1CF292] mb-6">
+                        <span class="material-icons" style="font-size: 64px;"
+                            >how_to_reg</span
+                        >
+                    </div>
+                    <h3 class="text-[#1CF292] text-2xl font-bold mb-3">
+                        For mining professionals
+                    </h3>
+                    <p class="text-white text-lg leading-relaxed">
+                        Discover where and when next mining events are
+                        scheduled.
+                    </p>
+                </div>
+
+                <!-- Card 2: Event Organizers -->
+                <div
+                    class="border border-[#1CF292] rounded-xl p-10 flex flex-col items-start bg-transparent h-full"
+                >
+                    <div class="text-[#1CF292] mb-6">
+                        <span class="material-icons" style="font-size: 64px;"
+                            >edit_square</span
+                        >
+                    </div>
+                    <h3 class="text-[#1CF292] text-2xl font-bold mb-3">
+                        For event organizers
+                    </h3>
+                    <p class="text-white text-lg leading-relaxed">
+                        Promote your next event and connect with our global
+                        community of mining professionals.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- SECTION 3: PUBLIC SPACE (Slider Banner) -->
+    <section
+        class="relative w-full h-[500px] flex items-center overflow-hidden group slider-section mb-16"
+        id="slider-events"
+    >
+        <!-- Background Image -->
+        <div class="absolute inset-0 z-0">
+            <img
+                src={banner3Bg}
+                alt="Public Space"
+                class="w-full h-full object-cover"
+            />
+            <div class="absolute inset-0 bg-black/60"></div>
+        </div>
+
+        <!-- Slider Content Wrapper -->
+        <div
+            class="relative z-10 container mx-auto px-8 md:px-16 flex flex-col justify-center h-full max-w-7xl"
+        >
+            <!-- Slides Container -->
+            <div class="slides-container relative h-[250px] w-full max-w-3xl">
+                <!-- Slide 1 -->
+                <div
+                    class="slide absolute inset-0 transition-opacity duration-500 opacity-100"
+                    data-index="0"
+                >
+                    <h3
+                        class="text-transparent bg-clip-text bg-linear-to-r from-gray-200 to-gray-400 font-bold text-3xl md:text-4xl mb-6 border-b border-gray-600/50 pb-4 inline-block"
+                    >
+                        Public space
+                    </h3>
+                    <p class="text-white/90 text-lg leading-relaxed">
+                        This space is intended for event organizers (seminars,
+                        congresses and others) to make their announcements.
+                    </p>
+                </div>
+                <!-- Slide 2 -->
+                <div
+                    class="slide absolute inset-0 transition-opacity duration-500 opacity-0 pointer-events-none"
+                    data-index="1"
+                >
+                    <h3
+                        class="text-transparent bg-clip-text bg-linear-to-r from-gray-200 to-gray-400 font-bold text-3xl md:text-4xl mb-6 border-b border-gray-600/50 pb-4 inline-block"
+                    >
+                        Public space
+                    </h3>
+                    <p class="text-white/90 text-lg leading-relaxed">
+                        This space is intended for event organizers (seminars,
+                        congresses and others) to make their announcements.
+                        <br /><br />
+                        Thanks to the editing mode provided to the organizers, they
+                        will be able to keep the public informed about every detail
+                        of the preparation and evolution of the event.
+                    </p>
+                </div>
+            </div>
+
+            <!-- Dots -->
+            <div class="flex gap-3 mt-8">
+                <button
+                    class="slider-dot w-3 h-3 rounded-full bg-[#1CF292] transition-all"
+                    data-target="0"
+                    aria-label="Slide 1"></button>
+                <button
+                    class="slider-dot w-3 h-3 rounded-full bg-gray-600 hover:bg-gray-400 transition-all"
+                    data-target="1"
+                    aria-label="Slide 2"></button>
+            </div>
+        </div>
+
+        <!-- Next/Prev Buttons -->
+        <button
+            class="prev-slide absolute left-4 top-1/2 -translate-y-1/2 text-white/50 hover:text-white opacity-0 group-hover:opacity-100 transition-opacity"
+        >
+            <span class="material-icons text-5xl">chevron_left</span>
+        </button>
+        <button
+            class="next-slide absolute right-4 top-1/2 -translate-y-1/2 text-white/50 hover:text-white opacity-0 group-hover:opacity-100 transition-opacity"
+        >
+            <span class="material-icons text-5xl">chevron_right</span>
+        </button>
+    </section>
+
+    <!-- SECTION 4: OVERVIEW IMAGE -->
+    <section class="max-w-7xl mx-auto px-4 text-center">
+        <h2 class="text-black text-2xl md:text-3xl font-bold mb-3">
+            This is an overview of your upcoming event
+        </h2>
+        <p class="text-gray-400 text-lg mb-10">
+            Here you'll see how your event will be showcased to ZVENIA's global
+            mining community
+        </p>
+        <div
+            class="rounded-xl overflow-hidden shadow-2xl border border-white/10 max-w-4xl mx-auto"
+        >
+            <img
+                src={eventPrototypeImg}
+                alt="Event Overview Prototype"
+                class="w-full h-auto"
+            />
+        </div>
+    </section>
+</div>
+
+<script>
+    function initSlider(sectionId: string) {
+        const section = document.getElementById(sectionId);
+        if (!section) return;
+
+        const slides = section.querySelectorAll(".slide");
+        const dots = section.querySelectorAll(".slider-dot");
+        const prevBtn = section.querySelector(".prev-slide");
+        const nextBtn = section.querySelector(".next-slide");
+        let currentIndex = 0;
+
+        function updateSlide(index: number) {
+            slides.forEach((slide, i) => {
+                const el = slide as HTMLElement;
+                if (i === index) {
+                    el.classList.remove("opacity-0", "pointer-events-none");
+                    el.classList.add("opacity-100");
+                } else {
+                    el.classList.add("opacity-0", "pointer-events-none");
+                    el.classList.remove("opacity-100");
+                }
+            });
+
+            dots.forEach((dot, i) => {
+                if (i === index) {
+                    dot.classList.add("bg-[#1CF292]");
+                    dot.classList.remove("bg-gray-600");
+                } else {
+                    dot.classList.add("bg-gray-600");
+                    dot.classList.remove("bg-[#1CF292]");
+                }
+            });
+
+            currentIndex = index;
+        }
+
+        // Dot Click
+        dots.forEach((dot, index) => {
+            dot.addEventListener("click", () => {
+                updateSlide(index);
+            });
+        });
+
+        // Prev/Next Click
+        prevBtn?.addEventListener("click", () => {
+            const newIndex =
+                currentIndex === 0 ? slides.length - 1 : currentIndex - 1;
+            updateSlide(newIndex);
+        });
+
+        nextBtn?.addEventListener("click", () => {
+            const newIndex =
+                currentIndex === slides.length - 1 ? 0 : currentIndex + 1;
+            updateSlide(newIndex);
+        });
+    }
+
+    // Initialize logic
+    document.addEventListener("astro:page-load", () => {
+        initSlider("slider-events");
+    });
+
+    // Fallback for initial load
+    initSlider("slider-events");
+</script>

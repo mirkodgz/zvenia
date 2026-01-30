@@ -11,9 +11,10 @@ interface Props {
     description?: string;
     hideRightSidebar?: boolean;
     image?: string;
-    image?: string;
     type?: "website" | "article" | "video.other";
     bgColor?: string;
+    fullWidthContent?: boolean;
+    hideLeftSidebar?: boolean;
 }
 
 const {
@@ -23,6 +24,8 @@ const {
     image = "https://res.cloudinary.com/dun3slcfg/image/upload/v1769642866/share-default.jpg",
     type = "website",
     bgColor = "#f3f3f3",
+    fullWidthContent = false,
+    hideLeftSidebar = false,
 } = Astro.props;
 
 const canonicalURL = new URL(
@@ -79,14 +82,16 @@ const user = Astro.locals.user;
         class="bg-(--bg-body) min-h-screen font-sans selection:bg-primary-500 selection:text-white"
     >
         <!-- Fixed Header -->
-        <Header />
+        <Header hideBorder={fullWidthContent} />
 
         <!-- LEFT SIDEBAR (Fixed, starts below header/brand) -->
-        <aside
-            class="hidden lg:block fixed left-0 top-[70px] bottom-0 w-[270px] z-998 bg-(--bg-surface) overflow-y-auto no-scrollbar border-r border-[#e5e7eb]"
-        >
-            <slot name="left-sidebar" />
-        </aside>
+        {
+            !hideLeftSidebar && (
+                <aside class="hidden lg:block fixed left-0 top-[70px] bottom-0 w-[270px] z-998 bg-(--bg-surface) overflow-y-auto no-scrollbar border-r border-[#e5e7eb]">
+                    <slot name="left-sidebar" />
+                </aside>
+            )
+        }
 
         <!-- RIGHT SIDEBAR (Fixed, starts below header) -->
         {
@@ -99,27 +104,30 @@ const user = Astro.locals.user;
 
         <!-- MAIN CONTENT (Fluid center, pushed by sidebars) -->
         <div
-            class={`w-full min-h-screen bg-(--bg-surface) pt-[70px] lg:pl-[270px] ${hideRightSidebar ? "" : "lg:pr-[300px]"}`}
+            class={`w-full min-h-screen bg-(--bg-surface) pt-[70px] ${hideLeftSidebar ? "" : "lg:pl-[270px]"} ${hideRightSidebar ? "" : "lg:pr-[300px]"}`}
         >
+            <!-- Content Wrapper with Borders -->
             <!-- Inner Content Container -->
             <main
-                class="w-full min-h-full border-x border-(--border-color) py-6"
+                class={`w-full min-h-full ${fullWidthContent ? "p-0 border-none" : "py-6 border-x border-(--border-color)"}`}
                 style={`background-color: ${bgColor};`}
             >
-                <div class="w-full max-w-[98%] mx-auto">
+                <div
+                    class={`w-full mx-auto ${fullWidthContent ? "max-w-full" : "max-w-[98%]"}`}
+                >
                     <slot />
                 </div>
             </main>
 
-            <!-- Footer might need to be inside main or hidden if we want infinite scroll feel, putting it here for now -->
+            <!-- Footer -->
             <Footer />
         </div>
-
-        <Lightbox />
-        <AuthModal client:load />
-
-        {!user && <PreviewBar hideRightSidebar={hideRightSidebar} />}
     </body>
+
+    <Lightbox />
+    <AuthModal client:load />
+
+    {!user && <PreviewBar hideRightSidebar={hideRightSidebar} />}
 </html>
 
 <style>

@@ -4,7 +4,12 @@ import HeaderNotifications from "./HeaderNotifications";
 import RecentActivity from "./RecentActivity";
 import { createSupabaseServerClient } from "../lib/supabase";
 
-// Obtener profile si no está en locals (para rutas que no pasan por el middleware completo)
+interface Props {
+  hideBorder?: boolean;
+}
+
+const { hideBorder = false } = Astro.props;
+
 // Obtener profile si no está en locals (para rutas que no pasan por el middleware completo)
 const locals = Astro.locals as any;
 let profile: { role?: string; profile_slug?: string } | null = locals.profile;
@@ -49,7 +54,7 @@ if (!profile && locals.user) {
 ---
 
 <header
-  class="fixed top-0 left-0 z-1000 w-full border-b border-(--border-color) transition-all duration-300"
+  class={`fixed top-0 left-0 z-1000 w-full transition-all duration-300 ${hideBorder ? "" : "border-b border-(--border-color)"}`}
   id="main-header"
   style="height: 70px; min-height: 70px; max-height: 70px; box-sizing: border-box;"
 >

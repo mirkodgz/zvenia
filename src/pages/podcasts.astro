@@ -1,0 +1,20 @@
+---
+import SocialLayout from "../layouts/SocialLayout.astro";
+import LeftSidebar from "../components/social/LeftSidebar.astro";
+import PodcastBanners from "../components/social/PodcastBanners.astro";
+
+// Use hideRightSidebar={true} to give full width to the center content area
+// No Feed here, using PodcastBanners
+---
+
+<SocialLayout
+    title="ZVENIA Mining - Z-PODCASTS"
+    hideRightSidebar={true}
+    fullWidthContent={true}
+>
+    <!-- LEFT Sidebar (Fixed) -->
+    <LeftSidebar slot="left-sidebar" />
+
+    <!-- CONTENT (Full Width) -->
+    <PodcastBanners />
+</SocialLayout>

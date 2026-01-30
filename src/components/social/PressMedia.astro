@@ -1,0 +1,108 @@
+---
+const heroBg =
+    "https://res.cloudinary.com/dun3slcfg/image/upload/v1769735688/pressandmedia-assets-zvenia.jpg"; // Converted to JPG
+
+const videos = [
+    {
+        title: "El Cafe de las mañanas - MEDIA TV Colombia",
+        description:
+            "The CEO of <strong>ZVENIA</strong>, Juan Carlos Osorio, was interviewed on the Colombian TV show “<strong>El Café de las Mañanas</strong>,” where he highlighted Zvenia’s potential. He explained how this pioneering platform consolidates technical, economic, and financial knowledge in mining, offering free and accessible content. With international collaborators and an educational focus, <strong>ZVENIA</strong> aims to be a global tool for the formation and exchange of mining knowledge, available in multiple languages by 2024.",
+        videoUrl:
+            "https://res.cloudinary.com/dun3slcfg/video/upload/v1696978599/SeminarioGIPLAMIN/Videos%20EntrevistasTV/Entrevista_Canal_TRO_ZVENIA_yr2yc5.mp4",
+        poster:
+            "https://res.cloudinary.com/dun3slcfg/video/upload/so_12/v1696978599/SeminarioGIPLAMIN/Videos%20EntrevistasTV/Entrevista_Canal_TRO_ZVENIA_yr2yc5.jpg",
+        alignment: "left", // Video on left
+    },
+    {
+        title: "Teleantoquia - TV Media Colombia",
+        description:
+            "The mining sector now has a valuable technical tool in <strong>ZVENIA</strong>, as highlighted on Teleantioquia. During the segment, <strong>ZVENIA</strong> CEO explained how the platform aims to consolidate, recover, and share industry knowledge in one accessible location. This platform offers engineers, directors, technicians, and operators quick and relevant access to essential information. Users can consult technical information on various mining-related topics and contribute their own content after a quick registration. Presented at the 4th International Seminar on Mining and Mining Planning in Medellín, <strong>ZVENIA</strong> is building a community of innovation and knowledge-sharing, freely available to the public.",
+        videoUrl:
+            "https://res.cloudinary.com/dun3slcfg/video/upload/v1696978590/SeminarioGIPLAMIN/Videos%20EntrevistasTV/Nota_Teleantioquia_ZVENIA_yueshk.mp4",
+        poster: "https://res.cloudinary.com/dun3slcfg/video/upload/so_18/v1696978590/SeminarioGIPLAMIN/Videos%20EntrevistasTV/Nota_Teleantioquia_ZVENIA_yueshk.jpg",
+        alignment: "right", // Video on right
+    },
+    {
+        title: "A Pleno día - Program TV",
+        description:
+            "In a recent episode of the program “A Pleno Día,” <strong>Juan Carlos Osorio, CEO of ZVENIA</strong>, introduced their groundbreaking digital platform dedicated to the extractive mining sector. During the interview, Juan Carlos explained how <strong>ZVENIA</strong> aims to centralize and organize scattered technical information found across the web, covering areas such as drilling, blasting, mining economics, and human resources. The platform, divided into 25 thematic modules, allows for both consultation and contribution of content by specialists, ensuring quality through expert reviews.\n\nJuan Carlos highlighted <strong>ZVENIA</strong> is user-friendly interface, enabling quick access to resources like videos, Excel files, and PDF documents. Moreover, the platform fosters interaction and collaboration among industry professionals, facilitating article publication and discussion of pertinent topics.",
+        videoUrl:
+            "https://res.cloudinary.com/dun3slcfg/video/upload/v1696978749/SeminarioGIPLAMIN/Videos%20EntrevistasTV/Se%C3%B1al_Al_Aire_Teleantioquia_-_2023-09-06_12-18-07_jer7yh.mp4",
+        poster: "https://res.cloudinary.com/dun3slcfg/video/upload/so_5/v1696978749/SeminarioGIPLAMIN/Videos%20EntrevistasTV/Se%C3%B1al_Al_Aire_Teleantioquia_-_2023-09-06_12-18-07_jer7yh.jpg",
+        alignment: "left", // Video on left
+    },
+    {
+        title: "Telecafe - ZVENIA",
+        description:
+            "In the interview conducted on Telecafé, a television program in Colombia, Juan Carlos, CEO of <strong>ZVENIA</strong>, was featured. He discussed the significance of extractive mining and the <strong>ZVENIA Platform</strong>, designed to consolidate and disseminate global mining expertise. Juan Carlos emphasized how the platform benefits professionals and enthusiasts in the sector by facilitating the exchange of successful practices and knowledge across different countries.",
+        videoUrl:
+            "https://res.cloudinary.com/dun3slcfg/video/upload/v1696978664/SeminarioGIPLAMIN/Videos%20EntrevistasTV/Entrevista_Telecaf%C3%A9_ZVENIA_2_ngbcnj.mp4",
+        poster: "https://res.cloudinary.com/dun3slcfg/video/upload/so_48/v1696978664/SeminarioGIPLAMIN/Videos%20EntrevistasTV/Entrevista_Telecaf%C3%A9_ZVENIA_2_ngbcnj.jpg",
+        alignment: "right", // Video on right
+    },
+];
+---
+
+<div class="flex flex-col w-full bg-[#f4f4f4]">
+    <!-- HERO SECTION -->
+    <section class="relative w-full h-[400px] flex items-center overflow-hidden">
+        <!-- Background Image -->
+        <div class="absolute inset-0 z-0">
+            <img
+                src={heroBg}
+                alt="Press and Media Hero"
+                class="w-full h-full object-cover"
+            />
+            <!-- Dark Gradient Content -->
+            <div class="absolute inset-0 bg-black/40"></div>
+        </div>
+
+        <!-- Content -->
+        <div class="relative z-10 w-full text-center">
+            <h1
+                class="text-[#00c54f] font-bold text-4xl md:text-6xl tracking-widest uppercase mb-4"
+                style="text-shadow: 0 2px 4px rgba(0,0,0,0.5);"
+            >
+                PRESS & MEDIA
+            </h1>
+        </div>
+    </section>
+
+    <!-- CONTENT SECTIONS -->
+    <div class="container mx-auto max-w-7xl px-4 py-16 space-y-24">
+        {
+            videos.map((item, index) => (
+                <div
+                    class={`flex flex-col ${item.alignment === "right" ? "md:flex-row-reverse" : "md:flex-row"} items-center gap-12 md:gap-16`}
+                >
+                    <!-- Video Column -->
+                    <div class="w-full md:w-1/2">
+                        <div class="rounded-[3px] overflow-hidden shadow-2xl bg-black aspect-video relative group">
+                             <video
+                                class="w-full h-full object-cover"
+                                controls
+                                preload="metadata"
+                                poster={item.poster} 
+                            >
+                                <source src={item.videoUrl} type="video/mp4" />
+                                Your browser does not support the video tag.
+                            </video>
+                        </div>
+                    </div>
+
+                    <!-- Text Column -->
+                    <div class="w-full md:w-1/2">
+                        <h2 class="text-3xl font-bold text-gray-900 mb-6">
+                            {item.title}
+                        </h2>
+                        <div class="prose prose-lg text-gray-600 leading-relaxed text-justify">
+                            {item.description.split('\n\n').map((paragraph) => (
+                                <p class="mb-4" set:html={paragraph} />
+                            ))}
+                        </div>
+                    </div>
+                </div>
+            ))
+        }
+    </div>
+</div>

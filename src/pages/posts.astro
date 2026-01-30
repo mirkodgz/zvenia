@@ -1,0 +1,21 @@
+---
+import SocialLayout from "../layouts/SocialLayout.astro";
+import LeftSidebar from "../components/social/LeftSidebar.astro";
+import PostBanners from "../components/social/PostBanners.astro";
+
+// Use hideRightSidebar={true} to give full width to the center content area
+// There is NO Feed here, as this is an independent "Z-POSTS" landing page
+---
+
+<SocialLayout
+    title="ZVENIA Mining - Z-POSTS"
+    hideRightSidebar={true}
+    fullWidthContent={true}
+>
+    <!-- LEFT Sidebar (Fixed) -->
+    <LeftSidebar slot="left-sidebar" />
+
+    <!-- CONTENT (Full Width) -->
+    <!-- PostBanners takes full width of the main container -->
+    <PostBanners />
+</SocialLayout>
