@@ -12,6 +12,18 @@ const { hideBorder = false } = Astro.props;
 
 // Obtener profile si no está en locals (para rutas que no pasan por el middleware completo)
 const locals = Astro.locals as any;
+
+const supabase = createSupabaseServerClient({
+    req: Astro.request,
+    cookies: Astro.cookies,
+});
+
+// Fetch topics for Mobile Menu
+const { data: topics } = await supabase
+    .from("topics")
+    .select("name, slug")
+    .order("name") as { data: any[] | null };
+
 let profile: { role?: string; profile_slug?: string } | null = locals.profile;
 
 // Debug: Log para verificar
@@ -204,24 +216,82 @@ if (!profile && locals.user) {
 
   <!-- Mobile Menu (Hidden by default) -->
   <div
-    class="hidden md:hidden bg-black border-t border-white/10"
+    class="hidden md:hidden bg-primary-500 border-t border-white/10 fixed left-0 right-0 top-[70px] bottom-0 overflow-y-auto"
     id="mobile-menu"
   >
-    <div class="px-4 pt-2 pb-6 space-y-1">
-      <!-- Mobile Nav Links Removed -->
-      <div class="pt-4 border-t border-white/10 mt-4 flex flex-col gap-3">
-        <a
-          href="/login"
-          class="block text-center px-3 py-2 text-base font-medium text-gray-300 hover:text-white"
-          >Log In</a
-        >
-        <a
-          href="/register"
-          class="block text-center px-3 py-3 text-base font-bold text-black bg-primary-400 hover:bg-primary-500 rounded-md"
-          >Join Free</a
-        >
-      </div>
-    </div>
+    <nav class="flex flex-col px-6 py-6 space-y-8 pb-32">
+        <!-- AUTH MENU -->
+        {Astro.locals.user ? (
+            <div class="space-y-4">
+                 <p class="text-xs font-bold text-gray-500 uppercase tracking-wider">Menu</p>
+                 <a href="/" class="flex items-center gap-3 text-white text-lg font-medium">
+                      <span class="material-icons text-gray-400">home</span> Home
+                 </a>
+                 <a href="/my-zvenia" class="flex items-center gap-3 text-white text-lg font-medium">
+                      <span class="material-icons text-gray-400">layers</span> My Zvenia
+                 </a>
+            </div>
+        ) : (
+             <div class="space-y-4">
+                 <p class="text-xs font-bold text-gray-500 uppercase tracking-wider">Menu</p>
+                 <a href="/" class="flex items-center gap-3 text-white text-lg font-medium">
+                      <span class="material-icons text-gray-400">home</span> Home
+                 </a>
+            </div>
+        )}
+
+        <!-- TOPICS ACCORDION -->
+        <div class="space-y-4">
+             <details class="group">
+                 <summary class="flex items-center justify-between text-white text-lg font-medium list-none cursor-pointer">
+                     <span class="flex items-center gap-3">
+                         <span class="material-icons text-gray-400">category</span> Modules
+                     </span>
+                     <span class="material-icons transition-transform group-open:rotate-180 text-gray-500">expand_more</span>
+                 </summary>
+                 <div class="mt-4 ml-2 space-y-2 border-l-2 border-white/5 pl-4">
+                     {topics?.map(topic => {
+                         const cleanName = topic.name.replace(/^\d+\s+/, "");
+                         return (
+                             <a href={`/mining/${topic.slug}`} class="block text-gray-300 hover:text-[#00c54f] py-2 text-base">
+                                 {cleanName}
+                             </a>
+                         );
+                     })}
+                 </div>
+             </details>
+        </div>
+
+        <!-- RESOURCES ACCORDION -->
+        <div class="space-y-4">
+             <details class="group">
+                 <summary class="flex items-center justify-between text-white text-lg font-medium list-none cursor-pointer">
+                     <span class="flex items-center gap-3">
+                         <span class="material-icons text-gray-400">grid_view</span> Resources
+                     </span>
+                     <span class="material-icons transition-transform group-open:rotate-180 text-gray-500">expand_more</span>
+                 </summary>
+                 <div class="mt-4 ml-2 space-y-2 border-l-2 border-white/5 pl-4">
+                      <a href="/posts" class="block text-gray-300 hover:text-[#00c54f] py-2 text-base">Posts</a>
+                      <a href="/podcasts" class="block text-gray-300 hover:text-[#00c54f] py-2 text-base">Podcasts</a>
+                      <a href="/events" class="block text-gray-300 hover:text-[#00c54f] py-2 text-base">Events</a>
+                      <a href="/services" class="block text-gray-300 hover:text-[#00c54f] py-2 text-base">Services</a>
+                 </div>
+             </details>
+        </div>
+
+        <!-- GUEST BUTTONS -->
+        {!Astro.locals.user && (
+            <div class="pt-6 border-t border-white/10 space-y-4">
+                <a href="/login" class="block w-full text-center py-3 text-white border border-white/20 rounded-md font-bold hover:bg-white/5 transition-colors">
+                    Log In
+                </a>
+                <a href="/register" class="block w-full text-center py-3 bg-[#00c54f] text-black rounded-md font-bold hover:bg-[#00a843] transition-colors">
+                    Join for Free
+                </a>
+            </div>
+        )}
+    </nav>
   </div>
 </header>
 <script>

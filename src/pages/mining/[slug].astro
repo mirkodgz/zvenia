@@ -361,8 +361,8 @@ const formatDate = (dateStr: string | null) => {
                 </div>
             </div>
 
-            <!-- SPACER to prevents content overlap -->
-            <div class="h-16 mb-4"></div>
+            <!-- SPACER to prevents content overlap: h-32 for mobile (2 rows), h-16 for desktop (1 row) -->
+            <div class="h-32 md:h-16 mb-4"></div>
 
             <!-- First Block: Header + Search -->
             <div class="mb-2">
@@ -381,7 +381,7 @@ const formatDate = (dateStr: string | null) => {
 
                 <!-- Search Bar (Subtle & Below Tabs) -->
                 <div
-                    class="my-[20px] relative group w-full max-w-[600px] mx-auto"
+                    class="my-[20px] relative group w-full max-w-[600px] mx-auto px-4 md:px-0"
                 >
                     <div
                         class="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none"
@@ -444,7 +444,7 @@ const formatDate = (dateStr: string | null) => {
                 <!-- POSTS SECTION -->
                 <div
                     id="tab-posts"
-                    class="tab-content space-y-8 max-w-[600px] mx-auto"
+                    class="tab-content space-y-8 max-w-[600px] mx-auto px-0 md:px-0"
                 >
                     {
                         postItems.length === 0 ? (

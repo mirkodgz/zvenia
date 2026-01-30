@@ -294,7 +294,7 @@ export default function PodcastForm({ currentUser, initialData }: { currentUser:
                 <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="inline-flex justify-center rounded-md border border-transparent bg-[#00c44b] py-3 px-8 text-sm font-bold text-white shadow-sm hover:bg-[#00c44b]/90 focus:outline-none transition-all transform hover:scale-105 disabled:opacity-50"
+                    className="inline-flex justify-center rounded-md border border-transparent bg-accent-500 py-3 px-8 text-sm font-bold text-white shadow-sm hover:bg-accent-500/90 focus:outline-none transition-all transform hover:scale-105 disabled:opacity-50"
                 >
                     {isSubmitting ? 'Saving...' : (isEditMode ? 'Update Podcast' : 'Publish Podcast')}
                 </button>
