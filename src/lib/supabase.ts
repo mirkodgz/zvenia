@@ -54,9 +54,9 @@ export const createSupabaseServerClient = (context: {
                         context.cookies.set(key, value, {
                             ...options,
                             path: '/',
-                            secure: false, // HARDCODED FALSE: Crucial for localhost OAuth flow
+                            secure: import.meta.env.PROD, // Dynamic: false on local, true on prod
                             sameSite: 'lax',
-                            httpOnly: true,
+                            httpOnly: true, // Keep it HttpOnly for security
                             maxAge: 60 * 60 * 24 * 7, // 1 week (Force persistence)
                         });
                         return;
@@ -67,7 +67,7 @@ export const createSupabaseServerClient = (context: {
                         context.cookies.delete(key, {
                             ...options,
                             path: '/',
-                            secure: false, // HARDCODED FALSE: Match set() to ensure deletion works
+                            secure: import.meta.env.PROD, // Match set() to ensure deletion works
                             sameSite: 'lax',
                             httpOnly: true,
                         });
