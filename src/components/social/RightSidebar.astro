@@ -37,53 +37,80 @@ if (!detectedCountryCode && user) {
     }
 }
 
-// 2. Resolve to a Country Name (EXACT MATCH logic from CountryManagersWidget)
+// 2. Resolve to a Country Name (ADS use Names like 'Italy', not codes like 'IT')
+// Robust Bi-Directional Resolution: Code/Name/ID -> [Code, Name, DisplayName, ID]
+let searchLocations: string[] = ["Global"]; // Always include Global
 let ads: Ad[] = [];
 
-if (detectedCountryCode) {
-    const { data: countryDataVal } = await supabase
-        .from("countries")
-        .select("display_name") // Only fetch Display Name as per reference widget
-        .eq("code", detectedCountryCode)
-        .single();
+// Determine the starting query value (could be 'FR', 'France', '205')
+const locationQuery = detectedCountryCode || detectedCountryName;
 
-    const countryData = countryDataVal as CountryData | null;
+if (locationQuery) {
+    let query = supabase
+        .from("countries")
+        .select("id, name, display_name, code");
+
+    // Smart Query Construction based on input format
+    const isCode =
+        locationQuery.length === 2 && /^[A-Z]{2}$/i.test(locationQuery);
+    const isId = /^\d+$/.test(locationQuery);
+
+    if (isCode) {
+        query = query.eq("code", locationQuery);
+    } else if (isId) {
+        query = query.eq("id", parseInt(locationQuery));
+    } else {
+        // Assume Name or Display Name
+        query = query.or(
+            `name.ilike.${locationQuery},display_name.ilike.${locationQuery}`,
+        );
+    }
+
+    const { data: countryDataVal } = await query.single();
+    const countryData = countryDataVal as {
+        id: number;
+        name: string;
+        display_name: string;
+        code: string;
+    } | null;
 
     if (countryData) {
-        detectedCountryName = countryData.display_name;
+        // 1. Add Display Name (e.g., 'Francia')
+        if (countryData.display_name) {
+            detectedCountryName = countryData.display_name; // Update UI Display
+            searchLocations.push(countryData.display_name);
+        }
+        // 2. Add Technical Name (e.g., 'France')
+        if (countryData.name) searchLocations.push(countryData.name);
+
+        // 3. Add ID (e.g., '205') - Stringified because Ads store 'location' as string
+        if (countryData.id) searchLocations.push(String(countryData.id));
+
+        // 4. Add Code (e.g., 'FR') - Just in case
+        if (countryData.code) searchLocations.push(countryData.code);
+    } else {
+        // Fallback: This handles cases where 'locationQuery' might be valid but not in DB
+        // e.g. "Italy" (if not found in country DB for some reason)
+        searchLocations.push(locationQuery as string);
     }
 }
 
-// 3. Fetch Promoted Ads (Filter by CREATOR's country, matching User's Connection)
-// "Two-Step Fetch" to ensure robustness (bypasses potential JOIN key issues)
-if (detectedCountryName) {
-    // Step A: Find all users (creators) who are in this country
-    const { data: creatorProfilesVal } = await supabase
-        .from("profiles")
-        .select("id")
-        .eq("country", detectedCountryName);
+// 3. Fetch Promoted Ads (Case-Insensitive Match)
+// We use .or() with .ilike to catch "ITALY" vs "Italy" vs "205"
+if (searchLocations.length > 0) {
+    // Remove duplicates
+    const uniqueLocations = [...new Set(searchLocations)];
 
-    const creatorProfiles = creatorProfilesVal as ProfileData[] | null;
+    // Construct OR query: location.ilike.Val1,location.ilike.Val2,...
+    // We sanitize the values to avoid query injection issues (though strictly internal mostly)
+    const orQuery = uniqueLocations
+        .map((loc) => `location.ilike.${loc}`)
+        .join(",");
 
-    if (creatorProfiles && creatorProfiles.length > 0) {
-        const creatorIds = creatorProfiles.map((p) => p.id);
-
-        // Step B: Find ads created by these users
-        const { data: adsVal } = await supabase
-            .from("ads")
-            .select("*")
-            .in("user_id", creatorIds) // Filter by the creators found above
-            .order("created_at", { ascending: false })
-            .limit(2);
-
-        ads = (adsVal || []) as Ad[];
-    }
-} else {
-    // Fallback if no country detected: Show Global
     const { data: adsVal } = await supabase
         .from("ads")
         .select("*")
-        .eq("location", "Global")
+        .or(orQuery) // <--- CRITICAL: Case-insensitive match for ALL aliases
         .order("created_at", { ascending: false })
         .limit(2);
 
