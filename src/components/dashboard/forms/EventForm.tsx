@@ -248,24 +248,7 @@ export default function EventForm({ currentUser, initialData }: { currentUser: a
                 </div>
 
                 {/* Slug */}
-                <div>
-                    <label className="block text-[15px] font-bold text-black mb-2">Event URL Slug *</label>
-                    <div className="flex items-center">
-                        <span className="bg-(--bg-surface) border border-r-0 border-(--border-color) rounded-l-lg px-3 py-3 text-gray-500 text-sm">
-                            /event/
-                        </span>
-                        <input
-                            type="text"
-                            name="slug"
-                            value={formData.slug}
-                            onChange={handleChange}
-                            required
-                            placeholder="event-url-slug"
-                            className="w-full bg-(--bg-body) border border-(--border-color) rounded-r-lg px-4 py-3 text-(--text-main) focus:border-primary-500 outline-none"
-                        />
-                    </div>
-                    <p className="text-xs text-(--text-secondary) mt-1">This will be the unique link for your event.</p>
-                </div>
+
 
                 {/* Cover Photo */}
                 <div>

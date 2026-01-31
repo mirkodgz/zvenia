@@ -29,39 +29,50 @@ if (!detectedCountryCode && user) {
     }
 }
 
-// 2. Resolve to a Country Name (ADS use Names like 'Italy', not codes like 'IT')
+// 2. Resolve to a Country Name (EXACT MATCH logic from CountryManagersWidget)
+let ads: Ad[] = [];
+
 if (detectedCountryCode) {
-    // Get Display Name from Code
-    const { data: countryData } = await supabase
+    const { data: countryDataVal } = await supabase
         .from("countries")
-        .select("display_name")
+        .select("display_name") // Only fetch Display Name as per reference widget
         .eq("code", detectedCountryCode)
         .single();
 
-    // Explicitly check for data existance and property
-    const display_name = (countryData as any)?.display_name;
-    if (display_name) {
-        detectedCountryName = display_name;
+    if (countryDataVal) {
+        detectedCountryName = countryDataVal.display_name;
     }
 }
 
-// 3. Fetch Promoted Ads (Filtered by Location)
-let ads: Ad[] = [];
-
+// 3. Fetch Promoted Ads (Filter by CREATOR's country, matching User's Connection)
 if (detectedCountryName) {
+    // We join with profiles to check the CREATOR's country
+    // The relation is likely explicitly defined or inferred by Supabase on 'user_id'
     const { data: adsVal } = await supabase
         .from("ads")
-        .select("*")
-        .eq("location", detectedCountryName) // Strict filtering
+        .select(
+            `
+            *,
+            profiles!inner (
+                country
+            )
+        `,
+        )
+        .eq("profiles.country", detectedCountryName)
         .order("created_at", { ascending: false })
         .limit(2);
 
     ads = (adsVal || []) as Ad[];
 } else {
-    // Optional: If absolutely no location is known (very rare logged out),
-    // maybe show Global ads? For now, we show strictly targeted or nothing matching the strict requirement.
-    // If you want a global fallback, we could query ads where location is null or 'Global'.
-    // ads = [];
+    // Fallback if no country detected: Show Global
+    const { data: adsVal } = await supabase
+        .from("ads")
+        .select("*")
+        .eq("location", "Global")
+        .order("created_at", { ascending: false })
+        .limit(2);
+
+    ads = (adsVal || []) as Ad[];
 }
 ---
 

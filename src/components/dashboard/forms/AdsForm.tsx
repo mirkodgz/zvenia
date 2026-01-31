@@ -273,16 +273,7 @@ export default function AdsForm({ currentUser, onSuccess, initialData, onCancel 
                                 />
                             </div>
 
-                            <div>
-                                <label className="block text-sm font-bold text-gray-900 mb-1">Slug (Auto-generated)</label>
-                                <input
-                                    type="text"
-                                    name="slug"
-                                    value={formData.slug}
-                                    onChange={handleChange}
-                                    className="w-full rounded-md border-gray-300 bg-gray-50 text-gray-600 shadow-sm focus:border-accent-500 focus:ring-accent-500 py-2 px-3 border text-sm"
-                                />
-                            </div>
+
 
                             <div>
                                 <label className="block text-sm font-bold text-gray-900 mb-1">Description</label>

@@ -344,23 +344,7 @@ export default function PostForm({ currentUser, initialData }: PostFormProps) {
                 />
             </div>
 
-            <div>
-                <label htmlFor="slug" className="block text-[15px] font-bold text-black mb-2">Slug (URL)</label>
-                <div className="flex rounded-md shadow-sm">
-                    <span className="inline-flex items-center px-3 rounded-l-md border border-r-0 border-(--border-color) bg-(--bg-surface-hover) text-(--text-secondary) sm:text-sm">
-                        zvenia.com/post/
-                    </span>
-                    <input
-                        type="text"
-                        name="slug"
-                        id="slug"
-                        required
-                        value={formData.slug}
-                        onChange={handleChange}
-                        className="flex-1 min-w-0 block w-full px-4 py-3 rounded-none rounded-r-md bg-(--bg-body) border border-(--border-color) text-(--text-main) focus:border-primary-500 focus:ring-1 focus:ring-primary-500 sm:text-sm"
-                    />
-                </div>
-            </div>
+
 
             <div>
                 <label className="block text-[15px] font-bold text-black mb-3">What would you like to share? ( Optional )</label>
