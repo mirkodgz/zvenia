@@ -215,12 +215,20 @@ export default function AdsForm({ currentUser, onSuccess, initialData, onCancel 
     return (
         <div className="bg-white rounded-lg shadow-sm border border-gray-200 mb-8 overflow-hidden">
             {/* Header / Toggle */}
-            <div className="p-4 bg-gray-50 border-b border-gray-200 flex items-center justify-between">
-                <h2 className="text-lg font-bold text-gray-900 flex items-center gap-2">
-                    <Plus className="w-5 h-5 text-accent-500" />
+            <div className="p-3 bg-white flex flex-col items-start gap-1 max-w-[200px]">
+                <h2 className="text-sm font-bold text-[#0B1221]">
                     {initialData ? 'Edit ADS' : 'Create ADS'}
                 </h2>
-                <div className="flex items-center gap-3">
+                <div className="flex items-center gap-2">
+                    <button
+                        onClick={() => setIsOpen(!isOpen)}
+                        className={`relative inline-flex h-5 w-9 items-center rounded-full transition-colors focus:outline-none ${isOpen ? 'bg-white border-2 border-[#00C44B]' : 'bg-[#EAEAEA]'}`}
+                    >
+                        <span
+                            className={`${isOpen ? 'translate-x-4 bg-[#00C44B]' : 'translate-x-0.5 bg-white'} inline-block h-4 w-4 transform rounded-full transition-transform shadow-sm`}
+                        />
+                    </button>
+
                     {initialData && (
                         <button
                             type="button"
@@ -237,22 +245,11 @@ export default function AdsForm({ currentUser, onSuccess, initialData, onCancel 
                                 setIsOpen(false);
                                 if (onCancel) onCancel();
                             }}
-                            className="text-sm text-gray-500 hover:text-gray-700 underline mr-2"
+                            className="text-xs text-gray-500 hover:text-gray-700 underline"
                         >
-                            Cancel Edit
+                            Cancel
                         </button>
                     )}
-                    <span className="text-sm font-medium text-gray-600">
-                        {isOpen ? 'ON' : 'OFF'}
-                    </span>
-                    <button
-                        onClick={() => setIsOpen(!isOpen)}
-                        className={`relative inline-flex h-6 w-11 items-center rounded-full transition-colors focus:outline-none focus:ring-2 focus:ring-accent-500 focus:ring-offset-2 ${isOpen ? 'bg-accent-500' : 'bg-gray-200'}`}
-                    >
-                        <span
-                            className={`${isOpen ? 'translate-x-6' : 'translate-x-1'} inline-block h-4 w-4 transform rounded-full bg-white transition-transform`}
-                        />
-                    </button>
                 </div>
             </div>
 

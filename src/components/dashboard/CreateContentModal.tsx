@@ -3,6 +3,7 @@ import PostForm from './forms/PostForm';
 import EventForm from './forms/EventForm';
 import PodcastForm from './forms/PodcastForm';
 import ServiceForm from './forms/ServiceForm';
+import AdsForm from './forms/AdsForm';
 
 interface CreateContentModalProps {
     currentUser: any;
@@ -10,7 +11,7 @@ interface CreateContentModalProps {
     activeFeed?: string; // New prop to track current feed
 }
 
-type ContentType = 'post' | 'event' | 'podcast' | 'service';
+type ContentType = 'post' | 'event' | 'podcast' | 'service' | 'ads' | 'cm';
 
 export default function CreateContentModal({ currentUser, userInitials, activeFeed = 'post' }: CreateContentModalProps) {
     const [isOpen, setIsOpen] = useState(false);
@@ -85,21 +86,31 @@ export default function CreateContentModal({ currentUser, userInitials, activeFe
             id: 'service',
             label: 'Services',
             icon: <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="7" width="20" height="14" rx="2" ry="2" /><path d="M16 21V5a2 2 0 0 0-2-2h-4a2 2 0 0 0-2 2v16" /></svg>
+        },
+        // Restricted Tabs
+        {
+            id: 'ads',
+            label: 'ADS',
+            icon: <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" /></svg>
+        },
+        {
+            id: 'cm',
+            label: 'C.M',
+            icon: <svg xmlns="http://www.w3.org/2000/svg" className="w-4 h-4" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M17 21v-2a4 4 0 0 0-4-4H5a4 4 0 0 0-4 4v2"></path><circle cx="9" cy="7" r="4"></circle><path d="M23 21v-2a4 4 0 0 0-3-3.87"></path><path d="M16 3.13a4 4 0 0 1 0 7.75"></path></svg>
         }
     ];
 
     const getAllowedTabs = () => {
-        // Administrator and CountryManager can see everything
-        if (role === 'Administrator' || role === 'CountryManager') return ALL_TABS;
-
         // Basic can only see Posts
-        const allowedIds = ['post'];
+        let allowedIds = ['post', 'event', 'podcast', 'service'];
 
-        // Add explicit permissions
-        if (role === 'Events') allowedIds.push('event');
-        if (role === 'Expert') allowedIds.push('podcast');
-        if (role === 'Ads') allowedIds.push('service');
+        // Administrator and CountryManager can see everything including ADS and CM
+        if (role === 'Administrator' || role === 'CountryManager') {
+            allowedIds.push('ads');
+            allowedIds.push('cm');
+        }
 
+        // Filter based on allowed IDs
         return ALL_TABS.filter(t => allowedIds.includes(t.id));
     };
 
@@ -116,8 +127,8 @@ export default function CreateContentModal({ currentUser, userInitials, activeFe
             {/* --- FIXED TABS CONTAINER (Hard Fix) --- */}
             <div className="fixed top-[70px] left-0 right-0 z-99 pointer-events-none lg:pl-[270px] lg:pr-[300px]">
                 <div className="pointer-events-auto bg-[#f3f3f3] pt-2 pb-2 mx-auto max-w-4xl px-4">
-                    <div className="max-w-[600px] mx-auto w-full">
-                        <div className="grid grid-cols-2 sm:grid-cols-4 gap-2 w-full">
+                    <div className="max-w-[600px] md:max-w-4xl mx-auto w-full">
+                        <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2 w-full">
                             {ALL_TABS.map((tab) => (
                                 <button
                                     key={tab.id}
@@ -139,7 +150,10 @@ export default function CreateContentModal({ currentUser, userInitials, activeFe
             <div className="bg-(--bg-surface) border border-(--border-color) p-4 mb-6">
 
                 {/* Search Bar (Second) */}
-                <div className="relative group w-full max-w-[600px] mx-auto">
+                <div
+                    className="relative group w-full max-w-[600px] mx-auto cursor-pointer"
+                    onClick={() => openModal(activeFeed as ContentType)}
+                >
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                         <svg
                             className="h-4 w-4 text-gray-400 group-focus-within:text-primary-400 transition-colors"
@@ -153,9 +167,9 @@ export default function CreateContentModal({ currentUser, userInitials, activeFe
                     </div>
                     <input
                         type="text"
-                        placeholder={`Search in ${activeFeed || 'posts'}...`}
-                        className="block w-full pl-10 pr-4 py-2 bg-(--bg-body) border border-(--border-color) rounded-none text-(--text-main) placeholder-gray-400 focus:outline-none focus:border-primary-500 transition-all text-sm"
-                        disabled // Disabled for now
+                        placeholder={`Start a ${activeFeed === 'ads' ? 'Ad Campaign' : activeFeed}...`}
+                        className="block w-full pl-10 pr-4 py-2 bg-(--bg-body) border border-(--border-color) rounded-none text-(--text-main) placeholder-gray-400 focus:outline-none focus:border-primary-500 transition-all text-sm cursor-pointer"
+                        readOnly
                     />
                 </div>
             </div>
@@ -213,6 +227,7 @@ export default function CreateContentModal({ currentUser, userInitials, activeFe
                             {activeTab === 'event' && <EventForm currentUser={currentUser} />}
                             {activeTab === 'podcast' && <PodcastForm currentUser={currentUser} />}
                             {activeTab === 'service' && <ServiceForm currentUser={currentUser} />}
+                            {activeTab === 'ads' && <AdsForm currentUser={currentUser} />}
                         </div>
                     </div>
                 </div>

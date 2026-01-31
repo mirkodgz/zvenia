@@ -39,10 +39,18 @@ export default function AdsList({ currentUser, refreshTrigger, onEdit }: AdsList
         }
     };
 
+    const [countries, setCountries] = useState<any[]>([]);
+
     useEffect(() => {
-        const fetchAds = async () => {
+        const fetchAdsAndCountries = async () => {
             setLoading(true);
             try {
+                // Fetch Countries for mapping
+                const { data: countriesData } = await supabase
+                    .from('countries')
+                    .select('id, name, display_name');
+                setCountries(countriesData || []);
+
                 // Filter logic: If Country Manager, should ideally ensure they only see their country's ads
                 // But for "MY Ads Manager Space", fetching all created by DB logic is fine for now
                 let query = supabase
@@ -67,8 +75,21 @@ export default function AdsList({ currentUser, refreshTrigger, onEdit }: AdsList
             }
         };
 
-        fetchAds();
+        fetchAdsAndCountries();
     }, [currentUser, refreshTrigger]);
+
+    // Helper to get location display
+    const getLocationDisplay = (locationValue: string) => {
+        if (!locationValue) return 'Global';
+
+        // If it looks like a number (ID), try to find the name
+        if (!isNaN(Number(locationValue))) {
+            const country = countries.find(c => c.id === Number(locationValue));
+            return country ? (country.display_name || country.name) : locationValue;
+        }
+
+        return locationValue;
+    };
 
     if (loading) {
         return <div className="text-center py-12 text-gray-500">Loading ads...</div>;
@@ -85,14 +106,11 @@ export default function AdsList({ currentUser, refreshTrigger, onEdit }: AdsList
 
     return (
         <div>
-            <h2 className="text-xl font-extrabold text-gray-900 mb-6 uppercase tracking-tight">
-                My ADS Manager Space
-            </h2>
-            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-4 gap-6">
+            <div className="grid grid-cols-1 sm:grid-cols-2 lg:grid-cols-3 gap-6">
                 {ads.map((ad) => (
                     <div key={ad.id} className="bg-white border border-gray-200 shadow-sm hover:shadow-md transition-shadow overflow-hidden flex flex-col h-full">
                         {/* Image Area */}
-                        <div className="relative aspect-4/3 bg-gray-100">
+                        <div className="relative h-48 w-full bg-gray-100 border-b border-gray-100">
                             {ad.image_url ? (
                                 <img
                                     src={ad.image_url}
@@ -153,7 +171,7 @@ export default function AdsList({ currentUser, refreshTrigger, onEdit }: AdsList
                             <div className="mt-4 flex items-center justify-between text-xs text-gray-500">
                                 <span className="uppercase font-medium text-gray-400 flex items-center gap-1">
                                     <MapPin className="w-3 h-3" />
-                                    {ad.location || 'Global'}
+                                    {getLocationDisplay(ad.location)}
                                 </span>
                                 <span>{new Date(ad.created_at).toLocaleDateString()}</span>
                             </div>
