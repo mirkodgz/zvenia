@@ -262,34 +262,27 @@ export default function HeaderUserDropdown({ user, profile }: HeaderUserDropdown
               <Globe className="text-dark size-5 mr-3" />
               <span className="text-dark font-semibold">Z-NETWORK</span>
             </DropdownMenuItem>
-            <DropdownMenuItem
-              className="px-4 py-2.5 text-base cursor-pointer"
-              onClick={() => (window.location.href = '/z-talks')}
-            >
-              <Mic className="text-dark size-5 mr-3" />
-              <span className="text-dark font-semibold">Z-TALKS</span>
-            </DropdownMenuItem>
 
             <DropdownMenuItem
               className="px-4 py-2.5 text-base cursor-pointer"
               onClick={() => (window.location.href = '/dashboard/profile')}
             >
               <UserIcon className="text-dark size-5 mr-3" />
-              <span className="text-dark font-semibold">User Area</span>
+              <span className="text-dark font-semibold">Private Profile</span>
             </DropdownMenuItem>
             <DropdownMenuItem
               className="px-4 py-2.5 text-base cursor-pointer"
               onClick={() => (window.location.href = profileLink)}
             >
               <UserIcon className="text-dark size-5 mr-3" />
-              <span className="text-dark">Your Profile</span>
+              <span className="text-dark">Public Profile</span>
             </DropdownMenuItem>
             <DropdownMenuItem
               className="px-4 py-2.5 text-base cursor-pointer"
               onClick={() => (window.location.href = '/dashboard/profile/edit')}
             >
               <SettingsIcon className="text-dark size-5 mr-3" />
-              <span className="text-dark">Settings</span>
+              <span className="text-dark">Edit Profile</span>
             </DropdownMenuItem>
           </DropdownMenuGroup>
 

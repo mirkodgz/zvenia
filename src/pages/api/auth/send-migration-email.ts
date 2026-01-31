@@ -12,72 +12,48 @@ const supabaseAdmin = SUPABASE_URL && SERVICE_KEY ? createClient(SUPABASE_URL, S
 
 const resend = RESEND_API_KEY ? new Resend(RESEND_API_KEY) : null;
 
+import { wrapEmailLayout } from "../../../lib/email";
+
 /**
  * Template de Email HTML para Migración
  */
 function getEmailTemplate(firstName: string, resetLink: string): string {
-    return `
-<!DOCTYPE html>
-<html>
-<head>
-    <meta charset="UTF-8">
-    <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>Welcome to ZVENIA</title>
-</head>
-<body style="font-family: Arial, sans-serif; line-height: 1.6; color: #202124; max-width: 600px; margin: 0 auto; padding: 20px;">
-    
-    <!-- Header -->
-    <div style="text-align: center; margin-bottom: 30px;">
-        <h1 style="color: #0d241b; font-size: 28px; margin-bottom: 10px;">Welcome to the New ZVENIA</h1>
-        <p style="color: #00c44b; font-size: 16px; font-weight: 600;">Only Expert Knowledge</p>
-    </div>
-
-    <!-- Main Content -->
-    <div style="background-color: #f3f3f3; padding: 30px; border-radius: 8px; margin-bottom: 20px;">
-        <h2 style="color: #0d241b; font-size: 20px; margin-top: 0;">We've Upgraded Your Platform</h2>
+    const mainContent = `
+        <h2 style="color: #0d241b; font-size: 22px; margin-top: 0;">Actualiza tu cuenta</h2>
         
-        <p style="font-size: 15px; color: #202124;">
-            Dear ${firstName || 'Valued Member'},
+        <p style="font-size: 16px;">
+            Hola ${firstName || 'miembro de ZVENIA'},
         </p>
         
-        <p style="font-size: 15px; color: #202124;">
-            We noticed you tried to log in to your ZVENIA account. We've upgraded to a new, more powerful platform!
+        <p style="font-size: 16px;">
+            Hemos actualizado ZVENIA a una nueva plataforma más potente. Esta mejora optimiza el rendimiento y la seguridad para nuestra comunidad exclusiva.
         </p>
         
-        <p style="font-size: 15px; color: #202124; margin-top: 20px;">
-            <strong>To access your account, you'll need to reset your password.</strong> 
-            This is a one-time security measure to ensure your account is fully protected on our new platform.
+        <p style="font-size: 16px; margin: 25px 0;">
+            <strong>Para acceder a tu cuenta, es necesario que restablezcas tu contraseña por única vez:</strong>
         </p>
-    </div>
 
-    <!-- CTA Button -->
-    <div style="text-align: center; margin: 30px 0;">
-        <a href="${resetLink}" 
-           style="display: inline-block; background-color: #00c44b; color: white; padding: 14px 32px; text-decoration: none; border-radius: 6px; font-weight: 600; font-size: 16px;">
-            Reset Your Password
-        </a>
-    </div>
+        <div style="text-align: center; margin: 35px 0;">
+            <a href="${resetLink}" 
+               style="display: inline-block; background-color: #00c44b; color: white; padding: 16px 32px; text-decoration: none; border-radius: 8px; font-weight: 700; font-size: 16px; box-shadow: 0 4px 6px rgba(0,0,0,0.1);">
+                RESTABLECER MI CONTRASEÑA
+            </a>
+        </div>
 
-    <!-- Alternative Link -->
-    <div style="background-color: #ffffff; padding: 20px; border-radius: 8px; border: 1px solid #e0e0e0; margin-bottom: 20px;">
-        <p style="font-size: 13px; color: #666; margin: 0;">
-            If the button doesn't work, copy and paste this link into your browser:
-        </p>
-        <p style="font-size: 13px; color: #00c44b; word-break: break-all; margin: 5px 0 0 0;">
-            ${resetLink}
-        </p>
-    </div>
+        <div style="background-color: #f9f9f9; padding: 20px; border-radius: 8px; border-left: 4px solid #00c44b;">
+            <p style="font-size: 13px; color: #666; margin: 0;">
+                Si el botón de arriba no funciona, copia y pega este enlace manualmente:
+            </p>
+            <p style="font-size: 13px; color: #00c44b; word-break: break-all; margin: 8px 0 0 0;">
+                ${resetLink}
+            </p>
+        </div>
+    `;
 
-    <!-- Footer -->
-    <div style="text-align: center; margin-top: 30px; padding-top: 20px; border-top: 1px solid #e0e0e0;">
-        <p style="font-size: 12px; color: #666; margin: 5px 0;">
-            ZVENIA © 2026 All Rights Reserved.
-        </p>
-    </div>
-
-</body>
-</html>
-    `.trim();
+    return wrapEmailLayout(mainContent, {
+        title: "Bienvenido a la nueva ZVENIA",
+        previewText: "Tu cuenta de ZVENIA está lista. Por favor, restablece tu contraseña para acceder a la nueva plataforma."
+    });
 }
 
 export const POST: APIRoute = async ({ request, cookies }) => {
@@ -85,21 +61,21 @@ export const POST: APIRoute = async ({ request, cookies }) => {
     const email = formData.get("email")?.toString();
 
     if (!email) {
-        return new Response(JSON.stringify({ error: "Email is required" }), { 
+        return new Response(JSON.stringify({ error: "Email is required" }), {
             status: 400,
             headers: { "Content-Type": "application/json" }
         });
     }
 
     if (!resend) {
-        return new Response(JSON.stringify({ error: "Email service not configured" }), { 
+        return new Response(JSON.stringify({ error: "Email service not configured" }), {
             status: 500,
             headers: { "Content-Type": "application/json" }
         });
     }
 
     if (!supabaseAdmin) {
-        return new Response(JSON.stringify({ error: "Service not configured" }), { 
+        return new Response(JSON.stringify({ error: "Service not configured" }), {
             status: 500,
             headers: { "Content-Type": "application/json" }
         });
@@ -114,9 +90,9 @@ export const POST: APIRoute = async ({ request, cookies }) => {
 
     if (!profile) {
         // Usuario no existe, no enviar email
-        return new Response(JSON.stringify({ 
+        return new Response(JSON.stringify({
             message: "If an account exists with this email, a password reset link has been sent."
-        }), { 
+        }), {
             status: 200,
             headers: { "Content-Type": "application/json" }
         });
@@ -133,9 +109,9 @@ export const POST: APIRoute = async ({ request, cookies }) => {
     });
 
     if (linkError || !linkData) {
-        return new Response(JSON.stringify({ 
+        return new Response(JSON.stringify({
             message: "If an account exists with this email, a password reset link has been sent."
-        }), { 
+        }), {
             status: 200,
             headers: { "Content-Type": "application/json" }
         });
@@ -147,7 +123,7 @@ export const POST: APIRoute = async ({ request, cookies }) => {
     // Enviar email usando Resend
     try {
         const emailHtml = getEmailTemplate(firstName || 'Valued Member', resetLink);
-        
+
         // Determinar email destino (solo emails verificados si no hay dominio verificado)
         const verifiedEmail = import.meta.env.VERIFIED_EMAIL || 'mirko@dgzconsulting.com';
         const useVerifiedEmail = !import.meta.env.VERIFIED_EMAIL; // Usar email verificado si no hay dominio configurado
@@ -168,9 +144,9 @@ export const POST: APIRoute = async ({ request, cookies }) => {
         // No fallar, solo loggear el error
     }
 
-    return new Response(JSON.stringify({ 
+    return new Response(JSON.stringify({
         message: "If an account exists with this email, a password reset link has been sent."
-    }), { 
+    }), {
         status: 200,
         headers: { "Content-Type": "application/json" }
     });

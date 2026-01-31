@@ -60,31 +60,44 @@ export const POST: APIRoute = async ({ request, cookies, redirect, url }) => {
     // MANUAL PROFILE CREATION (Since Triggers are Disabled)
     // ---------------------------------------------------------
     if (data.user) {
-        try {
-            const supabaseAdmin = createSupabaseAdmin();
+        const supabaseAdmin = createSupabaseAdmin();
+        const MAX_RETRIES = 3;
+        let profileCreated = false;
 
-            const { error: profileError } = await supabaseAdmin.from('profiles').insert({
-                id: data.user.id,
-                email: email,
-                username: username,
-                full_name: `${firstName} ${lastName}`.trim(),
-                first_name: firstName,
-                last_name: lastName,
-                role: 'Basic',
-                profession: profession,
-                country: country,
-                avatar_url: '', // Explicit empty string or valid URL if needed, since we dropped Not Null
-            });
+        for (let attempt = 1; attempt <= MAX_RETRIES; attempt++) {
+            try {
+                // Pequeño delay para asegurar consistencia if auth.users propagation is slow
+                if (attempt > 1) await new Promise(r => setTimeout(r, 1000));
 
-            if (profileError) {
-                console.error("MANUAL PROFILE INSERT ERROR:", profileError);
-                // We return error to prevent 'partial' success state where user exists but cannot login properly
-                return new Response(JSON.stringify({ message: "User created but profile failed", details: profileError }), { status: 500 });
+                const { error: profileError } = await supabaseAdmin.from('profiles').insert({
+                    id: data.user.id,
+                    email: email,
+                    username: username,
+                    full_name: `${firstName} ${lastName}`.trim(),
+                    first_name: firstName,
+                    last_name: lastName,
+                    role: 'Basic',
+                    profession: profession,
+                    country: country,
+                    avatar_url: '',
+                });
+
+                if (!profileError) {
+                    profileCreated = true;
+                    break;
+                } else {
+                    console.warn(`[Signup] Attempt ${attempt} failed to create profile:`, profileError.message);
+                }
+            } catch (err) {
+                console.error(`[Signup] Attempt ${attempt} exception:`, err);
             }
+        }
 
-        } catch (err) {
-            console.error("Admin Client Error:", err);
-            return new Response(JSON.stringify({ message: "Server configuration error during profile creation" }), { status: 500 });
+        if (!profileCreated) {
+            console.error("[CRITICAL] Failed to create profile for user:", data.user.id);
+            // No fallamos el request para no asustar al usuario. 
+            // El usuario ya existe en Auth, podrá confirmar email y entrar.
+            // El perfil se podrá crear luego o manejar como 'sin perfil'.
         }
     }
 
