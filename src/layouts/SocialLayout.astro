@@ -97,7 +97,7 @@ const user = Astro.locals.user;
                     {/* Sidebar */}
                     <aside
                         id="left-sidebar"
-                        class="hidden lg:block fixed left-0 top-[70px] bottom-0 w-[270px] z-998 bg-(--bg-surface) overflow-y-auto no-scrollbar border-r border-[#e5e7eb] transition-transform duration-300"
+                        class="hidden lg:block fixed left-0 top-[70px] bottom-0 w-[255px] z-998 bg-(--bg-surface) overflow-y-auto no-scrollbar border-r border-[#e5e7eb] transition-transform duration-300"
                     >
                         <slot name="left-sidebar" />
                     </aside>
@@ -108,7 +108,7 @@ const user = Astro.locals.user;
         <!-- RIGHT SIDEBAR (Fixed, starts below header) -->
         {
             !hideRightSidebar && (
-                <aside class="hidden lg:block fixed right-0 top-[70px] bottom-0 w-[300px] z-998 bg-white overflow-y-auto no-scrollbar border-l border-[#e5e7eb] px-4 py-4">
+                <aside class="hidden lg:block fixed right-0 top-[70px] bottom-0 w-[270px] z-998 bg-white overflow-y-auto no-scrollbar border-l border-[#e5e7eb] px-4 py-4">
                     <slot name="right-sidebar" />
                 </aside>
             )
@@ -116,7 +116,7 @@ const user = Astro.locals.user;
 
         <!-- MAIN CONTENT (Fluid center, pushed by sidebars) -->
         <div
-            class={`w-full min-h-screen bg-(--bg-surface) pt-[70px] ${hideLeftSidebar ? "" : "lg:pl-[270px]"} ${hideRightSidebar ? "" : "lg:pr-[300px]"}`}
+            class={`w-full min-h-screen bg-(--bg-surface) pt-[70px] ${hideLeftSidebar ? "" : "lg:pl-[255px]"} ${hideRightSidebar ? "" : "lg:pr-[270px]"}`}
         >
             <!-- Content Wrapper with Borders -->
             <!-- Inner Content Container -->
@@ -161,7 +161,7 @@ const user = Astro.locals.user;
     }
     @media (min-width: 1024px) {
         .social-layout-grid {
-            grid-template-columns: 270px 1fr 320px !important;
+            grid-template-columns: 255px 1fr 270px !important;
         }
     }
 </style>
