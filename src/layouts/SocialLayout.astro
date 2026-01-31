@@ -97,7 +97,7 @@ const user = Astro.locals.user;
                     {/* Sidebar */}
                     <aside
                         id="left-sidebar"
-                        class="hidden lg:block fixed left-0 top-[70px] bottom-0 w-[255px] z-998 bg-(--bg-surface) overflow-y-auto no-scrollbar border-r border-[#e5e7eb] transition-transform duration-300"
+                        class="hidden lg:block fixed left-0 top-[70px] bottom-0 w-[255px] z-998 bg-(--bg-surface) overflow-y-auto hover-scrollbar border-r border-[#e5e7eb] transition-transform duration-300"
                     >
                         <slot name="left-sidebar" />
                     </aside>
@@ -152,6 +152,33 @@ const user = Astro.locals.user;
         -ms-overflow-style: none; /* IE and Edge */
         scrollbar-width: none; /* Firefox */
     }
+
+    /* Hover Scrollbar Utility */
+    .hover-scrollbar {
+        scrollbar-width: none; /* Firefox: Hidden by default */
+        -ms-overflow-style: none; /* IE/Edge */
+    }
+    .hover-scrollbar::-webkit-scrollbar {
+        width: 0px; /* Chrome/Safari: Hidden by default */
+        background: transparent;
+    }
+
+    /* Reveal on Hover */
+    .hover-scrollbar:hover {
+        scrollbar-width: thin; /* Firefox: Visible on hover */
+        scrollbar-color: #cbd5e1 transparent;
+    }
+    .hover-scrollbar:hover::-webkit-scrollbar {
+        width: 6px; /* Chrome/Safari: Visible on hover */
+    }
+    .hover-scrollbar:hover::-webkit-scrollbar-track {
+        background: transparent;
+    }
+    .hover-scrollbar:hover::-webkit-scrollbar-thumb {
+        background-color: #cbd5e1;
+        border-radius: 20px;
+    }
+
     /* Force Grid Layout */
     .social-layout-grid {
         display: grid;
