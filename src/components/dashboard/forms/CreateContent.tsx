@@ -3,12 +3,13 @@ import PostForm from './PostForm';
 import EventForm from './EventForm';
 import PodcastForm from './PodcastForm';
 import ServiceForm from './ServiceForm';
+import AdsForm from './AdsForm';
 
 interface CreateContentProps {
     currentUser: any;
 }
 
-type ContentType = 'post' | 'event' | 'podcast' | 'service';
+type ContentType = 'post' | 'event' | 'podcast' | 'service' | 'ads';
 
 export default function CreateContent({ currentUser }: CreateContentProps) {
     const [activeTab, setActiveTab] = useState<ContentType>('post');
@@ -17,7 +18,7 @@ export default function CreateContent({ currentUser }: CreateContentProps) {
         // Read "tab" query param on mount
         const params = new URLSearchParams(window.location.search);
         const tab = params.get('tab');
-        if (tab && ['post', 'event', 'podcast', 'service'].includes(tab)) {
+        if (tab && ['post', 'event', 'podcast', 'service', 'ads'].includes(tab)) {
             setActiveTab(tab as ContentType);
         }
     }, []);
@@ -53,6 +54,22 @@ export default function CreateContent({ currentUser }: CreateContentProps) {
         },
     ];
 
+    // Check permissions for ADS
+    const role = (currentUser as any)?.role;
+    const canCreateAds = role === 'Administrator' || role === 'CountryManager';
+
+    if (canCreateAds) {
+        tabs.push({
+            id: 'ads',
+            label: 'ADS',
+            icon: (
+                <svg className="w-4 h-4" fill="none" stroke="currentColor" viewBox="0 0 24 24" xmlns="http://www.w3.org/2000/svg">
+                    <path strokeLinecap="round" strokeLinejoin="round" strokeWidth={2} d="M12 2L2 7l10 5 10-5-10-5zM2 17l10 5 10-5M2 12l10 5 10-5" />
+                </svg>
+            )
+        });
+    }
+
     return (
         <div className="flex flex-col h-full bg-[#f4f2ee] rounded-lg shadow-sm border border-gray-200">
             {/* Tabs Header - Clean Light Style */}
@@ -83,6 +100,7 @@ export default function CreateContent({ currentUser }: CreateContentProps) {
                 {activeTab === 'event' && <EventForm currentUser={currentUser} />}
                 {activeTab === 'podcast' && <PodcastForm currentUser={currentUser} />}
                 {activeTab === 'service' && <ServiceForm currentUser={currentUser} />}
+                {activeTab === 'ads' && <AdsForm currentUser={currentUser} variant="dashboard" />}
             </div>
         </div>
     );

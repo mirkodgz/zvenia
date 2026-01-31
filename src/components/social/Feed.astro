@@ -228,6 +228,7 @@ const formatDate = (dateStr: string | null) => {
             activeFeed={feedType}
             enableSearch={isMyZvenia}
             initialSearchQuery={searchQuery}
+            isMyZvenia={isMyZvenia}
         />
     )
 }
@@ -581,6 +582,7 @@ const formatDate = (dateStr: string | null) => {
                 <ADSManagerWrapper
                     client:load
                     currentUser={Astro.locals.user}
+                    allowCreation={false}
                 />
             </div>
         )

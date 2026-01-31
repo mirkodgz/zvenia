@@ -4,9 +4,10 @@ import AdsList from './AdsList';
 
 interface ADSManagerWrapperProps {
     currentUser: any;
+    allowCreation?: boolean;
 }
 
-export default function ADSManagerWrapper({ currentUser }: ADSManagerWrapperProps) {
+export default function ADSManagerWrapper({ currentUser, allowCreation = true }: ADSManagerWrapperProps) {
     const [refreshTrigger, setRefreshTrigger] = useState(0);
     const [editingAd, setEditingAd] = useState<any | null>(null);
 
@@ -23,12 +24,14 @@ export default function ADSManagerWrapper({ currentUser }: ADSManagerWrapperProp
 
     return (
         <div className="w-full">
-            <AdsForm
-                currentUser={currentUser}
-                onSuccess={handleSuccess}
-                initialData={editingAd}
-                onCancel={() => setEditingAd(null)}
-            />
+            {(allowCreation || editingAd) && (
+                <AdsForm
+                    currentUser={currentUser}
+                    onSuccess={handleSuccess}
+                    initialData={editingAd}
+                    onCancel={() => setEditingAd(null)}
+                />
+            )}
             <AdsList
                 currentUser={currentUser}
                 refreshTrigger={refreshTrigger}

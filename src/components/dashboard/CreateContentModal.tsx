@@ -11,6 +11,7 @@ interface CreateContentModalProps {
     activeFeed?: string; // New prop to track current feed
     enableSearch?: boolean;
     initialSearchQuery?: string;
+    isMyZvenia?: boolean;
 }
 
 type ContentType = 'post' | 'event' | 'podcast' | 'service' | 'ads' | 'cm';
@@ -20,7 +21,8 @@ export default function CreateContentModal({
     userInitials,
     activeFeed = 'post',
     enableSearch = false,
-    initialSearchQuery = ''
+    initialSearchQuery = '',
+    isMyZvenia = false
 }: CreateContentModalProps) {
     const [isOpen, setIsOpen] = useState(false);
     const [activeTab, setActiveTab] = useState<ContentType>('post');
@@ -157,15 +159,25 @@ export default function CreateContentModal({
                 <div className="pointer-events-auto bg-[#f3f3f3] pt-2 pb-2 mx-auto max-w-4xl px-4">
                     <div className="max-w-[600px] md:max-w-4xl mx-auto w-full">
                         <div className="grid grid-cols-2 sm:grid-cols-3 md:grid-cols-6 gap-2 w-full">
-                            {ALL_TABS.map((tab) => (
-                                <button
-                                    key={tab.id}
-                                    onClick={() => navigateToFeed(tab.id)}
-                                    className={`${getButtonClass(tab.id)} w-full justify-center shrink-0 flex items-center gap-2 px-1`}
-                                >
-                                    {tab.icon} <span className="ml-1 uppercase font-bold text-xs whitespace-nowrap pt-0.5">{tab.label}</span>
-                                </button>
-                            ))}
+                            {ALL_TABS.map((tab) => {
+                                // Filtering for Navigation Tabs (Top Bar)
+                                const isRestricted = tab.id === 'ads' || tab.id === 'cm';
+                                if (isRestricted) {
+                                    // Only show if: On "My Zvenia" AND (Admin OR CM)
+                                    const hasAccess = role === 'Administrator' || role === 'CountryManager';
+                                    if (!isMyZvenia || !hasAccess) return null;
+                                }
+
+                                return (
+                                    <button
+                                        key={tab.id}
+                                        onClick={() => navigateToFeed(tab.id)}
+                                        className={`${getButtonClass(tab.id)} w-full justify-center shrink-0 flex items-center gap-2 px-1`}
+                                    >
+                                        {tab.icon} <span className="ml-1 uppercase font-bold text-xs whitespace-nowrap pt-0.5">{tab.label}</span>
+                                    </button>
+                                );
+                            })}
                         </div>
                     </div>
                 </div>
