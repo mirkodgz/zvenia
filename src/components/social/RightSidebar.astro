@@ -13,6 +13,14 @@ interface Ad {
     location: string | null;
 }
 
+interface CountryData {
+    display_name: string;
+}
+
+interface ProfileData {
+    id: string;
+}
+
 // 1. Determine Location (IP > Profile Fallback)
 let detectedCountryCode = country || null;
 let detectedCountryName = null;
@@ -39,30 +47,37 @@ if (detectedCountryCode) {
         .eq("code", detectedCountryCode)
         .single();
 
-    if (countryDataVal) {
-        detectedCountryName = countryDataVal.display_name;
+    const countryData = countryDataVal as CountryData | null;
+
+    if (countryData) {
+        detectedCountryName = countryData.display_name;
     }
 }
 
 // 3. Fetch Promoted Ads (Filter by CREATOR's country, matching User's Connection)
+// "Two-Step Fetch" to ensure robustness (bypasses potential JOIN key issues)
 if (detectedCountryName) {
-    // We join with profiles to check the CREATOR's country
-    // The relation is likely explicitly defined or inferred by Supabase on 'user_id'
-    const { data: adsVal } = await supabase
-        .from("ads")
-        .select(
-            `
-            *,
-            profiles!inner (
-                country
-            )
-        `,
-        )
-        .eq("profiles.country", detectedCountryName)
-        .order("created_at", { ascending: false })
-        .limit(2);
+    // Step A: Find all users (creators) who are in this country
+    const { data: creatorProfilesVal } = await supabase
+        .from("profiles")
+        .select("id")
+        .eq("country", detectedCountryName);
 
-    ads = (adsVal || []) as Ad[];
+    const creatorProfiles = creatorProfilesVal as ProfileData[] | null;
+
+    if (creatorProfiles && creatorProfiles.length > 0) {
+        const creatorIds = creatorProfiles.map((p) => p.id);
+
+        // Step B: Find ads created by these users
+        const { data: adsVal } = await supabase
+            .from("ads")
+            .select("*")
+            .in("user_id", creatorIds) // Filter by the creators found above
+            .order("created_at", { ascending: false })
+            .limit(2);
+
+        ads = (adsVal || []) as Ad[];
+    }
 } else {
     // Fallback if no country detected: Show Global
     const { data: adsVal } = await supabase
