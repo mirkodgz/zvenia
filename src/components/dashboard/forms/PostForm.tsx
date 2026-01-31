@@ -545,7 +545,7 @@ export default function PostForm({ currentUser, initialData }: PostFormProps) {
                 <button
                     type="submit"
                     disabled={isSubmitting}
-                    className="inline-flex justify-center rounded-md border border-transparent bg-[#00c44b] py-3 px-8 text-sm font-bold text-white shadow-sm hover:bg-[#00c44b]/90 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-gray-900 transition-all transform hover:scale-105 disabled:opacity-50"
+                    className="inline-flex justify-center rounded-md border border-transparent bg-accent-500 py-3 px-8 text-sm font-bold text-white shadow-sm hover:bg-accent-500/90 focus:outline-none focus:ring-2 focus:ring-primary-500 focus:ring-offset-2 focus:ring-offset-gray-900 transition-all transform hover:scale-105 disabled:opacity-50"
                 >
                     {isSubmitting ? 'Saving...' : (formData.id ? 'Update Post' : 'Publish Post')}
                 </button>
