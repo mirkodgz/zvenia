@@ -31,7 +31,11 @@ export const GET: APIRoute = async ({ request, cookies }) => {
     }
 
     if (country && country !== "All") {
-        query = query.eq("work_country", country);
+        if (country === "NoCountry") {
+            query = query.is("country", null);
+        } else {
+            query = query.eq("country", country);
+        }
     }
 
     // Execute query with pagination

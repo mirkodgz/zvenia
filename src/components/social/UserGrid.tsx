@@ -1,6 +1,6 @@
 import React, { useState, useEffect, useRef } from 'react';
 import UserCard from './UserCard';
-import { Search, Filter, Globe } from 'lucide-react';
+import { Search, Filter, Globe, X, ChevronDown, Check } from 'lucide-react';
 
 interface UserProfile {
     id: string;
@@ -29,8 +29,29 @@ const UserGrid = () => {
     const [country, setCountry] = useState("All");
     const [role, setRole] = useState("All");
 
+    // Dropdown States
+    const [isCountryOpen, setIsCountryOpen] = useState(false);
+    const [countrySearch, setCountrySearch] = useState("");
+    const [isRoleOpen, setIsRoleOpen] = useState(false);
+
     const loaderRef = useRef<HTMLDivElement>(null);
     const debounceRef = useRef<NodeJS.Timeout | null>(null);
+    const countryRef = useRef<HTMLDivElement>(null);
+    const roleRef = useRef<HTMLDivElement>(null);
+
+    // Click outside handler logic
+    useEffect(() => {
+        function handleClickOutside(event: MouseEvent) {
+            if (countryRef.current && !countryRef.current.contains(event.target as Node)) {
+                setIsCountryOpen(false);
+            }
+            if (roleRef.current && !roleRef.current.contains(event.target as Node)) {
+                setIsRoleOpen(false);
+            }
+        }
+        document.addEventListener("mousedown", handleClickOutside);
+        return () => document.removeEventListener("mousedown", handleClickOutside);
+    }, []);
 
     // Fetch countries
     useEffect(() => {
@@ -120,13 +141,26 @@ const UserGrid = () => {
         };
     }, [hasMore, loading, page, users.length]);
 
+    const clearFilters = () => {
+        setSearch("");
+        setCountry("All");
+        setRole("All");
+        setCountrySearch("");
+    };
+
+    // Filtered countries list for dropdown
+    const filteredCountries = countries.filter(c =>
+        c.name.toLowerCase().includes(countrySearch.toLowerCase())
+    );
+
     return (
         <div>
             {/* Filters Bar */}
-            <div className="bg-white p-3 md:p-4 rounded-none shadow-sm border border-gray-200 mb-4 md:mb-8 animate-in fade-in slide-in-from-top-4 duration-500">
-                <div className="grid grid-cols-2 md:grid-cols-3 gap-3 md:gap-4">
+            <div className="bg-white p-3 md:p-4 rounded-none shadow-sm border border-gray-200 mb-4 md:mb-8 animate-in fade-in slide-in-from-top-4 duration-500 relative z-20">
+                <div className="grid grid-cols-2 md:grid-cols-12 gap-3 md:gap-4 items-center">
+
                     {/* Search */}
-                    <div className="relative col-span-2 md:col-span-1">
+                    <div className="relative col-span-2 md:col-span-4">
                         <Search className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5 pointer-events-none" />
                         <input
                             type="text"
@@ -138,36 +172,118 @@ const UserGrid = () => {
                         />
                     </div>
 
-                    {/* Role Filter */}
-                    <div className="relative col-span-1">
-                        <Filter className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5 pointer-events-none" />
-                        <select
-                            value={role}
-                            onChange={(e) => setRole(e.target.value)}
-                            className="w-full pr-4 py-2 border border-gray-300 rounded-none focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none appearance-none bg-white cursor-pointer"
-                            style={{ paddingLeft: '3rem' }}
+                    {/* Role Filter - Custom Dropdown (No Search) */}
+                    <div className="relative col-span-1 md:col-span-3" ref={roleRef}>
+                        <div
+                            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-none focus-within:ring-2 focus-within:ring-green-500 focus-within:border-green-500 bg-white cursor-pointer flex items-center justify-between"
+                            onClick={() => setIsRoleOpen(!isRoleOpen)}
                         >
-                            <option value="All">All Roles</option>
-                            {ROLES.map(r => (
-                                <option key={r} value={r}>{r}</option>
-                            ))}
-                        </select>
+                            <Filter className="absolute left-3 text-gray-400 w-5 h-5" />
+                            <span className={`truncate ${role === "All" ? "text-gray-500" : "text-gray-900"}`}>
+                                {role === "All" ? "All Roles" : role}
+                            </span>
+                            <ChevronDown className={`w-4 h-4 text-gray-400 transition-transform ${isRoleOpen ? "rotate-180" : ""}`} />
+                        </div>
+
+                        {/* Dropdown Menu */}
+                        {isRoleOpen && (
+                            <div className="absolute top-full left-0 w-full mt-1 bg-white border border-gray-200 shadow-lg z-50 flex flex-col">
+                                <div className="py-1">
+                                    <div
+                                        className={`px-4 py-2 hover:bg-green-50 cursor-pointer text-sm flex items-center justify-between ${role === "All" ? "bg-green-50 text-green-700 font-medium" : "text-gray-700"}`}
+                                        onClick={() => { setRole("All"); setIsRoleOpen(false); }}
+                                    >
+                                        All Roles
+                                        {role === "All" && <Check className="w-4 h-4" />}
+                                    </div>
+                                    {ROLES.map(r => (
+                                        <div
+                                            key={r}
+                                            className={`px-4 py-2 hover:bg-green-50 cursor-pointer text-sm flex items-center justify-between ${role === r ? "bg-green-50 text-green-700 font-medium" : "text-gray-700"}`}
+                                            onClick={() => { setRole(r); setIsRoleOpen(false); }}
+                                        >
+                                            {r}
+                                            {role === r && <Check className="w-4 h-4" />}
+                                        </div>
+                                    ))}
+                                </div>
+                            </div>
+                        )}
                     </div>
 
-                    {/* Country Filter */}
-                    <div className="relative col-span-1">
-                        <Globe className="absolute left-3 top-1/2 -translate-y-1/2 text-gray-400 w-5 h-5 pointer-events-none" />
-                        <select
-                            value={country}
-                            onChange={(e) => setCountry(e.target.value)}
-                            className="w-full pr-4 py-2 border border-gray-300 rounded-none focus:ring-2 focus:ring-green-500 focus:border-green-500 outline-none appearance-none bg-white cursor-pointer"
-                            style={{ paddingLeft: '3rem' }}
+                    {/* Country Filter - Custom Searchable Dropdown */}
+                    <div className="relative col-span-1 md:col-span-3" ref={countryRef}>
+                        <div
+                            className="w-full pl-10 pr-4 py-2 border border-gray-300 rounded-none focus-within:ring-2 focus-within:ring-green-500 focus-within:border-green-500 bg-white cursor-pointer flex items-center justify-between"
+                            onClick={() => setIsCountryOpen(!isCountryOpen)}
                         >
-                            <option value="All">All Countries</option>
-                            {countries.map(c => (
-                                <option key={c.id} value={c.id}>{c.name}</option>
-                            ))}
-                        </select>
+                            <Globe className="absolute left-3 text-gray-400 w-5 h-5" />
+                            <span className={`truncate ${country === "All" || country === "NoCountry" ? "text-gray-500" : "text-gray-900"}`}>
+                                {country === "All" ? "All Countries" : country === "NoCountry" ? "No Country Assigned" : country}
+                            </span>
+                            <ChevronDown className={`w-4 h-4 text-gray-400 transition-transform ${isCountryOpen ? "rotate-180" : ""}`} />
+                        </div>
+
+                        {/* Dropdown Menu */}
+                        {isCountryOpen && (
+                            <div className="absolute top-full left-0 w-full mt-1 bg-white border border-gray-200 shadow-lg z-50 max-h-60 flex flex-col">
+                                <div className="p-2 border-b border-gray-100 sticky top-0 bg-white">
+                                    <input
+                                        type="text"
+                                        placeholder="Search country..."
+                                        className="w-full px-2 py-1 text-sm border border-gray-200 rounded-sm focus:outline-none focus:border-green-500"
+                                        value={countrySearch}
+                                        onChange={(e) => setCountrySearch(e.target.value)}
+                                        onClick={(e) => e.stopPropagation()}
+                                        autoFocus
+                                    />
+                                </div>
+                                <div className="overflow-y-auto flex-1">
+                                    <div
+                                        className={`px-4 py-2 hover:bg-green-50 cursor-pointer text-sm flex items-center justify-between ${country === "All" ? "bg-green-50 text-green-700 font-medium" : "text-gray-700"}`}
+                                        onClick={() => { setCountry("All"); setIsCountryOpen(false); }}
+                                    >
+                                        All Countries
+                                        {country === "All" && <Check className="w-4 h-4" />}
+                                    </div>
+                                    <div
+                                        className={`px-4 py-2 hover:bg-green-50 cursor-pointer text-sm flex items-center justify-between ${country === "NoCountry" ? "bg-green-50 text-green-700 font-medium" : "text-gray-700"}`}
+                                        onClick={() => { setCountry("NoCountry"); setIsCountryOpen(false); }}
+                                    >
+                                        No Country Assigned
+                                        {country === "NoCountry" && <Check className="w-4 h-4" />}
+                                    </div>
+                                    {filteredCountries.length > 0 ? (
+                                        filteredCountries.map(c => (
+                                            <div
+                                                key={c.id}
+                                                className={`px-4 py-2 hover:bg-green-50 cursor-pointer text-sm flex items-center justify-between ${country === c.name ? "bg-green-50 text-green-700 font-medium" : "text-gray-700"}`}
+                                                onClick={() => { setCountry(c.name); setIsCountryOpen(false); }}
+                                            >
+                                                {c.name}
+                                                {country === c.name && <Check className="w-4 h-4" />}
+                                            </div>
+                                        ))
+                                    ) : (
+                                        <div className="px-4 py-2 text-gray-400 text-sm text-center">No results found</div>
+                                    )}
+                                </div>
+                            </div>
+                        )}
+                    </div>
+
+                    {/* Clear Filters Button */}
+                    <div className="col-span-2 md:col-span-2 flex justify-end">
+                        {(search || country !== "All" || role !== "All") && (
+                            <button
+                                onClick={clearFilters}
+                                className="text-sm text-gray-500 hover:text-red-500 flex items-center gap-1 transition-colors px-2 py-1"
+                                title="Clear all filters"
+                            >
+                                <X className="w-4 h-4" />
+                                <span className="hidden md:inline">Clear</span>
+                            </button>
+                        )}
                     </div>
                 </div>
             </div>
@@ -201,7 +317,7 @@ const UserGrid = () => {
                         <Search className="w-12 h-12 mb-4 opacity-20" />
                         <p className="text-lg font-medium">No users found matching filters.</p>
                         <button
-                            onClick={() => { setSearch(""); setCountry("All"); setRole("All"); }}
+                            onClick={clearFilters}
                             className="mt-4 text-green-600 hover:underline text-sm font-semibold"
                         >
                             Clear filters

@@ -1,0 +1,9 @@
+
+--- Analysis Results ---
+Total Records in CSV: 1556
+With Valid Nationality (Current - approx): 749
+Recoverable from Work Country: +44
+Recoverable from MEPR Country: +0
+Recoverable from Events Location: +0
+Still Missing: 763
+Potential Total Coverage: 793 (50.96%)
