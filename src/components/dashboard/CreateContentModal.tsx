@@ -9,14 +9,23 @@ interface CreateContentModalProps {
     currentUser: any;
     userInitials: string;
     activeFeed?: string; // New prop to track current feed
+    enableSearch?: boolean;
+    initialSearchQuery?: string;
 }
 
 type ContentType = 'post' | 'event' | 'podcast' | 'service' | 'ads' | 'cm';
 
-export default function CreateContentModal({ currentUser, userInitials, activeFeed = 'post' }: CreateContentModalProps) {
+export default function CreateContentModal({
+    currentUser,
+    userInitials,
+    activeFeed = 'post',
+    enableSearch = false,
+    initialSearchQuery = ''
+}: CreateContentModalProps) {
     const [isOpen, setIsOpen] = useState(false);
     const [activeTab, setActiveTab] = useState<ContentType>('post');
     const [editId, setEditId] = useState<string | null>(null); // Track ID for editing
+    const [searchValue, setSearchValue] = useState(initialSearchQuery);
     const modalRef = useRef<HTMLDivElement>(null);
 
     // Close on Escape key
@@ -61,7 +70,26 @@ export default function CreateContentModal({ currentUser, userInitials, activeFe
 
     const navigateToFeed = (feedType: string) => {
         const currentPath = window.location.pathname;
-        window.location.href = `${currentPath}?feed=${feedType}`;
+        const url = new URL(window.location.href);
+        url.searchParams.set('feed', feedType);
+        // If switching feeds, maybe clear search? Or keep it?
+        // User behavior: usually clear search when switching tabs.
+        if (enableSearch) {
+            url.searchParams.delete('q');
+        }
+        window.location.href = url.toString();
+    };
+
+    const handleSearchKeyDown = (e: React.KeyboardEvent<HTMLInputElement>) => {
+        if (e.key === 'Enter') {
+            const url = new URL(window.location.href);
+            if (searchValue.trim()) {
+                url.searchParams.set('q', searchValue);
+            } else {
+                url.searchParams.delete('q');
+            }
+            window.location.href = url.toString();
+        }
     };
 
     const role = (currentUser as any)?.role || 'Basic';
@@ -152,7 +180,7 @@ export default function CreateContentModal({ currentUser, userInitials, activeFe
                 {/* Search Bar (Second) */}
                 <div
                     className="relative group w-full max-w-[600px] mx-auto cursor-pointer"
-                    onClick={() => openModal(activeFeed as ContentType)}
+                    onClick={!enableSearch ? () => openModal(activeFeed as ContentType) : undefined}
                 >
                     <div className="absolute inset-y-0 left-0 pl-3 flex items-center pointer-events-none">
                         <svg
@@ -167,9 +195,12 @@ export default function CreateContentModal({ currentUser, userInitials, activeFe
                     </div>
                     <input
                         type="text"
-                        placeholder={`Start a ${activeFeed === 'ads' ? 'Ad Campaign' : activeFeed}...`}
+                        placeholder={enableSearch ? `Search ${activeFeed}...` : `Start a ${activeFeed === 'ads' ? 'Ad Campaign' : activeFeed}...`}
                         className="block w-full pl-10 pr-4 py-2 bg-(--bg-body) border border-(--border-color) rounded-none text-(--text-main) placeholder-gray-400 focus:outline-none focus:border-primary-500 transition-all text-sm cursor-pointer"
-                        readOnly
+                        readOnly={!enableSearch}
+                        value={enableSearch ? searchValue : undefined}
+                        onChange={enableSearch ? (e) => setSearchValue(e.target.value) : undefined}
+                        onKeyDown={enableSearch ? handleSearchKeyDown : undefined}
                     />
                 </div>
             </div>
