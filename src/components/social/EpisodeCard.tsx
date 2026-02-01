@@ -11,6 +11,7 @@ interface EpisodeCardProps {
     coverImage: string;
     index: number;
     podcastSlug: string;
+    currentUser: any; // Added currentUser
 }
 
 const getYoutubeId = (url: string) => {
@@ -19,7 +20,7 @@ const getYoutubeId = (url: string) => {
     return (match && match[2].length === 11) ? match[2] : null;
 };
 
-const EpisodeCard: React.FC<EpisodeCardProps> = ({ episode, podcastTitle, coverImage, index, podcastSlug }) => {
+const EpisodeCard: React.FC<EpisodeCardProps> = ({ episode, podcastTitle, coverImage, index, podcastSlug, currentUser }) => {
     const videoId = getYoutubeId(episode.video_url);
     const thumbnailUrl = videoId
         ? `https://img.youtube.com/vi/${videoId}/mqdefault.jpg`
@@ -27,7 +28,14 @@ const EpisodeCard: React.FC<EpisodeCardProps> = ({ episode, podcastTitle, coverI
 
     return (
         <a
-            href={`/podcast/${podcastSlug}${videoId ? `?v=${videoId}` : ''}`}
+            href={currentUser ? `/podcast/${podcastSlug}${videoId ? `?v=${videoId}` : ''}` : "#"}
+            onClick={(e) => {
+                if (!currentUser) {
+                    e.preventDefault();
+                    e.stopPropagation();
+                    window.dispatchEvent(new CustomEvent("open-auth-modal"));
+                }
+            }}
             className="shrink-0 w-72 group relative block bg-(--bg-card) border border-(--border-color) hover:border-primary-500 hover:shadow-[0_0_25px_rgba(var(--color-primary-500,34,197,94),0.4)] transition-all duration-300 scroll-snap-align-start hover:-translate-y-1"
         >
             {/* Thumbnail */}

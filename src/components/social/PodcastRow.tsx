@@ -48,7 +48,17 @@ const PodcastRow: React.FC<PodcastRowProps> = ({ podcast, currentUser, initialIs
 
             {/* Header */}
             <div className="flex justify-between items-center mb-4">
-                <a href={`/podcast/${podcast.slug}`} className="text-xl font-bold text-(--text-main) flex items-center gap-2 hover:text-primary-400 transition-colors cursor-pointer">
+                <a
+                    href={currentUser ? `/podcast/${podcast.slug}` : "#"}
+                    onClick={(e) => {
+                        if (!currentUser) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            window.dispatchEvent(new CustomEvent("open-auth-modal"));
+                        }
+                    }}
+                    className="text-xl font-bold text-(--text-main) flex items-center gap-2 hover:text-primary-400 transition-colors cursor-pointer"
+                >
                     {podcast.title}
                 </a>
                 {/* Options Menu */}
@@ -102,6 +112,7 @@ const PodcastRow: React.FC<PodcastRowProps> = ({ podcast, currentUser, initialIs
                         podcastTitle={podcast.title}
                         coverImage={podcast.cover_image_url || ''}
                         podcastSlug={podcast.slug}
+                        currentUser={currentUser}
                     />
                 ))}
             </div>

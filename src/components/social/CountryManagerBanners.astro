@@ -1,0 +1,1188 @@
+---
+const { supabase } = Astro.locals;
+let managers: any[] = [];
+
+if (supabase) {
+    const { data: rawManagers } = await supabase
+        .from("profiles")
+        .select("*")
+        .eq("role", "CountryManager")
+        .limit(50);
+
+    if (rawManagers) {
+        // Fetch countries for resolution
+        const { data: countries } = await supabase
+            .from("countries")
+            .select("id, name, display_name");
+
+        const countryMap = new Map();
+        if (countries) {
+            countries.forEach((c: any) => {
+                countryMap.set(String(c.id), c.display_name || c.name);
+            });
+        }
+
+        managers = rawManagers.map((m: any) => {
+            let countryDisplay = m.work_country || m.country;
+            // Resolve if numeric ID
+            if (
+                countryDisplay &&
+                !isNaN(Number(countryDisplay)) &&
+                countryMap.has(String(countryDisplay))
+            ) {
+                countryDisplay = countryMap.get(String(countryDisplay));
+            }
+            return {
+                ...m,
+                countryDisplay: countryDisplay || "Global",
+            };
+        });
+    }
+}
+---
+
+<div class="flex flex-col w-full">
+    <!-- BANNER 1: HERO (Deep Green Radial Gradient) -->
+    <section
+        class="relative w-full min-h-[500px] flex items-center overflow-hidden"
+        style="background: radial-gradient(circle at 50% 0%, #134e35 0%, #0a1f16 60%, #05110c 100%);"
+    >
+        <!-- Content -->
+        <div
+            class="relative z-10 container mx-auto px-8 md:px-16 flex flex-col justify-center h-full max-w-7xl py-12 md:py-0"
+        >
+            <h2
+                class="text-[#1CF292] font-bold text-3xl md:text-5xl mb-6 leading-tight max-w-4xl"
+            >
+                Join Our Movement to Elevate the Mining Industry
+            </h2>
+
+            <div class="border-l-4 border-[#00c54f] pl-6 max-w-3xl mb-10">
+                <p
+                    class="text-white text-lg md:text-lg font-light leading-relaxed"
+                >
+                    At ZVENIA Mining we create a global ambassador network —
+                    COUNTRY MANAGERS is a select group of motivated mining
+                    professionals, one from each country, dedicated to spreading
+                    awareness about our platform and strengthening our
+                    international mining community.
+                </p>
+            </div>
+
+            <div>
+                <button
+                    class="bg-[#00c54f] hover:bg-[#00a844] text-white font-bold py-3 px-6 rounded-[4px] transition-colors text-base uppercase tracking-wider inline-flex items-center justify-center"
+                >
+                    Apply to COUNTRY MANAGERS
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- BANNER 2: BENEFITS (Black Background) -->
+    <section
+        class="relative w-full py-20 flex flex-col items-center justify-center"
+        style="background-color: #020202;"
+    >
+        <div class="container mx-auto px-6 md:px-16 max-w-7xl text-center">
+            <h2 class="text-white font-bold text-2xl md:text-4xl mb-6">
+                Expand Your Professional Network, Gain Recognition
+            </h2>
+
+            <p
+                class="text-gray-300 text-base md:text-lg max-w-4xl mx-auto mb-16 leading-relaxed"
+            >
+                As a COUNTRY MANAGERS, you'll play a vital role in shaping the
+                future of ZVENIA Mining. In return, you'll enjoy numerous
+                benefits that can elevate your career and position you as a
+                thought leader in the industry:
+            </p>
+
+            <!-- Cards Grid -->
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-6 mb-16">
+                <!-- Card 1 -->
+                <div
+                    class="p-8 rounded-lg flex flex-col items-center text-center shadow-lg h-full transition-transform hover:-translate-y-1"
+                    style="background-color: #E5E7EB; color: #111827; border: 1px solid #00c54f;"
+                >
+                    <h3 class="font-bold text-xl mb-4" style="color: #111827;">
+                        Grow Your Network
+                    </h3>
+                    <p
+                        class="leading-relaxed text-sm md:text-base"
+                        style="color: #374151;"
+                    >
+                        Interact with a <span
+                            class="underline decoration-gray-400 decoration-1 underline-offset-4"
+                            >community of passionate mining professionals</span
+                        > and expand your connections worldwide.
+                    </p>
+                </div>
+
+                <!-- Card 2 -->
+                <div
+                    class="p-8 rounded-lg flex flex-col items-center text-center shadow-lg h-full transition-transform hover:-translate-y-1"
+                    style="background-color: #E5E7EB; color: #111827; border: 1px solid #00c54f;"
+                >
+                    <h3 class="font-bold text-xl mb-4" style="color: #111827;">
+                        Gain Industry Recognition
+                    </h3>
+                    <p
+                        class="leading-relaxed text-sm md:text-base"
+                        style="color: #374151;"
+                    >
+                        Showcase <span
+                            class="underline decoration-gray-400 decoration-1 underline-offset-4"
+                            >your expertise and commitment</span
+                        > to advancing the mining sector
+                    </p>
+                </div>
+
+                <!-- Card 3 -->
+                <div
+                    class="p-8 rounded-lg flex flex-col items-center text-center shadow-lg h-full transition-transform hover:-translate-y-1"
+                    style="background-color: #E5E7EB; color: #111827; border: 1px solid #00c54f;"
+                >
+                    <h3 class="font-bold text-xl mb-4" style="color: #111827;">
+                        Become a Trailblazer
+                    </h3>
+                    <p
+                        class="leading-relaxed text-sm md:text-base"
+                        style="color: #374151;"
+                    >
+                        Be part of a select <span
+                            class="underline decoration-gray-400 decoration-1 underline-offset-4"
+                            >group driving the transformation of knowledge
+                            sharing</span
+                        > in the mining industry
+                    </p>
+                </div>
+            </div>
+
+            <!-- Bottom CTA -->
+            <div>
+                <button
+                    class="bg-transparent border border-[#00c54f] text-white hover:bg-[#00c54f] hover:text-white font-bold py-3 px-8 rounded-[4px] transition-all text-base uppercase tracking-wider inline-flex items-center justify-center"
+                >
+                    Apply to COUNTRY MANAGERS
+                </button>
+            </div>
+        </div>
+    </section>
+
+    <!-- BANNER 3: CONTRIBUTION SLIDER (Green Gradient Background) -->
+    <section
+        class="relative w-full py-20 flex items-center overflow-hidden"
+        style="background: radial-gradient(circle at 100% 50%, #134e35 0%, #0a1f16 50%, #05110c 100%);"
+        id="contribution-slider"
+    >
+        <div class="container mx-auto px-6 md:px-16 max-w-7xl relative z-10">
+            <div class="grid grid-cols-1 lg:grid-cols-2 gap-12 items-center">
+                <!-- Left Column: Title & CTA -->
+                <div>
+                    <h2
+                        class="text-[#1CF292] font-bold text-3xl md:text-5xl mb-8 leading-tight"
+                    >
+                        How Can You Contribute as a<br />COUNTRY MANAGERS
+                    </h2>
+                    <button
+                        class="bg-[#00c54f] hover:bg-[#00a844] text-white font-bold py-3 px-6 rounded-[4px] transition-colors text-base uppercase tracking-wider inline-flex items-center justify-center"
+                    >
+                        Apply to COUNTRY MANAGERS
+                    </button>
+                </div>
+
+                <!-- Right Column: Card Slider -->
+                <div
+                    class="relative w-full max-w-2xl mx-auto lg:ml-auto lg:mr-0"
+                >
+                    <div
+                        class="rounded-lg p-8 md:p-12 flex flex-col justify-center items-center text-center relative overflow-hidden shadow-2xl"
+                        style="background-color: #E5E7EB; color: #111827; border: 1px solid #00c54f; min-height: 280px;"
+                    >
+                        <!-- Slides Container -->
+                        <div
+                            class="relative w-full flex items-center justify-center mb-8"
+                        >
+                            <!-- Slide 1 -->
+                            <div
+                                class="slide w-full flex flex-col items-center"
+                                data-index="0"
+                                style="position: relative; opacity: 1; transition: opacity 0.5s ease-in-out;"
+                            >
+                                <h3
+                                    class="font-bold text-2xl md:text-3xl mb-4"
+                                    style="color: #111827; margin-bottom: 1rem;"
+                                >
+                                    Social Media Promotion
+                                </h3>
+                                <p
+                                    class="text-lg leading-snug"
+                                    style="color: #374151;"
+                                >
+                                    Share and promote ZVENIA Mining's content on
+                                    your preferred social media platforms to
+                                    increase visibility.
+                                </p>
+                            </div>
+
+                            <!-- Slide 2 -->
+                            <div
+                                class="slide w-full flex flex-col items-center"
+                                data-index="1"
+                                style="position: absolute; opacity: 0; pointer-events: none; top: 0; left: 0; transition: opacity 0.5s ease-in-out;"
+                            >
+                                <h3
+                                    class="font-bold text-2xl md:text-3xl mb-4"
+                                    style="color: #111827; margin-bottom: 1rem;"
+                                >
+                                    Technical Content Curation
+                                </h3>
+                                <p
+                                    class="text-lg leading-snug"
+                                    style="color: #374151;"
+                                >
+                                    Help us stay up-to-date with the latest
+                                    industry events, publications, and expert
+                                    insights.
+                                </p>
+                            </div>
+
+                            <!-- Slide 3 -->
+                            <div
+                                class="slide w-full flex flex-col items-center"
+                                data-index="2"
+                                style="position: absolute; opacity: 0; pointer-events: none; top: 0; left: 0; transition: opacity 0.5s ease-in-out;"
+                            >
+                                <h3
+                                    class="font-bold text-2xl md:text-3xl mb-4"
+                                    style="color: #111827; margin-bottom: 1rem;"
+                                >
+                                    Event and Webinar Outreach
+                                </h3>
+                                <p
+                                    class="text-lg leading-snug"
+                                    style="color: #374151;"
+                                >
+                                    Encourage participation in ZVENIA Mining's
+                                    live webinars and global events.
+                                </p>
+                            </div>
+
+                            <!-- Slide 4 -->
+                            <div
+                                class="slide w-full flex flex-col items-center"
+                                data-index="3"
+                                style="position: absolute; opacity: 0; pointer-events: none; top: 0; left: 0; transition: opacity 0.5s ease-in-out;"
+                            >
+                                <h3
+                                    class="font-bold text-2xl md:text-3xl mb-4"
+                                    style="color: #111827; margin-bottom: 1rem;"
+                                >
+                                    Collaborations and Advertising
+                                </h3>
+                                <p
+                                    class="text-lg leading-snug"
+                                    style="color: #374151;"
+                                >
+                                    Assist in securing influential industry
+                                    figures for interviews and securing
+                                    advertisers or sponsors.
+                                </p>
+                            </div>
+
+                            <!-- Slide 5 -->
+                            <div
+                                class="slide w-full flex flex-col items-center"
+                                data-index="4"
+                                style="position: absolute; opacity: 0; pointer-events: none; top: 0; left: 0; transition: opacity 0.5s ease-in-out;"
+                            >
+                                <h3
+                                    class="font-bold text-2xl md:text-3xl mb-4"
+                                    style="color: #111827; margin-bottom: 1rem;"
+                                >
+                                    Content Validation
+                                </h3>
+                                <p
+                                    class="text-lg leading-snug"
+                                    style="color: #374151;"
+                                >
+                                    Review and validate the technical material
+                                    on ZVENIA Mining to ensure quality and
+                                    relevance
+                                </p>
+                            </div>
+                        </div>
+
+                        <!-- Dots Pagination -->
+                        <div class="flex gap-3 relative z-20">
+                            <button
+                                class="slider-dot w-3 h-3 rounded-full transition-all"
+                                style="background-color: #00c54f; cursor: pointer;"
+                                data-target="0"
+                                aria-label="Slide 1"></button>
+                            <button
+                                class="slider-dot w-3 h-3 rounded-full transition-all"
+                                style="background-color: #9CA3AF; cursor: pointer;"
+                                data-target="1"
+                                aria-label="Slide 2"></button>
+                            <button
+                                class="slider-dot w-3 h-3 rounded-full transition-all"
+                                style="background-color: #9CA3AF; cursor: pointer;"
+                                data-target="2"
+                                aria-label="Slide 3"></button>
+                            <button
+                                class="slider-dot w-3 h-3 rounded-full transition-all"
+                                style="background-color: #9CA3AF; cursor: pointer;"
+                                data-target="3"
+                                aria-label="Slide 4"></button>
+                            <button
+                                class="slider-dot w-3 h-3 rounded-full transition-all"
+                                style="background-color: #9CA3AF; cursor: pointer;"
+                                data-target="4"
+                                aria-label="Slide 5"></button>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BANNER 4: PROGRAM DETAILS (Cyberpunk Eye Theme) -->
+    <section
+        class="relative w-full py-24 flex items-center overflow-hidden bg-black"
+    >
+        <!-- Background Image - Cloudinary (PDF converted to PNG for display) -->
+        <div class="absolute inset-0 z-0">
+            <img
+                src="https://res.cloudinary.com/dun3slcfg/image/upload/v1769904412/pikaso_texttoimage_A-closeup-of-a-cyberpunk-eye-with-a-binary-code-pa.png"
+                alt="Cyberpunk Eye Background"
+                class="w-full h-full object-cover opacity-50"
+            />
+            <!-- Dark Overlay for readability -->
+            <div class="absolute inset-0 bg-black/70"></div>
+        </div>
+
+        <div class="container mx-auto px-6 md:px-16 max-w-7xl relative z-10">
+            <div class="max-w-4xl">
+                <h2
+                    class="text-[#1CF292] font-bold text-3xl md:text-5xl mb-6 uppercase tracking-wide"
+                >
+                    COUNTRY MANAGERS
+                </h2>
+
+                <div class="border-l-4 border-[#1CF292] pl-6 mb-10">
+                    <p
+                        class="text-white text-lg md:text-xl leading-relaxed font-light"
+                    >
+                        The COUNTRY MANAGERS program is designed to accelerate
+                        ZVENIA Mining's reach and impact across the global
+                        mining sector. By leveraging the knowledge, networks,
+                        and influence of local professionals, we aim to build a
+                        highly engaged, country-level representation that drives
+                        both community growth and content quality.
+                    </p>
+                </div>
+
+                <ul class="space-y-4">
+                    <li class="flex items-center gap-6">
+                        <svg
+                            class="w-6 h-6 text-white shrink-0"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <circle cx="12" cy="12" r="10" stroke-width="2"
+                            ></circle>
+                            <circle cx="12" cy="12" r="4" fill="currentColor"
+                            ></circle>
+                        </svg>
+                        <span class="text-white text-lg">
+                            Achieve <span class="text-[#1CF292] font-semibold"
+                                >10,000 platform members</span
+                            > by the end of 2025
+                        </span>
+                    </li>
+                    <li class="flex items-center gap-6">
+                        <svg
+                            class="w-6 h-6 text-white shrink-0"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <circle cx="12" cy="12" r="10" stroke-width="2"
+                            ></circle>
+                            <circle cx="12" cy="12" r="4" fill="currentColor"
+                            ></circle>
+                        </svg>
+                        <span class="text-white text-lg">
+                            Recruit <span class="text-[#1CF292] font-semibold"
+                                >one COUNTRY MANAGERS per country</span
+                            > (50 countries in the first phase)
+                        </span>
+                    </li>
+                    <li class="flex items-center gap-6">
+                        <svg
+                            class="w-6 h-6 text-white shrink-0"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <circle cx="12" cy="12" r="10" stroke-width="2"
+                            ></circle>
+                            <circle cx="12" cy="12" r="4" fill="currentColor"
+                            ></circle>
+                        </svg>
+                        <span class="text-white text-lg">
+                            Develop a strong, <span
+                                class="text-[#1CF292] font-semibold"
+                                >interconnected network of promoters to share
+                                knowledge</span
+                            > by events, and opportunities
+                        </span>
+                    </li>
+                </ul>
+            </div>
+        </div>
+    </section>
+
+    <!-- BANNER 5: CORE RESPONSIBILITIES -->
+    <section class="w-full py-24 bg-black">
+        <div class="container mx-auto px-6 md:px-16 max-w-7xl">
+            <h2
+                class="text-white font-bold text-3xl md:text-4xl mb-16 text-center"
+            >
+                Core Responsibilities
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8">
+                <!-- Card 1 -->
+                <div
+                    class="bg-gray-200 rounded-xl border border-[#1CF292] p-8 md:p-10 shadow-lg hover:shadow-[#1CF292]/20 transition-shadow"
+                >
+                    <h3 class="text-black font-bold text-xl md:text-2xl mb-6">
+                        Networking & Representation
+                    </h3>
+                    <ul class="space-y-3">
+                        <li class="flex items-start gap-3">
+                            <span
+                                class="text-[#1CF292] font-bold text-lg leading-tight"
+                                >#</span
+                            >
+                            <span
+                                class="text-gray-900 leading-relaxed font-medium"
+                                >Build connections with local mining
+                                professionals and organizations</span
+                            >
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span
+                                class="text-[#1CF292] font-bold text-lg leading-tight"
+                                >#</span
+                            >
+                            <span
+                                class="text-gray-900 leading-relaxed font-medium"
+                                >Represent ZVENIA Mining at national and
+                                regional events</span
+                            >
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span
+                                class="text-[#1CF292] font-bold text-lg leading-tight"
+                                >#</span
+                            >
+                            <span
+                                class="text-gray-900 leading-relaxed font-medium"
+                                >Participate in weekly coordination meetings
+                                with other COUNTRY MANAGERS (FR-EN-ES)</span
+                            >
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Card 2 -->
+                <div
+                    class="bg-gray-200 rounded-xl border border-[#1CF292] p-8 md:p-10 shadow-lg hover:shadow-[#1CF292]/20 transition-shadow"
+                >
+                    <h3 class="text-black font-bold text-xl md:text-2xl mb-6">
+                        Content Contribution & Validation
+                    </h3>
+                    <ul class="space-y-3">
+                        <li class="flex items-start gap-3">
+                            <span
+                                class="text-[#1CF292] font-bold text-lg leading-tight"
+                                >#</span
+                            >
+                            <span
+                                class="text-gray-900 leading-relaxed font-medium"
+                                >Upload at least one Z-POST per day</span
+                            >
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span
+                                class="text-[#1CF292] font-bold text-lg leading-tight"
+                                >#</span
+                            >
+                            <span
+                                class="text-gray-900 leading-relaxed font-medium"
+                                >Upload relevant events, webinars, podcasts, and
+                                training opportunities</span
+                            >
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span
+                                class="text-[#1CF292] font-bold text-lg leading-tight"
+                                >#</span
+                            >
+                            <span
+                                class="text-gray-900 leading-relaxed font-medium"
+                                >Validate technical materials</span
+                            >
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Card 3 -->
+                <div
+                    class="bg-gray-200 rounded-xl border border-[#1CF292] p-8 md:p-10 shadow-lg hover:shadow-[#1CF292]/20 transition-shadow"
+                >
+                    <h3 class="text-black font-bold text-xl md:text-2xl mb-6">
+                        Social Media Promotion
+                    </h3>
+                    <ul class="space-y-3">
+                        <li class="flex items-start gap-3">
+                            <span
+                                class="text-[#1CF292] font-bold text-lg leading-tight"
+                                >#</span
+                            >
+                            <span
+                                class="text-gray-900 leading-relaxed font-medium"
+                                >Actively share ZVENIA content on LinkedIn,
+                                Facebook, X (Twitter)</span
+                            >
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span
+                                class="text-[#1CF292] font-bold text-lg leading-tight"
+                                >#</span
+                            >
+                            <span
+                                class="text-gray-900 leading-relaxed font-medium"
+                                >Invite peers to join ZVENIA Mining and
+                                participate in the platform</span
+                            >
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span
+                                class="text-[#1CF292] font-bold text-lg leading-tight"
+                                >#</span
+                            >
+                            <span
+                                class="text-gray-900 leading-relaxed font-medium"
+                                >Engage with other COUNTRY MANAGERS to amplify
+                                key messages</span
+                            >
+                        </li>
+                    </ul>
+                </div>
+
+                <!-- Card 4 -->
+                <div
+                    class="bg-gray-200 rounded-xl border border-[#1CF292] p-8 md:p-10 shadow-lg hover:shadow-[#1CF292]/20 transition-shadow"
+                >
+                    <h3 class="text-black font-bold text-xl md:text-2xl mb-6">
+                        Advertising Development
+                    </h3>
+                    <ul class="space-y-3">
+                        <li class="flex items-start gap-3">
+                            <span
+                                class="text-[#1CF292] font-bold text-lg leading-tight"
+                                >#</span
+                            >
+                            <span
+                                class="text-gray-900 leading-relaxed font-medium"
+                                >Identify potential advertisers in your country</span
+                            >
+                        </li>
+                        <li class="flex items-start gap-3">
+                            <span
+                                class="text-[#1CF292] font-bold text-lg leading-tight"
+                                >#</span
+                            >
+                            <span
+                                class="text-gray-900 leading-relaxed font-medium"
+                                >Secure up to 50 ad slots ($100/month each) and
+                                manage relationships</span
+                            >
+                        </li>
+                    </ul>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BANNER 6: BENEFITS (Cyberpunk Eye Theme Reuse) -->
+    <section
+        class="relative w-full py-24 flex items-center overflow-hidden bg-black"
+    >
+        <!-- Background Image - Cloudinary (PDF converted to PNG) -->
+        <div class="absolute inset-0 z-0">
+            <img
+                src="https://res.cloudinary.com/dun3slcfg/image/upload/v1769904412/pikaso_texttoimage_A-closeup-of-a-cyberpunk-eye-with-a-binary-code-pa.png"
+                alt="Cyberpunk Eye Background"
+                class="w-full h-full object-cover opacity-50"
+            />
+            <!-- Dark Overlay -->
+            <div class="absolute inset-0 bg-black/70"></div>
+        </div>
+
+        <div class="container mx-auto px-6 md:px-16 max-w-7xl relative z-10">
+            <h2
+                class="text-[#1CF292] font-bold text-3xl md:text-5xl mb-12 uppercase tracking-wide"
+            >
+                Benefits
+            </h2>
+
+            <ul class="space-y-6">
+                <li class="flex items-center gap-6">
+                    <svg
+                        class="w-6 h-6 text-white shrink-0"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg"
+                    >
+                        <circle cx="12" cy="12" r="10" stroke-width="2"
+                        ></circle>
+                        <circle cx="12" cy="12" r="4" fill="currentColor"
+                        ></circle>
+                    </svg>
+                    <span class="text-white text-lg md:text-xl font-light">
+                        Exclusive recognition as <span
+                            class="text-[#1CF292] font-semibold"
+                            >the only official COUNTRY MANAGERS for your country</span
+                        >
+                    </span>
+                </li>
+                <li class="flex items-center gap-6">
+                    <svg
+                        class="w-6 h-6 text-white shrink-0"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg"
+                    >
+                        <circle cx="12" cy="12" r="10" stroke-width="2"
+                        ></circle>
+                        <circle cx="12" cy="12" r="4" fill="currentColor"
+                        ></circle>
+                    </svg>
+                    <span class="text-white text-lg md:text-xl font-light">
+                        Opportunity to generate passive income through ad sales <span
+                            class="text-[#1CF292] font-semibold"
+                            >(80% revenue share)</span
+                        >
+                    </span>
+                </li>
+                <li class="flex items-center gap-6">
+                    <svg
+                        class="w-6 h-6 text-white shrink-0"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg"
+                    >
+                        <circle cx="12" cy="12" r="10" stroke-width="2"
+                        ></circle>
+                        <circle cx="12" cy="12" r="4" fill="currentColor"
+                        ></circle>
+                    </svg>
+                    <span class="text-white text-lg md:text-xl font-light">
+                        <span class="text-[#1CF292] font-semibold"
+                            >Expanded professional network</span
+                        > and international visibility
+                    </span>
+                </li>
+                <li class="flex items-center gap-6">
+                    <svg
+                        class="w-6 h-6 text-white shrink-0"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg"
+                    >
+                        <circle cx="12" cy="12" r="10" stroke-width="2"
+                        ></circle>
+                        <circle cx="12" cy="12" r="4" fill="currentColor"
+                        ></circle>
+                    </svg>
+                    <span class="text-white text-lg md:text-xl font-light">
+                        Access to exclusive <span
+                            class="text-[#1CF292] font-semibold"
+                            >training, resources, and events</span
+                        >
+                    </span>
+                </li>
+                <li class="flex items-center gap-6">
+                    <svg
+                        class="w-6 h-6 text-white shrink-0"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg"
+                    >
+                        <circle cx="12" cy="12" r="10" stroke-width="2"
+                        ></circle>
+                        <circle cx="12" cy="12" r="4" fill="currentColor"
+                        ></circle>
+                    </svg>
+                    <span class="text-white text-lg md:text-xl font-light">
+                        <span class="text-[#1CF292] font-semibold"
+                            >A public profile badge signaling leadership</span
+                        > in the mining sector
+                    </span>
+                </li>
+            </ul>
+        </div>
+    </section>
+
+    <!-- BANNER 7: PROGRAM TIMELINE -->
+    <section class="w-full py-24 bg-[#0D241B]">
+        <div class="container mx-auto px-6 md:px-16 max-w-7xl">
+            <h2
+                class="text-[#1CF292] font-bold text-3xl md:text-4xl mb-16 text-center"
+            >
+                Program Timeline
+            </h2>
+
+            <div
+                class="grid grid-cols-1 md:grid-cols-2 gap-6 md:gap-8 max-w-5xl mx-auto"
+            >
+                <!-- Timeline Card 1 -->
+                <div
+                    class="bg-gray-200 rounded-lg p-10 flex flex-col items-center text-center shadow-lg"
+                >
+                    <!-- Calendar Icon -->
+                    <svg
+                        class="w-12 h-12 text-black mb-6"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                        ></path>
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M9 15l2 2 4-4"></path>
+                    </svg>
+
+                    <h3 class="text-black font-bold text-xl mb-3">
+                        Sept. – Nov. 2025
+                    </h3>
+                    <p class="text-gray-800 leading-relaxed font-medium">
+                        Social media promotion, initial content uploads,
+                        networking calibration
+                    </p>
+                </div>
+
+                <!-- Timeline Card 2 -->
+                <div
+                    class="bg-gray-200 rounded-lg p-10 flex flex-col items-center text-center shadow-lg"
+                >
+                    <!-- Calendar Icon -->
+                    <svg
+                        class="w-12 h-12 text-black mb-6"
+                        fill="none"
+                        stroke="currentColor"
+                        viewBox="0 0 24 24"
+                        xmlns="http://www.w3.org/2000/svg"
+                    >
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M8 7V3m8 4V3m-9 8h10M5 21h14a2 2 0 002-2V7a2 2 0 00-2-2H5a2 2 0 00-2 2v12a2 2 0 002 2z"
+                        ></path>
+                        <path
+                            stroke-linecap="round"
+                            stroke-linejoin="round"
+                            stroke-width="2"
+                            d="M9 15l2 2 4-4"></path>
+                    </svg>
+
+                    <h3 class="text-black font-bold text-xl mb-3">
+                        Dec 2025 – May 2026
+                    </h3>
+                    <p class="text-gray-800 leading-relaxed font-medium">
+                        Advertising phase, revenue generation, continued
+                        engagement
+                    </p>
+                </div>
+            </div>
+        </div>
+    </section>
+
+    <!-- BANNER 8: SUPPORT MATERIAL -->
+    <section
+        class="w-full py-24 bg-gray-900"
+        style="background-color: #2B2B2B;"
+    >
+        <div class="container mx-auto px-6 md:px-16 max-w-7xl">
+            <h2
+                class="text-[#1CF292] font-bold text-3xl md:text-4xl text-left"
+                style="margin-bottom: 20px;"
+            >
+                Support Material
+            </h2>
+
+            <div class="grid grid-cols-1 md:grid-cols-2 gap-12">
+                <!-- Column 1 -->
+                <ul class="space-y-4">
+                    <li
+                        class="flex items-center gap-3 group cursor-pointer hover:opacity-80 transition-opacity"
+                    >
+                        <svg
+                            class="w-5 h-5 text-gray-400 group-hover:text-white transition-colors shrink-0"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                            ></path>
+                        </svg>
+                        <span
+                            class="text-white text-lg font-light group-hover:text-[#1CF292] transition-colors"
+                            >Welcome letter.pdf</span
+                        >
+                    </li>
+                    <li
+                        class="flex items-center gap-3 group cursor-pointer hover:opacity-80 transition-opacity"
+                    >
+                        <svg
+                            class="w-5 h-5 text-gray-400 group-hover:text-white transition-colors shrink-0"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                            ></path>
+                        </svg>
+                        <span
+                            class="text-white text-lg font-light group-hover:text-[#1CF292] transition-colors"
+                            >Collaboration agreement.pdf</span
+                        >
+                    </li>
+                    <li
+                        class="flex items-center gap-3 group cursor-pointer hover:opacity-80 transition-opacity"
+                    >
+                        <svg
+                            class="w-5 h-5 text-gray-400 group-hover:text-white transition-colors shrink-0"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                            ></path>
+                        </svg>
+                        <span
+                            class="text-white text-lg font-light group-hover:text-[#1CF292] transition-colors"
+                            >COUNTRY MANAGERS presentation.pdf</span
+                        >
+                    </li>
+                    <li
+                        class="flex items-center gap-3 group cursor-pointer hover:opacity-80 transition-opacity"
+                    >
+                        <svg
+                            class="w-5 h-5 text-gray-400 group-hover:text-white transition-colors shrink-0"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                            ></path>
+                        </svg>
+                        <span
+                            class="text-white text-lg font-light group-hover:text-[#1CF292] transition-colors"
+                            >ZVENIA Mining presentation.pdf</span
+                        >
+                    </li>
+                </ul>
+
+                <!-- Column 2 -->
+                <ul class="space-y-4">
+                    <li
+                        class="flex items-center gap-3 group cursor-pointer hover:opacity-80 transition-opacity"
+                    >
+                        <svg
+                            class="w-5 h-5 text-gray-400 group-hover:text-white transition-colors shrink-0"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                            ></path>
+                        </svg>
+                        <span
+                            class="text-white text-lg font-light group-hover:text-[#1CF292] transition-colors"
+                            >Welcome letter.pdf</span
+                        >
+                    </li>
+                    <li
+                        class="flex items-center gap-3 group cursor-pointer hover:opacity-80 transition-opacity"
+                    >
+                        <svg
+                            class="w-5 h-5 text-gray-400 group-hover:text-white transition-colors shrink-0"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                            ></path>
+                        </svg>
+                        <span
+                            class="text-white text-lg font-light group-hover:text-[#1CF292] transition-colors"
+                            >Collaboration agreement.pdf</span
+                        >
+                    </li>
+                    <li
+                        class="flex items-center gap-3 group cursor-pointer hover:opacity-80 transition-opacity"
+                    >
+                        <svg
+                            class="w-5 h-5 text-gray-400 group-hover:text-white transition-colors shrink-0"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                            ></path>
+                        </svg>
+                        <span
+                            class="text-white text-lg font-light group-hover:text-[#1CF292] transition-colors"
+                            >COUNTRY MANAGERS presentation.pdf</span
+                        >
+                    </li>
+                    <li
+                        class="flex items-center gap-3 group cursor-pointer hover:opacity-80 transition-opacity"
+                    >
+                        <svg
+                            class="w-5 h-5 text-gray-400 group-hover:text-white transition-colors shrink-0"
+                            fill="none"
+                            stroke="currentColor"
+                            viewBox="0 0 24 24"
+                            xmlns="http://www.w3.org/2000/svg"
+                        >
+                            <path
+                                stroke-linecap="round"
+                                stroke-linejoin="round"
+                                stroke-width="2"
+                                d="M12 10v6m0 0l-3-3m3 3l3-3m2 8H7a2 2 0 01-2-2V5a2 2 0 012-2h5.586a1 1 0 01.707.293l5.414 5.414a1 1 0 01.293.707V19a2 2 0 01-2 2z"
+                            ></path>
+                        </svg>
+                        <span
+                            class="text-white text-lg font-light group-hover:text-[#1CF292] transition-colors"
+                            >ZVENIA Mining presentation.pdf</span
+                        >
+                    </li>
+                </ul>
+            </div>
+        </div>
+    <!-- BANNER 9: MAP OF COUNTRY MANAGERS -->
+    <section class="w-full py-24 bg-[#0D241B]">
+        <div class="container mx-auto px-6 md:px-16 max-w-7xl text-center">
+            <h2 class="text-[#1CF292] font-bold text-3xl md:text-5xl mb-16 uppercase">
+                Map of COUNTRY MANAGERS
+            </h2>
+            <div class="flex justify-center w-full">
+                <img
+                    src="https://res.cloudinary.com/dun3slcfg/images/w_2048,h_1079,c_scale/f_auto,q_auto/v1767750464/cloud-files/MapChart_Map-17/MapChart_Map-17.png?_i=AA"
+                    alt="Map of Country Managers"
+                    class="w-full h-auto max-w-5xl object-contain"
+                />
+            </div>
+        </div>
+    </section>
+
+    <!-- BANNER 10: CONFIRMED COUNTRY MANAGERS -->
+    <section class="w-full py-24 bg-[#0D241B]">
+        <div class="container mx-auto px-6 md:px-16 max-w-7xl">
+            <h2
+                class="text-[#1CF292] font-bold text-3xl md:text-4xl mb-6 text-center uppercase"
+            >
+                Confirmed COUNTRY MANAGERS
+            </h2>
+            <div class="flex justify-center mb-16">
+                <p class="text-white text-lg max-w-4xl text-center leading-relaxed">
+                    We are proud to introduce the professionals who are already part of
+                    the COUNTRY MANAGERS network. Together, we're growing a global
+                    mining community — while gaining visibility, connections, and shared
+                    opportunities through the ZVENIA Mining platform.
+                </p>
+            </div>
+
+            <!-- Managers Grid -->
+            <div
+                class="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8 justify-items-center"
+            >
+                {
+                    managers.length > 0 ? (
+                        managers.map((manager) => (
+                            <div class="w-full max-w-xs bg-gray-100 rounded-lg border-2 border-[#1CF292] overflow-hidden flex flex-col items-center p-6 shadow-lg hover:shadow-[0_0_15px_rgba(28,242,146,0.3)] transition-shadow">
+                                <!-- Avatar -->
+                                <div class="w-24 h-24 mb-4 rounded-full overflow-hidden bg-gray-300 border-2 border-gray-200">
+                                    <img
+                                        src={
+                                            manager.avatar_url ||
+                                            `https://ui-avatars.com/api/?name=${encodeURIComponent(
+                                                manager.full_name || "User",
+                                            )}&background=random`
+                                        }
+                                        alt={manager.full_name}
+                                        class="w-full h-full object-cover"
+                                    />
+                                </div>
+
+                                <!-- Username -->
+                                <h3 class="font-extrabold text-[#003049] text-lg mb-1 text-center truncate w-full px-2 uppercase">
+                                    {manager.full_name || "Username"}
+                                </h3>
+
+                                <!-- Profession -->
+                                <div class="text-[#003049] text-sm font-medium mb-1 text-center opacity-80 uppercase">
+                                    {manager.profession || "Professional"}
+                                </div>
+
+                                <!-- Country -->
+                                <div class="text-[#003049] text-sm font-bold text-center mt-2 uppercase">
+                                    {manager.countryDisplay}
+                                </div>
+                            </div>
+                        ))
+                    ) : (
+                        <div class="col-span-full text-center text-gray-400 py-10">
+                            <p>No confirmed Country Managers found yet.</p>
+                        </div>
+                    )
+                }
+            </div>
+        </div>
+    </section>
+</div>
+
+<script>
+    function initContributionSlider() {
+        const section = document.getElementById("contribution-slider");
+        if (!section) return;
+
+        const slides = section.querySelectorAll(".slide");
+        const dots = section.querySelectorAll(".slider-dot");
+        let currentIndex = 0;
+        let intervalId: any;
+
+        function updateSlide(index: number) {
+            slides.forEach((slide, i) => {
+                const el = slide as HTMLElement;
+                if (i === index) {
+                    el.style.opacity = "1";
+                    el.style.pointerEvents = "auto";
+                    el.style.position = "relative"; // Bring to flow
+                } else {
+                    el.style.opacity = "0";
+                    el.style.pointerEvents = "none";
+                    el.style.position = "absolute"; // Remove from flow
+                    el.style.top = "0";
+                    el.style.left = "0";
+                }
+            });
+
+            dots.forEach((dot, i) => {
+                const d = dot as HTMLElement;
+                if (i === index) {
+                    d.style.backgroundColor = "#00c54f";
+                } else {
+                    d.style.backgroundColor = "#9CA3AF"; // Gray-400 equivalent
+                }
+            });
+
+            currentIndex = index;
+        }
+
+        // Auto Play
+        function startAutoPlay() {
+            stopAutoPlay(); // Clear existing to play safe
+            intervalId = setInterval(() => {
+                const nextIndex = (currentIndex + 1) % slides.length;
+                updateSlide(nextIndex);
+            }, 5000); // 5 seconds per slide
+        }
+
+        function stopAutoPlay() {
+            if (intervalId) clearInterval(intervalId);
+        }
+
+        // Dot Click
+        dots.forEach((dot, index) => {
+            dot.addEventListener("click", () => {
+                stopAutoPlay(); // Pause interaction
+                updateSlide(index);
+                startAutoPlay(); // Restart
+            });
+        });
+
+        // Start initial
+        updateSlide(0);
+        startAutoPlay();
+    }
+
+    // Initialize logic
+    document.addEventListener("astro:page-load", () => {
+        initContributionSlider();
+    });
+
+    // Fallback for initial load
+    initContributionSlider();
+</script>

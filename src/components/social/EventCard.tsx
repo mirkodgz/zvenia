@@ -47,8 +47,19 @@ const EventCard: React.FC<EventCardProps> = ({ event, currentUser, initialIsSave
         }
     }
 
+    const handleAuthIntercept = (e: React.MouseEvent) => {
+        if (!currentUser) {
+            e.preventDefault();
+            e.stopPropagation();
+            window.dispatchEvent(new CustomEvent("open-auth-modal"));
+        }
+    };
+
     return (
-        <div className="shrink-0 w-full group relative flex flex-col bg-(--bg-card) overflow-hidden border border-(--border-color) hover:border-primary-500/50 transition-all scroll-snap-align-start h-full">
+        <div
+            onClickCapture={handleAuthIntercept}
+            className="shrink-0 w-full group relative flex flex-col bg-(--bg-card) overflow-hidden border border-(--border-color) hover:border-primary-500/50 transition-all scroll-snap-align-start h-full"
+        >
 
             {/* Options Menu (Absolute Top Right) */}
             <div className="absolute top-3 right-3 z-30">
@@ -109,7 +120,14 @@ const EventCard: React.FC<EventCardProps> = ({ event, currentUser, initialIsSave
 
                 {/* CTA Button */}
                 <a
-                    href={`/event/${event.slug}`}
+                    href={currentUser ? `/event/${event.slug}` : "#"}
+                    onClick={(e) => {
+                        if (!currentUser) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            window.dispatchEvent(new CustomEvent("open-auth-modal"));
+                        }
+                    }}
                     className="mt-4 w-full py-2.5 bg-transparent hover:bg-gray-50 border border-(--border-color) hover:border-primary-500/50 text-sm font-bold text-center text-(--text-main) transition-all flex items-center justify-center gap-2 rounded-md"
                 >
                     View Details

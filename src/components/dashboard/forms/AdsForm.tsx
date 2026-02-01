@@ -221,9 +221,9 @@ export default function AdsForm({ currentUser, onSuccess, initialData, onCancel,
         return (
             <form onSubmit={handleSubmit} className="space-y-6 w-full mx-auto pb-12">
                 {/* Header */}
-                <div className="border-b border-[var(--border-color)] pb-4">
-                    <h2 className="text-2xl font-bold text-[var(--text-main)] mb-1">{initialData ? 'Edit ADS' : 'Create New Ad Campaign'}</h2>
-                    <p className="text-sm text-[var(--text-secondary)]">Promote your brand to the ZVENIA mining community.</p>
+                <div className="border-b border-(--border-color) pb-4">
+                    <h2 className="text-2xl font-bold text-(--text-main) mb-1">{initialData ? 'Edit ADS' : 'Create New Ad Campaign'}</h2>
+                    <p className="text-sm text-(--text-secondary)">Promote your brand to the ZVENIA mining community.</p>
                 </div>
 
                 <div className="grid grid-cols-1 lg:grid-cols-3 gap-8">
@@ -231,7 +231,7 @@ export default function AdsForm({ currentUser, onSuccess, initialData, onCancel,
                     <div className="lg:col-span-2 space-y-6">
                         {/* Basic Info */}
                         <div className="space-y-4">
-                            <h3 className="text-lg font-bold text-[var(--text-main)]">Basic Information</h3>
+                            <h3 className="text-lg font-bold text-(--text-main)">Basic Information</h3>
 
                             <div>
                                 <label className="block text-[15px] font-bold text-black mb-2">Campaign Title *</label>
@@ -241,7 +241,7 @@ export default function AdsForm({ currentUser, onSuccess, initialData, onCancel,
                                     required
                                     value={formData.title}
                                     onChange={handleChange}
-                                    className="w-full bg-[var(--bg-body)] border border-[var(--border-color)] rounded-none px-4 py-3 text-[var(--text-main)] focus:border-primary-500 outline-none"
+                                    className="w-full bg-(--bg-body) border border-(--border-color) rounded-none px-4 py-3 text-(--text-main) focus:border-primary-500 outline-none"
                                     placeholder="e.g. New Drilling Equipment Launch"
                                 />
                             </div>
@@ -253,7 +253,7 @@ export default function AdsForm({ currentUser, onSuccess, initialData, onCancel,
                                     rows={4}
                                     value={formData.content}
                                     onChange={handleChange}
-                                    className="w-full bg-[var(--bg-body)] border border-[var(--border-color)] rounded-none px-4 py-3 text-[var(--text-main)] outline-none"
+                                    className="w-full bg-(--bg-body) border border-(--border-color) rounded-none px-4 py-3 text-(--text-main) outline-none"
                                     placeholder="Describe your ad campaign..."
                                 />
                             </div>
@@ -266,7 +266,7 @@ export default function AdsForm({ currentUser, onSuccess, initialData, onCancel,
                                     required
                                     value={formData.link_url}
                                     onChange={handleChange}
-                                    className="w-full bg-[var(--bg-body)] border border-[var(--border-color)] rounded-none px-4 py-3 text-[var(--text-main)] focus:border-primary-500 outline-none"
+                                    className="w-full bg-(--bg-body) border border-(--border-color) rounded-none px-4 py-3 text-(--text-main) focus:border-primary-500 outline-none"
                                     placeholder="https://"
                                 />
                             </div>
@@ -274,11 +274,11 @@ export default function AdsForm({ currentUser, onSuccess, initialData, onCancel,
 
                         {/* Visuals */}
                         <div className="space-y-4">
-                            <h3 className="text-lg font-bold text-[var(--text-main)]">Visual Asset</h3>
+                            <h3 className="text-lg font-bold text-(--text-main)">Visual Asset</h3>
                             <div>
                                 <label className="block text-[15px] font-bold text-black mb-2">Presentation Image</label>
                                 {formData.image_url ? (
-                                    <div className="relative w-full max-w-sm aspect-video bg-gray-100 border border-[var(--border-color)] group">
+                                    <div className="relative w-full max-w-sm aspect-video bg-gray-100 border border-(--border-color) group">
                                         <img src={formData.image_url} alt="Preview" className="w-full h-full object-cover" />
                                         <button
                                             type="button"
@@ -289,7 +289,7 @@ export default function AdsForm({ currentUser, onSuccess, initialData, onCancel,
                                         </button>
                                     </div>
                                 ) : (
-                                    <label className="flex flex-col items-center justify-center w-full max-w-sm h-40 border-2 border-dashed border-[var(--border-color)] cursor-pointer hover:border-primary-500/50 transition-colors bg-[var(--bg-body)]">
+                                    <label className="flex flex-col items-center justify-center w-full max-w-sm h-40 border-2 border-dashed border-(--border-color) cursor-pointer hover:border-primary-500/50 transition-colors bg-(--bg-body)">
                                         <div className="flex flex-col items-center justify-center pt-5 pb-6">
                                             {isUploading ? (
                                                 <Loader2 className="w-8 h-8 text-accent-500 animate-spin" />
@@ -308,13 +308,13 @@ export default function AdsForm({ currentUser, onSuccess, initialData, onCancel,
                     </div>
 
                     {/* Right Column: Targeting */}
-                    <div className="lg:col-span-1 border-l border-[var(--border-color)] pl-8">
+                    <div className="lg:col-span-1 border-l border-(--border-color) pl-8">
                         <div className="space-y-4">
-                            <h3 className="text-lg font-bold text-[var(--text-main)]">Targeting</h3>
+                            <h3 className="text-lg font-bold text-(--text-main)">Targeting</h3>
 
                             <div>
                                 <label className="block text-[15px] font-bold text-black mb-3">Target Minings (Topics)</label>
-                                <div className="space-y-2 max-h-[500px] overflow-y-auto pr-2 custom-scrollbar border border-[var(--border-color)] p-4 bg-[var(--bg-body)]">
+                                <div className="space-y-2 max-h-[500px] overflow-y-auto pr-2 custom-scrollbar border border-(--border-color) p-4 bg-(--bg-body)">
                                     {isLoadingTopics ? (
                                         <div className="flex items-center gap-2 text-gray-500">
                                             <Loader2 className="w-4 h-4 animate-spin" /> Loading minings...
@@ -346,7 +346,7 @@ export default function AdsForm({ currentUser, onSuccess, initialData, onCancel,
                                         </label>
                                     ))}
                                 </div>
-                                <p className="text-xs text-[var(--text-secondary)] mt-2">
+                                <p className="text-xs text-(--text-secondary) mt-2">
                                     Your ad will appear in feeds related to these topics.
                                 </p>
                             </div>
@@ -363,16 +363,16 @@ export default function AdsForm({ currentUser, onSuccess, initialData, onCancel,
                 </div>
 
                 {/* Submit */}
-                <div className="pt-6 border-t border-[var(--border-color)] flex justify-end gap-4">
+                <div className="pt-6 border-t border-(--border-color) flex justify-end gap-4">
                     {onCancel && (
-                        <button type="button" onClick={onCancel} className="px-6 py-3 rounded-none border border-[var(--border-color)] text-[var(--text-secondary)] hover:bg-[var(--bg-surface-hover)] transition-colors">
+                        <button type="button" onClick={onCancel} className="px-6 py-3 rounded-none border border-(--border-color) text-(--text-secondary) hover:bg-(--bg-surface-hover) transition-colors">
                             Cancel
                         </button>
                     )}
                     <button
                         type="submit"
                         disabled={isSubmitting || !formData.title || !formData.link_url}
-                        className="px-6 py-3 rounded-none bg-[#00c44b] text-white font-bold hover:bg-[#00c44b]/90 transition-colors disabled:opacity-50"
+                        className="px-6 py-3 rounded-none bg-accent-500 text-white font-bold hover:bg-accent-500/90 transition-colors disabled:opacity-50"
                     >
                         {isSubmitting ? 'Saving...' : (initialData ? 'Update Campaign' : 'Create Campaign')}
                     </button>

@@ -34,8 +34,19 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service, currentUser, initial
         .replace(/<[^>]*>/g, '')         // Remove tags
         .trim();
 
+    const handleAuthIntercept = (e: React.MouseEvent) => {
+        if (!currentUser) {
+            e.preventDefault();
+            e.stopPropagation();
+            window.dispatchEvent(new CustomEvent("open-auth-modal"));
+        }
+    };
+
     return (
-        <div className="shrink-0 w-full group relative flex flex-col bg-(--bg-card) overflow-hidden border border-(--border-color) hover:border-primary-500/50 transition-all scroll-snap-align-start h-full">
+        <div
+            onClickCapture={handleAuthIntercept}
+            className="shrink-0 w-full group relative flex flex-col bg-(--bg-card) overflow-hidden border border-(--border-color) hover:border-primary-500/50 transition-all scroll-snap-align-start h-full"
+        >
 
             {/* Options Menu (Absolute Top Right) */}
             <div className="absolute top-2 right-2 z-20">
@@ -52,7 +63,14 @@ const ServiceCard: React.FC<ServiceCardProps> = ({ service, currentUser, initial
 
             {/* Clickable Area Wrapper */}
             <a
-                href={linkUrl}
+                href={currentUser ? linkUrl : "#"}
+                onClick={(e) => {
+                    if (!currentUser) {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        window.dispatchEvent(new CustomEvent("open-auth-modal"));
+                    }
+                }}
                 className="flex flex-col h-full w-full"
             >
                 {/* Thumbnail */}

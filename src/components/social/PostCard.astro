@@ -387,26 +387,39 @@ const formatDate = (dateStr: string) => {
                 });
             });
 
-            // Read More Logic for List View
+            // Generic Auth Wall Interceptor for the Article
+            const articles = document.querySelectorAll(
+                "article[data-is-guest='true']",
+            );
+            articles.forEach((article) => {
+                if (article.hasAttribute("data-auth-bound")) return;
+                article.setAttribute("data-auth-bound", "true");
+
+                // Capture phase listener to stop everything
+                article.addEventListener(
+                    "click",
+                    (e) => {
+                        e.preventDefault();
+                        e.stopPropagation();
+                        console.log("Auth Wall Triggered");
+                        window.dispatchEvent(
+                            new CustomEvent("open-auth-modal"),
+                        );
+                    },
+                    true,
+                ); // Use capture to intercept before specific handlers
+            });
+
+            // Read More Logic for List View (Existing logic kept for progressive enhancement or legacy)
             const readMoreBtns = document.querySelectorAll(".read-more-btn");
             readMoreBtns.forEach((btn) => {
                 if (btn.hasAttribute("data-bound")) return;
                 btn.setAttribute("data-bound", "true");
 
                 // Get guest status from parent article (we need to ensure attribute exists)
-                const article = btn.closest("article");
-                const isGuest = article?.dataset.isGuest === "true";
+                // Note: The global interceptor above handles the click, but we keep this for logic references
 
                 btn.addEventListener("click", (e) => {
-                    if (isGuest) {
-                        e.preventDefault();
-                        e.stopPropagation();
-                        window.dispatchEvent(
-                            new CustomEvent("open-auth-modal"),
-                        );
-                        return;
-                    }
-
                     const button = e.target as HTMLButtonElement;
                     const container = button.closest("div");
                     const text = container?.querySelector(".post-content");

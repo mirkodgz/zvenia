@@ -29,8 +29,19 @@ const PodcastCard: React.FC<PodcastCardProps> = ({ podcast, currentUser }) => {
     const episodeCount = eps.length;
     const latestEpisode = episodeCount > 0 ? eps[eps.length - 1] : null;
 
+    const handleAuthIntercept = (e: React.MouseEvent) => {
+        if (!currentUser) {
+            e.preventDefault();
+            e.stopPropagation();
+            window.dispatchEvent(new CustomEvent("open-auth-modal"));
+        }
+    };
+
     return (
-        <div className="bg-[#1A1A1A] rounded-lg border border-white/10 overflow-hidden hover:border-primary-500/30 transition-all group flex flex-col h-full relative">
+        <div
+            onClickCapture={handleAuthIntercept}
+            className="bg-[#1A1A1A] rounded-lg border border-white/10 overflow-hidden hover:border-primary-500/30 transition-all group flex flex-col h-full relative"
+        >
 
             {/* Options Menu */}
             <div className="absolute top-3 right-3 z-30">
@@ -89,7 +100,14 @@ const PodcastCard: React.FC<PodcastCardProps> = ({ podcast, currentUser }) => {
 
                 {/* CTA */}
                 <a
-                    href={`/podcast/${podcast.slug}`}
+                    href={currentUser ? `/podcast/${podcast.slug}` : "#"}
+                    onClick={(e) => {
+                        if (!currentUser) {
+                            e.preventDefault();
+                            e.stopPropagation();
+                            window.dispatchEvent(new CustomEvent("open-auth-modal"));
+                        }
+                    }}
                     className="mt-4 w-full py-2.5 bg-white/5 hover:bg-white/10 border border-white/10 hover:border-purple-500/50 rounded-md text-sm font-bold text-center text-white transition-all flex items-center justify-center gap-2 group-hover:bg-purple-600/20"
                 >
                     <svg className="w-4 h-4" fill="currentColor" viewBox="0 0 24 24"><path d="M8 5v14l11-7z" /></svg>
