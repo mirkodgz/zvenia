@@ -50,7 +50,7 @@ const UserCard: React.FC<UserCardProps> = ({ user }) => {
                             />
                         ) : (
                             <img
-                                src="/igm-default.webp"
+                                src="https://res.cloudinary.com/dun3slcfg/images/f_auto,q_auto/v1725007234/cloud-files/Foto-Profile-Default312-312_2408ae427/Foto-Profile-Default312-312_2408ae427.jpg?_i=AA"
                                 alt="Default Profile"
                                 className="w-full h-full object-cover opacity-80"
                             />
