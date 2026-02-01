@@ -69,7 +69,7 @@ const PodcastCard: React.FC<PodcastCardProps> = ({ podcast, currentUser }) => {
             </div>
 
             {/* Content */}
-            <div className="p-5 flex flex-col flex-grow">
+            <div className="p-5 flex flex-col grow">
 
                 {/* Host */}
                 {podcast.host && (
@@ -96,7 +96,7 @@ const PodcastCard: React.FC<PodcastCardProps> = ({ podcast, currentUser }) => {
                     )}
                 </div>
 
-                <div className="flex-grow"></div>
+                <div className="grow"></div>
 
                 {/* CTA */}
                 <a
